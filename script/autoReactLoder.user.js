@@ -1,19 +1,23 @@
-lines (20 sloc)  654 Bytes
-
 // ==UserScript==
-// @name         autoReact Loader
-// @namespace    https://www.bondageprojects.com/
-// @version      0.0.1
-// @description  
-// @author       DrBranestawm
+// @name autoReact
+// @namespace https://www.bondageprojects.com/
+// @version 1.0.0
+// @description Auto React
+// @author DrBranestawm
 // @match https://bondageprojects.elementfx.com/*
 // @match https://www.bondageprojects.elementfx.com/*
 // @match https://bondage-europe.com/*
 // @match https://www.bondage-europe.com/*
 // @match http://localhost:*/*
-// @run-at       document-end
-// @grant        none
+// @icon
+// @grant none
+// @run-at document-end
 // ==/UserScript==
+
+// ==SpecialThanks==
+//Angela for privoviding the main script
+//agicitag (Julia) for help and permission to use their ear wiggle script
+// ==/SpecialThanks==
 
 (function() {
     'use strict';
