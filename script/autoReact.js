@@ -1,8 +1,4 @@
-const AutoReact_VERSION = "1.0.0";
-
-async function runAutoReact(){
-	
-	await waitFor(() => ServerSocket && ServerIsConnected);
+await waitFor(() => ServerSocket && ServerIsConnected);
 
 
 //sdk stuff
@@ -206,6 +202,4 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
   }
 
-}
-
-runAutoReact();
+})();
