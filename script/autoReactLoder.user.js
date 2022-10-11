@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name autoReact
+// @name AutoReact Loader
 // @namespace https://www.bondageprojects.com/
 // @version 1.0.0
 // @description Auto React
@@ -13,11 +13,6 @@
 // @grant none
 // @run-at document-end
 // ==/UserScript==
-
-// ==SpecialThanks==
-//Angela for privoviding the main script
-//agicitag (Julia) for help and permission to use their ear wiggle script
-// ==/SpecialThanks==
 
 (function() {
     'use strict';
