@@ -17,6 +17,6 @@
 (function() {
     'use strict';
     var script = document.createElement("script");
-    script.src = "https://drbranestawm.github.io/autoReact/script/AutoReact.js";
+    script.src = "https://drbranestawm.github.io/autoReact/script/autoReact.js";
     document.head.appendChild(script);
 })();
