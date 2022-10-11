@@ -1,1 +1,1 @@
-# Auto Ract Script
+# Auto React Script
