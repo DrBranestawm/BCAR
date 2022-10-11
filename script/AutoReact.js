@@ -5,7 +5,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 //sdk stuff
 
 (async function () {
-  const modApi = bcModSdk.registerMod('Auto React + Horny', '1.0.0');
+  const modApi = bcModSdk.registerMod('Auto React', '1.0.0');
   //global variables
   crCommands();
     var Dictionary = [];
