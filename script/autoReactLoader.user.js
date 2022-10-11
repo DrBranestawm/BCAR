@@ -9,9 +9,8 @@
 // @match https://bondage-europe.com/*
 // @match https://www.bondage-europe.com/*
 // @match http://localhost:*/*
-// @icon
-// @grant none
 // @run-at document-end
+// @grant none
 // ==/UserScript==
 
 (function() {
