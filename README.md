@@ -1,5 +1,5 @@
 # Auto React Script
-Add via Tampermonkey: /script/autoReactLoader.user.js/
+Add via Tampermonkey: [Link](./script/autoReactLoader.user.js)
 https://drbranestawm.github.io/autoReact/script/autoReactLoader.user.js
 
 Add via Bookmarklet:
