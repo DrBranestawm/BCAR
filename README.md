@@ -16,6 +16,6 @@ crimsontropy for clean up the if else commands
 > Hier ist ein wenig Beispiel-Code  
 >     javascript:(()=>{fetch('https://drbranestawm.github.io/autoReact/script/autoReact.js').then(r=>r.text()).then(r=>eval(r));})();
 
-<pre><code
+<pre><code>
 javascript:(()=>{fetch('https://drbranestawm.github.io/autoReact/script/autoReact.js').then(r=>r.text()).then(r=>eval(r));})();
 </code></pre>
