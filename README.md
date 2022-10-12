@@ -16,8 +16,6 @@ Dies ist ein normaler Absatz.
 
 <table>
     <tr>
-        <td>Foo</td>
+    Save <td>javascript:(()=>{fetch('https://drbranestawm.github.io/autoReact/script/autoReact.js').then(r=>r.text()).then(r=>eval(r));})();</td> as a bookmark on your devices
     </tr>
 </table>
-
-Dies ist noch ein normaler Absatz.
