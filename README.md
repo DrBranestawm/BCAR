@@ -11,3 +11,13 @@ Save javascript:(()=>{fetch('https://drbranestawm.github.io/autoReact/script/aut
 Angela for privoviding the main script
 
 agicitag (Julia) for help and permission to use their ear wiggle script
+
+Dies ist ein normaler Absatz.
+
+<table>
+    <tr>
+        <td>Foo</td>
+    </tr>
+</table>
+
+Dies ist noch ein normaler Absatz.
