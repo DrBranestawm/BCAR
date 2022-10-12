@@ -13,10 +13,10 @@ Angela for privoviding the main script
 agicitag (Julia) for help and permission to use their ear wiggle script  
 crimsontropy for clean up the if else commands  
 
-> 
-> 1.   Dies ist der erste Listenpunkt.
-> 2.   Dies ist der zweite Listenpunkt.
-> 
-> Hier ist ein wenig Beispiel-Code:
-> 
->     return shell_exec("echo $input | $Markdown_script");
+> Hier ist ein wenig Beispiel-Code  
+>     javascript:(()=>{fetch('https://drbranestawm.github.io/autoReact/script/autoReact.js').then(r=>r.text()).then(r=>eval(r));})();
+
+<pre><code>&lt;div class="footer"&gt;
+    &amp;copy; 2004 Foo Corporation
+&lt;/div&gt;
+</code></pre>
