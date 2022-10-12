@@ -50,62 +50,57 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         ChatRoomSendChat();
         ElementValue("InputChat", retype);
     }
+    
+    if(data.Type === "Activity" && data.Dictionary[1].MemberNumber === Player.MemberNumber) {
+        if((data.Content.startsWith("ChatOther-ItemEars") || (data.Content.startsWith("ChatSelf-ItemEars") === -1))) {
+              if (data.Content.indexOf("Caress") !== -1) {
+                  let nya = Math.floor(Math.random() * 5);
+                  console.log(nya)
+                  ActivityBeeper("EarCaress",nya);
+                  
+                  setTimeout(wiggleEars,500);
+                  Player.BCT.splitOrgasmArousal.arousalProgress = 30;
+                  ActivityChatRoomBCTArousalSync(Player);
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 10;
+                  ActivityChatRoomArousalSync(Player);
+              }
+              else if (data.Content.indexOf("Nibble") !== -1) {
+                  let nya = Math.floor(Math.random() * 3);
+                  console.log(nya)
+                  ActivityBeeper("EarNibble",nya);
 
-                if(data.Type === "Activity" && (data.Content.startsWith("ChatOther-ItemEars") || (data.Content.startsWith("ChatSelf-ItemEars") === -1)) && data.Content.indexOf("Whisper") === -1 && data.Content.indexOf("Bite") === -1 && data.Content.indexOf("Nibble") === -1 && data.Content.indexOf("Pinch") === -1 && data.Content.indexOf("Lick") === -1 && data.Dictionary[1].MemberNumber === Player.MemberNumber)
-                {
-                    let nya = Math.floor(Math.random() * 5);
-                    console.log(nya)
-                    ActivityBeeper("EarCaress",nya);
-                    
-                    setTimeout(wiggleEars,500);
-                    Player.BCT.splitOrgasmArousal.arousalProgress = 30;
-                    ActivityChatRoomBCTArousalSync(Player);
-                    Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 10;
-                    ActivityChatRoomArousalSync(Player);
-                }
+                  setTimeout(wiggleEars,500);
+                  Player.BCT.splitOrgasmArousal.arousalProgress = 100;
+                  ActivityChatRoomBCTArousalSync(Player);
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 40;
+                  ActivityChatRoomBCTArousalSync(Player);
+              }
+              else if (data.Content.indexOf("Lick") !== -1) {
+                  let nya = Math.floor(Math.random() * 3);
+                  console.log(nya)
+                  ActivityBeeper("EarLick",nya);
+                  
+                  setTimeout(wiggleEars,500);
+                  Player.BCT.splitOrgasmArousal.arousalProgress = 100;
+                  ActivityChatRoomBCTArousalSync(Player);
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 25;
+                  ActivityChatRoomArousalSync(Player);
+              }
+        }
+        else if ((data.Content.startsWith("ChatOther-ItemHead") || (data.Content.startsWith("ChatSelf-ItemHead") && data.Content.indexOf("Wiggle") === -1))) {
+            if (data.Content.indexOf("TakeCare") !== -1) {
+                let nya = Math.floor(Math.random() * 2);
+                console.log(nya)
+                ActivityBeeper("HeadBrush",nya);
 
-                     else if (data.Type === "Activity" && (data.Content.startsWith("ChatOther-ItemEars") || (data.Content.startsWith("ChatSelf-ItemEars") && data.Content.indexOf("Wiggle") === -1)) && data.Content.indexOf("Caress") === -1 && data.Content.indexOf("Whisper") === -1 && data.Content.indexOf("Bite") === -1 && data.Content.indexOf("Pinch") === -1 && data.Content.indexOf("Kiss") === -1 && data.Content.indexOf("Lick") === -1 && data.Dictionary[1].MemberNumber === Player.MemberNumber)
-                {
-                    let nya = Math.floor(Math.random() * 3);
-                    console.log(nya)
-                    ActivityBeeper("EarNibble",nya);
+                setTimeout(wiggleEars,500);
+                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
+                ActivityChatRoomArousalSync(Player);
+            }
+        }
 
-                    setTimeout(wiggleEars,500);
-                    Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                    ActivityChatRoomBCTArousalSync(Player);
-                    Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 40;
-                    ActivityChatRoomBCTArousalSync(Player);
-                }
-
-         else if (data.Type === "Activity" && (data.Content.startsWith("ChatOther-ItemEars") || (data.Content.startsWith("ChatSelf-ItemEars") && data.Content.indexOf("Wiggle") === -1)) && data.Content.indexOf("Caress") === -1 && data.Content.indexOf("Whisper") === -1 && data.Content.indexOf("Bite") === -1 && data.Content.indexOf("Pinch") === -1 && data.Content.indexOf("Kiss") === -1 && data.Content.indexOf("Nibble") === -1 && data.Dictionary[1].MemberNumber === Player.MemberNumber)
-                {
-                    let nya = Math.floor(Math.random() * 3);
-                    console.log(nya)
-                    ActivityBeeper("EarLick",nya);
-                    
-                    setTimeout(wiggleEars,500);
-                    Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                    ActivityChatRoomBCTArousalSync(Player);
-                    Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 25;
-                    ActivityChatRoomArousalSync(Player);
-                }
-
-      else if (data.Type === "Activity" && (data.Content.startsWith("ChatOther-ItemHead") || (data.Content.startsWith("ChatSelf-ItemHead") && data.Content.indexOf("Wiggle") === -1)) && data.Content.indexOf("Caress") === -1 && data.Content.indexOf("Slap") === -1 && data.Content.indexOf("Pull") === -1 && data.Content.indexOf("Rub") === -1 && data.Content.indexOf("Bite") === -1 && data.Content.indexOf("Step") === -1 && data.Content.indexOf("GaggedKiss") === -1 && data.Content.indexOf("Kiss") === -1 && data.Content.indexOf("Nod") === -1 && data.Dictionary[1].MemberNumber === Player.MemberNumber)
-
-                {
-                    let nya = Math.floor(Math.random() * 2);
-                    console.log(nya)
-                    ActivityBeeper("HeadBrush",nya);
-
-                    setTimeout(wiggleEars,500);
-                    Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
-                    ActivityChatRoomArousalSync(Player);
-                }
-
-
-
-
-          if (data.Content !== "ServerEnter" && data.Type !== "Chat") {
+    }
+    if (data.Content !== "ServerEnter" && data.Type !== "Chat") {
       return;
     }
     //end of do not touch
