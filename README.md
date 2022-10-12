@@ -3,7 +3,8 @@ Auto React Script
 Add via Tampermonkey: [Link](./script/autoReactLoader.user.js)
 
 Add via Bookmarklet:  
-Save <code>
+Save 
+<code>
 javascript:(()=>{fetch('https://drbranestawm.github.io/autoReact/script/autoReact.js').then(r=>r.text()).then(r=>eval(r));})();
 </code>
 as a bookmark on your devices
