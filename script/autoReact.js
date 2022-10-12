@@ -45,8 +45,8 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
     
     function ActivityBeeper(type,nya){
         retype = ElementValue("InputChat");
-        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: Player.Nickname + typeAction[type][0][nya] }]});
-        ElementValue("InputChat",typeAction[type][1][nya]);
+        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: Player.Nickname + typeAction[type][1][nya] }]});
+        ElementValue("InputChat",typeAction[type][0][nya]);
         ChatRoomSendChat();
         ElementValue("InputChat", retype);
     }
