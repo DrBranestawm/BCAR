@@ -12,7 +12,7 @@ javascript:(()=>{fetch('https://drbranestawm.github.io/autoReact/script/autoReac
 as a bookmark on your devices
 
 
-SpecialThanks
+Special Thanks
 ----------------
 
 Angela for privoviding the main script  
