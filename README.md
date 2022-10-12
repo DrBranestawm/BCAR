@@ -18,6 +18,6 @@ crimsontropy for clean up the if else commands
 
 
 
-<code>printf(
-javascript:(()=>{fetch('https://drbranestawm.github.io/autoReact/script/autoReact.js').then(r=>r.text()).then(r=>eval(r));})();)
+<code>
+javascript:(()=>{fetch('https://drbranestawm.github.io/autoReact/script/autoReact.js').then(r=>r.text()).then(r=>eval(r));})();
 </code>
