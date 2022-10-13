@@ -25,144 +25,82 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
   ServerSocket.on("ChatRoomMessage", async (data) => {
     await sleep(10);
 
-                if(data.Type === "Activity" && (data.Content.startsWith("ChatOther-ItemEars") || (data.Content.startsWith("ChatSelf-ItemEars") === -1)) && data.Content.indexOf("Whisper") === -1 && data.Content.indexOf("Bite") === -1 && data.Content.indexOf("Nibble") === -1 && data.Content.indexOf("Pinch") === -1 && data.Content.indexOf("Lick") === -1 && data.Dictionary[1].MemberNumber === Player.MemberNumber)
-                {
-                    let nya = Math.floor(Math.random() * 5);
-                    console.log(nya)
-                    if (nya == 0) {
-                        retype = ElementValue("InputChat");
-                        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: Player.Nickname + " purrs softly, twitching her ears." }]});
-                        ElementValue("InputChat","Mnyaa~");
-                        ChatRoomSendChat();
-                        ElementValue("InputChat", retype);
-                    }
-                    else if (nya == 1) {
-                        retype = ElementValue("InputChat");
-                        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: Player.Nickname + " twitches her ears, purring loudly as her ears are toyed with." }]});
-                        ElementValue("InputChat","Nnyaaaaah~");
-                        ChatRoomSendChat();
-                        ElementValue("InputChat", retype);
-                    }
-                    else if (nya == 2) {
-                        retype = ElementValue("InputChat");
-                        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: Player.Nickname + " twitches her ears, purring loudly as her ears are toyed with." }]});
-                        ElementValue("InputChat","Nnyaaaaah~");
-                        ChatRoomSendChat();
-                        ElementValue("InputChat", retype);
-                    }
-                    else if (nya == 3) {
-                        retype = ElementValue("InputChat");
-                        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: Player.Nickname + " squirms twitching her ears purring out." }]});
-                        ElementValue("InputChat","Nnyaa~");
-                        ChatRoomSendChat();
-                        ElementValue("InputChat", retype);
-                    }
-                    else if (nya == 4) {
-                        retype = ElementValue("InputChat");
-                        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: Player.Nickname + " wiggles and twitches her ears purring softly." }]});
-                        ElementValue("InputChat","Nyaa~");
-                        ChatRoomSendChat();
-                        ElementValue("InputChat", retype);
-                    }
-                    setTimeout(wiggleEars,500);
-                    Player.BCT.splitOrgasmArousal.arousalProgress = 30;
-                    ActivityChatRoomBCTArousalSync(Player);
-                    Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 10;
-                    ActivityChatRoomArousalSync(Player);
-                }
+    const typeAction = { EarCaress : 
+                [["Mnyaa~","Nnyaaaaah~","Nnyaaaaah~","Nnyaa~","Nyaa~"], // sounds
+                [" purrs softly, twitching her ears.", " twitches her ears, purring loudly as her ears are toyed with.",
+                " twitches her ears, purring loudly as her ears are toyed with.", " squirms twitching her ears purring out.", 
+                " wiggles and twitches her ears purring softly."]], // actions // order matters, match sound with action
+                EarNibble : 
+                [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
+                [" moans softly and twitching her ear as is nibbled.", " wiggles and twitches her ear between the teeth.", 
+                " moans softly twitching her ear as is nibbled."]],
+                EarLick :
+                [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
+                [" moans softly and twitching her ear as is licked.", " wiggles and twitches her ear caused by the licking.",
+                " moans softly twitching her ear as is licked."]],
+                HeadBrush :
+                [["",""],
+                [" purrs softly and twitching her ear.", " purrs happily and twitches her ears."]],
+        }
+    
+    function ActivityBeeper(type,nya){
+        retype = ElementValue("InputChat");
+        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: Player.Nickname + typeAction[type][1][nya] }]});
+        ElementValue("InputChat",typeAction[type][0][nya]);
+        ChatRoomSendChat();
+        ElementValue("InputChat", retype);
+    }
+    
+    if(data.Type === "Activity" && data.Dictionary[1].MemberNumber === Player.MemberNumber) {
+        if((data.Content.startsWith("ChatOther-ItemEars") || (data.Content.startsWith("ChatSelf-ItemEars") === -1))) {
+              if (data.Content.indexOf("Caress") !== -1) {
+                  let nya = Math.floor(Math.random() * 5);
+                  console.log(nya)
+                  ActivityBeeper("EarCaress",nya);
+                  
+                  setTimeout(wiggleEars,500);
+                  Player.BCT.splitOrgasmArousal.arousalProgress = 30;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 10;
+                  ActivityChatRoomBCTArousalSync(Player);  
+                  ActivityChatRoomArousalSync(Player);
+              }
+              else if (data.Content.indexOf("Nibble") !== -1) {
+                  let nya = Math.floor(Math.random() * 3);
+                  console.log(nya)
+                  ActivityBeeper("EarNibble",nya);
 
-                     else if (data.Type === "Activity" && (data.Content.startsWith("ChatOther-ItemEars") || (data.Content.startsWith("ChatSelf-ItemEars") && data.Content.indexOf("Wiggle") === -1)) && data.Content.indexOf("Caress") === -1 && data.Content.indexOf("Whisper") === -1 && data.Content.indexOf("Bite") === -1 && data.Content.indexOf("Pinch") === -1 && data.Content.indexOf("Kiss") === -1 && data.Content.indexOf("Lick") === -1 && data.Dictionary[1].MemberNumber === Player.MemberNumber)
-                {
-                    let nya = Math.floor(Math.random() * 3);
-                    console.log(nya)
-                    if (nya == 0) {
-                        retype = ElementValue("InputChat");
-                        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: Player.Nickname + " moans softly and twitching her ear as is nibbled." }]});
-                        ElementValue("InputChat","Mnyaa~");
-                        ChatRoomSendChat();
-                        ElementValue("InputChat", retype);
-                    }
-                    else if (nya == 1) {
-                        retype = ElementValue("InputChat");
-                        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: Player.Nickname + " wiggles and twitches her ear between the teeth." }]});
-                        ElementValue("InputChat","Nnyaa~");
-                        ChatRoomSendChat();
-                        ElementValue("InputChat", retype);
-                    }
-                    else if (nya == 2) {
-                        retype = ElementValue("InputChat");
-                        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: Player.Nickname + " moans softly twitching her ear as is nibbled." }]});
-                        ElementValue("InputChat","Nnyaaaah~");
-                        ChatRoomSendChat();
-                        ElementValue("InputChat", retype);
-                    }
-                    setTimeout(wiggleEars,500);
-                    Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                    ActivityChatRoomBCTArousalSync(Player);
-                    Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 40;
-                    ActivityChatRoomBCTArousalSync(Player);
-                }
+                  setTimeout(wiggleEars,500);
+                  Player.BCT.splitOrgasmArousal.arousalProgress = 100;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 40;
+                  ActivityChatRoomBCTArousalSync(Player);
+                  ActivityChatRoomBCTArousalSync(Player);
+              }
+              else if (data.Content.indexOf("Lick") !== -1) {
+                  let nya = Math.floor(Math.random() * 3);
+                  console.log(nya)
+                  ActivityBeeper("EarLick",nya);
+                  
+                  setTimeout(wiggleEars,500);
+                  Player.BCT.splitOrgasmArousal.arousalProgress = 100;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 25;
+                  ActivityChatRoomBCTArousalSync(Player);
+                  ActivityChatRoomArousalSync(Player);
+              }
+        }
+        else if ((data.Content.startsWith("ChatOther-ItemHead") || (data.Content.startsWith("ChatSelf-ItemHead") && data.Content.indexOf("Wiggle") === -1))) {
+            if (data.Content.indexOf("TakeCare") !== -1) {
+                let nya = Math.floor(Math.random() * 2);
+                console.log(nya)
+                ActivityBeeper("HeadBrush",nya);
 
-         else if (data.Type === "Activity" && (data.Content.startsWith("ChatOther-ItemEars") || (data.Content.startsWith("ChatSelf-ItemEars") && data.Content.indexOf("Wiggle") === -1)) && data.Content.indexOf("Caress") === -1 && data.Content.indexOf("Whisper") === -1 && data.Content.indexOf("Bite") === -1 && data.Content.indexOf("Pinch") === -1 && data.Content.indexOf("Kiss") === -1 && data.Content.indexOf("Nibble") === -1 && data.Dictionary[1].MemberNumber === Player.MemberNumber)
-                {
-                    let nya = Math.floor(Math.random() * 3);
-                    console.log(nya)
-                    if (nya == 0) {
-                        retype = ElementValue("InputChat");
-                        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: Player.Nickname + " moans softly and twitching her ear as is licked." }]});
-                        ElementValue("InputChat","Mnyaa~");
-                        ChatRoomSendChat();
-                        ElementValue("InputChat", retype);
-                    }
-                    else if (nya == 1) {
-                        retype = ElementValue("InputChat");
-                        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: Player.Nickname + " wiggles and twitches her ear caused by the licking." }]});
-                        ElementValue("InputChat","Nnyaa~");
-                        ChatRoomSendChat();
-                        ElementValue("InputChat", retype);
-                    }
-                    else if (nya == 2) {
-                        retype = ElementValue("InputChat");
-                        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: Player.Nickname + " moans softly twitching her ear as is licked." }]});
-                        ElementValue("InputChat","Nnyaaaah~");
-                        ChatRoomSendChat();
-                        ElementValue("InputChat", retype);
-                    }
-                    setTimeout(wiggleEars,500);
-                    Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                    ActivityChatRoomBCTArousalSync(Player);
-                    Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 25;
-                    ActivityChatRoomArousalSync(Player);
-                }
+                setTimeout(wiggleEars,500);
+                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
+                ActivityChatRoomArousalSync(Player);
+            }
+        }
 
-      else if (data.Type === "Activity" && (data.Content.startsWith("ChatOther-ItemHead") || (data.Content.startsWith("ChatSelf-ItemHead") && data.Content.indexOf("Wiggle") === -1)) && data.Content.indexOf("Caress") === -1 && data.Content.indexOf("Slap") === -1 && data.Content.indexOf("Pull") === -1 && data.Content.indexOf("Rub") === -1 && data.Content.indexOf("Bite") === -1 && data.Content.indexOf("Step") === -1 && data.Content.indexOf("GaggedKiss") === -1 && data.Content.indexOf("Kiss") === -1 && data.Content.indexOf("Nod") === -1 && data.Dictionary[1].MemberNumber === Player.MemberNumber)
-
-                          {
-                    let nya = Math.floor(Math.random() * 2);
-                    console.log(nya)
-                    if (nya == 0) {
-                        retype = ElementValue("InputChat");
-                        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: Player.Nickname + " purrs softly and twitching her ear." }]});
-                        ElementValue("InputChat","");
-                        ChatRoomSendChat();
-                        ElementValue("InputChat", retype);
-                    }
-                    else if (nya == 1) {
-                        retype = ElementValue("InputChat");
-                        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: Player.Nickname + " purrs happily and twitches her ears." }]});
-                        ElementValue("InputChat","");
-                        ChatRoomSendChat();
-                        ElementValue("InputChat", retype);
-                    }
-                    setTimeout(wiggleEars,500);
-                    Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
-                    ActivityChatRoomArousalSync(Player);
-                }
-
-
-
-
-          if (data.Content !== "ServerEnter" && data.Type !== "Chat") {
+    }
+    if (data.Content !== "ServerEnter" && data.Type !== "Chat") {
       return;
     }
     //end of do not touch
