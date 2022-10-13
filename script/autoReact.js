@@ -60,8 +60,8 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                   
                   setTimeout(wiggleEars,500);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 30;
-                  ActivityChatRoomBCTArousalSync(Player);
                   Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 10;
+                  ActivityChatRoomBCTArousalSync(Player);  
                   ActivityChatRoomArousalSync(Player);
               }
               else if (data.Content.indexOf("Nibble") !== -1) {
@@ -71,8 +71,8 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
                   setTimeout(wiggleEars,500);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                  ActivityChatRoomBCTArousalSync(Player);
                   Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 40;
+                  ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomBCTArousalSync(Player);
               }
               else if (data.Content.indexOf("Lick") !== -1) {
@@ -82,8 +82,8 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                   
                   setTimeout(wiggleEars,500);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                  ActivityChatRoomBCTArousalSync(Player);
                   Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 25;
+                  ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
               }
         }
