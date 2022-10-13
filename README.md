@@ -17,4 +17,4 @@ Special Thanks
 
 Angela for privoviding the main script  
 agicitag (Julia) for help and permission to use their ear wiggle script  
-crimsontropy for clean up the if else commands  
+crimsontropy for clean up the if-else for actions
