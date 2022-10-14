@@ -28,20 +28,20 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
     const typeAction = { EarCaress : 
                 [["Mnyaa~","Nnyaaaaah~","Nnyaaaaah~","Nnyaa~","Nyaa~"], // sounds
                 [" purrs softly, twitching her ears.", " twitches her ears, purring loudly as her ears are toyed with.",
-                " twitches her ears, purring loudly as her ears are toyed with.", " squirms, twitching her ears purring out.", 
+                " twitches her ears, purring loudly as her ears are toyed with.", " squirms, twitching her ears purring out.",
                 " wiggles and twitches her ears purring softly."]], // actions // order matters, match sound with action
-                EarNibble : 
+                EarNibble :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches her ear as is nibbled.", " wiggles and twitches her ear between the teeth.", 
-                " moans softly, twitching her ear as is nibbled."]],
+                [" moans softly and twitches her ear as it's nibbled.", " wiggles and twitches her ear between the teeth.",
+                " moans softly, twitching her ear as it's nibbled."]],
                 EarLick :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches her ear as is licked.", " wiggles and twitches her ear caused by the licking.",
-                " moans softly, twitching her ear as is licked."]],
+                [" moans softly and twitches her ear as it's licked.", " wiggles and twitches her ear caused by the licking.",
+                " moans softly, twitching her ear as it's licked."]],
                 EarKiss :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches her ear as is licked.", " wiggles and twitches her ear caused by the licking.",
-                " moans softly, twitching her ear as is licked."]],
+                [" moans softly and twitches her ear as it's licked.", " wiggles and twitches her ear caused by the licking.",
+                " moans softly, twitching her ear as it's licked."]],
                 HeadBrush :
                 [["",""],
                 [" purrs softly and twitches her ear.", " purrs happily and twitches her ears."]],
