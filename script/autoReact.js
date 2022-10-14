@@ -163,6 +163,43 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
      };
 
 
+
+    function CommandEarsChange(argsList)
+	{
+		let change = argsList[0];
+		let changeto = argsList.slice(1);
+
+        //console.log("change = "+ change, "changeto = "+ changeto);
+
+        if (change === "current1") {
+            ears = InventoryGet(Player,"HairAccessory2");
+            earsDefault.ears1 = ears.Asset.Name;
+            earsDefault.color1 = ears.Color;
+        }
+        else if (change === "current2") {
+            ears = InventoryGet(Player,"HairAccessory2");
+            earsDefault.ears2 = ears.Asset.Name;
+            earsDefault.color2 = ears.Color;
+        }
+        else{
+            earsDefault[change]? earsDefault[change] = changeto : console.log("Invalid Input");
+        }
+
+	}
+
+    CommandCombine([
+		{
+			Tag: 'earschange',
+			AutoComplete: args => {
+
+			},
+			Action: args => {
+				CommandEarsChange(args.split(" "));
+			}
+		}
+	])
+
+
   //do not touch this
   async function waitFor(func, cancelFunc = () => false) {
     while (!func()) {
@@ -184,4 +221,3 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
   }
 
 })();
-
