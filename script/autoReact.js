@@ -5,7 +5,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 //sdk stuff
 
 (async function () {
-  const modApi = bcModSdk.registerMod('Auto React + Horny', '1.0.0');
+  const modApi = bcModSdk.registerMod('Auto React', '0.2.0');
   //global variables
   crCommands();
     var Dictionary = [];
@@ -25,14 +25,14 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
   ServerSocket.on("ChatRoomMessage", async (data) => {
     await sleep(10);
 
-    const typeAction = { EarCaress : 
+    const typeAction = { EarCaress :
                 [["Mnyaa~","Nnyaaaaah~","Nnyaaaaah~","Nnyaa~","Nyaa~"], // sounds
                 [" purrs softly, twitching her ears.", " twitches her ears, purring loudly as her ears are toyed with.",
-                " twitches her ears, purring loudly as her ears are toyed with.", " squirms, twitching her ears purring out.", 
+                " twitches her ears, purring loudly as her ears are toyed with.", " squirms, twitching her ears purring out.",
                 " wiggles and twitches her ears purring softly."]], // actions // order matters, match sound with action
-                EarNibble : 
+                EarNibble :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches her ear as is nibbled.", " wiggles and twitches her ear between the teeth.", 
+                [" moans softly and twitches her ear as is nibbled.", " wiggles and twitches her ear between the teeth.",
                 " moans softly, twitching her ear as is nibbled."]],
                 EarLick :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
@@ -49,7 +49,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 [["",""],
                 [" purrs softly and twitches her ear.", " purrs happily and twitches her ears."]],
         }
-    
+
     function ActivityBeeper(type,nya){
         retype = ElementValue("InputChat");
         ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: Player.Nickname + typeAction[type][1][nya] }]});
@@ -57,53 +57,70 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         ChatRoomSendChat();
         ElementValue("InputChat", retype);
     }
-    
+
+     function EarWiggle(){
+        let earsVariations = [earsDefault.ears2,earsDefault.ears1];
+        let earsColor = [earsDefault.color2,earsDefault.color1];
+        let numberWiggles= parseInt(earsDefault.count);
+        let delay = parseInt(earsDefault.delay);
+        for(let i=0; i < numberWiggles; i++)
+        {
+           setTimeout(function() {
+              InventoryWear(Player, earsVariations[i%earsVariations.length], "HairAccessory2", earsColor[i%earsColor.length]);
+              ChatRoomCharacterItemUpdate(Player, "HairAccessory2");
+         }, i * delay);
+    }
+ }
+
     if(data.Type === "Activity" && data.Dictionary[1].MemberNumber === Player.MemberNumber) {
         if((data.Content.startsWith("ChatOther-ItemEars") || (data.Content.startsWith("ChatSelf-ItemEars") === -1))) {
               if (data.Content.indexOf("Caress") !== -1) {
                   let nya = Math.floor(Math.random() * 5);
                   console.log(nya)
                   ActivityBeeper("EarCaress",nya);
-                  
-                  setTimeout(wiggleEars,500);
+
+                  setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 30;
                   Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 10;
-                  ActivityChatRoomBCTArousalSync(Player);  
+                  ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
+
               }
               else if (data.Content.indexOf("Nibble") !== -1) {
                   let nya = Math.floor(Math.random() * 3);
                   console.log(nya)
                   ActivityBeeper("EarNibble",nya);
 
-                  setTimeout(wiggleEars,500);
+                  setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 100;
                   Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 40;
                   ActivityChatRoomBCTArousalSync(Player);
-                  ActivityChatRoomBCTArousalSync(Player);
+                  ActivityChatRoomArousalSync(Player);
+
               }
               else if (data.Content.indexOf("Lick") !== -1) {
                   let nya = Math.floor(Math.random() * 3);
                   console.log(nya)
                   ActivityBeeper("EarLick",nya);
-                  
-                  setTimeout(wiggleEars,500);
+
+                  setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 100;
                   Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 25;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
+
               }
               else if (data.Content.indexOf("Kiss") !== -1) {
                   let nya = Math.floor(Math.random() * 3);
                   console.log(nya)
                   ActivityBeeper("EarKiss",nya);
-                  
-                  setTimeout(wiggleEars,500);
+
+                  setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 100;
                   Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 25;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
-              }
+            }
         }
         else if ((data.Content.startsWith("ChatOther-ItemHead") || (data.Content.startsWith("ChatSelf-ItemHead") && data.Content.indexOf("Wiggle") === -1))) {
             if (data.Content.indexOf("TakeCare") !== -1) {
@@ -111,7 +128,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 console.log(nya)
                 ActivityBeeper("HeadBrush",nya);
 
-                setTimeout(wiggleEars,500);
+                setTimeout(EarWiggle);
                 Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
                 ActivityChatRoomArousalSync(Player);
             }
@@ -120,7 +137,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 console.log(nya)
                 ActivityBeeper("HeadPat",nya);
 
-                setTimeout(wiggleEars,500);
+                setTimeout(EarWiggle);
                 Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
                 ActivityChatRoomArousalSync(Player);
             }
@@ -135,19 +152,16 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
     return;
   });
 
-  var mainEar = "KittenEars1";
-  var secondaryEar = "FoxEars2";
-  var mainEarColor = ["#FF0000", "#EEE"];  /* You can also set multiple colors like ["#893121", "Default"] */
-  var secondaryEarColor = ["#9A0000", "#505050"];
-  var delay = 350; /* in ms */
-  var numberWiggles = 6;
-  var showActivity = true;
-    function wiggleEars(){
-    for(var i = 0; i<numberWiggles;i++){
-      setTimeout(function(){InventoryWear(Player, secondaryEar, "HairAccessory2", secondaryEarColor);},i*delay);
-      setTimeout(function(){InventoryWear(Player, mainEar, "HairAccessory2", mainEarColor );},i*delay+delay/2);
-    }
-  }
+
+  var earsDefault = {
+        "ears1" : "KittenEars1", // change based on ear type
+        "ears2" : "FoxEars2",
+        "color1" : ["#FF0000", "#EEE"], // change color based on your own preference
+        "color2" : ["#9A0000", "#505050"],
+        "count" : 12, // no. of ear wiggles
+        "delay" : 175, // delay in ms
+     };
+
 
   //do not touch this
   async function waitFor(func, cancelFunc = () => false) {
@@ -170,3 +184,4 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
   }
 
 })();
+
