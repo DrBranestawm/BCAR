@@ -11,6 +11,16 @@ javascript:(()=>{fetch('https://drbranestawm.github.io/autoReact/script/autoReac
 </code>
 as a bookmark on your devices
 
+#Registration of Ears
+Currently the only way to change the ears type while using the extension is to use chat commands. And it has to be done each time the game is reloaded.
+
+/ears 1 : To save your current tail as the primary ear.
+
+Switch your ear to the one you want the secondary ear to be.
+
+/ears 2 : To save the secondary ear.
+
+
 
 Special Thanks
 ----------------
