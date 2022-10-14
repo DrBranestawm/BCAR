@@ -28,19 +28,26 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
     const typeAction = { EarCaress : 
                 [["Mnyaa~","Nnyaaaaah~","Nnyaaaaah~","Nnyaa~","Nyaa~"], // sounds
                 [" purrs softly, twitching her ears.", " twitches her ears, purring loudly as her ears are toyed with.",
-                " twitches her ears, purring loudly as her ears are toyed with.", " squirms twitching her ears purring out.", 
+                " twitches her ears, purring loudly as her ears are toyed with.", " squirms, twitching her ears purring out.", 
                 " wiggles and twitches her ears purring softly."]], // actions // order matters, match sound with action
                 EarNibble : 
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitching her ear as is nibbled.", " wiggles and twitches her ear between the teeth.", 
-                " moans softly twitching her ear as is nibbled."]],
+                [" moans softly and twitches her ear as is nibbled.", " wiggles and twitches her ear between the teeth.", 
+                " moans softly, twitching her ear as is nibbled."]],
                 EarLick :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitching her ear as is licked.", " wiggles and twitches her ear caused by the licking.",
-                " moans softly twitching her ear as is licked."]],
+                [" moans softly and twitches her ear as is licked.", " wiggles and twitches her ear caused by the licking.",
+                " moans softly, twitching her ear as is licked."]],
+                EarKiss :
+                [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
+                [" moans softly and twitches her ear as is licked.", " wiggles and twitches her ear caused by the licking.",
+                " moans softly, twitching her ear as is licked."]],
                 HeadBrush :
                 [["",""],
-                [" purrs softly and twitching her ear.", " purrs happily and twitches her ears."]],
+                [" purrs softly and twitches her ear.", " purrs happily and twitches her ears."]],
+                HeadPat :
+                [["",""],
+                [" purrs softly and twitches her ear.", " purrs happily and twitches her ears."]],
         }
     
     function ActivityBeeper(type,nya){
@@ -86,12 +93,32 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
               }
+              else if (data.Content.indexOf("Kiss") !== -1) {
+                  let nya = Math.floor(Math.random() * 3);
+                  console.log(nya)
+                  ActivityBeeper("EarKiss",nya);
+                  
+                  setTimeout(wiggleEars,500);
+                  Player.BCT.splitOrgasmArousal.arousalProgress = 100;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 25;
+                  ActivityChatRoomBCTArousalSync(Player);
+                  ActivityChatRoomArousalSync(Player);
+              }
         }
         else if ((data.Content.startsWith("ChatOther-ItemHead") || (data.Content.startsWith("ChatSelf-ItemHead") && data.Content.indexOf("Wiggle") === -1))) {
             if (data.Content.indexOf("TakeCare") !== -1) {
                 let nya = Math.floor(Math.random() * 2);
                 console.log(nya)
                 ActivityBeeper("HeadBrush",nya);
+
+                setTimeout(wiggleEars,500);
+                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
+                ActivityChatRoomArousalSync(Player);
+            }
+            else if (data.Content.indexOf("Pet") !== -1) {
+                let nya = Math.floor(Math.random() * 2);
+                console.log(nya)
+                ActivityBeeper("HeadPat",nya);
 
                 setTimeout(wiggleEars,500);
                 Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
