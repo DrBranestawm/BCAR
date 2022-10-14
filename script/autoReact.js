@@ -164,19 +164,19 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
 
 
-    function CommandEarsChange(argsList)
+    function CommandEars(argsList)
 	{
 		let change = argsList[0];
 		let changeto = argsList.slice(1);
 
         //console.log("change = "+ change, "changeto = "+ changeto);
 
-        if (change === "current1") {
+        if (change === "1") {
             ears = InventoryGet(Player,"HairAccessory2");
             earsDefault.ears1 = ears.Asset.Name;
             earsDefault.color1 = ears.Color;
         }
-        else if (change === "current2") {
+        else if (change === "2") {
             ears = InventoryGet(Player,"HairAccessory2");
             earsDefault.ears2 = ears.Asset.Name;
             earsDefault.color2 = ears.Color;
@@ -189,7 +189,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
     CommandCombine([
 		{
-			Tag: 'earschange',
+			Tag: 'ears',
 			AutoComplete: args => {
 
 			},
