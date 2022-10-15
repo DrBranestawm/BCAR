@@ -32,23 +32,23 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 " wiggles and twitches her ears purring softly."]], // actions // order matters, match sound with action
                 EarNibble :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches her ear as it's nibbled.", " wiggles and twitches her ear between the teeth.",
-                " moans softly, twitching her ear as it's nibbled."]],
+                [" moans softly and twitches her ears as it's nibbled.", " wiggles and twitches her ears between the teeth.",
+                " moans softly, twitching her ears as it's nibbled."]],
                 EarLick :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches her ear as it's licked.", " wiggles and twitches her ear caused by the licking.",
-                " moans softly, twitching her ear as it's licked."]],
+                [" moans softly and twitches her ears as it's licked.", " wiggles and twitches her ears caused by the licking.",
+                " moans softly, twitching her ears as it's licked."]],
                 EarKiss :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches her ear as it's kissed.", " wiggles and twitches her ear caused by the kissing.",
-                " moans softly, twitching her ear as it's kissed."]],
+                [" moans softly and twitches her ears as it's kissed.", " wiggles and twitches her ears caused by the kissing.",
+                " moans softly, twitching her ears as it's kissed."]],
                 HeadBrush :
                 [["",""],
-                [" purrs softly and twitches her ear.", " purrs happily and twitches her ears."]],
+                [" purrs softly and twitches her ears.", " purrs happily and twitches her ears."]],
                 HeadPat :
                 [["",""],
-                [" purrs softly and twitches her ear.", " purrs happily and twitches her ears.",
-		" purrs softly, twitches her ear and nuzzles into the pat."," purrs happily, twitches her ears and nuzzles into the pat."]],
+                [" purrs softly and twitches her ears.", " purrs happily and twitches her ears.",
+		" purrs softly, twitches her ears and nuzzles into the pat."," purrs happily, twitches her ears and nuzzles into the pat."]],
         }
 
     function ActivityBeeper(type,nya){
