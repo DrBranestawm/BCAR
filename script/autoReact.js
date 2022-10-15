@@ -134,7 +134,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityChatRoomArousalSync(Player);
             }
             else if (data.Content.indexOf("Pet") !== -1) {
-                let nya = Math.floor(Math.random() * 2);
+                let nya = Math.floor(Math.random() * 4);
                 console.log(nya)
                 ActivityBeeper("HeadPat",nya);
 
