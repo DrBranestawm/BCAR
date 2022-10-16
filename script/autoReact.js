@@ -5,7 +5,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 //sdk stuff
 
 (async function () {
-  const modApi = bcModSdk.registerMod('Auto React', '0.2.0');
+  const modApi = bcModSdk.registerMod('Auto React', '0.2.2');
   //global variables
   crCommands();
     var Dictionary = [];
@@ -28,31 +28,32 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
     const typeAction = { EarCaress :
                 [["Mnyaa~","Nnyaaaaah~","Nnyaaaaah~","Nnyaa~","Nyaa~"], // sounds
                 [" purrs softly, twitching her ears.", " twitches her ears, purring loudly as her ears are toyed with.",
-                " twitches her ears, purring loudly as her ears are toyed with.", " squirms, twitching her ears purring out.",
+                " twitches her ears, purring loudly as her ears are toyed with.", " squirms, twitches his ears and purrs.",
                 " wiggles and twitches her ears purring softly."]], // actions // order matters, match sound with action
                 EarNibble :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches her ear as it's nibbled.", " wiggles and twitches her ear between the teeth.",
-                " moans softly, twitching her ear as it's nibbled."]],
+                [" moans softly and twitches her ears as it's nibbled.", " wiggles and twitches her ears between the teeth.",
+                " moans softly, twitching her ears as it's nibbled."]],
                 EarLick :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches her ear as it's licked.", " wiggles and twitches her ear caused by the licking.",
-                " moans softly, twitching her ear as it's licked."]],
+                [" moans softly and twitches her ears as it's licked.", " wiggles and twitches her ears caused by the licking.",
+                " moans softly, twitching her ears as it's licked."]],
                 EarKiss :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches her ear as it's licked.", " wiggles and twitches her ear caused by the licking.",
-                " moans softly, twitching her ear as it's licked."]],
+                [" moans softly and twitches her ears as it's kissed.", " wiggles and twitches her ears caused by the kissing.",
+                " moans softly, twitching her ears as it's kissed."]],
                 HeadBrush :
                 [["",""],
-                [" purrs softly and twitches her ear.", " purrs happily and twitches her ears."]],
+                [" purrs softly and twitches her ears.", " purrs happily and twitches her ears."]],
                 HeadPat :
                 [["",""],
-                [" purrs softly and twitches her ear.", " purrs happily and twitches her ears."]],
+                [" purrs softly and twitches her ears.", " purrs happily and twitches her ears.",
+		" purrs softly, twitches her ears and nuzzles into the pat."," purrs happily, twitches her ears and nuzzles into the pat."]],
         }
 
     function ActivityBeeper(type,nya){
         retype = ElementValue("InputChat");
-        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: Player.Nickname + typeAction[type][1][nya] }]});
+        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: CharacterNickname(Player) + typeAction[type][1][nya] }]});
         ElementValue("InputChat",typeAction[type][0][nya]);
         ChatRoomSendChat();
         ElementValue("InputChat", retype);
@@ -72,7 +73,17 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
     }
  }
 
-    if(data.Type === "Activity" && data.Dictionary[1].MemberNumber === Player.MemberNumber) {
+      var activityDictionary = data.Dictionary
+
+      for(let i = 0; i < activityDictionary.length; i++)
+      {
+          if(activityDictionary[i].Tag == "nonce")
+          {
+              activityDictionary.splice(i, 1);
+              break;
+          }
+      }
+    if(data.Type === "Activity" && activityDictionary[3].MemberNumber === Player.MemberNumber) {
         if((data.Content.startsWith("ChatOther-ItemEars") || (data.Content.startsWith("ChatSelf-ItemEars") === -1))) {
               if (data.Content.indexOf("Caress") !== -1) {
                   let nya = Math.floor(Math.random() * 5);
@@ -133,7 +144,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityChatRoomArousalSync(Player);
             }
             else if (data.Content.indexOf("Pet") !== -1) {
-                let nya = Math.floor(Math.random() * 2);
+                let nya = Math.floor(Math.random() * 4);
                 console.log(nya)
                 ActivityBeeper("HeadPat",nya);
 
@@ -164,19 +175,19 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
 
 
-    function CommandEars(argsList)
+    function CommandEarsChange(argsList)
 	{
 		let change = argsList[0];
 		let changeto = argsList.slice(1);
 
         //console.log("change = "+ change, "changeto = "+ changeto);
 
-        if (change === "1") {
+        if (change === "current1") {
             ears = InventoryGet(Player,"HairAccessory2");
             earsDefault.ears1 = ears.Asset.Name;
             earsDefault.color1 = ears.Color;
         }
-        else if (change === "2") {
+        else if (change === "current2") {
             ears = InventoryGet(Player,"HairAccessory2");
             earsDefault.ears2 = ears.Asset.Name;
             earsDefault.color2 = ears.Color;
@@ -189,7 +200,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
     CommandCombine([
 		{
-			Tag: 'ears',
+			Tag: 'earschange',
 			AutoComplete: args => {
 
 			},
