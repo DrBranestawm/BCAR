@@ -46,7 +46,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 [["",""],
                 [" purrs softly and twitches her ears.", " purrs happily and twitches her ears."]],
                 HeadPat :
-                [["",""],
+                [["","","",""],
                 [" purrs softly and twitches her ears.", " purrs happily and twitches her ears.",
 		" purrs softly, twitches her ears and nuzzles into the pat."," purrs happily, twitches her ears and nuzzles into the pat."]],
         }
