@@ -92,7 +92,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
                   setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 30;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 10;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
 
@@ -104,7 +104,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
                   setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 40;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 20;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
 
@@ -116,7 +116,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
                   setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 25;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 15;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
 
@@ -128,12 +128,12 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
                   setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 25;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 15;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
             }
         }
-        else if ((data.Content.startsWith("ChatOther-ItemHead") || (data.Content.startsWith("ChatSelf-ItemHead") && data.Content.indexOf("Wiggle") === -1))) {
+        else if ((data.Content.startsWith("ChatOther-ItemHead") || (data.Content.startsWith("ChatSelf-ItemHead") === -1))) {
             if (data.Content.indexOf("TakeCare") !== -1) {
                 let nya = Math.floor(Math.random() * 2);
                 console.log(nya)
