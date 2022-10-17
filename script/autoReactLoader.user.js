@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name AutoReact Loader
 // @namespace https://www.bondageprojects.com/
-// @version 0.1.1
+// @version 0.2.0
 // @description Auto React
 // @author DrBranestawm
 // @match https://bondageprojects.elementfx.com/*
