@@ -5,7 +5,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 //sdk stuff
 
 (async function () {
-  const modApi = bcModSdk.registerMod('Auto React', '0.2.2');
+  const modApi = bcModSdk.registerMod('Auto React', '0.2.3');
   //global variables
   crCommands();
     var Dictionary = [];
@@ -46,14 +46,14 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 [["",""],
                 [" purrs softly and twitches her ears.", " purrs happily and twitches her ears."]],
                 HeadPat :
-                [["",""],
+                [["","","",""],
                 [" purrs softly and twitches her ears.", " purrs happily and twitches her ears.",
 		" purrs softly, twitches her ears and nuzzles into the pat."," purrs happily, twitches her ears and nuzzles into the pat."]],
         }
 
     function ActivityBeeper(type,nya){
         retype = ElementValue("InputChat");
-        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: Player.Nickname + typeAction[type][1][nya] }]});
+        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: CharacterNickname(Player) + typeAction[type][1][nya] }]});
         ElementValue("InputChat",typeAction[type][0][nya]);
         ChatRoomSendChat();
         ElementValue("InputChat", retype);
@@ -73,7 +73,17 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
     }
  }
 
-    if(data.Type === "Activity" && data.Dictionary[1].MemberNumber === Player.MemberNumber) {
+      var activityDictionary = data.Dictionary
+
+      for(let i = 0; i < activityDictionary.length; i++)
+      {
+          if(activityDictionary[i].Tag == "nonce")
+          {
+              activityDictionary.splice(i, 1);
+              break;
+          }
+      }
+    if(data.Type === "Activity" && activityDictionary[3].MemberNumber === Player.MemberNumber) {
         if((data.Content.startsWith("ChatOther-ItemEars") || (data.Content.startsWith("ChatSelf-ItemEars") === -1))) {
               if (data.Content.indexOf("Caress") !== -1) {
                   let nya = Math.floor(Math.random() * 5);
@@ -82,7 +92,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
                   setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 30;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 10;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
 
@@ -94,7 +104,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
                   setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 40;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 20;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
 
@@ -106,7 +116,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
                   setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 25;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 15;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
 
@@ -118,12 +128,12 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
                   setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 25;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 15;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
             }
         }
-        else if ((data.Content.startsWith("ChatOther-ItemHead") || (data.Content.startsWith("ChatSelf-ItemHead") && data.Content.indexOf("Wiggle") === -1))) {
+        else if ((data.Content.startsWith("ChatOther-ItemHead") || (data.Content.startsWith("ChatSelf-ItemHead") === -1))) {
             if (data.Content.indexOf("TakeCare") !== -1) {
                 let nya = Math.floor(Math.random() * 2);
                 console.log(nya)
