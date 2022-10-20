@@ -5,7 +5,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 //sdk stuff
 
 (async function () {
-  const modApi = bcModSdk.registerMod('Auto React', '0.2.3');
+  const modApi = bcModSdk.registerMod('BCAR', '0.2.3');
   //global variables
   crCommands();
     var Dictionary = [];
@@ -182,12 +182,12 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
         //console.log("change = "+ change, "changeto = "+ changeto);
 
-        if (change === "current1") {
+        if (change === "ear1") {
             ears = InventoryGet(Player,"HairAccessory2");
             earsDefault.ears1 = ears.Asset.Name;
             earsDefault.color1 = ears.Color;
         }
-        else if (change === "current2") {
+        else if (change === "ear2") {
             ears = InventoryGet(Player,"HairAccessory2");
             earsDefault.ears2 = ears.Asset.Name;
             earsDefault.color2 = ears.Color;
@@ -200,7 +200,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
     CommandCombine([
 		{
-			Tag: 'earschange',
+			Tag: 'bcar',
 			AutoComplete: args => {
 
 			},
