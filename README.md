@@ -23,6 +23,7 @@ Switch your ear to the one you want the secondary ear to be.
 Special Thanks
 ----------------
 
-Angela for privoviding the main script  
-[@agicitag](https://github.com/agicitag) (Julia) for help and permission to use their ear wiggle script  
-[@crimsontropy](https://github.com/crimsontropy) (Haruhi) for clean up the if-else for actions
+ - Angela for privoviding the main script  
+ - [@agicitag](https://github.com/agicitag) (Julia) for help and permission to use their ear wiggle script  
+ - [@crimsontropy](https://github.com/crimsontropy) (Haruhi) for clean up the if-else for actions
+ - Utsimi for help with an issue with the activityDictionary
