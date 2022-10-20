@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name AutoReact Loader
+// @name BCAR Loader
 // @namespace https://www.bondageprojects.com/
 // @version 0.2.0
-// @description Auto React
+// @description BCAR Bondacge Club Auto React
 // @author DrBranestawm
 // @match https://bondageprojects.elementfx.com/*
 // @match https://www.bondageprojects.elementfx.com/*
@@ -16,6 +16,6 @@
 (function() {
     'use strict';
     var script = document.createElement("script");
-    script.src = "https://drbranestawm.github.io/autoReact/script/autoReact.js";
+    script.src = "https://drbranestawm.github.io/autoReact/script/BCAR.js";
     document.head.appendChild(script);
 })();
