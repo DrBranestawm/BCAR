@@ -189,6 +189,8 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 "delay" : 175, // delay in ms
             },
         }
+        Player.BCAR = {};
+        Player.BCAR.bcarSettngs = {};
 
         if (!Object.keys(Player.BCAR.bcarSettings).length > 0){
 			let settings = JSON.parse(localStorage.getItem(bcarSettingsKey()));
