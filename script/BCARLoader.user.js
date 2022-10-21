@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name BCAR Loader
 // @namespace https://www.bondageprojects.com/
-// @version 0.2.0
+// @version 0.3.0
 // @description BCAR Bondacge Club Auto React
 // @author DrBranestawm
 // @match https://bondageprojects.elementfx.com/*
