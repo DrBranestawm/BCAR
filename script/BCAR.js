@@ -15,6 +15,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
   //do not touch this
   await waitFor(() => ServerIsConnected && ServerSocket);
   //end of do not touch
+  await bcarSettingsLoad();
 
   //Functions
 
@@ -60,10 +61,10 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
     }
 
      function EarWiggle(){
-        let earsVariations = [earsDefault.ears2,earsDefault.ears1];
-        let earsColor = [earsDefault.color2,earsDefault.color1];
-        let numberWiggles= parseInt(earsDefault.count);
-        let delay = parseInt(earsDefault.delay);
+        let earsVariations = [Player.BCAR.bcarSettings.earsDefault.ears2,Player.BCAR.bcarSettings.earsDefault.ears1];
+        let earsColor = [Player.BCAR.bcarSettings.earsDefault.color2,Player.BCAR.bcarSettings.earsDefault.color1];
+        let numberWiggles= parseInt(Player.BCAR.bcarSettings.earsDefault.count);
+        let delay = parseInt(Player.BCAR.bcarSettings.earsDefault.delay);
         for(let i=0; i < numberWiggles; i++)
         {
            setTimeout(function() {
@@ -163,16 +164,68 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
     return;
   });
 
+  const bcarSettingsKey = () => `bcarSettings.${Player?.AccountName}`;
 
-  var earsDefault = {
-        "ears1" : "KittenEars1", // change based on ear type
-        "ears2" : "FoxEars2",
-        "color1" : ["#FF0000", "#EEE"], // change color based on your own preference
-        "color2" : ["#9A0000", "#505050"],
-        "count" : 12, // no. of ear wiggles
-        "delay" : 175, // delay in ms
-     };
+    function bcarSettingsSave() {
+    localStorage.setItem(bcarSettingsKey(),JSON.stringify(Player.BCAR.bcarSettings));
 
+    Player.OnlineSettings.BCAR = LZString.compressToBase64(JSON.stringify(Player.BCAR.bcarSettngs));
+    ServerAccountUpdate.QueueData({
+        OnlineSettings: Player.OnlineSettings,
+        });
+    }
+
+    const BCAR_Settings_Version = 1;
+
+    async function bcarSettingsLoad() {
+		await waitFor(() => !!Player?.AccountName);
+        const BCAR_DEFAULT_SETTINGS = {
+            earsDefault : {
+                "ears1" : "KittenEars1", // change based on ear type
+                "ears2" : "FoxEars2",
+                "color1" : ["#FF0000", "#EEE"], // change color based on your own preference
+                "color2" : ["#9A0000", "#505050"],
+                "count" : 12, // no. of ear wiggles
+                "delay" : 175, // delay in ms
+            },
+        }
+
+        if (!Object.keys(Player.BCAR.bcarSettings).length > 0){
+			let settings = JSON.parse(localStorage.getItem(bcarSettingsKey()));
+			const bcarOnlineSettings = JSON.parse(
+				LZString.decompressFromBase64(Player.OnlineSettings.BCAR) || null
+			);		
+			//if online settings are not an older version then local ones, use them instead
+			if (
+				bcarOnlineSettings?.version >= settings?.version ||
+				(typeof settings?.version === "undefined" &&
+					typeof bcarOnlineSettings?.version !== "undefined")
+			) {
+				settings = bcarOnlineSettings;
+			}
+			if(!settings) settings = {};
+
+			// Reorganize old settings into the new structure
+			for (const setting in settings){
+				if(settings[setting].value) settings[setting] = settings[setting].value;
+			}
+
+			//fill up missing settings with the default ones
+			for (const setting in BCAR_DEFAULT_SETTINGS) {
+				if (!Object.prototype.hasOwnProperty.call(BCAR_DEFAULT_SETTINGS, setting)) {
+					continue;
+				}
+				if (!(setting in settings)) {
+					settings[setting] = BCAR_DEFAULT_SETTINGS[setting];
+				}
+			}
+
+			settings.version = BCAR_Settings_Version;
+			Player.BCAR.bcarSettings = settings;
+        }
+            bcarSettingsSave();
+
+    }
 
 
     function CommandEarsChange(argsList)
@@ -183,18 +236,19 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         //console.log("change = "+ change, "changeto = "+ changeto);
 
         if (change === "ear1") {
-            ears = InventoryGet(Player,"HairAccessory2");
-            earsDefault.ears1 = ears.Asset.Name;
-            earsDefault.color1 = ears.Color;
+            let ears = InventoryGet(Player,"HairAccessory2");
+            Player.BCAR.bcarSettings.earsDefault.ears1 = ears.Asset.Name;
+            Player.BCAR.bcarSettings.earsDefault.color1 = ears.Color;
         }
         else if (change === "ear2") {
-            ears = InventoryGet(Player,"HairAccessory2");
-            earsDefault.ears2 = ears.Asset.Name;
-            earsDefault.color2 = ears.Color;
+            let ears = InventoryGet(Player,"HairAccessory2");
+            Player.BCAR.bcarSettings.earsDefault.ears2 = ears.Asset.Name;
+            Player.BCAR.bcarSettings.earsDefault.color2 = ears.Color;
         }
         else{
-            earsDefault[change]? earsDefault[change] = changeto : console.log("Invalid Input");
+            Player.BCAR.bcarSettings.earsDefault[change]? Player.BCAR.bcarSettings.earsDefault[change] = changeto : console.log("Invalid Input");
         }
+        bcarSettingsSave();
 
 	}
 
