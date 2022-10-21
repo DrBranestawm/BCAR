@@ -190,7 +190,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             },
         }
         Player.BCAR = {};
-        Player.BCAR.bcarSettngs = {};
+        Player.BCAR.bcarSettings = {};
 
         if (!Object.keys(Player.BCAR.bcarSettings).length > 0){
 			let settings = JSON.parse(localStorage.getItem(bcarSettingsKey()));
