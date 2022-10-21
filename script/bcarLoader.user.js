@@ -16,6 +16,6 @@
 (function() {
     'use strict';
     var script = document.createElement("script");
-    script.src = "https://drbranestawm.github.io/BCAR/script/BCAR.js";
+    script.src = "https://drbranestawm.github.io/BCAR/script/bcar.js";
     document.head.appendChild(script);
 })();
