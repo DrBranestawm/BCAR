@@ -10,7 +10,7 @@ or add it as Bookmark any of your devices. To do that save  <code>javascript:(()
 
 Registration of Ears
 ----------------------
-Currently the only way to change the ears type is to use chat commands. And it has to be done each time the game is reloaded.
+Currently the only way to change the ears type is to use chat commands. The set easrs will be saved and will work even after relogging.
 
   - /bcar ear1 : To save your current ears as the primary ear.
 
@@ -23,7 +23,14 @@ Switch your ear to the one you want the secondary ear to be.
 Special Thanks
 ----------------
 
- - Angela for privoviding the main script  
- - [@agicitag](https://github.com/agicitag) (Julia) for help and permission to use their ear wiggle script  
- - [@crimsontropy](https://github.com/crimsontropy) (Haruhi) for clean up the if-else for actions
- - Utsimi for help with an issue with the activityDictionary
+ - Angela
+    - Privoviding the main script
+ - Julia ([@agicitag](https://github.com/agicitag))
+    - Providing general help
+    - Permission to use their save and load settings feature
+ - Haruhi ([@crimsontropy](https://github.com/crimsontropy))
+    - Clean up the if-else for actions
+    - Their tail wag script on which the ear wiggle is based
+    - Implementing the save and load settings feature
+ - Utsumi
+    - Help with an issue with the activityDictionary
