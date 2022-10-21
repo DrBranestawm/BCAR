@@ -15,6 +15,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
   //do not touch this
   await waitFor(() => ServerIsConnected && ServerSocket);
   //end of do not touch
+  const bcarSettingsKey = () => `bcarSettings.${Player?.AccountName}`;
   await bcarSettingsLoad();
 
   //Functions
@@ -164,7 +165,6 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
     return;
   });
 
-  const bcarSettingsKey = () => `bcarSettings.${Player?.AccountName}`;
 
     function bcarSettingsSave() {
     localStorage.setItem(bcarSettingsKey(),JSON.stringify(Player.BCAR.bcarSettings));
