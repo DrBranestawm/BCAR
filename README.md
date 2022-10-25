@@ -8,6 +8,11 @@ Example Picture:
 The ears will wiggle too. To change the ears for the wiggle animation see "Registration of Ears" down below. You can add the script via Tampermonkey [here](https://github.com/DrBranestawm/BCAR/raw/main/script/bcarLoader.user.js)  
 or add it as Bookmark any of your devices. To do that save  <code>javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/script/bcar.js').then(r=>r.text()).then(r=>eval(r));})();</code> as a bookmark on your devices.
 
+
+[BCE Expressions for BCAR](https://github.com/DrBranestawm/BCAR/raw/main/BCE%20Expressions%20for%20BCAR/Bondage%20Club%20Enhancements%20Expressions%20for%20BCAR.js)  
+<code>javascript:(()=>{fetch('/BCE%20Expressions%20for%20BCAR/Bondage%20Club%20Enhancements%20Expressions%20for%20BCAR.js').then(r=>r.text()).then(r=>eval(r));})();</code>
+
+
 Registration of Ears
 ----------------------
 Currently the only way to change the ears type is to use chat commands. The set easrs will be saved and will work even after relogging.
