@@ -9,7 +9,7 @@ The ears will wiggle too. To change the ears for the wiggle animation see "Regis
 or add it as Bookmark any of your devices. To do that save  <code>javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/script/bcar.js').then(r=>r.text()).then(r=>eval(r));})();</code> as a bookmark on your devices.
 
 
-[BCE Expressions for BCAR](https://github.com/DrBranestawm/BCAR/raw/main/bceExpressionsForBCAR/script.user.js)  
+[BCE Expressions for BCAR](https://github.com/DrBranestawm/BCAR/raw/main/bceExpressionsForBCAR/scriptLoader.user.js)  
 <code>javascript:(()=>{fetch('https://github.com/DrBranestawm/BCAR/main/bceExpressionsForBCAR/script.user.js').then(r=>r.text()).then(r=>eval(r));})();</code>
 
 
