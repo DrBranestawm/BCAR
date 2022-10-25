@@ -10,7 +10,7 @@ or add it as Bookmark any of your devices. To do that save  <code>javascript:(()
 
 
 [BCE Expressions for BCAR](https://github.com/DrBranestawm/BCAR/raw/main/bceExpressionsForBCAR/scriptLoader.user.js)  
-<code>javascript:(()=>{fetch('https://github.com/DrBranestawm/BCAR/main/bceExpressionsForBCAR/script.user.js').then(r=>r.text()).then(r=>eval(r));})();</code>
+<code>javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/bceExpressionsForBCAR/script.js').then(r=>r.text()).then(r=>eval(r));})();</code>
 
 
 Registration of Ears
