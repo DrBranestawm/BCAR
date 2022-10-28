@@ -9,10 +9,6 @@ The ears will wiggle too. To change the ears for the wiggle animation see "Regis
 or add it as Bookmark any of your devices. To do that save  <code>javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/script/bcar.js').then(r=>r.text()).then(r=>eval(r));})();</code> as a bookmark on your devices.
 
 
-[BCE Expressions for BCAR](https://github.com/DrBranestawm/BCAR/raw/main/bceExpressionsForBCAR/scriptLoader.user.js)  
-<code>javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/bceExpressionsForBCAR/script.js').then(r=>r.text()).then(r=>eval(r));})();</code>
-
-
 Registration of Ears
 ----------------------
 Currently the only way to change the ears type is to use chat commands. The set easrs will be saved and will work even after relogging.
@@ -23,6 +19,10 @@ Switch your ear to the one you want the secondary ear to be.
 
   - /bcar ear2 : To save the secondary ears.
 
+
+# BCE Expressions for BCAR 
+[BCE Expressions for BCAR](https://github.com/DrBranestawm/BCAR/raw/main/bceExpressionsForBCAR/scriptLoader.user.js)  
+<code>javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/bceExpressionsForBCAR/script.js').then(r=>r.text()).then(r=>eval(r));})();</code>
 
 
 Special Thanks
