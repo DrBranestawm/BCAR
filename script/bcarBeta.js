@@ -242,8 +242,8 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 "tails2" : "MouseTailStrap1",
                 "tailsColor1" : "#440606", // change color based on your own preference
                 "tailsColor2" : "#440606",
-                "tailsCount" : 30, // no. of tail wags
-                "tailsDelay" : 300, // delay in ms
+                "tailsCount" : 6, // no. of tail wags
+                "tailsDelay" : 800, // delay in ms
             },
         }
         Player.BCAR = {};
