@@ -52,6 +52,12 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 [["","","",""],
                 [" purrs softly and twitches her ears.", " purrs happily and twitches her ears.",
 		" purrs softly, twitches her ears and nuzzles into the pat."," purrs happily, twitches her ears and nuzzles into the pat."]],
+		CaressBack :
+                [["","","",""],
+                [" purrs softly and wags her tail."]],
+		MassageBack :
+                [["","","",""],
+                [" purrs softly and wags her tail."]],
         }
 
     function ActivityBeeper(type,nya){
@@ -170,6 +176,27 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityChatRoomArousalSync(Player);
             }
         }
+	else if ((data.Content.startsWith("ChatOther-ItemTorso") || (data.Content.startsWith("ChatSelf-ItemTorso") === -1))) {
+            if (data.Content.indexOf("Caress") !== -1) {
+                let nya = Math.floor(Math.random() * 1);
+                console.log(nya)
+                ActivityBeeper("CaressBack",nya);
+
+                setTimeout(TailWag);
+                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
+                ActivityChatRoomArousalSync(Player);
+            }
+            else if (data.Content.indexOf("MassageHands") !== -1) {
+                let nya = Math.floor(Math.random() * 1);
+                console.log(nya)
+                ActivityBeeper("MassageBack",nya);
+
+                setTimeout(TailWag);
+                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
+                ActivityChatRoomArousalSync(Player);
+            }
+        }
+
 
     }
     if (data.Content !== "ServerEnter" && data.Type !== "Chat") {
