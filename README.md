@@ -6,7 +6,9 @@ Example Picture:
 ![ExamplePicture](https://user-images.githubusercontent.com/115511728/196439657-cfb098f1-093a-4b5d-8d6b-df0a755e1335.png)  
 
 The ears will wiggle too. To change the ears for the wiggle animation see "Registration of Ears" down below. You can add the script via Tampermonkey [here](https://github.com/DrBranestawm/BCAR/raw/main/script/bcarLoader.user.js)  
-or add it as Bookmark any of your devices. To do that save  <code>javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/script/bcar.js').then(r=>r.text()).then(r=>eval(r));})();</code> as a bookmark on your devices.
+or add it as Bookmark any of your devices. To do that save  
+<code>javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/script/bcar.js').then(r=>r.text()).then(r=>eval(r));})();</code>  
+as a bookmark on your devices.
 
 
 Registration of Ears
@@ -23,6 +25,13 @@ Switch your ear to the one you want the secondary ear to be.
 # BCE Expressions for BCAR 
 [BCE Expressions for BCAR](https://github.com/DrBranestawm/BCAR/raw/main/bceExpressionsForBCAR/scriptLoader.user.js)  
 <code>javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/bceExpressionsForBCAR/script.js').then(r=>r.text()).then(r=>eval(r));})();</code>
+
+# BCAR Beta
+Use the beta at own risk!  
+You can add the beta script via Tampermonkey [here](https://github.com/DrBranestawm/BCAR/raw/main/script/bcarBetaLoader.user.js)  
+or add it as Bookmark any of your devices. To do that save  
+<code>javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/script/bcarBeta.js').then(r=>r.text()).then(r=>eval(r));})();</code>  
+as a bookmark on your devices.
 
 
 Special Thanks
