@@ -5,21 +5,38 @@ This Extension lets your Character react automatically to Actions done to them.
 Example Picture:  
 ![ExamplePicture](https://user-images.githubusercontent.com/115511728/196439657-cfb098f1-093a-4b5d-8d6b-df0a755e1335.png)  
 
-The ears will wiggle too. To change the ears for the wiggle animation see "Registration of Ears" down below. You can add the script via Tampermonkey [here](https://github.com/DrBranestawm/BCAR/raw/main/script/bcarLoader.user.js)  
+The ears can wiggle and the tail wag too. To change the ears wiggle and the tail wag animation see "Commands of BCAR" down below. You can add the script via Tampermonkey [here](https://github.com/DrBranestawm/BCAR/raw/main/script/bcarLoader.user.js)  
 or add it as Bookmark any of your devices. To do that save  
 <code>javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/script/bcar.js').then(r=>r.text()).then(r=>eval(r));})();</code>  
 as a bookmark on your devices.
 
 
-Registration of Ears
+Commands of BCAR
 ----------------------
-Currently the only way to change the ears type is to use chat commands. The set easrs will be saved and will work even after relogging.
-
-  - /bcar ear1 : To save your current ears as the primary ear.
+The only way to change the ears and tail types is to use chat commands. The set ears and tails will be saved and will be loaded even after relogging.
+  
+  
+Ears
+----
+  - /bcar ear1 : To save your current ears as the primary ears.
 
 Switch your ear to the one you want the secondary ear to be.
 
-  - /bcar ear2 : To save the secondary ears.
+  - /bcar ear2 : To save the secondary ears.  
+  
+  
+Tail
+----
+  - /bcar tail1 : To save your current ears as the primary tail.
+
+Switch your tail to the one you want the secondary tail to be.
+
+  - /bcar tail2 : To save the secondary tail.  
+  
+  
+Settings reset
+---
+  - /bcarreset : To reset the set ears and tails to the default settings  
 
 
 # BCE Expressions for BCAR 
