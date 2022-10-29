@@ -346,6 +346,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         }
 
         bcarSettingsRemove();
+	bcarSettingsLoad();
 
 	}
 
@@ -354,7 +355,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
     CommandCombine([
 		{
 			Tag: 'bcar',
-            Description: ": Bondage Club Auto React (\"/bcar ear1\" or \"/bcar ear2\" for save current ears)",
+            Description: ": Bondage Club Auto React (\"/bcar ear1\" or \"/bcar ear2\" for save current ears; \"/bcar tail1\" or \"/bcar tail2\" for save current tails; \"/bcar reset\" to reset the settings to default)",
 			AutoComplete: args => {
 
 			},
