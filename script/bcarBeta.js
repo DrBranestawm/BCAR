@@ -334,41 +334,47 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         bcarSettingsSave();
 
 	}
-	
-    function CommandResetSettings(argsList)
-	{
-		let change = argsList[0];
-		let changeto = argsList.slice(1);
-
-        //console.log("change = "+ change, "changeto = "+ changeto);
-
-        if (change === "reset") {
-        }
-
-        bcarSettingsRemove();
-	bcarSettingsLoad();
-
-	}
-
 
 
     CommandCombine([
 		{
 			Tag: 'bcar',
-            Description: ": Bondage Club Auto React (\"/bcar ear1\" or \"/bcar ear2\" for save current ears; \"/bcar tail1\" or \"/bcar tail2\" for save current tails; \"/bcar reset\" to reset the settings to default)",
+            Description: ": \"/bcar ear1\" or \"/bcar ear2\" to save current ears; \"/bcar tail1\" or \"/bcar tail2\" to save current tails; for more info see https://github.com/DrBranestawm/BCAR",
 			AutoComplete: args => {
 
 			},
 			Action: args => {
-				CommandEarsChange(args.split(" "));
+                CommandEarsChange(args.split(" "));
                 CommandTailChange(args.split(" "));
-                CommandResetSettings(args.split(" "));
 			}
 		}
 
 	])
 
+  function CommandResetSettings(argsList)
+	{
+       let remove = argsList[0];
+       let removeto = argsList.slice(1);
 
+        if (remove === "reset") {
+        }
+        bcarSettingsRemove();
+        bcarSettingsLoad();
+	}
+
+    CommandCombine([
+		{
+			Tag: 'bcarreset',
+            Description: ": Resets the settings to default)",
+			AutoComplete: args => {
+
+			},
+			Action: args => {
+                CommandResetSettings(args.split(" "));
+			}
+		}
+
+	])
 
   //do not touch this
   async function waitFor(func, cancelFunc = () => false) {
