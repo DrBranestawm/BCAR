@@ -208,8 +208,17 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
   });
 
 
-       function bcarSettingsSave() {
+    function bcarSettingsSave() {
     localStorage.setItem(bcarSettingsKey(),JSON.stringify(Player.BCAR.bcarSettings));
+
+    Player.OnlineSettings.BCAR = LZString.compressToBase64(JSON.stringify(Player.BCAR.bcarSettngs));
+    ServerAccountUpdate.QueueData({
+        OnlineSettings: Player.OnlineSettings,
+        });
+    }
+
+    function bcarSettingsRemove() {
+    localStorage.removeItem(bcarSettingsKey(),JSON.stringify(Player.BCAR.bcarSettings));
 
     Player.OnlineSettings.BCAR = LZString.compressToBase64(JSON.stringify(Player.BCAR.bcarSettngs));
     ServerAccountUpdate.QueueData({
@@ -325,6 +334,21 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         bcarSettingsSave();
 
 	}
+	
+    function CommandResetSettings(argsList)
+	{
+		let change = argsList[0];
+		let changeto = argsList.slice(1);
+
+        //console.log("change = "+ change, "changeto = "+ changeto);
+
+        if (change === "reset") {
+        }
+
+        bcarSettingsRemove();
+
+	}
+
 
 
     CommandCombine([
@@ -337,6 +361,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 			Action: args => {
 				CommandEarsChange(args.split(" "));
                 CommandTailChange(args.split(" "));
+                CommandResetSettings(args.split(" "));
 			}
 		}
 
