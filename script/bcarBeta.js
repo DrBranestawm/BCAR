@@ -69,6 +69,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
     }
 
      function EarWiggle(){
+      if(Player.BCAR.bcarSettings.earWigglingEnable === true){
         let earsVariations = [Player.BCAR.bcarSettings.earsDefault.ears2,Player.BCAR.bcarSettings.earsDefault.ears1];
         let earsColor = [Player.BCAR.bcarSettings.earsDefault.earsColor2,Player.BCAR.bcarSettings.earsDefault.earsColor1];
         let numberWiggles= parseInt(Player.BCAR.bcarSettings.earsDefault.earsCount);
@@ -79,10 +80,12 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
               InventoryWear(Player, earsVariations[i%earsVariations.length], "HairAccessory2", earsColor[i%earsColor.length]);
               ChatRoomCharacterItemUpdate(Player, "HairAccessory2");
          }, i * delay);
-    }
+     }
+   }
  }
 
      function TailWag(){
+      if(Player.BCAR.bcarSettings.tailWaggingEnable === true){
         let tailsVariations = [Player.BCAR.bcarSettings.tailsDefault.tails2,Player.BCAR.bcarSettings.tailsDefault.tails1];
         let tailsColor = [Player.BCAR.bcarSettings.tailsDefault.tailsColor2,Player.BCAR.bcarSettings.tailsDefault.tailsColor1];
         let numberWags= parseInt(Player.BCAR.bcarSettings.tailsDefault.tailsCount);
@@ -93,7 +96,8 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
               InventoryWear(Player, tailsVariations[i%tailsVariations.length], "TailStraps", tailsColor[i%tailsColor.length]);
               ChatRoomCharacterItemUpdate(Player, "TailStraps");
          }, i * delay);
-    }
+     }
+   }
  }
 
       var activityDictionary = data.Dictionary
@@ -229,6 +233,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
     async function bcarSettingsLoad() {
 		await waitFor(() => !!Player?.AccountName);
         const BCAR_DEFAULT_SETTINGS = {
+	    earWigglingEnable : true,
             earsDefault : {
                 "ears1" : "KittenEars1", // change based on ear type
                 "ears2" : "FoxEars2",
@@ -237,6 +242,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 "earsCount" : 12, // no. of ear wiggles
                 "earsDelay" : 175, // delay in ms
             },
+             tailWaggingEnable : true,
              tailsDefault : {
                 "tails1" : "KittenTailStrap1", // change based on tail type
                 "tails2" : "MouseTailStrap1",
@@ -310,6 +316,28 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         bcarSettingsSave();
 
 	}
+	
+    function CommandEarsToggle(argsList)
+	{
+		let toggle = argsList[0];
+		let toggleto = argsList.slice(1);
+
+        //console.log("toggle = "+ toggle, "toggleto = "+ toggleto);
+
+        if (toggle === "earson") {
+            let ears = InventoryGet(Player,"HairAccessory2");
+            Player.BCAR.bcarSettings.earWigglingEnable = true;
+        }
+        else if (toggle === "earsoff") {
+            let ears = InventoryGet(Player,"HairAccessory2");
+            Player.BCAR.bcarSettings.earWigglingEnable = false;
+        }
+        else{
+            Player.BCAR.bcarSettings.earWigglingEnable[toggle]? Player.BCAR.bcarSettings.earWigglingEnable[toggle] = toggleto : console.log("Invalid Input");
+        }
+        bcarSettingsSave();
+
+	}
 
     function CommandTailChange(argsList)
 	{
@@ -335,6 +363,28 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
 	}
 
+    function CommandTailToggle(argsList)
+	{
+		let toggle = argsList[0];
+		let toggleto = argsList.slice(1);
+
+        //console.log("toggle = "+ toggle, "toggleto = "+ toggleto);
+
+        if (toggle === "tailon") {
+            let tails = InventoryGet(Player,"TailStraps");
+            Player.BCAR.bcarSettings.tailWaggingEnable = true;
+        }
+        else if (toggle === "tailoff") {
+            let tails = InventoryGet(Player,"TailStraps");
+            Player.BCAR.bcarSettings.tailWaggingEnable = false;
+        }
+        else{
+            Player.BCAR.bcarSettings.tailWaggingEnable[toggle]? Player.BCAR.bcarSettings.tailWaggingEnable[toggle] = toggleto : console.log("Invalid Input");
+        }
+        bcarSettingsSave();
+
+	}
+
 
     CommandCombine([
 		{
@@ -346,10 +396,13 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 			Action: args => {
                 CommandEarsChange(args.split(" "));
                 CommandTailChange(args.split(" "));
+                CommandEarsToggle(args.split(" "));
+                CommandTailToggle(args.split(" "));
 			}
 		}
 
 	])
+
 
   function CommandResetSettings(argsList)
 	{
