@@ -13,8 +13,11 @@ as a bookmark on your devices.
 
 Commands of BCAR
 ----------------------
-The only way to change the ears and tail types is to use chat commands. The set ears and tails will be saved and will be loaded even after relogging.
-  
+Help Menu
+----
+  - /bcar help : To opnen the help menu window
+
+The only way to change the ears and tail types is to use chat commands. The set ears and tails will be saved and will be loaded even after relogging. 
   
 Ears
 ----
