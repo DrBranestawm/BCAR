@@ -51,15 +51,15 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 HeadPat :
                 [["","","",""],
                 [" purrs softly and twitches her ears.", " purrs happily and twitches her ears.",
-		" purrs softly, twitches her ears and nuzzles into the pat."," purrs happily, twitches her ears and nuzzles into the pat."]],
-		CaressBack :
-                [["","","",""],
+                 " purrs softly, twitches her ears and nuzzles into the pat."," purrs happily, twitches her ears and nuzzles into the pat."]],
+                CaressBack :
+                [["",""],
+                [" purrs softly and wags her tail.", " purrs softly, arches her back and wags her tail."]],
+                MassageBack :
+                [[""],
                 [" purrs softly and wags her tail."]],
-		MassageBack :
-                [["","","",""],
-                [" purrs softly and wags her tail."]],
-		CaressButt :
-                [["","","",""],
+                CaressButt :
+                [["Mnyaa~","Nnyaa~"],
                 [" purrs softly, wiggles her butt and wags her tail."]],
         }
 
@@ -318,11 +318,19 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             let ears = InventoryGet(Player,"HairAccessory2");
             Player.BCAR.bcarSettings.earsDefault.ears1 = ears.Asset.Name;
             Player.BCAR.bcarSettings.earsDefault.earsColor1 = ears.Color;
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                    "Primary ears have been updated!</p>"
+                 );
         }
         else if (change === "ear2") {
             let ears = InventoryGet(Player,"HairAccessory2");
             Player.BCAR.bcarSettings.earsDefault.ears2 = ears.Asset.Name;
             Player.BCAR.bcarSettings.earsDefault.earsColor2 = ears.Color;
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                    "Secondary ears have been updated!</p>"
+                );
         }
         else{
             Player.BCAR.bcarSettings.earsDefault[change]? Player.BCAR.bcarSettings.earsDefault[change] = changeto : console.log("Invalid Input");
@@ -341,10 +349,18 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         if (toggle === "earon") {
             let ears = InventoryGet(Player,"HairAccessory2");
             Player.BCAR.bcarSettings.earWigglingEnable = true;
+            ChatRoomSendLocal(
+                "<p style='background-color:#5FBD7A'><b>Bondage Club Auto React</b>\n" +
+                    "Ear wiggle is now enabled!</p>"
+                );
         }
         else if (toggle === "earoff") {
             let ears = InventoryGet(Player,"HairAccessory2");
             Player.BCAR.bcarSettings.earWigglingEnable = false;
+            ChatRoomSendLocal(
+                "<p style='background-color:#630A0A'><b>Bondage Club Auto React</b>\n" +
+                    "Ear wiggle is now disabled!</p>"
+                );
         }
         else{
             Player.BCAR.bcarSettings.earWigglingEnable[toggle]? Player.BCAR.bcarSettings.earWigglingEnable[toggle] = toggleto : console.log("Invalid Input");
@@ -364,11 +380,19 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             let tails = InventoryGet(Player,"TailStraps");
             Player.BCAR.bcarSettings.tailsDefault.tails1 = tails.Asset.Name;
             Player.BCAR.bcarSettings.tailsDefault.tailsColor1 = tails.Color;
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                    "Primary tail has been updated!</p>"
+                );
         }
         else if (change === "tail2") {
             let tails = InventoryGet(Player,"TailStraps");
             Player.BCAR.bcarSettings.tailsDefault.tails2 = tails.Asset.Name;
             Player.BCAR.bcarSettings.tailsDefault.tailsColor2 = tails.Color;
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                    "Secondary tail has been updated!</p>"
+                );
         }
         else{
             Player.BCAR.bcarSettings.tailsDefault[change]? Player.BCAR.bcarSettings.tailsDefault[change] = changeto : console.log("Invalid Input");
@@ -387,10 +411,18 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         if (toggle === "tailon") {
             let tails = InventoryGet(Player,"TailStraps");
             Player.BCAR.bcarSettings.tailWaggingEnable = true;
+            ChatRoomSendLocal(
+                "<p style='background-color:#5FBD7A'><b>Bondage Club Auto React</b>\n" +
+                    "Tail wagging is now enabled!</p>"
+                );
         }
         else if (toggle === "tailoff") {
             let tails = InventoryGet(Player,"TailStraps");
             Player.BCAR.bcarSettings.tailWaggingEnable = false;
+            ChatRoomSendLocal(
+                "<p style='background-color:#630A0A'><b>Bondage Club Auto React</b>\n" +
+                    "Tail wagging is now disabled!</p>"
+                );
         }
         else{
             Player.BCAR.bcarSettings.tailWaggingEnable[toggle]? Player.BCAR.bcarSettings.tailWaggingEnable[toggle] = toggleto : console.log("Invalid Input");
@@ -481,6 +513,10 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
        let removeto = argsList.slice(1);
 
         if (remove === "reset") {
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                    "Settings have been reseted!</p>"
+                );
         }
         bcarSettingsRemove();
         bcarSettingsLoad();
