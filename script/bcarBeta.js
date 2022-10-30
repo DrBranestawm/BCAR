@@ -58,6 +58,9 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 		MassageBack :
                 [["","","",""],
                 [" purrs softly and wags her tail."]],
+		CaressButt :
+                [["","","",""],
+                [" purrs softly, wiggles her butt and wags her tail."]],
         }
 
     function ActivityBeeper(type,nya){
@@ -200,6 +203,17 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityChatRoomArousalSync(Player);
             }
         }
+	else if ((data.Content.startsWith("ChatOther-ItemButt") || (data.Content.startsWith("ChatSelf-ItemButt") === -1))) {
+            if (data.Content.indexOf("Caress") !== -1) {
+                let nya = Math.floor(Math.random() * 1);
+                console.log(nya)
+                ActivityBeeper("CaressButt",nya);
+
+                setTimeout(TailWag);
+                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
+                ActivityChatRoomArousalSync(Player);
+            }
+	}
 
 
     }
