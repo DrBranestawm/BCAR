@@ -119,7 +119,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
                   setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 30;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2.5;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
 
@@ -131,7 +131,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
                   setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 20;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 10;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
 
@@ -143,7 +143,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
                   setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 15;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 7.5;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
 
@@ -155,7 +155,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
                   setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 15;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 7.5;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
             }
@@ -167,7 +167,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityBeeper("HeadBrush",nya);
 
                 setTimeout(EarWiggle);
-                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
+                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2.5;
                 ActivityChatRoomArousalSync(Player);
             }
             else if (data.Content.indexOf("Pet") !== -1) {
@@ -176,7 +176,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityBeeper("HeadPat",nya);
 
                 setTimeout(EarWiggle);
-                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
+                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2.5;
                 ActivityChatRoomArousalSync(Player);
             }
         }
@@ -187,7 +187,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityBeeper("CaressBack",nya);
 
                 setTimeout(TailWag);
-                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
+                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2.5;
                 ActivityChatRoomArousalSync(Player);
             }
             else if (data.Content.indexOf("MassageHands") !== -1) {
@@ -196,7 +196,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityBeeper("MassageBack",nya);
 
                 setTimeout(TailWag);
-                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
+                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2.5;
                 ActivityChatRoomArousalSync(Player);
             }
         }
@@ -211,6 +211,37 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
     return;
   });
 
+
+async function bcarHelpMenu() {
+    var content = ElementValue("InputChat").trim();
+
+    //chatcommand
+    if (CurrentScreen == "ChatRoom") {
+
+        if (content.indexOf("/test") == 0) {
+            if (content.endsWith("/test")) {
+                ChatRoomSendLocal(
+                    "<p style='background-color:#ff0000'><b>BCAR</b>: QAM help is organized into categories. Use <b>/help</b> (category). List of categories:\n" +
+                    "<b>bondage</b> = commands related to bondage.\n" +
+                    "<b>character</b> = commands related to your character.\n" +
+                    "<b>chat</b> = commands with extra features in chat room.\n" +
+                    "<b>clothing</b> = commands related to the clothes.\n" +
+                    "<b>escape</b> = commands related to escape.\n" +
+		    "<b>features</b> = automatic features without command.\n" +
+                    "<b>fun</b> = commands related to fun, pain and pleasure.\n" +
+		    "<b>kd</b> = info about kd command (for Kinky Dungeon).\n" +
+                    "<b>misc</b> = special commands.\n" +
+                    "<b>talking</b> = commands related to talking.\n" +
+                    "<b>visual</b> = commands related to animations and background.\n" +
+                    "<b>zones</b> = commands related to game zones.\n" +
+		    "Several commands require to specify a target. It can be a real name or a member number.\n" +
+		    "Use <b>/help new</b> to get info about changes in current QAM version.\n" +
+		    "Visit also our <a href='https://github.com/tetris245/tetris245/wiki' target='_blank'>Wiki</a></p>"
+                );
+            }
+        }
+    }
+}
 
     function bcarSettingsSave() {
     localStorage.setItem(bcarSettingsKey(),JSON.stringify(Player.BCAR.bcarSettings));
@@ -316,7 +347,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         bcarSettingsSave();
 
 	}
-	
+
     function CommandEarsToggle(argsList)
 	{
 		let toggle = argsList[0];
@@ -324,11 +355,11 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
         //console.log("toggle = "+ toggle, "toggleto = "+ toggleto);
 
-        if (toggle === "earson") {
+        if (toggle === "earon") {
             let ears = InventoryGet(Player,"HairAccessory2");
             Player.BCAR.bcarSettings.earWigglingEnable = true;
         }
-        else if (toggle === "earsoff") {
+        else if (toggle === "earoff") {
             let ears = InventoryGet(Player,"HairAccessory2");
             Player.BCAR.bcarSettings.earWigglingEnable = false;
         }
@@ -385,11 +416,65 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
 	}
 
+    function CommandOpenHelp(argsList)
+	{
+       let openHelp = argsList[0];
+       let openHelpto = argsList.slice(1);
+
+        if (openHelp === "help") {
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Commands overview and info:\n" +
+                    "/bcar help - To open this help window.\n" +
+                    "/bcar earhelp - To open ear equip instructions.\n" +
+                    "/bcar ear1 - To save the primary ears.\n" +
+                    "/bcar ear2 - To save the secondary ears.\n" +
+                    "/bcar earon - To turn the ear wiggling on.\n" +
+                    "/bcar earoff - To turn the ear wiggling off.\n" +
+                    "/bcar tailhelp - To open tail equip instructions.\n" +
+                    "/bcar tail1 - To save the primary tail.\n" +
+                    "/bcar tail2 - To save the secondary tail.\n" +
+                    "/bcar tailon - To turn the tail wagging on.\n" +
+		            "/bcar tailoff - To turn the tail wagging off.\n" +
+		            "/bcarreset - To reset the set ears and tails to the default settings.\n" +
+                    "Visit the <a href='https://github.com/DrBranestawm/BCAR' target='_blank'>BCAR</a> github for more info.</p>"
+                 );
+        }
+
+      }
+
+    function CommandEarHelp(argsList)
+	{
+       let openHelp = argsList[0];
+       let openHelpto = argsList.slice(1);
+
+        if (openHelp === "earhelp") {
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Ear equip instructions:\n" +
+                    "Lorem ipsum: I'm too lazy!</p>"
+                 );
+        }
+
+      }
+
+    function CommandTailHelp(argsList)
+	{
+       let openHelp = argsList[0];
+       let openHelpto = argsList.slice(1);
+
+        if (openHelp === "tailhelp") {
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Tail equip instructions:\n" +
+                    "Lorem ipsum: I'm too lazy!</p>"
+                 );
+        }
+
+      }
+
 
     CommandCombine([
 		{
 			Tag: 'bcar',
-            Description: ": \"/bcar ear1\" or \"/bcar ear2\" to save current ears; \"/bcar tail1\" or \"/bcar tail2\" to save current tails; for more info see https://github.com/DrBranestawm/BCAR",
+            Description: "help : To open the commands overview and info.",
 			AutoComplete: args => {
 
 			},
@@ -398,6 +483,9 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 CommandTailChange(args.split(" "));
                 CommandEarsToggle(args.split(" "));
                 CommandTailToggle(args.split(" "));
+                CommandOpenHelp(args.split(" "));
+                CommandEarHelp(args.split(" "));
+                CommandTailHelp(args.split(" "));
 			}
 		}
 
@@ -418,7 +506,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
     CommandCombine([
 		{
 			Tag: 'bcarreset',
-            Description: ": Resets the settings to default)",
+            Description: ": Resets the settings to default",
 			AutoComplete: args => {
 
 			},
@@ -428,6 +516,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 		}
 
 	])
+
 
   //do not touch this
   async function waitFor(func, cancelFunc = () => false) {
