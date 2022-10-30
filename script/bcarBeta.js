@@ -122,7 +122,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
                   setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 30;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2.5;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
 
@@ -146,7 +146,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
                   setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 7.5;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 7;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
 
@@ -158,7 +158,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
                   setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 7.5;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 7;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
             }
@@ -170,7 +170,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityBeeper("HeadBrush",nya);
 
                 setTimeout(EarWiggle);
-                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2.5;
+                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
                 ActivityChatRoomArousalSync(Player);
             }
             else if (data.Content.indexOf("Pet") !== -1) {
@@ -179,7 +179,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityBeeper("HeadPat",nya);
 
                 setTimeout(EarWiggle);
-                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2.5;
+                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
                 ActivityChatRoomArousalSync(Player);
             }
         }
@@ -190,7 +190,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityBeeper("CaressBack",nya);
 
                 setTimeout(TailWag);
-                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2.5;
+                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
                 ActivityChatRoomArousalSync(Player);
             }
             else if (data.Content.indexOf("MassageHands") !== -1) {
@@ -199,7 +199,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityBeeper("MassageBack",nya);
 
                 setTimeout(TailWag);
-                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2.5;
+                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
                 ActivityChatRoomArousalSync(Player);
             }
         }
