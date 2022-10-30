@@ -22,7 +22,10 @@ Ears
 
 Switch your ear to the one you want the secondary ear to be.
 
-  - /bcar ear2 : To save the secondary ears.  
+  - /bcar ear2 : To save the secondary ears. 
+  
+  - /bcar earon : To turn the ear wiggling on.
+  - /bcar earoff : To turn the ear wiggling off.
   
   
 Tail
@@ -32,6 +35,9 @@ Tail
 Switch your tail to the one you want the secondary tail to be.
 
   - /bcar tail2 : To save the secondary tail.  
+  
+  - /bcar tailon : To turn the tail wagging on.
+  - /bcar tailoff : To turn the tail wagging off.
   
   
 Settings reset
