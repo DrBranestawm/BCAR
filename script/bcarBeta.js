@@ -212,37 +212,6 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
   });
 
 
-async function bcarHelpMenu() {
-    var content = ElementValue("InputChat").trim();
-
-    //chatcommand
-    if (CurrentScreen == "ChatRoom") {
-
-        if (content.indexOf("/test") == 0) {
-            if (content.endsWith("/test")) {
-                ChatRoomSendLocal(
-                    "<p style='background-color:#ff0000'><b>BCAR</b>: QAM help is organized into categories. Use <b>/help</b> (category). List of categories:\n" +
-                    "<b>bondage</b> = commands related to bondage.\n" +
-                    "<b>character</b> = commands related to your character.\n" +
-                    "<b>chat</b> = commands with extra features in chat room.\n" +
-                    "<b>clothing</b> = commands related to the clothes.\n" +
-                    "<b>escape</b> = commands related to escape.\n" +
-		    "<b>features</b> = automatic features without command.\n" +
-                    "<b>fun</b> = commands related to fun, pain and pleasure.\n" +
-		    "<b>kd</b> = info about kd command (for Kinky Dungeon).\n" +
-                    "<b>misc</b> = special commands.\n" +
-                    "<b>talking</b> = commands related to talking.\n" +
-                    "<b>visual</b> = commands related to animations and background.\n" +
-                    "<b>zones</b> = commands related to game zones.\n" +
-		    "Several commands require to specify a target. It can be a real name or a member number.\n" +
-		    "Use <b>/help new</b> to get info about changes in current QAM version.\n" +
-		    "Visit also our <a href='https://github.com/tetris245/tetris245/wiki' target='_blank'>Wiki</a></p>"
-                );
-            }
-        }
-    }
-}
-
     function bcarSettingsSave() {
     localStorage.setItem(bcarSettingsKey(),JSON.stringify(Player.BCAR.bcarSettings));
 
@@ -450,7 +419,7 @@ async function bcarHelpMenu() {
         if (openHelp === "earhelp") {
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Ear equip instructions:\n" +
-                    "Lorem ipsum: I'm too lazy!</p>"
+                    "Lorem ipsum dolor sit amed: I'm too lazy!</p>"
                  );
         }
 
@@ -464,7 +433,7 @@ async function bcarHelpMenu() {
         if (openHelp === "tailhelp") {
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Tail equip instructions:\n" +
-                    "Lorem ipsum: I'm too lazy!</p>"
+                    "Lorem ipsum dolor sit amed: I'm too lazy!</p>"
                  );
         }
 
