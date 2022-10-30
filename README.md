@@ -24,8 +24,8 @@ Switch your ear to the one you want the secondary ear to be.
 
   - /bcar ear2 : To save the secondary ears. 
   
-  - /bcar earon : To turn the ear wiggling on.
-  - /bcar earoff : To turn the ear wiggling off.
+  - /bcar earson : To turn the ear wiggling on.
+  - /bcar earsoff : To turn the ear wiggling off.
   
   
 Tail
