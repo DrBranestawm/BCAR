@@ -1,5 +1,5 @@
-Bondage Club Auto React (BCAR)
-====================  
+![BCAR_Banner](https://user-images.githubusercontent.com/115511728/199107170-b32c4f2b-9319-422a-8488-51d22fe98704.png)
+===================  
 This Extension lets your Character react automatically to Actions done to them.  
 
 Example Picture:  
