@@ -465,7 +465,8 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         if (openHelp === "earhelp") {
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Ear equip instructions:\n" +
-                    "First choose your main ears that you want to wear primarily in the ''Ears'' slot in your wardrobe, then type ''/bcar ear1'' in the chat to save them as main ears. For your secondary you need to go to the wardrobe and choose the ears, then type ''/bcar ear2'' to save the secondary ears.</p>"
+                    "First equip the main ears you want to wear in primarily the ''Ears'' slot in your wardrobe. Type ''/bcar ear1'' in the chat to save the main ears. \n" +
+		    "For your ears to wiggle follow the same steps and equip a different type of ears to use as your secondary. Type ''/bcar ear2'' in the chat to save the secondary ears.</p>"
                  );
         }
 
@@ -479,7 +480,8 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         if (openHelp === "tailhelp") {
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Tail equip instructions:\n" +
-                    "First choose your main tail that you want to wear primarily in the ''Tail Strap'' slot in your wardrobe, then type ''/bcar tail1'' in the chat to save it as main tail. For your secondary you need to go to the wardrobe and choose the tail, then type ''/bcar tail2'' to save the secondary tail.</p>"
+                    "First equip the main tail you want to wear in primarily the ''Tail Strap'' slot in your wardrobe. Type ''/bcar tail1'' in the chat to save the main tail. \n" +
+		    "For your tail to wag follow the same steps and equip a different type of tail to use as your secondary. Type ''/bcar tail2'' in the chat to save the secondary tail.</p>"
                  );
         }
 
