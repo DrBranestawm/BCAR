@@ -6,7 +6,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 //sdk stuff
 
 (async function () {
-  const modApi = bcModSdk.registerMod('BCAR', '0.3.0');
+  const modApi = bcModSdk.registerMod('BCAR', '0.4.0');
   //global variables
   crCommands();
     var Dictionary = [];
@@ -51,7 +51,16 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 HeadPat :
                 [["","","",""],
                 [" purrs softly and twitches her ears.", " purrs happily and twitches her ears.",
-		" purrs softly, twitches her ears and nuzzles into the pat."," purrs happily, twitches her ears and nuzzles into the pat."]],
+                 " purrs softly, twitches her ears and nuzzles into the pat."," purrs happily, twitches her ears and nuzzles into the pat."]],
+                CaressBack :
+                [["",""],
+                [" purrs softly and wags her tail.", " purrs softly, arches her back and wags her tail."]],
+                MassageBack :
+                [[""],
+                [" purrs softly and wags her tail."]],
+                CaressButt :
+                [["Mnyaa~","Nnyaa~"],
+                [" purrs softly, wiggles her butt and wags her tail."]],
         }
 
     function ActivityBeeper(type,nya){
@@ -63,17 +72,35 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
     }
 
      function EarWiggle(){
+      if(Player.BCAR.bcarSettings.earWigglingEnable === true){
         let earsVariations = [Player.BCAR.bcarSettings.earsDefault.ears2,Player.BCAR.bcarSettings.earsDefault.ears1];
-        let earsColor = [Player.BCAR.bcarSettings.earsDefault.color2,Player.BCAR.bcarSettings.earsDefault.color1];
-        let numberWiggles= parseInt(Player.BCAR.bcarSettings.earsDefault.count);
-        let delay = parseInt(Player.BCAR.bcarSettings.earsDefault.delay);
+        let earsColor = [Player.BCAR.bcarSettings.earsDefault.earsColor2,Player.BCAR.bcarSettings.earsDefault.earsColor1];
+        let numberWiggles= parseInt(Player.BCAR.bcarSettings.earsDefault.earsCount);
+        let delay = parseInt(Player.BCAR.bcarSettings.earsDefault.earsDelay);
         for(let i=0; i < numberWiggles; i++)
         {
            setTimeout(function() {
               InventoryWear(Player, earsVariations[i%earsVariations.length], "HairAccessory2", earsColor[i%earsColor.length]);
               ChatRoomCharacterItemUpdate(Player, "HairAccessory2");
          }, i * delay);
-    }
+     }
+   }
+ }
+
+     function TailWag(){
+      if(Player.BCAR.bcarSettings.tailWaggingEnable === true){
+        let tailsVariations = [Player.BCAR.bcarSettings.tailsDefault.tails2,Player.BCAR.bcarSettings.tailsDefault.tails1];
+        let tailsColor = [Player.BCAR.bcarSettings.tailsDefault.tailsColor2,Player.BCAR.bcarSettings.tailsDefault.tailsColor1];
+        let numberWags= parseInt(Player.BCAR.bcarSettings.tailsDefault.tailsCount);
+        let delay = parseInt(Player.BCAR.bcarSettings.tailsDefault.tailsDelay);
+        for(let i=0; i < numberWags; i++)
+        {
+           setTimeout(function() {
+              InventoryWear(Player, tailsVariations[i%tailsVariations.length], "TailStraps", tailsColor[i%tailsColor.length]);
+              ChatRoomCharacterItemUpdate(Player, "TailStraps");
+         }, i * delay);
+     }
+   }
  }
 
       var activityDictionary = data.Dictionary
@@ -95,7 +122,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
                   setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 30;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
 
@@ -107,7 +134,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
                   setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 20;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 10;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
 
@@ -119,7 +146,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
                   setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 15;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 7;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
 
@@ -131,7 +158,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
                   setTimeout(EarWiggle);
                   Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 15;
+                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 7;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
             }
@@ -143,7 +170,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityBeeper("HeadBrush",nya);
 
                 setTimeout(EarWiggle);
-                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
+                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
                 ActivityChatRoomArousalSync(Player);
             }
             else if (data.Content.indexOf("Pet") !== -1) {
@@ -152,10 +179,42 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityBeeper("HeadPat",nya);
 
                 setTimeout(EarWiggle);
-                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
+                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
                 ActivityChatRoomArousalSync(Player);
             }
         }
+	else if ((data.Content.startsWith("ChatOther-ItemTorso") || (data.Content.startsWith("ChatSelf-ItemTorso") === -1))) {
+            if (data.Content.indexOf("Caress") !== -1) {
+                let nya = Math.floor(Math.random() * 1);
+                console.log(nya)
+                ActivityBeeper("CaressBack",nya);
+
+                setTimeout(TailWag);
+                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
+                ActivityChatRoomArousalSync(Player);
+            }
+            else if (data.Content.indexOf("MassageHands") !== -1) {
+                let nya = Math.floor(Math.random() * 1);
+                console.log(nya)
+                ActivityBeeper("MassageBack",nya);
+
+                setTimeout(TailWag);
+                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
+                ActivityChatRoomArousalSync(Player);
+            }
+        }
+	else if ((data.Content.startsWith("ChatOther-ItemButt") || (data.Content.startsWith("ChatSelf-ItemButt") === -1))) {
+            if (data.Content.indexOf("Caress") !== -1) {
+                let nya = Math.floor(Math.random() * 1);
+                console.log(nya)
+                ActivityBeeper("CaressButt",nya);
+
+                setTimeout(TailWag);
+                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
+                ActivityChatRoomArousalSync(Player);
+            }
+	}
+
 
     }
     if (data.Content !== "ServerEnter" && data.Type !== "Chat") {
@@ -176,17 +235,35 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         });
     }
 
+    function bcarSettingsRemove() {
+    localStorage.removeItem(bcarSettingsKey(),JSON.stringify(Player.BCAR.bcarSettings));
+
+    Player.OnlineSettings.BCAR = LZString.compressToBase64(JSON.stringify(Player.BCAR.bcarSettngs));
+    ServerAccountUpdate.QueueData({
+        OnlineSettings: Player.OnlineSettings,
+        });
+    }
 
     async function bcarSettingsLoad() {
 		await waitFor(() => !!Player?.AccountName);
         const BCAR_DEFAULT_SETTINGS = {
+	    earWigglingEnable : true,
             earsDefault : {
                 "ears1" : "KittenEars1", // change based on ear type
                 "ears2" : "FoxEars2",
-                "color1" : ["#FF0000", "#EEE"], // change color based on your own preference
-                "color2" : ["#9A0000", "#505050"],
-                "count" : 12, // no. of ear wiggles
-                "delay" : 175, // delay in ms
+                "earsColor1" : ["#FF0000", "#EEE"], // change color based on your own preference
+                "earsColor2" : ["#9A0000", "#505050"],
+                "earsCount" : 12, // no. of ear wiggles
+                "earsDelay" : 175, // delay in ms
+            },
+             tailWaggingEnable : true,
+             tailsDefault : {
+                "tails1" : "KittenTailStrap1", // change based on tail type
+                "tails2" : "MouseTailStrap1",
+                "tailsColor1" : "#440606", // change color based on your own preference
+                "tailsColor2" : "#440606",
+                "tailsCount" : 6, // no. of tail wags
+                "tailsDelay" : 800, // delay in ms
             },
         }
         Player.BCAR = {};
@@ -196,7 +273,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 			let settings = JSON.parse(localStorage.getItem(bcarSettingsKey()));
 			const bcarOnlineSettings = JSON.parse(
 				LZString.decompressFromBase64(Player.OnlineSettings.BCAR) || null
-			);		
+			);
 			//if online settings are not an older version then local ones, use them instead
 			if (
 				bcarOnlineSettings?.version >= settings?.version ||
@@ -240,12 +317,20 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         if (change === "ear1") {
             let ears = InventoryGet(Player,"HairAccessory2");
             Player.BCAR.bcarSettings.earsDefault.ears1 = ears.Asset.Name;
-            Player.BCAR.bcarSettings.earsDefault.color1 = ears.Color;
+            Player.BCAR.bcarSettings.earsDefault.earsColor1 = ears.Color;
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                    "Primary ears have been updated!</p>"
+                 );
         }
         else if (change === "ear2") {
             let ears = InventoryGet(Player,"HairAccessory2");
             Player.BCAR.bcarSettings.earsDefault.ears2 = ears.Asset.Name;
-            Player.BCAR.bcarSettings.earsDefault.color2 = ears.Color;
+            Player.BCAR.bcarSettings.earsDefault.earsColor2 = ears.Color;
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                    "Secondary ears have been updated!</p>"
+                );
         }
         else{
             Player.BCAR.bcarSettings.earsDefault[change]? Player.BCAR.bcarSettings.earsDefault[change] = changeto : console.log("Invalid Input");
@@ -254,16 +339,201 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
 	}
 
+    function CommandEarsToggle(argsList)
+	{
+		let toggle = argsList[0];
+		let toggleto = argsList.slice(1);
+
+        //console.log("toggle = "+ toggle, "toggleto = "+ toggleto);
+
+        if (toggle === "earon") {
+            let ears = InventoryGet(Player,"HairAccessory2");
+            Player.BCAR.bcarSettings.earWigglingEnable = true;
+            ChatRoomSendLocal(
+                "<p style='background-color:#5FBD7A'><b>Bondage Club Auto React</b>\n" +
+                    "Ear wiggle is now enabled!</p>"
+                );
+        }
+        else if (toggle === "earoff") {
+            let ears = InventoryGet(Player,"HairAccessory2");
+            Player.BCAR.bcarSettings.earWigglingEnable = false;
+            ChatRoomSendLocal(
+                "<p style='background-color:#630A0A'><b>Bondage Club Auto React</b>\n" +
+                    "Ear wiggle is now disabled!</p>"
+                );
+        }
+        else{
+            Player.BCAR.bcarSettings.earWigglingEnable[toggle]? Player.BCAR.bcarSettings.earWigglingEnable[toggle] = toggleto : console.log("Invalid Input");
+        }
+        bcarSettingsSave();
+
+	}
+
+    function CommandTailChange(argsList)
+	{
+		let change = argsList[0];
+		let changeto = argsList.slice(1);
+
+        //console.log("change = "+ change, "changeto = "+ changeto);
+
+        if (change === "tail1") {
+            let tails = InventoryGet(Player,"TailStraps");
+            Player.BCAR.bcarSettings.tailsDefault.tails1 = tails.Asset.Name;
+            Player.BCAR.bcarSettings.tailsDefault.tailsColor1 = tails.Color;
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                    "Primary tail has been updated!</p>"
+                );
+        }
+        else if (change === "tail2") {
+            let tails = InventoryGet(Player,"TailStraps");
+            Player.BCAR.bcarSettings.tailsDefault.tails2 = tails.Asset.Name;
+            Player.BCAR.bcarSettings.tailsDefault.tailsColor2 = tails.Color;
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                    "Secondary tail has been updated!</p>"
+                );
+        }
+        else{
+            Player.BCAR.bcarSettings.tailsDefault[change]? Player.BCAR.bcarSettings.tailsDefault[change] = changeto : console.log("Invalid Input");
+        }
+        bcarSettingsSave();
+
+	}
+
+    function CommandTailToggle(argsList)
+	{
+		let toggle = argsList[0];
+		let toggleto = argsList.slice(1);
+
+        //console.log("toggle = "+ toggle, "toggleto = "+ toggleto);
+
+        if (toggle === "tailon") {
+            let tails = InventoryGet(Player,"TailStraps");
+            Player.BCAR.bcarSettings.tailWaggingEnable = true;
+            ChatRoomSendLocal(
+                "<p style='background-color:#5FBD7A'><b>Bondage Club Auto React</b>\n" +
+                    "Tail wagging is now enabled!</p>"
+                );
+        }
+        else if (toggle === "tailoff") {
+            let tails = InventoryGet(Player,"TailStraps");
+            Player.BCAR.bcarSettings.tailWaggingEnable = false;
+            ChatRoomSendLocal(
+                "<p style='background-color:#630A0A'><b>Bondage Club Auto React</b>\n" +
+                    "Tail wagging is now disabled!</p>"
+                );
+        }
+        else{
+            Player.BCAR.bcarSettings.tailWaggingEnable[toggle]? Player.BCAR.bcarSettings.tailWaggingEnable[toggle] = toggleto : console.log("Invalid Input");
+        }
+        bcarSettingsSave();
+
+	}
+
+    function CommandOpenHelp(argsList)
+	{
+       let openHelp = argsList[0];
+       let openHelpto = argsList.slice(1);
+
+        if (openHelp === "help") {
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Commands overview and info:\n" +
+                    "/bcar help - To open this help window.\n" +
+                    "/bcar earhelp - To open ear equip instructions.\n" +
+                    "/bcar ear1 - To save the primary ears.\n" +
+                    "/bcar ear2 - To save the secondary ears.\n" +
+                    "/bcar earon - To turn the ear wiggling on.\n" +
+                    "/bcar earoff - To turn the ear wiggling off.\n" +
+                    "/bcar tailhelp - To open tail equip instructions.\n" +
+                    "/bcar tail1 - To save the primary tail.\n" +
+                    "/bcar tail2 - To save the secondary tail.\n" +
+                    "/bcar tailon - To turn the tail wagging on.\n" +
+		    "/bcar tailoff - To turn the tail wagging off.\n" +
+		    "/bcarreset - To reset the set ears and tails to the default settings.\n" +
+                    "Visit the <a href='https://github.com/DrBranestawm/BCAR' target='_blank'>BCAR</a> github for more info.</p>"
+                 );
+        }
+
+      }
+
+    function CommandEarHelp(argsList)
+	{
+       let openHelp = argsList[0];
+       let openHelpto = argsList.slice(1);
+
+        if (openHelp === "earhelp") {
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Ear equip instructions:\n" +
+                    "First choose your main ears that you want to wear primarily in the ''Ears'' slot in your wardrobe, then type ''/bcar ear1'' in the chat to save them as main ears. For your secondary you need to go to the wardrobe and choose the ears, then type ''/bcar ear2'' to save the secondary ears.</p>"
+                 );
+        }
+
+      }
+
+    function CommandTailHelp(argsList)
+	{
+       let openHelp = argsList[0];
+       let openHelpto = argsList.slice(1);
+
+        if (openHelp === "tailhelp") {
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Tail equip instructions:\n" +
+                    "First choose your main tail that you want to wear primarily in the ''Tail Strap'' slot in your wardrobe, then type ''/bcar tail1'' in the chat to save it as main tail. For your secondary you need to go to the wardrobe and choose the tail, then type ''/bcar tail2'' to save the secondary tail.</p>"
+                 );
+        }
+
+      }
+
+
     CommandCombine([
 		{
 			Tag: 'bcar',
+            Description: "help : To open the commands overview and info.",
 			AutoComplete: args => {
 
 			},
 			Action: args => {
-				CommandEarsChange(args.split(" "));
+                CommandEarsChange(args.split(" "));
+                CommandTailChange(args.split(" "));
+                CommandEarsToggle(args.split(" "));
+                CommandTailToggle(args.split(" "));
+                CommandOpenHelp(args.split(" "));
+                CommandEarHelp(args.split(" "));
+                CommandTailHelp(args.split(" "));
 			}
 		}
+
+	])
+
+
+  function CommandResetSettings(argsList)
+	{
+       let remove = argsList[0];
+       let removeto = argsList.slice(1);
+
+        if (remove === "reset") {
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                    "Settings have been reseted!</p>"
+                );
+        }
+        bcarSettingsRemove();
+        bcarSettingsLoad();
+	}
+
+    CommandCombine([
+		{
+			Tag: 'bcarreset',
+            Description: ": Resets the settings to default",
+			AutoComplete: args => {
+
+			},
+			Action: args => {
+                CommandResetSettings(args.split(" "));
+			}
+		}
+
 	])
 
 
