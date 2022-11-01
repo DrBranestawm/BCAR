@@ -59,7 +59,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 [[""],
                 [" purrs softly and wags her tail."]],
                 CaressButt :
-                [["Mnyaa~","Nnyaa~"],
+                [["Mnyaa~"],
                 [" purrs softly, wiggles her butt and wags her tail."]],
         }
 
@@ -164,6 +164,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                   ActivityChatRoomArousalSync(Player);
             }
         }
+}
         else if ((data.Content.startsWith("ChatOther-ItemHead") || (data.Content.startsWith("ChatSelf-ItemHead") === -1))) {
             if (data.Content.indexOf("TakeCare") !== -1) {
 	      if(Player.BCAR.bcarSettings.earWigglingEnable === true){
@@ -185,6 +186,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityChatRoomArousalSync(Player);
             }
         }
+}
 	else if ((data.Content.startsWith("ChatOther-ItemTorso") || (data.Content.startsWith("ChatSelf-ItemTorso") === -1))) {
             if (data.Content.indexOf("Caress") !== -1) {
              if(Player.BCAR.bcarSettings.tailWaggingEnable === true){
@@ -206,6 +208,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityChatRoomArousalSync(Player);
             }
         }
+}
 	else if ((data.Content.startsWith("ChatOther-ItemButt") || (data.Content.startsWith("ChatSelf-ItemButt") === -1))) {
             if (data.Content.indexOf("Caress") !== -1) {
 	      if(Player.BCAR.bcarSettings.tailWaggingEnable === true){
@@ -218,6 +221,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityChatRoomArousalSync(Player);
             }
 	}
+}
 
 
     }
