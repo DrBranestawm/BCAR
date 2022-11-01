@@ -59,7 +59,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 [[""],
                 [" purrs softly and wags her tail."]],
                 CaressButt :
-                [["Mnyaa~","Nnyaa~"],
+                [["Mnyaa~"],
                 [" purrs softly, wiggles her butt and wags her tail."]],
         }
 
