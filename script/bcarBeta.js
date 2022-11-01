@@ -6,7 +6,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 //sdk stuff
 
 (async function () {
-  const modApi = bcModSdk.registerMod('BCAR Beta', '0.4.0');
+  const modApi = bcModSdk.registerMod('BCAR Beta', '0.4.1');
   //global variables
   crCommands();
     var Dictionary = [];
@@ -116,7 +116,8 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
     if(data.Type === "Activity" && activityDictionary[3].MemberNumber === Player.MemberNumber) {
         if((data.Content.startsWith("ChatOther-ItemEars") || (data.Content.startsWith("ChatSelf-ItemEars") === -1))) {
               if (data.Content.indexOf("Caress") !== -1) {
-                  let nya = Math.floor(Math.random() * 5);
+		 if(Player.BCAR.bcarSettings.earWigglingEnable === true){
+		  let nya = Math.floor(Math.random() * 5);
                   console.log(nya)
                   ActivityBeeper("EarCaress",nya);
 
@@ -165,6 +166,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         }
         else if ((data.Content.startsWith("ChatOther-ItemHead") || (data.Content.startsWith("ChatSelf-ItemHead") === -1))) {
             if (data.Content.indexOf("TakeCare") !== -1) {
+	      if(Player.BCAR.bcarSettings.earWigglingEnable === true){
                 let nya = Math.floor(Math.random() * 2);
                 console.log(nya)
                 ActivityBeeper("HeadBrush",nya);
@@ -185,6 +187,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         }
 	else if ((data.Content.startsWith("ChatOther-ItemTorso") || (data.Content.startsWith("ChatSelf-ItemTorso") === -1))) {
             if (data.Content.indexOf("Caress") !== -1) {
+             if(Player.BCAR.bcarSettings.tailWaggingEnable === true){
                 let nya = Math.floor(Math.random() * 1);
                 console.log(nya)
                 ActivityBeeper("CaressBack",nya);
@@ -205,6 +208,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         }
 	else if ((data.Content.startsWith("ChatOther-ItemButt") || (data.Content.startsWith("ChatSelf-ItemButt") === -1))) {
             if (data.Content.indexOf("Caress") !== -1) {
+	      if(Player.BCAR.bcarSettings.tailWaggingEnable === true){
                 let nya = Math.floor(Math.random() * 1);
                 console.log(nya)
                 ActivityBeeper("CaressButt",nya);
@@ -449,8 +453,8 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                     "/bcar tail1 - To save the primary tail.\n" +
                     "/bcar tail2 - To save the secondary tail.\n" +
                     "/bcar tailon - To turn the tail wagging on.\n" +
-		            "/bcar tailoff - To turn the tail wagging off.\n" +
-		            "/bcarreset - To reset the set ears and tails to the default settings.\n" +
+		    "/bcar tailoff - To turn the tail wagging off.\n" +
+		    "/bcarreset - To reset the set ears and tails to the default settings.\n" +
                     "Visit the <a href='https://github.com/DrBranestawm/BCAR' target='_blank'>BCAR</a> github for more info.</p>"
                  );
         }
@@ -465,7 +469,8 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         if (openHelp === "earhelp") {
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Ear equip instructions:\n" +
-                    "Lorem ipsum dolor sit amed: I'm too lazy!</p>"
+                    "First equip the main ears you want to wear in primarily the ''Ears'' slot in your wardrobe. Type ''/bcar ear1'' in the chat to save the main ears. \n" +
+		    "For your ears to wiggle follow the same steps and equip a different type of ears to use as your secondary. Type ''/bcar ear2'' in the chat to save the secondary ears.</p>"
                  );
         }
 
@@ -479,7 +484,8 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         if (openHelp === "tailhelp") {
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Tail equip instructions:\n" +
-                    "Lorem ipsum dolor sit amed: I'm too lazy!</p>"
+                    "First equip the main tail you want to wear in primarily the ''Tail Strap'' slot in your wardrobe. Type ''/bcar tail1'' in the chat to save the main tail. \n" +
+		    "For your tail to wag follow the same steps and equip a different type of tail to use as your secondary. Type ''/bcar tail2'' in the chat to save the secondary tail.</p>"
                  );
         }
 
