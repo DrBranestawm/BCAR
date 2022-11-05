@@ -103,7 +103,6 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
       if (data.Type === "Activity"){
       var activityDictionary = data.Dictionary
-      var length = []
 
       for(let i = 0; i < activityDictionary.length; i++)
       {
