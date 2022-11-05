@@ -8,7 +8,6 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 (async function () {
   const modApi = bcModSdk.registerMod('BCAR', '0.4.0');
   //global variables
-  crCommands();
     var Dictionary = [];
 
 
@@ -20,13 +19,6 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
   await bcarSettingsLoad();
 
   //Functions
-
-
-
-  // on channel join data Type is Action, Content is ServerEnter and MemberNumber is the joining user
-  //do not touch this
-  ServerSocket.on("ChatRoomMessage", async (data) => {
-    await sleep(10);
 
     const typeAction = { EarCaress :
                 [["Mnyaa~","Nnyaaaaah~","Nnyaaaaah~","Nnyaa~","Nyaa~"], // sounds
@@ -103,17 +95,24 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
    }
  }
 
+  // on channel join data Type is Action, Content is ServerEnter and MemberNumber is the joining user
+  //do not touch this
+  ServerSocket.on("ChatRoomMessage", async (data) => {
+    await sleep(10);
+
+
+      if (data.Type === "Activity"){
       var activityDictionary = data.Dictionary
 
       for(let i = 0; i < activityDictionary.length; i++)
       {
-          if(activityDictionary[i].Tag == "nonce")
+          if(activityDictionary[i].Tag == "fbc_nonce")
           {
               activityDictionary.splice(i, 1);
               break;
           }
       }
-    if(data.Type === "Activity" && activityDictionary[3].MemberNumber === Player.MemberNumber) {
+    if(activityDictionary[3].MemberNumber === Player.MemberNumber) {
         if((data.Content.startsWith("ChatOther-ItemEars") || (data.Content.startsWith("ChatSelf-ItemEars") === -1))) {
               if (data.Content.indexOf("Caress") !== -1) {
                   let nya = Math.floor(Math.random() * 5);
@@ -217,10 +216,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
 
     }
-    if (data.Content !== "ServerEnter" && data.Type !== "Chat") {
-      return;
-    }
-    //end of do not touch
+}
 
     return;
   });
@@ -552,11 +548,5 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
   //end of do not touch this
-
-  //this is the function that will check for your chatroom commands~
-  async function crCommands() {
-      await waitFor(() => !!ChatRoomSendChat);
-
-  }
 
 })();
