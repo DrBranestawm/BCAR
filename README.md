@@ -13,14 +13,13 @@ as a bookmark on your devices.
 
 Commands of BCAR
 ----------------------
-Help Menu
-----
+### Help Menu
   - /bcar help : To opnen the help menu window
 
 The only way to change the ears and tail types is to use chat commands. The set ears and tails will be saved and will be loaded even after relogging. 
   
-Ears
-----
+### Ears
+
   - /bcar ear1 : To save your current ears as the primary ears.
 
 Switch your ear to the one you want the secondary ear to be.
@@ -31,8 +30,8 @@ Switch your ear to the one you want the secondary ear to be.
   - /bcar earsoff : To turn the ear wiggling off.
   
   
-Tail
-----
+### Tail
+
   - /bcar tail1 : To save your current ears as the primary tail.
 
 Switch your tail to the one you want the secondary tail to be.
@@ -42,9 +41,8 @@ Switch your tail to the one you want the secondary tail to be.
   - /bcar tailon : To turn the tail wagging on.
   - /bcar tailoff : To turn the tail wagging off.
   
-  
-Settings reset
----
+
+### Settings reset
   - /bcarreset : To reset the set ears and tails to the default settings  
 
 
