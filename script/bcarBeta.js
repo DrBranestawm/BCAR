@@ -6,9 +6,8 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 //sdk stuff
 
 (async function () {
-  const modApi = bcModSdk.registerMod('BCAR Beta', '0.4.1');
+  const modApi = bcModSdk.registerMod('BCAR', '0.4.0');
   //global variables
-  crCommands();
     var Dictionary = [];
 
 
@@ -21,46 +20,39 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
   //Functions
 
-
-
-  // on channel join data Type is Action, Content is ServerEnter and MemberNumber is the joining user
-  //do not touch this
-  ServerSocket.on("ChatRoomMessage", async (data) => {
-    await sleep(10);
-
     const typeAction = { EarCaress :
                 [["Mnyaa~","Nnyaaaaah~","Nnyaaaaah~","Nnyaa~","Nyaa~"], // sounds
-                [" purrs softly, twitching her ears.", " twitches her ears, purring loudly as her ears are toyed with.",
-                " twitches her ears, purring loudly as her ears are toyed with.", " squirms, twitches her ears and purrs.",
-                " wiggles and twitches her ears purring softly."]], // actions // order matters, match sound with action
+                [" purrs softly, twitching their ears.", " twitches their ears, purring loudly as their ears are toyed with.",
+                " twitches their ears, purring loudly as their ears are toyed with.", " squirms, twitches their ears and purrs.",
+                " wiggles and twitches their ears purring softly."]], // actions // order matters, match sound with action
                 EarNibble :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches her ears as it's nibbled.", " wiggles and twitches her ears between the teeth.",
-                " moans softly, twitching her ears as it's nibbled."]],
+                [" moans softly and twitches their ears as it's nibbled.", " wiggles and twitches their ears between the teeth.",
+                " moans softly, twitching their ears as it's nibbled."]],
                 EarLick :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches her ears as it's licked.", " wiggles and twitches her ears caused by the licking.",
-                " moans softly, twitching her ears as it's licked."]],
+                [" moans softly and twitches their ears as it's licked.", " wiggles and twitches their ears caused by the licking.",
+                " moans softly, twitching theirr ears as it's licked."]],
                 EarKiss :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches her ears as it's kissed.", " wiggles and twitches her ears caused by the kissing.",
-                " moans softly, twitching her ears as it's kissed."]],
+                [" moans softly and twitches their ears as it's kissed.", " wiggles and twitches their ears caused by the kissing.",
+                " moans softly, twitching their ears as it's kissed."]],
                 HeadBrush :
                 [["",""],
-                [" purrs softly and twitches her ears.", " purrs happily and twitches her ears."]],
+                [" purrs softly and twitches their ears.", " purrs happily and twitches their ears."]],
                 HeadPat :
                 [["","","",""],
-                [" purrs softly and twitches her ears.", " purrs happily and twitches her ears.",
-                 " purrs softly, twitches her ears and nuzzles into the pat."," purrs happily, twitches her ears and nuzzles into the pat."]],
+                [" purrs softly and twitches their ears.", " purrs happily and twitches their ears.",
+                 " purrs softly, twitches their ears and nuzzles into the pat."," purrs happily, twitches their ears and nuzzles into the pat."]],
                 CaressBack :
                 [["",""],
-                [" purrs softly and wags her tail.", " purrs softly, arches her back and wags her tail."]],
+                [" purrs softly and wags their tail.", " purrs softly, arches their back and wags their tail."]],
                 MassageBack :
                 [[""],
-                [" purrs softly and wags her tail."]],
+                [" purrs softly and wags their tail."]],
                 CaressButt :
                 [["Mnyaa~"],
-                [" purrs softly, wiggles her butt and wags her tail."]],
+                [" purrs softly, wiggles their butt and wags their tail."]],
         }
 
     function ActivityBeeper(type,nya){
@@ -103,21 +95,27 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
    }
  }
 
+  // on channel join data Type is Action, Content is ServerEnter and MemberNumber is the joining user
+  //do not touch this
+  ServerSocket.on("ChatRoomMessage", async (data) => {
+    await sleep(10);
+
+
+      if (data.Type === "Activity"){
       var activityDictionary = data.Dictionary
 
       for(let i = 0; i < activityDictionary.length; i++)
       {
-          if(activityDictionary[i].Tag == "nonce")
+          if(activityDictionary[i].Tag == "fbc_nonce")
           {
               activityDictionary.splice(i, 1);
               break;
           }
       }
-    if(data.Type === "Activity" && activityDictionary[3].MemberNumber === Player.MemberNumber) {
+    if(activityDictionary[3].MemberNumber === Player.MemberNumber) {
         if((data.Content.startsWith("ChatOther-ItemEars") || (data.Content.startsWith("ChatSelf-ItemEars") === -1))) {
               if (data.Content.indexOf("Caress") !== -1) {
-		 if(Player.BCAR.bcarSettings.earWigglingEnable === true){
-		  let nya = Math.floor(Math.random() * 5);
+                  let nya = Math.floor(Math.random() * 5);
                   console.log(nya)
                   ActivityBeeper("EarCaress",nya);
 
@@ -164,10 +162,8 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                   ActivityChatRoomArousalSync(Player);
             }
         }
-}
         else if ((data.Content.startsWith("ChatOther-ItemHead") || (data.Content.startsWith("ChatSelf-ItemHead") === -1))) {
             if (data.Content.indexOf("TakeCare") !== -1) {
-	      if(Player.BCAR.bcarSettings.earWigglingEnable === true){
                 let nya = Math.floor(Math.random() * 2);
                 console.log(nya)
                 ActivityBeeper("HeadBrush",nya);
@@ -186,10 +182,8 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityChatRoomArousalSync(Player);
             }
         }
-}
 	else if ((data.Content.startsWith("ChatOther-ItemTorso") || (data.Content.startsWith("ChatSelf-ItemTorso") === -1))) {
             if (data.Content.indexOf("Caress") !== -1) {
-             if(Player.BCAR.bcarSettings.tailWaggingEnable === true){
                 let nya = Math.floor(Math.random() * 1);
                 console.log(nya)
                 ActivityBeeper("CaressBack",nya);
@@ -208,10 +202,8 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityChatRoomArousalSync(Player);
             }
         }
-}
 	else if ((data.Content.startsWith("ChatOther-ItemButt") || (data.Content.startsWith("ChatSelf-ItemButt") === -1))) {
             if (data.Content.indexOf("Caress") !== -1) {
-	      if(Player.BCAR.bcarSettings.tailWaggingEnable === true){
                 let nya = Math.floor(Math.random() * 1);
                 console.log(nya)
                 ActivityBeeper("CaressButt",nya);
@@ -221,14 +213,10 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityChatRoomArousalSync(Player);
             }
 	}
+
+
+    }
 }
-
-
-    }
-    if (data.Content !== "ServerEnter" && data.Type !== "Chat") {
-      return;
-    }
-    //end of do not touch
 
     return;
   });
@@ -560,11 +548,5 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
   //end of do not touch this
-
-  //this is the function that will check for your chatroom commands~
-  async function crCommands() {
-      await waitFor(() => !!ChatRoomSendChat);
-
-  }
 
 })();
