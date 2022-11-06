@@ -47,7 +47,7 @@ Switch your tail to the one you want the secondary tail to be.
 
 
 # BCE Expressions for BCAR 
-If you use FBC(formerly BCE) and wnat special Expressions for BCAR reactions I recommend to add this addon to your list. (Requiers [FBC]() and [BCAR](https://github.com/DrBranestawm/BCAR#))  
+If you use FBC(formerly BCE) and wnat special Expressions for BCAR reactions I recommend to add this addon to your list. (Requiers [FBC](https://sidiousious.gitlab.io/bce/) and [BCAR](https://github.com/DrBranestawm/BCAR#))  
 You can add the script via Tampermonkey [BCE Expressions for BCAR](https://github.com/DrBranestawm/BCAR/raw/main/bceExpressionsForBCAR/scriptLoader.user.js)  
 or add it as Bookmark any of your devices. To do that save  
 <code>javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/bceExpressionsForBCAR/script.js').then(r=>r.text()).then(r=>eval(r));})();</code>  
