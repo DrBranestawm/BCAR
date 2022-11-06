@@ -5,7 +5,7 @@ This Extension lets your Character react automatically to Actions done to them.
 Example Picture:  
 ![ExamplePicture](https://user-images.githubusercontent.com/115511728/196439657-cfb098f1-093a-4b5d-8d6b-df0a755e1335.png)  
 
-The ears can wiggle and the tail wag too. To change the ears wiggle and the tail wag animation see "[Commands of BCAR](https://github.com/DrBranestawm/BCAR#commands-of-bcar)" down below. You can add the script via Tampermonkey [here](https://github.com/DrBranestawm/BCAR/raw/main/script/bcarLoader.user.js)  
+The ears can wiggle and the tail can wag too. To change the ears wiggle and the tail wag animation see "[Commands of BCAR](https://github.com/DrBranestawm/BCAR#commands-of-bcar)" down below. You can add the script via Tampermonkey [BCAR](https://github.com/DrBranestawm/BCAR/raw/main/script/bcarLoader.user.js)  
 or add it as Bookmark any of your devices. To do that save  
 <code>javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/script/bcar.js').then(r=>r.text()).then(r=>eval(r));})();</code>  
 as a bookmark on your devices.
@@ -49,12 +49,16 @@ Settings reset
 
 
 # BCE Expressions for BCAR 
-[BCE Expressions for BCAR](https://github.com/DrBranestawm/BCAR/raw/main/bceExpressionsForBCAR/scriptLoader.user.js)  
-<code>javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/bceExpressionsForBCAR/script.js').then(r=>r.text()).then(r=>eval(r));})();</code>
+If you use FBC(formerly BCE) and wnat special Expressions for BCAR reactions I recommend to add this addon to your list. (Requiers [FBC]() and [BCAR](https://github.com/DrBranestawm/BCAR#))  
+You can add the script via Tampermonkey [BCE Expressions for BCAR](https://github.com/DrBranestawm/BCAR/raw/main/bceExpressionsForBCAR/scriptLoader.user.js)  
+or add it as Bookmark any of your devices. To do that save  
+<code>javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/bceExpressionsForBCAR/script.js').then(r=>r.text()).then(r=>eval(r));})();</code>  
+as a bookmark on your devices.
+
 
 # BCAR Beta
 Use the beta at own risk!  
-You can add the beta script via Tampermonkey [here](https://github.com/DrBranestawm/BCAR/raw/main/script/bcarBetaLoader.user.js)  
+You can add the beta script via Tampermonkey [BCAR Beta](https://github.com/DrBranestawm/BCAR/raw/main/script/bcarBetaLoader.user.js)  
 or add it as Bookmark any of your devices. To do that save  
 <code>javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/script/bcarBeta.js').then(r=>r.text()).then(r=>eval(r));})();</code>  
 as a bookmark on your devices.
@@ -63,12 +67,13 @@ as a bookmark on your devices.
 Special Thanks
 ----------------
 
- - Angela
+ - Angela ([@AngelaTheCat](https://github.com/AngelaTheCat/))
     - Privoviding the main script
- - Julia ([@agicitag](https://github.com/agicitag))
+    - Some compability fixes with FBC4.6 (Also thanks to Elicia)
+ - Julia ([@agicitag](https://github.com/agicitag/))
     - Providing general help
     - Permission to use their save and load settings feature
- - Haruhi ([@crimsontropy](https://github.com/crimsontropy))
+ - Haruhi ([@crimsontropy](https://github.com/crimsontropy/))
     - Clean up the if-else for actions
     - Their tail wag script on which the ear wiggle is based
     - Implementing the save and load settings feature
