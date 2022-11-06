@@ -6,7 +6,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 //sdk stuff
 
 (async function () {
-  const modApi = bcModSdk.registerMod('BCAR', '0.4.0');
+  const modApi = bcModSdk.registerMod('BCAR', '0.4.2');
   //global variables
     var Dictionary = [];
 
