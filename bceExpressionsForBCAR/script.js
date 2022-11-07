@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name Bondage Club Enhancements Expressions for BCAR
 // @namespace https://www.bondageprojects.com/
-// @version 0.1
+// @version 0.2
 // @description Customize the expressions used by FBC
 // @author Sidious (modified by DrBranestawm)
 // @match https://bondageprojects.elementfx.com/*
@@ -184,7 +184,7 @@
 			Type: "Confused",
 			Duration: -1,
 			Expression: {
-				Eyebrows: [{ Expression: "OneRaised", Duration: -1 }],
+				Eyebrows: [{ Expression: "OneRaised", Duration: 90000 }],
 			},
 		},
 		Smirk: {
@@ -677,40 +677,39 @@
 				{ Pose: ["BaseUpper", "LegsClosed"], Duration: 1000 },
 			],
 		},
-        GetHeadPet: {
-			Type: "GetHeadPet",
-			Duration: 5000,
-			Priority: 250,
-			Expression: {
-				Eyes: [{ Expression: "ShylyHappy", Duration: 5000 }],
-				Eyes2: [{ Expression: "ShylyHappy", Duration: 5000 }],
-				Eyebrows: [{ Expression: "Raised", Duration: 5000 }],
-				Blush: [{ ExpressionModifier: 1, Duration: 5000 }],
-                Mouth: [{ Expression: "Happy", Duration: 5000 }],
+        	GetHeadPet: {
+		Type: "GetHeadPet",
+		Duration: 5000,
+		Priority: 250,
+		Expression: {
+			Eyes: [{ Expression: "ShylyHappy", Duration: 5000 }],
+			Eyes2: [{ Expression: "ShylyHappy", Duration: 5000 }],
+			Eyebrows: [{ Expression: "Raised", Duration: 5000 }],
+			Blush: [{ ExpressionModifier: 1, Duration: 5000}],
+			Mouth: [{ Expression: "Happy", Duration: 5000 }],
 			},
 		},
-        PetOthers: {
-			Type: "PetOthers",
-			Duration: 5000,
-			Priority: 250,
-			Expression: {
-				Eyes: [{ Expression: "Horny", Duration: 5000 }],
-				Eyes2: [{ Expression: "Horny", Duration: 5000 }],
-				Eyebrows: [{ Expression: "Raised", Duration: 5000 }],
-				Blush: [{ ExpressionModifier: 1, Duration: 5000 }],
-                Mouth: [{ Expression: "Happy", Duration: 5000 }],
+        	PetOthers: {
+		Type: "PetOthers",
+		Duration: 5000,
+		Priority: 250,
+		Expression: {
+			Eyes: [{ Expression: "Horny", Duration: 5000 }],
+			Eyes2: [{ Expression: "Horny", Duration: 5000 }],
+			Eyebrows: [{ Expression: "Raised", Duration: 5000 }],
+			Mouth: [{ Expression: "Happy", Duration: 5000 }],
 			},
 		},
-        EarsCaress: {
-			Type: "EarsCaress",
-			Duration: 3000,
-			Priority: 250,
-			Expression: {
-				Eyes: [{ Expression: "Lewd", Duration: 3000 }],
-				Eyes2: [{ Expression: "Lewd", Duration: 3000 }],
-				Eyebrows: [{ Expression: "Harsh", Duration: 3000 }],
-				Blush: [{ ExpressionModifier: 1, Duration: 3000 }],
-                Mouth: [{ Expression: "Happy", Duration: 3000 }],
+        	EarsCaress: {
+		Type: "EarsCaress",
+		Duration: 3000,
+		Priority: 250,
+		Expression: {
+			Eyes: [{ Expression: "Lewd", Duration: 3000 }],
+			Eyes2: [{ Expression: "Lewd", Duration: 3000 }],
+			Eyebrows: [{ Expression: "Harsh", Duration: 3000 }],
+			Blush: [{ ExpressionModifier: 1, Duration: 3000 }],
+	                Mouth: [{ Expression: "Happy", Duration: 3000 }],
 			},
 		},
 	};
