@@ -305,7 +305,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 "wingsDelay" : 500, // delay in ms
             },
              genderDefault : {
-                 "gender" : "other",
+                 "gender" : "their",
             },
         }
         Player.BCAR = {};
