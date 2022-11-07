@@ -40,37 +40,37 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
     const typeAction = { EarCaress :
                 [["Mnyaa~","Nnyaaaaah~","Nnyaaaaah~","Nnyaa~","Nyaa~"], // sounds
-                [" purrs softly, twitching their ears.", " twitches their ears, purring loudly as their ears are toyed with.",
-                " twitches their ears, purring loudly as their ears are toyed with.", " squirms, twitches their ears and purrs.",
-                " wiggles and twitches their ears purring softly."]], // actions // order matters, match sound with action
+                [" purrs softly, twitching " + Player.BCAR.bcarSettings.genderDefault.gender + " ears.", " twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears, purring loudly as " + Player.BCAR.bcarSettings.genderDefault.gender + " ears are toyed with.",
+                " twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears, purring loudly as " + Player.BCAR.bcarSettings.genderDefault.gender + " ears are toyed with.", " squirms, twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears and purrs.",
+                " wiggles and twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears purring softly."]], // actions // order matters, match sound with action
                 EarNibble :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches their ears as it's nibbled.", " wiggles and twitches their ears between the teeth.",
-                " moans softly, twitching their ears as it's nibbled."]],
+                [" moans softly and twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears as it's nibbled.", " wiggles and twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears between the teeth.",
+                " moans softly, twitching " + Player.BCAR.bcarSettings.genderDefault.gender + " ears as it's nibbled."]],
                 EarLick :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches their ears as it's licked.", " wiggles and twitches their ears caused by the licking.",
-                " moans softly, twitching theirr ears as it's licked."]],
+                [" moans softly and twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears as it's licked.", " wiggles and twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears caused by the licking.",
+                " moans softly, twitching " + Player.BCAR.bcarSettings.genderDefault.gender + "r ears as it's licked."]],
                 EarKiss :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches their ears as it's kissed.", " wiggles and twitches their ears caused by the kissing.",
-                " moans softly, twitching their ears as it's kissed."]],
+                [" moans softly and twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears as it's kissed.", " wiggles and twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears caused by the kissing.",
+                " moans softly, twitching " + Player.BCAR.bcarSettings.genderDefault.gender + " ears as it's kissed."]],
                 HeadBrush :
                 [["",""],
-                [" purrs softly and twitches their ears.", " purrs happily and twitches their ears."]],
+                [" purrs softly and twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears.", " purrs happily and twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears."]],
                 HeadPat :
                 [["","","",""],
-                [" purrs softly and twitches their ears.", " purrs happily and twitches their ears.",
-                 " purrs softly, twitches their ears and nuzzles into the pat."," purrs happily, twitches their ears and nuzzles into the pat."]],
+                [" purrs softly and twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears.", " purrs happily and twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears.",
+                 " purrs softly, twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears and nuzzles into the pat."," purrs happily, twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears and nuzzles into the pat."]],
                 CaressBack :
                 [["",""],
-                [" purrs softly and wags their tail.", " purrs softly, arches their back and wags their tail."]],
+                [" purrs softly and wags " + Player.BCAR.bcarSettings.genderDefault.gender + " tail.", " purrs softly, arches " + Player.BCAR.bcarSettings.genderDefault.gender + " back and wags " + Player.BCAR.bcarSettings.genderDefault.gender + " tail."]],
                 MassageBack :
                 [[""],
-                [" purrs softly and wags their tail."]],
+                [" purrs softly and wags " + Player.BCAR.bcarSettings.genderDefault.gender + " tail."]],
                 CaressButt :
                 [["Mnyaa~"],
-                [" purrs softly, wiggles their butt and wags their tail."]],
+                [" purrs softly, wiggles " + Player.BCAR.bcarSettings.genderDefault.gender + " butt and wags " + Player.BCAR.bcarSettings.genderDefault.gender + " tail."]],
         }
 
     function ActivityBeeper(type,nya){
@@ -304,6 +304,9 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 "wingsCount" : 6, // no. of wing flaps
                 "wingsDelay" : 500, // delay in ms
             },
+             genderDefault : {
+                 "gender" : "other",
+            },
         }
         Player.BCAR = {};
         Player.BCAR.bcarSettings = {};
@@ -533,6 +536,46 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
 	}
 
+    function CommandGenderToggle(argsList)
+	{
+		let toggle = argsList[0];
+		let toggleto = argsList.slice(1);
+
+        //console.log("toggle = "+ toggle, "toggleto = "+ toggleto);
+
+        if (toggle === "male") {
+            let wings = InventoryGet(Player,"");
+            Player.BCAR.bcarSettings.genderDefault.gender = "his";
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                    "The reactions refer to " + CharacterNickname(Player) + " as ''he'' now!\n" +
+                    "Please relog for the changes to take effect.</p>"
+                );
+        }
+        else if (toggle === "female") {
+            let wings = InventoryGet(Player,"");
+            Player.BCAR.bcarSettings.genderDefault.gender = "her";
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                    "The reactions refer to " + CharacterNickname(Player) + " as ''she'' now!\n" +
+                    "Please relog for the changes to take effect.</p>"
+                );
+        }
+        else if (toggle === "other") {
+            let wings = InventoryGet(Player,"");
+            Player.BCAR.bcarSettings.genderDefault.gender = "their";
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                    "The reactions refer to " + CharacterNickname(Player) + " as ''them'' now!\n" +
+                    "Please relog for the changes to take effect.</p>"
+                );
+        }
+        else{
+            Player.BCAR.bcarSettings.genderDefault[toggle]? Player.BCAR.bcarSettings.genderDefault[toggle] = toggleto : console.log("Invalid Input");
+        }
+        bcarSettingsSave();
+
+	}
 
     function CommandOpenHelp(argsList)
 	{
@@ -624,6 +667,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 CommandEarHelp(args.split(" "));
                 CommandTailHelp(args.split(" "));
                 CommandWingHelp(args.split(" "));
+                CommandGenderToggle(args.split(" "));
 			}
 		}
 
