@@ -1,21 +1,3 @@
-// ==UserScript==
-// @name BCAR Beta
-// @namespace https://www.bondageprojects.com/
-// @version 0.4.2
-// @description Bondage Club Auto React
-// @author DrBranestawm
-// @match https://bondageprojects.elementfx.com/*
-// @match https://www.bondageprojects.elementfx.com/*
-// @match https://bondage-europe.com/*
-// @match https://www.bondage-europe.com/*
-// @match http://localhost:*/*
-// @icon data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
-// @grant none
-// @run-at document-end
-// ==/UserScript==
-
-
-
 const BCAR_Settings_Version = 2;
 //sdk stuff
 
@@ -51,37 +33,37 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
     const typeAction = { EarCaress :
                 [["Mnyaa~","Nnyaaaaah~","Nnyaaaaah~","Nnyaa~","Nyaa~"], // sounds
-                [" purrs softly, twitching " + Player.BCAR.bcarSettings.genderDefault.gender + " ears.", " twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears, purring loudly as " + Player.BCAR.bcarSettings.genderDefault.gender + " ears are toyed with.",
-                " twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears, purring loudly as " + Player.BCAR.bcarSettings.genderDefault.gender + " ears are toyed with.", " squirms, twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears and purrs.",
-                " wiggles and twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears purring softly."]], // actions // order matters, match sound with action
+                [" purrs softly, twitching " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears.", " twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears, purring loudly as " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears are toyed with.",
+                " twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears, purring loudly as " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears are toyed with.", " squirms, twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears and purrs.",
+                " wiggles and twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears purring softly."]], // actions // order matters, match sound with action
                 EarNibble :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears as it's nibbled.", " wiggles and twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears between the teeth.",
-                " moans softly, twitching " + Player.BCAR.bcarSettings.genderDefault.gender + " ears as it's nibbled."]],
+                [" moans softly and twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears as it's nibbled.", " wiggles and twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears between the teeth.",
+                " moans softly, twitching " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears as it's nibbled."]],
                 EarLick :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears as it's licked.", " wiggles and twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears caused by the licking.",
-                " moans softly, twitching " + Player.BCAR.bcarSettings.genderDefault.gender + "r ears as it's licked."]],
+                [" moans softly and twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears as it's licked.", " wiggles and twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears caused by the licking.",
+                " moans softly, twitching " + Player.BCAR.bcarSettings.genderDefault.possessive + "r ears as it's licked."]],
                 EarKiss :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears as it's kissed.", " wiggles and twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears caused by the kissing.",
-                " moans softly, twitching " + Player.BCAR.bcarSettings.genderDefault.gender + " ears as it's kissed."]],
+                [" moans softly and twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears as it's kissed.", " wiggles and twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears caused by the kissing.",
+                " moans softly, twitching " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears as it's kissed."]],
                 HeadBrush :
                 [["",""],
-                [" purrs softly and twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears.", " purrs happily and twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears."]],
+                [" purrs softly and twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears.", " purrs happily and twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears."]],
                 HeadPat :
                 [["","","",""],
-                [" purrs softly and twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears.", " purrs happily and twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears.",
-                 " purrs softly, twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears and nuzzles into the pat."," purrs happily, twitches " + Player.BCAR.bcarSettings.genderDefault.gender + " ears and nuzzles into the pat."]],
+                [" purrs softly and twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears.", " purrs happily and twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears.",
+                 " purrs softly, twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears and nuzzles into the pat."," purrs happily, twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears and nuzzles into the pat."]],
                 CaressBack :
                 [["",""],
-                [" purrs softly and wags " + Player.BCAR.bcarSettings.genderDefault.gender + " tail.", " purrs softly, arches " + Player.BCAR.bcarSettings.genderDefault.gender + " back and wags " + Player.BCAR.bcarSettings.genderDefault.gender + " tail."]],
+                [" purrs softly and wags " + Player.BCAR.bcarSettings.genderDefault.possessive + " tail.", " purrs softly, arches " + Player.BCAR.bcarSettings.genderDefault.possessive + " back and wags " + Player.BCAR.bcarSettings.genderDefault.possessive + " tail."]],
                 MassageBack :
                 [[""],
-                [" purrs softly and wags " + Player.BCAR.bcarSettings.genderDefault.gender + " tail."]],
+                [" purrs softly and wags " + Player.BCAR.bcarSettings.genderDefault.possessive + " tail."]],
                 CaressButt :
                 [["Mnyaa~"],
-                [" purrs softly, wiggles " + Player.BCAR.bcarSettings.genderDefault.gender + " butt and wags " + Player.BCAR.bcarSettings.genderDefault.gender + " tail."]],
+                [" purrs softly, wiggles " + Player.BCAR.bcarSettings.genderDefault.possessive + " butt and wags " + Player.BCAR.bcarSettings.genderDefault.possessive + " tail."]],
         }
 
     function ActivityBeeper(type,nya){
@@ -336,8 +318,13 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 "wingsDelay" : 500, // delay in ms
             },
              genderDefault : {
-                 "gender" : "their",
+                 "capPronoun" : "They", //Capitalized Pronoun (He, She, They)
+                 "pronoun" : "they", //Pronoun (he, she, they)
+                 "intensive" : "them", //Intensive (him, her, them)
+                 "possessive" : "their", //Possessive (his, her, their)
+
             },
+
         }
         Player.BCAR = {};
         Player.BCAR.bcarSettings = {};
@@ -576,7 +563,10 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
         if (toggle === "male") {
             let wings = InventoryGet(Player,"");
-            Player.BCAR.bcarSettings.genderDefault.gender = "his";
+            Player.BCAR.bcarSettings.genderDefault.capPronoun = "He";
+            Player.BCAR.bcarSettings.genderDefault.pronoun = "he";
+            Player.BCAR.bcarSettings.genderDefault.intensive = "him";
+            Player.BCAR.bcarSettings.genderDefault.possessive = "his";
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
                     "The reactions refer to " + CharacterNickname(Player) + " as ''he'' now!\n" +
@@ -585,7 +575,10 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         }
         else if (toggle === "female") {
             let wings = InventoryGet(Player,"");
-            Player.BCAR.bcarSettings.genderDefault.gender = "her";
+            Player.BCAR.bcarSettings.genderDefault.capPronoun = "She";
+            Player.BCAR.bcarSettings.genderDefault.pronoun = "she";
+            Player.BCAR.bcarSettings.genderDefault.intensive = "her";
+            Player.BCAR.bcarSettings.genderDefault.possessive = "her";
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
                     "The reactions refer to " + CharacterNickname(Player) + " as ''she'' now!\n" +
@@ -594,10 +587,13 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         }
         else if (toggle === "other") {
             let wings = InventoryGet(Player,"");
-            Player.BCAR.bcarSettings.genderDefault.gender = "their";
+            Player.BCAR.bcarSettings.genderDefault.capPronoun = "They";
+            Player.BCAR.bcarSettings.genderDefault.pronoun = "they";
+            Player.BCAR.bcarSettings.genderDefault.intensive = "them";
+            Player.BCAR.bcarSettings.genderDefault.possessive = "their";
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
-                    "The reactions refer to " + CharacterNickname(Player) + " as ''them'' now!\n" +
+                    "The reactions refer to " + CharacterNickname(Player) + " as ''they'' now!\n" +
                     "Please relog for the changes to take effect.</p>"
                 );
         }
