@@ -34,6 +34,17 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
   await waitFor(() => ServerIsConnected && ServerSocket);
   //end of do not touch
   const bcarSettingsKey = () => `bcarSettings.${Player?.AccountName}`;
+
+  const listeners = [];
+	function registerSocketListener(event, listener) {
+		if (!listeners.some((l) => l[1] === listener)) {
+			listeners.push([event, listener]);
+			ServerSocket.on(event, listener);
+		}
+	}
+	registerSocketListener("ChatRoomMessage", (data) => {
+		parseMessage(data);
+	});
   await bcarSettingsLoad();
 
   //Functions
@@ -115,10 +126,10 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
      function WingFlap(){
       if(Player.BCAR.bcarSettings.wingFlappingEnabled === true){
-        let wingsVariations = [Player.BCAR.bcarSettings.wingsDefault.tails2,Player.BCAR.bcarSettings.wingsDefault.tails1];
-        let wingsColor = [Player.BCAR.bcarSettings.wingsDefault.tailsColor2,Player.BCAR.bcarSettings.wingsDefault.tailsColor1];
-        let numberFlaps= parseInt(Player.BCAR.bcarSettings.wingsDefault.tailsCount);
-        let delay = parseInt(Player.BCAR.bcarSettings.wingsDefault.tailsDelay);
+        let wingsVariations = [Player.BCAR.bcarSettings.wingsDefault.wings2,Player.BCAR.bcarSettings.wingsDefault.wings1];
+        let wingsColor = [Player.BCAR.bcarSettings.wingsDefault.wingsColor2,Player.BCAR.bcarSettings.wingsDefault.wingsColor1];
+        let numberFlaps= parseInt(Player.BCAR.bcarSettings.wingsDefault.wingsCount);
+        let delay = parseInt(Player.BCAR.bcarSettings.wingsDefault.wingsDelay);
         for(let i=0; i < numberFlaps; i++)
         {
            setTimeout(function() {
@@ -250,6 +261,26 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
 
     }
+
+      //Wing Flapping
+      function wingFlapping(){
+
+		registerSocketListener("ChatRoomMessage", (data) => {
+			getEmote(data);
+		});
+
+		function getEmote(data) {
+				if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
+					var message = data.Content;
+					let patterns = [/flaps.*wings/mi, /wings.*flapping/mi, /flapping.*wings/mi] ; // matches {<any> flaps <any> wings <any>}
+					let result = patterns.find(pattern => pattern.test(message));
+					if(result){
+						WingFlap();
+					}
+				}
+            console.log(Player.BCAR.bcarSettings.tailsDefault.wings1);
+			}
+		}
 }
 
     return;
@@ -703,24 +734,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
 	])
 
-      //Wing Flapping
-      function wingFlapping(){
 
-		registerSocketListener("ChatRoomMessage", (data) => {
-			getEmote(data);
-		});
-
-		function getEmote(data) {
-				if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
-					var message = data.Content;
-					let patterns = [/flaps.*wings/mi, /wings.*flapping/mi, /flapping.*wings/mi] ; // matches {<any> flaps <any> wings <any>}
-					let result = patterns.find(pattern => pattern.test(message));
-					if(result){
-						setTimeout(wingFlap);
-					}
-				}
-			}
-		}
 
   //do not touch this
   async function waitFor(func, cancelFunc = () => false) {
