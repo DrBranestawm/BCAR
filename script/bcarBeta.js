@@ -17,16 +17,6 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
   //end of do not touch
   const bcarSettingsKey = () => `bcarSettings.${Player?.AccountName}`;
 
-  const listeners = [];
-	function registerSocketListener(event, listener) {
-		if (!listeners.some((l) => l[1] === listener)) {
-			listeners.push([event, listener]);
-			ServerSocket.on(event, listener);
-		}
-	}
-	registerSocketListener("ChatRoomMessage", (data) => {
-		parseMessage(data);
-	});
   await bcarSettingsLoad();
 
   //Functions
@@ -107,7 +97,8 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
  }
 
      function WingFlap(){
-      if(Player.BCAR.bcarSettings.wingFlappingEnabled === true){
+         console.log("Flap ");
+      if(Player.BCAR.bcarSettings.wingFlappingEnable === true){
         let wingsVariations = [Player.BCAR.bcarSettings.wingsDefault.wings2,Player.BCAR.bcarSettings.wingsDefault.wings1];
         let wingsColor = [Player.BCAR.bcarSettings.wingsDefault.wingsColor2,Player.BCAR.bcarSettings.wingsDefault.wingsColor1];
         let numberFlaps= parseInt(Player.BCAR.bcarSettings.wingsDefault.wingsCount);
@@ -122,9 +113,23 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
    }
  }
 
+      //Wing Flapping
+          var getEmote = function(data) {
+            console.log("bin ");
+				if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
+                    console.log("ich ");
+					var message = data.Content;
+					let patterns = [/flaps.*wings/mi, /wings.*flapping/mi, /flapping.*wings/mi] ; // matches {<any> flaps <any> wings <any>}
+					let result = patterns.find(pattern => pattern.test(message));
+					if(result){
+						WingFlap();
+					}
+				}
+			}
+
   // on channel join data Type is Action, Content is ServerEnter and MemberNumber is the joining user
   //do not touch this
-  ServerSocket.on("ChatRoomMessage", async (data) => {
+  ServerSocket.on("ChatRoomMessage",getEmote, async (data) => {
     await sleep(10);
 
 
@@ -244,26 +249,8 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
     }
 
-      //Wing Flapping
-      function wingFlapping(){
-
-		registerSocketListener("ChatRoomMessage", (data) => {
-			getEmote(data);
-		});
-
-		function getEmote(data) {
-				if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
-					var message = data.Content;
-					let patterns = [/flaps.*wings/mi, /wings.*flapping/mi, /flapping.*wings/mi] ; // matches {<any> flaps <any> wings <any>}
-					let result = patterns.find(pattern => pattern.test(message));
-					if(result){
-						WingFlap();
-					}
-				}
-            console.log(Player.BCAR.bcarSettings.tailsDefault.wings1);
-			}
-		}
 }
+
 
     return;
   });
@@ -531,7 +518,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
         //console.log("toggle = "+ toggle, "toggleto = "+ toggleto);
 
-        if (toggle === "tailon") {
+        if (toggle === "wingon") {
             let wings = InventoryGet(Player,"Wings");
             Player.BCAR.bcarSettings.wingFlappingEnable = true;
             ChatRoomSendLocal(
@@ -539,7 +526,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                     "Wing flapping is now enabled!</p>"
                 );
         }
-        else if (toggle === "tailoff") {
+        else if (toggle === "wingoff") {
             let wings = InventoryGet(Player,"Wings");
             Player.BCAR.bcarSettings.wingFlappingEnable = false;
             ChatRoomSendLocal(
