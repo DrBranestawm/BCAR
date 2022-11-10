@@ -666,7 +666,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                     "Secondary Tail: " + Player.BCAR.bcarSettings.tailsDefault.tailsDescription2 + "\n" +
                     "Wing Animation: " + Player.BCAR.bcarSettings.wingFlappingStatus + "\n" +
                     "Primary Wings: " + Player.BCAR.bcarSettings.wingsDefault.wingsDescription1 + "\n" +
-                    "Secondary Wings: " + Player.BCAR.bcarSettings.wingsDefault.wingsDescriptions2 + "\n" +
+                    "Secondary Wings: " + Player.BCAR.bcarSettings.wingsDefault.wingsDescription2 + "\n" +
                     "Gender: " + Player.BCAR.bcarSettings.genderDefault.gender + "</p>"
                  );
         }
