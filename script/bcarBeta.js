@@ -113,25 +113,21 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
    }
  }
 
-      //Wing Flapping
-          var getEmote = function(data) {
-            console.log("bin ");
-				if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
-                    console.log("ich ");
+
+  // on channel join data Type is Action, Content is ServerEnter and MemberNumber is the joining user
+  //do not touch this
+  ServerSocket.on("ChatRoomMessage", async (data) => {
+    await sleep(10);
+
+
+      if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
 					var message = data.Content;
-					let patterns = [/flaps.*wings/mi, /wings.*flapping/mi, /flapping.*wings/mi] ; // matches {<any> flaps <any> wings <any>}
+					let patterns = [/flaps.*wings/mi, /wings.*flapping/mi, /flapping.*wings/mi, /wings.*flap/mi] ; // matches {<any> flaps <any> wings <any>}
 					let result = patterns.find(pattern => pattern.test(message));
 					if(result){
 						WingFlap();
 					}
 				}
-			}
-
-  // on channel join data Type is Action, Content is ServerEnter and MemberNumber is the joining user
-  //do not touch this
-  ServerSocket.on("ChatRoomMessage",getEmote, async (data) => {
-    await sleep(10);
-
 
       if (data.Type === "Activity"){
       var activityDictionary = data.Dictionary
@@ -277,39 +273,48 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
     async function bcarSettingsLoad() {
 		await waitFor(() => !!Player?.AccountName);
         const BCAR_DEFAULT_SETTINGS = {
-	    earWigglingEnable : true,
+	    earWigglingEnable : false,
+        earWigglingStatus : "Disabled", //Output for the status page
             earsDefault : {
-                "ears1" : "KittenEars1", // change based on ear type
-                "ears2" : "FoxEars2",
+                "ears1" : null, // change based on ear type
+                "ears2" : null,
                 "earsColor1" : ["#FF0000", "#EEE"], // change color based on your own preference
                 "earsColor2" : ["#9A0000", "#505050"],
                 "earsCount" : 12, // no. of ear wiggles
                 "earsDelay" : 175, // delay in ms
+                "earsDescription1" : "None",
+                "earsDescription2" : "None", //Output for the status page
             },
-             tailWaggingEnable : true,
+             tailWaggingEnable : false,
+             tailWaggingStatus : "Disabled", //Output for the status page
              tailsDefault : {
-                "tails1" : "KittenTailStrap1", // change based on tail type
-                "tails2" : "MouseTailStrap1",
+                "tails1" : null, // change based on tail type
+                "tails2" : null,
                 "tailsColor1" : "#440606", // change color based on your own preference
                 "tailsColor2" : "#440606",
                 "tailsCount" : 6, // no. of tail wags
                 "tailsDelay" : 800, // delay in ms
+                "tailsDescription1" : "None", //Output for the status page
+                "tailsDescription2" : "None",
             },
              wingFlappingEnable : false,
+             wingFlappingStatus : "Disabled", //Output for the status page
              wingsDefault : {
-                "wings1" : "AngelWings", // change based on wing type
-                "wings2" : "AngelFeather",
+                "wings1" : null, // change based on wing type
+                "wings2" : null,
                 "wingsColor1" : "Default", // change color based on your own preference
                 "wingsColor2" : "Default",
                 "wingsCount" : 6, // no. of wing flaps
                 "wingsDelay" : 500, // delay in ms
+                "wingsDescription1" : "None", //Output for the status page
+                "wingsDescription2" : "None",
             },
              genderDefault : {
                  "capPronoun" : "They", //Capitalized Pronoun (He, She, They)
                  "pronoun" : "they", //Pronoun (he, she, they)
                  "intensive" : "them", //Intensive (him, her, them)
                  "possessive" : "their", //Possessive (his, her, their)
-
+                 "gender" : "Non-Binary", //Output for the status page
             },
 
         }
@@ -363,8 +368,11 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
         if (change === "ear1") {
             let ears = InventoryGet(Player,"HairAccessory2");
+            Player.BCAR.bcarSettings.earWigglingEnable = true;
+            Player.BCAR.bcarSettings.earWigglingStatus = "Enabled";
             Player.BCAR.bcarSettings.earsDefault.ears1 = ears.Asset.Name;
             Player.BCAR.bcarSettings.earsDefault.earsColor1 = ears.Color;
+            Player.BCAR.bcarSettings.earsDefault.earsDescription1 = ears.Asset.Description;
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
                     "Primary ears have been updated!</p>"
@@ -374,6 +382,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             let ears = InventoryGet(Player,"HairAccessory2");
             Player.BCAR.bcarSettings.earsDefault.ears2 = ears.Asset.Name;
             Player.BCAR.bcarSettings.earsDefault.earsColor2 = ears.Color;
+            Player.BCAR.bcarSettings.earsDefault.earsDescription2 = ears.Asset.Description;
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
                     "Secondary ears have been updated!</p>"
@@ -396,6 +405,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         if (toggle === "earon") {
             let ears = InventoryGet(Player,"HairAccessory2");
             Player.BCAR.bcarSettings.earWigglingEnable = true;
+            Player.BCAR.bcarSettings.earWigglingStatus = "Enabled";
             ChatRoomSendLocal(
                 "<p style='background-color:#5FBD7A'><b>Bondage Club Auto React</b>\n" +
                     "Ear wiggle is now enabled!</p>"
@@ -404,6 +414,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         else if (toggle === "earoff") {
             let ears = InventoryGet(Player,"HairAccessory2");
             Player.BCAR.bcarSettings.earWigglingEnable = false;
+            Player.BCAR.bcarSettings.earWigglingStatus = "Disabled";
             ChatRoomSendLocal(
                 "<p style='background-color:#630A0A'><b>Bondage Club Auto React</b>\n" +
                     "Ear wiggle is now disabled!</p>"
@@ -425,8 +436,11 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
         if (change === "tail1") {
             let tails = InventoryGet(Player,"TailStraps");
+            Player.BCAR.bcarSettings.tailWaggingEnable = true;
+            Player.BCAR.bcarSettings.tailWaggingStatus = "Enabled";
             Player.BCAR.bcarSettings.tailsDefault.tails1 = tails.Asset.Name;
             Player.BCAR.bcarSettings.tailsDefault.tailsColor1 = tails.Color;
+            Player.BCAR.bcarSettings.tailsDefault.tailsDescription1 = tails.Asset.Description;
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
                     "Primary tail has been updated!</p>"
@@ -436,6 +450,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             let tails = InventoryGet(Player,"TailStraps");
             Player.BCAR.bcarSettings.tailsDefault.tails2 = tails.Asset.Name;
             Player.BCAR.bcarSettings.tailsDefault.tailsColor2 = tails.Color;
+            Player.BCAR.bcarSettings.tailsDefault.tailsDescription2 = tails.Asset.Description;
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
                     "Secondary tail has been updated!</p>"
@@ -458,6 +473,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         if (toggle === "tailon") {
             let tails = InventoryGet(Player,"TailStraps");
             Player.BCAR.bcarSettings.tailWaggingEnable = true;
+            Player.BCAR.bcarSettings.tailWaggingStatus = "Enabled";
             ChatRoomSendLocal(
                 "<p style='background-color:#5FBD7A'><b>Bondage Club Auto React</b>\n" +
                     "Tail wagging is now enabled!</p>"
@@ -466,6 +482,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         else if (toggle === "tailoff") {
             let tails = InventoryGet(Player,"TailStraps");
             Player.BCAR.bcarSettings.tailWaggingEnable = false;
+            Player.BCAR.bcarSettings.tailWaggingStatus = "Disabled";
             ChatRoomSendLocal(
                 "<p style='background-color:#630A0A'><b>Bondage Club Auto React</b>\n" +
                     "Tail wagging is now disabled!</p>"
@@ -488,8 +505,11 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
         if (change === "wing1") {
             let wings = InventoryGet(Player,"Wings");
+            Player.BCAR.bcarSettings.wingFlappingEnable = true;
+            Player.BCAR.bcarSettings.wingFlappingStatus = "Enabled";
             Player.BCAR.bcarSettings.wingsDefault.wings1 = wings.Asset.Name;
             Player.BCAR.bcarSettings.wingsDefault.wingsColor1 = wings.Color;
+            Player.BCAR.bcarSettings.wingsDefault.wingsDescription1 = wings.Asset.Description;
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
                     "Primary wings has been updated!</p>"
@@ -499,6 +519,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             let wings = InventoryGet(Player,"Wings");
             Player.BCAR.bcarSettings.wingsDefault.wings2 = wings.Asset.Name;
             Player.BCAR.bcarSettings.wingDefault.wingsColor2 = wings.Color;
+            Player.BCAR.bcarSettings.wingsDefault.wingsDescription2 = wings.Asset.Description;
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
                     "Secondary wings has been updated!</p>"
@@ -521,6 +542,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         if (toggle === "wingon") {
             let wings = InventoryGet(Player,"Wings");
             Player.BCAR.bcarSettings.wingFlappingEnable = true;
+            Player.BCAR.bcarSettings.wingFlappingStatus = "Enabled";
             ChatRoomSendLocal(
                 "<p style='background-color:#5FBD7A'><b>Bondage Club Auto React</b>\n" +
                     "Wing flapping is now enabled!</p>"
@@ -529,6 +551,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         else if (toggle === "wingoff") {
             let wings = InventoryGet(Player,"Wings");
             Player.BCAR.bcarSettings.wingFlappingEnable = false;
+            Player.BCAR.bcarSettings.wingFlappingStatus = "Disabled";
             ChatRoomSendLocal(
                 "<p style='background-color:#630A0A'><b>Bondage Club Auto React</b>\n" +
                     "Wing flapping is now disabled!</p>"
@@ -550,6 +573,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
         if (toggle === "male") {
             let wings = InventoryGet(Player,"");
+            Player.BCAR.bcarSettings.genderDefault.gender = "Male";
             Player.BCAR.bcarSettings.genderDefault.capPronoun = "He";
             Player.BCAR.bcarSettings.genderDefault.pronoun = "he";
             Player.BCAR.bcarSettings.genderDefault.intensive = "him";
@@ -562,6 +586,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         }
         else if (toggle === "female") {
             let wings = InventoryGet(Player,"");
+            Player.BCAR.bcarSettings.genderDefault.gender = "Female";
             Player.BCAR.bcarSettings.genderDefault.capPronoun = "She";
             Player.BCAR.bcarSettings.genderDefault.pronoun = "she";
             Player.BCAR.bcarSettings.genderDefault.intensive = "her";
@@ -574,6 +599,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         }
         else if (toggle === "other") {
             let wings = InventoryGet(Player,"");
+            Player.BCAR.bcarSettings.genderDefault.gender = "Non-Binary";
             Player.BCAR.bcarSettings.genderDefault.capPronoun = "They";
             Player.BCAR.bcarSettings.genderDefault.pronoun = "they";
             Player.BCAR.bcarSettings.genderDefault.intensive = "them";
@@ -600,6 +626,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Commands overview and info:\n" +
                     "/bcar help - To open this help window.\n" +
+                    "/bcar status - To open the status window.\n" +
                     "/bcar earhelp - To open ear equip instructions.\n" +
                     "/bcar ear1 - To save the primary ears.\n" +
                     "/bcar ear2 - To save the secondary ears.\n" +
@@ -610,8 +637,37 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                     "/bcar tail2 - To save the secondary tail.\n" +
                     "/bcar tailon - To turn the tail wagging on.\n" +
 		    "/bcar tailoff - To turn the tail wagging off.\n" +
+                "/bcar winghelp - To open wing equip and usage instructions.\n" +
+                "/bcar wingon - To turn the wing flapping on.\n" +
+                "/bcar wingoff - To turn the wing flapping off.\n" +
+                "/bcar male - To let the reactions refer to " + CharacterNickname(Player) + " as ''he''\n" +
+                "/bcar female - To let the reactions refer to " + CharacterNickname(Player) + " as ''she''\n" +
+                "/bcar other - To let the reactions refer to " + CharacterNickname(Player) + " as ''they''\n" +
 		    "/bcarreset - To reset the set ears and tails to the default settings.\n" +
                     "Visit the <a href='https://github.com/DrBranestawm/BCAR' target='_blank'>BCAR</a> github for more info.</p>"
+                 );
+        }
+
+      }
+
+    function CommandStatus(argsList)
+	{
+       let openStatus = argsList[0];
+       let openStatusto = argsList.slice(1);
+
+        if (openStatus === "status") {
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Current status:\n" +
+                    "Ear Animation: " + Player.BCAR.bcarSettings.earWigglingStatus + "\n" +
+                    "Primary Ears: " + Player.BCAR.bcarSettings.earsDefault.earsDescription1 + "\n" +
+                    "Secondary Ears: " + Player.BCAR.bcarSettings.earsDefault.earsDescription2 + "\n" +
+                    "Tail Animation: " + Player.BCAR.bcarSettings.tailWaggingStatus + "\n" +
+                    "Primary Tail: " + Player.BCAR.bcarSettings.tailsDefault.tailsDescription1 + "\n" +
+                    "Secondary Tail: " + Player.BCAR.bcarSettings.tailsDefault.tailsDescription2 + "\n" +
+                    "Wing Animation: " + Player.BCAR.bcarSettings.wingFlappingStatus + "\n" +
+                    "Primary Wings: " + Player.BCAR.bcarSettings.wingsDefault.wingsDescription1 + "\n" +
+                    "Secondary Wings: " + Player.BCAR.bcarSettings.wingsDefault.wingsDescriptions2 + "\n" +
+                    "Gender: " + Player.BCAR.bcarSettings.genderDefault.gender + "</p>"
                  );
         }
 
@@ -656,7 +712,14 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Wing equip instructions:\n" +
                     "First equip the main wings you want to wear in primarily the ''Wings'' slot in your wardrobe. Type ''/bcar wing1'' in the chat to save the main wings. \n" +
-		    "For your wings to wiggle follow the same steps and equip a different type of wings to use as your secondary. Type ''/bcar wing2'' in the chat to save the secondary wings.</p>"
+		    "For your wings to wiggle follow the same steps and equip a different type of wings to use as your secondary. Type ''/bcar wing2'' in the chat to save the secondary wings. \n" +
+                "To let your wings flap type an emote anything that includes the words ''flaps'' and ''wings''. \n" +
+                " \n" +
+                "Examples: \n" +
+                "*flaps her wings \n" +
+                "*is flapping her wings \n" +
+                "*lets her wings flap \n" +
+                "*spreads her wings, flapping them</p>"
                  );
         }
 
@@ -682,6 +745,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 CommandTailHelp(args.split(" "));
                 CommandWingHelp(args.split(" "));
                 CommandGenderToggle(args.split(" "));
+                CommandStatus(args.split(" "));
 			}
 		}
 
