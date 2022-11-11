@@ -1191,6 +1191,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 CommandShowProfile(args.split(" "));
                 CommandSaveProfile(args.split(" "));
                 CommandLoadProfile(args.split(" "));
+		CommandChangelog(args.split(" "));
                 CommandResetSettings(args.split(" "));
 
 			}
