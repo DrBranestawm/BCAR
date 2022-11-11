@@ -790,16 +790,17 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         if (openHelp === "help") {
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Commands overview and info:\n" +
-                    "/bcar help - To open this help window.\n" +
-                    "/bcar status - To open the status window.\n" +
-                    "/bcar earhelp - To open ear instructions and commands.\n" +
-                    "/bcar tailhelp - To open tail instructions and commands.\n" +
-                    "/bcar winghelp - To open wing instructions and commands.\n" +
-                    "/bcar profilehelp - To open profile instructions and commands.\n" +
-                    "/bcar male - To let the reactions refer to " + CharacterNickname(Player) + " as ''he''\n" +
-                    "/bcar female - To let the reactions refer to " + CharacterNickname(Player) + " as ''she''\n" +
-                    "/bcar other - To let the reactions refer to " + CharacterNickname(Player) + " as ''they''\n" +
-		    "/bcar reset - To reset the set ears and tails to the default settings.\n" +
+                    "/bcar changeog - Show recent FBC changelog\n" +
+                    "/bcar help - Opens this help window.\n" +
+                    "/bcar status - Opens the status window.\n" +
+                    "/bcar earhelp - Opens ear instructions and commands page.\n" +
+                    "/bcar tailhelp - Opens tail instructions and commands page.\n" +
+                    "/bcar winghelp - Opens wing instructions and commands page.\n" +
+                    "/bcar profilehelp - Opens profile instructions and commands page.\n" +
+                    "/bcar male - Lets the reactions refer to " + CharacterNickname(Player) + " as ''he''\n" +
+                    "/bcar female - Lets the reactions refer to " + CharacterNickname(Player) + " as ''she''\n" +
+                    "/bcar other - Lets the reactions refer to " + CharacterNickname(Player) + " as ''they''\n" +
+                    "/bcar reset - Resets the ears, tails and wings to the default settings.\n" +
                     "Visit the <a href='https://github.com/DrBranestawm/BCAR' target='_blank'>BCAR</a> github for more info.</p>"
                  );
         }
@@ -841,10 +842,10 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 		    "For your ears to wiggle follow the same steps and equip a different type of ears to use as your secondary. Type ''/bcar ear2'' in the chat to save the secondary ears. \n" +
                     " \n" +
                     "Commands:\n" +
-                    "/bcar ear1 - To save the primary ears.\n" +
-                    "/bcar ear2 - To save the secondary ears.\n" +
-                    "/bcar earon - To enable the ear wiggling on.\n" +
-                    "/bcar earoff - To disable the ear wiggling off.</p>"
+                    "/bcar ear1 - Saves the primary ears.\n" +
+                    "/bcar ear2 - Saves the secondary ears.\n" +
+                    "/bcar earon - Enables the ear wiggling on.\n" +
+                    "/bcar earoff - Disables the ear wiggling off.</p>"
                  );
         }
 
@@ -862,10 +863,10 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 		     "For your tail to wag follow the same steps and equip a different type of tail to use as your secondary. Type ''/bcar tail2'' in the chat to save the secondary tail. \n" +
                     " \n" +
                     "Commands:\n" +
-                    "/bcar tail1 - To save the primary tail.\n" +
-                    "/bcar tail2 - To save the secondary tail.\n" +
-                    "/bcar tailon - To enable the tail wagging on.\n" +
-		    "/bcar tailoff - To disbale the tail wagging off.</p>"
+                    "/bcar tail1 - Saves the primary tail.\n" +
+                    "/bcar tail2 - Saves the secondary tail.\n" +
+                    "/bcar tailon - Enables the tail wagging on.\n" +
+                    "/bcar tailoff - Disbales the tail wagging off.</p>"
                  );
         }
 
@@ -884,8 +885,8 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                     "To let your wings flap type an emote anything that includes the words ''flaps'' and ''wings''. \n" +
                     " \n" +
                     "Commands:\n" +
-                    "/bcar wingon - To enable the wing flapping on.\n" +
-                    "/bcar wingoff - To disable the wing flapping off.\n" +
+                    "/bcar wingon - Enables the wing flapping on.\n" +
+                    "/bcar wingoff - Disables the wing flapping off.\n" +
                     " \n" +
                     "Examples: \n" +
                     "<i>*flaps her wings \n" +
@@ -908,12 +909,12 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                     "With the Profiles you can save presets for your ears, tail and wings. \n" +
                     " \n" +
                     "Commands:\n" +
-                    "/bcar save1 - To save current setup in Profile1\n" +
-                    "/bcar save2 - To save current setup in Profile2\n" +
-                    "/bcar load1 - To load the setup saved in Profile1\n" +
-                    "/bcar load2 - To load the setup saved in Profile2\n" +
-                    "/bcar profile1 - To show which setup is saved in Profile1\n" +
-                    "/bcar profile2 - To show which setup is saved in Profile2</p>"
+                    "/bcar save1 - Saves current setup in Profile1\n" +
+                    "/bcar save2 - Saves current setup in Profile2\n" +
+                    "/bcar load1 - Loads the setup saved in Profile1\n" +
+                    "/bcar load2 - Loads the setup saved in Profile2\n" +
+                    "/bcar profile1 - Shows which setup is saved in Profile1\n" +
+                    "/bcar profile2 - Shows which setup is saved in Profile2</p>"
                  );
         }
 
@@ -1161,38 +1162,36 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                     "- Added profile presets\n" +
                     "View <a href='https://github.com/DrBranestawm/BCAR/blob/main/script/changelog.md' target='_blank'>Full Changelog</a> to see all changes</p>"
                 );
-            bcarSettingsRemove();
-            bcarSettingsLoad();
         }
 
 	}
 
     CommandCombine([
-		{
-			Tag: 'bcar',
-            Description: "help : To open the commands overview and info.",
-			AutoComplete: args => {
+	{
+		Tag: 'bcar',
+            	Description: "help : To open the commands overview and info.",
+		AutoComplete: args => {
 
-			},
-			Action: args => {
-                CommandEarsChange(args.split(" "));
-                CommandTailChange(args.split(" "));
-                CommandWingChange(args.split(" "));
-                CommandEarsToggle(args.split(" "));
-                CommandTailToggle(args.split(" "));
-                CommandWingToggle(args.split(" "));
-                CommandOpenHelp(args.split(" "));
-                CommandEarHelp(args.split(" "));
-                CommandTailHelp(args.split(" "));
-                CommandWingHelp(args.split(" "));
-                CommandProfileHelp(args.split(" "));
-                CommandGenderToggle(args.split(" "));
-                CommandStatus(args.split(" "));
-                CommandShowProfile(args.split(" "));
-                CommandSaveProfile(args.split(" "));
-                CommandLoadProfile(args.split(" "));
-		CommandChangelog(args.split(" "));
-                CommandResetSettings(args.split(" "));
+		},
+		Action: args => {
+                	CommandEarsChange(args.split(" "));
+                	CommandTailChange(args.split(" "));
+                	CommandWingChange(args.split(" "));
+                	CommandEarsToggle(args.split(" "));
+                	CommandTailToggle(args.split(" "));
+                	CommandWingToggle(args.split(" "));
+                	CommandOpenHelp(args.split(" "));
+                	CommandEarHelp(args.split(" "));
+                	CommandTailHelp(args.split(" "));
+                	CommandWingHelp(args.split(" "));
+                	CommandProfileHelp(args.split(" "));
+                	CommandGenderToggle(args.split(" "));
+               		CommandStatus(args.split(" "));
+                	CommandShowProfile(args.split(" "));
+                	CommandSaveProfile(args.split(" "));
+                	CommandLoadProfile(args.split(" "));
+                	CommandChangelog(args.split(" "));
+                	CommandResetSettings(args.split(" "));
 
 			}
 		}
