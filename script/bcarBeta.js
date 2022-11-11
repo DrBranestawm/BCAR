@@ -1,3 +1,4 @@
+const BCAR_Version = "0.5.0";
 const BCAR_Settings_Version = 3;
 //sdk stuff
 
@@ -6,7 +7,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 //sdk stuff
 
 (async function () {
-  const modApi = bcModSdk.registerMod('BCAR', '0.4.2-beta3');
+  const modApi = bcModSdk.registerMod('BCAR', BCAR_Version);
   //global variables
     var Dictionary = [];
 
@@ -119,6 +120,12 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
    }
  }
 
+      function Landing(){
+         console.log("Landing ");
+      if(Player.BCAR.bcarSettings.wingFlappingEnable === true){
+       delete InventoryGet(Player, 'Emoticon').Property.OverrideHeight;
+   }
+ }
 
   // on channel join data Type is Action, Content is ServerEnter and MemberNumber is the joining user
   //do not touch this
@@ -137,11 +144,21 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
       if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
 					var flyMessage = data.Content;
-					let patterns = [/begins.*fly/mi, /starts.*flying/mi] ; // matches {<any> flaps <any> wings <any>}
+					let patterns = [/begins.*fly/mi, /starts.*flying/mi] ; // matches {<any> begins <any> fly <any>}
 					let result = patterns.find(pattern => pattern.test(flyMessage));
 					if(result){
                         Fly();
 						WingFlap();
+					}
+				}
+
+      if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
+					var stopFlyMessage = data.Content;
+					let patterns = [/lands.*/mi, /stops.*flying/mi] ; // matches {<any> begins <any> fly <any>}
+					let result = patterns.find(pattern => pattern.test(stopFlyMessage));
+					if(result){
+                        WingFlap();
+                        Landing();
 					}
 				}
 
@@ -160,6 +177,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         if((data.Content.startsWith("ChatOther-ItemEars") || (data.Content.startsWith("ChatSelf-ItemEars") === -1))) {
               if (data.Content.indexOf("Caress") !== -1) {
                   let nya = Math.floor(Math.random() * 5);
+                  if(Player.BCAR.bcarSettings.earWigglingEnable === true){
                   console.log(nya)
                   ActivityBeeper("EarCaress",nya);
 
@@ -168,10 +186,11 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                   Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
-
+                  }
               }
               else if (data.Content.indexOf("Nibble") !== -1) {
                   let nya = Math.floor(Math.random() * 3);
+                  if(Player.BCAR.bcarSettings.earWigglingEnable === true){
                   console.log(nya)
                   ActivityBeeper("EarNibble",nya);
 
@@ -180,10 +199,11 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                   Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 10;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
-
+                  }
               }
               else if (data.Content.indexOf("Lick") !== -1) {
                   let nya = Math.floor(Math.random() * 3);
+                  if(Player.BCAR.bcarSettings.earWigglingEnable === true){
                   console.log(nya)
                   ActivityBeeper("EarLick",nya);
 
@@ -192,10 +212,11 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                   Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 7;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
-
+                  }
               }
               else if (data.Content.indexOf("Kiss") !== -1) {
                   let nya = Math.floor(Math.random() * 3);
+                  if(Player.BCAR.bcarSettings.earWigglingEnable === true){
                   console.log(nya)
                   ActivityBeeper("EarKiss",nya);
 
@@ -204,57 +225,68 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                   Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 7;
                   ActivityChatRoomBCTArousalSync(Player);
                   ActivityChatRoomArousalSync(Player);
+                  }
             }
         }
         else if ((data.Content.startsWith("ChatOther-ItemHead") || (data.Content.startsWith("ChatSelf-ItemHead") === -1))) {
             if (data.Content.indexOf("TakeCare") !== -1) {
                 let nya = Math.floor(Math.random() * 2);
+                if(Player.BCAR.bcarSettings.earWigglingEnable === true){
                 console.log(nya)
                 ActivityBeeper("HeadBrush",nya);
 
                 setTimeout(EarWiggle);
                 Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
                 ActivityChatRoomArousalSync(Player);
+                }
             }
             else if (data.Content.indexOf("Pet") !== -1) {
                 let nya = Math.floor(Math.random() * 4);
+                if(Player.BCAR.bcarSettings.earWigglingEnable === true){
                 console.log(nya)
                 ActivityBeeper("HeadPat",nya);
 
                 setTimeout(EarWiggle);
                 Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
                 ActivityChatRoomArousalSync(Player);
+                }
             }
         }
 	else if ((data.Content.startsWith("ChatOther-ItemTorso") || (data.Content.startsWith("ChatSelf-ItemTorso") === -1))) {
             if (data.Content.indexOf("Caress") !== -1) {
                 let nya = Math.floor(Math.random() * 1);
+                if(Player.BCAR.bcarSettings.tailWaggingEnable === true){
                 console.log(nya)
                 ActivityBeeper("CaressBack",nya);
 
                 setTimeout(TailWag);
                 Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
                 ActivityChatRoomArousalSync(Player);
+                }
             }
             else if (data.Content.indexOf("MassageHands") !== -1) {
                 let nya = Math.floor(Math.random() * 1);
+                if(Player.BCAR.bcarSettings.tailWaggingEnable === true){
                 console.log(nya)
                 ActivityBeeper("MassageBack",nya);
 
                 setTimeout(TailWag);
                 Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
                 ActivityChatRoomArousalSync(Player);
+                }
             }
         }
 	else if ((data.Content.startsWith("ChatOther-ItemButt") || (data.Content.startsWith("ChatSelf-ItemButt") === -1))) {
             if (data.Content.indexOf("Caress") !== -1) {
                 let nya = Math.floor(Math.random() * 1);
+                if(Player.BCAR.bcarSettings.tailWaggingEnable === true){
                 console.log(nya)
                 ActivityBeeper("CaressButt",nya);
 
                 setTimeout(TailWag);
                 Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
                 ActivityChatRoomArousalSync(Player);
+                }
             }
 	}
 
@@ -276,6 +308,25 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         OnlineSettings: Player.OnlineSettings,
         });
     }
+
+    async function beepChangelog() {
+		await waitFor(() => !!Player?.AccountName);
+		await sleep(5000);
+		bctBeepNotify("BCAR updated", "BCAR got updated. Type ''/bcar changelog'' to view the changelog.");
+	}
+
+	function bctBeepNotify (title, text){
+		modAPI.callOriginal("ServerAccountBeep", [
+			{
+				MemberNumber: Player.MemberNumber,
+				MemberName: "BCAR",
+				ChatRoomName: title,
+				Private: true,
+				Message: text,
+				ChatRoomSpace: "",
+			},
+		]);
+	}
 
     function bcarSettingsRemove() {
     localStorage.removeItem(bcarSettingsKey(),JSON.stringify(Player.BCAR.bcarSettings));
@@ -443,6 +494,14 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 				if (!(setting in settings)) {
 					settings[setting] = BCAR_DEFAULT_SETTINGS[setting];
 				}
+			}
+
+			//if the version of the current settings is newer then the loaded ones, beep that bcar got an update
+			if (
+				typeof settings.version === "undefined" ||
+				settings.version < BCAR_Settings_Version
+			) {
+				beepChangelog();
 			}
 
 			settings.version = BCAR_Settings_Version;
@@ -1082,6 +1141,25 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
                     "Settings have been reseted!</p>"
+                );
+            bcarSettingsRemove();
+            bcarSettingsLoad();
+        }
+
+	}
+
+    function CommandChangelog(argsList)
+	{
+       let changelog = argsList[0];
+       let changelogto = argsList.slice(1);
+
+        if (changelog === "changelog") {
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452'><b>Bondage Club Auto React Changelog</b>: " + BCAR_Version + "\n" +
+                    "" + BCAR_Version + ":\n" +
+                    "- Added wing flapping via chat\n" +
+                    "- Added profile presets\n" +
+                    "View <a href='https://github.com/DrBranestawm/BCAR/blob/main/script/changelog.md' target='_blank'>Full Changelog</a> to see all changes</p>"
                 );
             bcarSettingsRemove();
             bcarSettingsLoad();
