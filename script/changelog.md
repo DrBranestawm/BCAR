@@ -1,4 +1,17 @@
-# [BCAR v0.4.2](https://github.com/DrBranestawm/BCAR/releases/edit/v0.4.2)
+# [BCAR v0.5.0](https://github.com/DrBranestawm/BCAR/releases/edit/v0.5.0)
+### What's Changed
+* Added on/off switch for earWiggle, tailWagging & wingFlapping
+* Added butt caress reaction
+* Added wing flapping via chat
+* Optimized wing flapping and and status page
+* Added profile presets
+* Added changelog
+* Fixed the chat reactions fire even when the animation is set to disbaled
+* Several minor bugfixes
+
+**Full Changelog**: [0.4.2...0.5.0](https://github.com/DrBranestawm/BCAR/compare/0.4.2...0.5.0)
+
+## [BCAR v0.4.2](https://github.com/DrBranestawm/BCAR/releases/edit/v0.4.2)
 ### What's Changed
 * Added a help menu to BCAR by @DrBranestawm
 * Added chat prompt on changes by @DrBranestawm
