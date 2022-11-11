@@ -334,7 +334,6 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             },
             profile1Saved : false,
             profile1 : {
-                saved : false,
                 earWigglingEnable : false,
                 earWigglingStatus : "Disabled", //Output for the status page
                 earsDefault : {
@@ -741,7 +740,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                     "/bcar male - To let the reactions refer to " + CharacterNickname(Player) + " as ''he''\n" +
                     "/bcar female - To let the reactions refer to " + CharacterNickname(Player) + " as ''she''\n" +
                     "/bcar other - To let the reactions refer to " + CharacterNickname(Player) + " as ''they''\n" +
-		            "/bcar reset - To reset the set ears and tails to the default settings.\n" +
+		    "/bcar reset - To reset the set ears and tails to the default settings.\n" +
                     "Visit the <a href='https://github.com/DrBranestawm/BCAR' target='_blank'>BCAR</a> github for more info.</p>"
                  );
         }
@@ -780,7 +779,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Ear instructions:\n" +
                     "First equip the main ears you want to wear in primarily the ''Ears'' slot in your wardrobe. Type ''/bcar ear1'' in the chat to save the main ears. \n" +
-		            "For your ears to wiggle follow the same steps and equip a different type of ears to use as your secondary. Type ''/bcar ear2'' in the chat to save the secondary ears. \n" +
+		    "For your ears to wiggle follow the same steps and equip a different type of ears to use as your secondary. Type ''/bcar ear2'' in the chat to save the secondary ears. \n" +
                     " \n" +
                     "Commands:\n" +
                     "/bcar ear1 - To save the primary ears.\n" +
@@ -801,13 +800,13 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Tail instructions:\n" +
                     "First equip the main tail you want to wear in primarily the ''Tail Strap'' slot in your wardrobe. Type ''/bcar tail1'' in the chat to save the main tail. \n" +
-		            "For your tail to wag follow the same steps and equip a different type of tail to use as your secondary. Type ''/bcar tail2'' in the chat to save the secondary tail. \n" +
+		     "For your tail to wag follow the same steps and equip a different type of tail to use as your secondary. Type ''/bcar tail2'' in the chat to save the secondary tail. \n" +
                     " \n" +
                     "Commands:\n" +
                     "/bcar tail1 - To save the primary tail.\n" +
                     "/bcar tail2 - To save the secondary tail.\n" +
                     "/bcar tailon - To enable the tail wagging on.\n" +
-		            "/bcar tailoff - To disbale the tail wagging off.</p>"
+		    "/bcar tailoff - To disbale the tail wagging off.</p>"
                  );
         }
 
@@ -822,7 +821,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Wing instructions:\n" +
                     "First equip the main wings you want to wear in primarily the ''Wings'' slot in your wardrobe. Type ''/bcar wing1'' in the chat to save the main wings. \n" +
-		            "For your wings to wiggle follow the same steps and equip a different type of wings to use as your secondary. Type ''/bcar wing2'' in the chat to save the secondary wings. \n" +
+		    "For your wings to wiggle follow the same steps and equip a different type of wings to use as your secondary. Type ''/bcar wing2'' in the chat to save the secondary wings. \n" +
                     "To let your wings flap type an emote anything that includes the words ''flaps'' and ''wings''. \n" +
                     " \n" +
                     "Commands:\n" +
@@ -983,9 +982,6 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
         if (loading === "load1") {
             if(Player.BCAR.bcarSettings.profile1Saved === true){
-            let ears1 = InventoryWear(Player,"HairAccessory2");
-            let tails1 = InventoryWear(Player,"TailStraps");
-
             Player.BCAR.bcarSettings.earWigglingEnable = Player.BCAR.bcarSettings.profile1.earWigglingEnable;
             Player.BCAR.bcarSettings.earWigglingStatus = Player.BCAR.bcarSettings.profile1.earWigglingStatus;
             Player.BCAR.bcarSettings.earsDefault.ears1 = Player.BCAR.bcarSettings.profile1.earsDefault.ears1;
@@ -1031,9 +1027,6 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         }
         else if (loading === "load2") {
             if(Player.BCAR.bcarSettings.profile2Saved === true){
-            let ears1 = InventoryWear(Player,"HairAccessory2");
-            let tails1 = InventoryWear(Player,"TailStraps");
-            let wings1 = InventoryWear(Player,"Wings");
             Player.BCAR.bcarSettings.earWigglingEnable = Player.BCAR.bcarSettings.profile2.earWigglingEnable;
             Player.BCAR.bcarSettings.earWigglingStatus = Player.BCAR.bcarSettings.profile2.earWigglingStatus;
             Player.BCAR.bcarSettings.earsDefault.ears1 = Player.BCAR.bcarSettings.profile2.earsDefault.ears1;
@@ -1101,7 +1094,6 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 			Tag: 'bcar',
             Description: "help : To open the commands overview and info.",
 			AutoComplete: args => {
-                Tag: 'status';
 
 			},
 			Action: args => {
@@ -1127,37 +1119,6 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 		}
 
 	])
-
-//    function CommandResetSettings(argsList)
-//	{
-//       let remove = argsList[0];
-//       let removeto = argsList.slice(1);
-
-//        if (remove === "reset") {
-//            ChatRoomSendLocal(
-//                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
-//                    "Settings have been reseted!</p>"
-//                );
-//            bcarSettingsRemove();
-//            bcarSettingsLoad();
-//        }
-
-//	}
-
-//    CommandCombine([
-//		{
-//			Tag: 'bcarreset',
-//            Description: ": Resets the settings to default",
-//			AutoComplete: args => {
-
-//			},
-//			Action: args => {
-//                CommandResetSettings(args.split(" "));
-
-//			}
-//		}
-
-//	])
 
   //do not touch this
   async function waitFor(func, cancelFunc = () => false) {
