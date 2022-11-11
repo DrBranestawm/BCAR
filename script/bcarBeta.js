@@ -790,7 +790,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         if (openHelp === "help") {
             ChatRoomSendLocal(
                 "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Commands overview and info:\n" +
-                    "/bcar changeog - Show recent FBC changelog\n" +
+                    "/bcar changeog - Show recent BCAR changelog\n" +
                     "/bcar help - Opens this help window.\n" +
                     "/bcar status - Opens the status window.\n" +
                     "/bcar earhelp - Opens ear instructions and commands page.\n" +
