@@ -1,7 +1,7 @@
 # [BCAR v0.5.1](https://github.com/DrBranestawm/BCAR/releases/edit/v0.5.1)
 ### What's Changed
-* Added wing spreding and retracting via chat\n" +
-* Added on/off switch for arousal manipulating\n" +
+* Added wing spreding and retracting via chat
+* Added on/off switch for arousal manipulating
 
 **Full Changelog**: [0.5.0...0.5.1](https://github.com/DrBranestawm/BCAR/compare/0.5.0...0.5.1)
 
