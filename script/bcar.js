@@ -7,7 +7,7 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 //sdk stuff
 
 (async function () {
-	const modApi = bcModSDK.registerMod({
+	const modApi = bcModSdk.registerMod({
 	name: 'BCAR',
 	fullName: 'Bondage Club Auto React',
 	version: BCAR_Version,
