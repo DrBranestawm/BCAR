@@ -1,8 +1,8 @@
-const BCAR_Version = "0.5.0";
-const BCAR_Settings_Version = 3;
+const BCAR_Version = "v0.5.1";
+const BCAR_Settings_Version = 4;
 //sdk stuff
 
-var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ERROR:\n"+o);const e=new Error(o);throw console.error(e),e}const t=new TextEncoder;function n(o){return!!o&&"object"==typeof o&&!Array.isArray(o)}function r(o){const e=new Set;return o.filter((o=>!e.has(o)&&e.add(o)))}const a=new Map,i=new Set;function d(o){i.has(o)||(i.add(o),console.warn(o))}function c(o,e){if(0===e.size)return o;let t=o.toString().replaceAll("\r\n","\n");for(const[n,r]of e.entries())t.includes(n)||d(`ModSDK: Patching ${o.name}: Patch ${n} not applied`),t=t.replaceAll(n,r);return(0,eval)(`(${t})`)}function s(o){const e=[],t=new Map,n=new Set;for(const r of u.values()){const a=r.patching.get(o.name);if(a){e.push(...a.hooks);for(const[e,i]of a.patches.entries())t.has(e)&&t.get(e)!==i&&d(`ModSDK: Mod '${r.name}' is patching function ${o.name} with same pattern that is already applied by different mod, but with different pattern:\nPattern:\n${e}\nPatch1:\n${t.get(e)||""}\nPatch2:\n${i}`),t.set(e,i),n.add(r.name)}}return e.sort(((o,e)=>e.priority-o.priority)),{hooks:e,patches:t,patchesSources:n,final:c(o.original,t)}}function l(o,e=!1){let r=a.get(o);if(r)e&&(r.precomputed=s(r));else{let e=window;const i=o.split(".");for(let t=0;t<i.length-1;t++)if(e=e[i[t]],!n(e))throw new Error(`ModSDK: Function ${o} to be patched not found; ${i.slice(0,t+1).join(".")} is not object`);const d=e[i[i.length-1]];if("function"!=typeof d)throw new Error(`ModSDK: Function ${o} to be patched not found`);const c=function(o){let e=-1;for(const n of t.encode(o)){let o=255&(e^n);for(let e=0;e<8;e++)o=1&o?-306674912^o>>>1:o>>>1;e=e>>>8^o}return((-1^e)>>>0).toString(16).padStart(8,"0").toUpperCase()}(d.toString().replaceAll("\r\n","\n")),l={name:o,original:d,originalHash:c};r=Object.assign(Object.assign({},l),{precomputed:s(l)}),a.set(o,r),e[i[i.length-1]]=function(o){return function(...e){const t=o.precomputed,n=t.hooks,r=t.final;let a=0;const i=d=>{var c,s,l,f;if(a<n.length){const e=n[a];a++;const t=null===(s=(c=w.errorReporterHooks).hookEnter)||void 0===s?void 0:s.call(c,o.name,e.mod),r=e.hook(d,i);return null==t||t(),r}{const n=null===(f=(l=w.errorReporterHooks).hookChainExit)||void 0===f?void 0:f.call(l,o.name,t.patchesSources),a=r.apply(this,e);return null==n||n(),a}};return i(e)}}(r)}return r}function f(){const o=new Set;for(const e of u.values())for(const t of e.patching.keys())o.add(t);for(const e of a.keys())o.add(e);for(const e of o)l(e,!0)}function p(){const o=new Map;for(const[e,t]of a)o.set(e,{name:e,originalHash:t.originalHash,hookedByMods:r(t.precomputed.hooks.map((o=>o.mod))),patchedByMods:Array.from(t.precomputed.patchesSources)});return o}const u=new Map;function h(o){u.get(o.name)!==o&&e(`Failed to unload mod '${o.name}': Not registered`),u.delete(o.name),o.loaded=!1}function g(o,t,r){"string"==typeof o&&o||e("Failed to register mod: Expected non-empty name string, got "+typeof o),"string"!=typeof t&&e(`Failed to register mod '${o}': Expected version string, got ${typeof t}`),r=!0===r;const a=u.get(o);a&&(a.allowReplace&&r||e(`Refusing to load mod '${o}': it is already loaded and doesn't allow being replaced.\nWas the mod loaded multiple times?`),h(a));const i=t=>{"string"==typeof t&&t||e(`Mod '${o}' failed to patch a function: Expected function name string, got ${typeof t}`);let n=c.patching.get(t);return n||(n={hooks:[],patches:new Map},c.patching.set(t,n)),n},d={unload:()=>h(c),hookFunction:(t,n,r)=>{c.loaded||e(`Mod '${c.name}' attempted to call SDK function after being unloaded`);const a=i(t);"number"!=typeof n&&e(`Mod '${o}' failed to hook function '${t}': Expected priority number, got ${typeof n}`),"function"!=typeof r&&e(`Mod '${o}' failed to hook function '${t}': Expected hook function, got ${typeof r}`);const d={mod:c.name,priority:n,hook:r};return a.hooks.push(d),f(),()=>{const o=a.hooks.indexOf(d);o>=0&&(a.hooks.splice(o,1),f())}},patchFunction:(t,r)=>{c.loaded||e(`Mod '${c.name}' attempted to call SDK function after being unloaded`);const a=i(t);n(r)||e(`Mod '${o}' failed to patch function '${t}': Expected patches object, got ${typeof r}`);for(const[n,i]of Object.entries(r))"string"==typeof i?a.patches.set(n,i):null===i?a.patches.delete(n):e(`Mod '${o}' failed to patch function '${t}': Invalid format of patch '${n}'`);f()},removePatches:o=>{c.loaded||e(`Mod '${c.name}' attempted to call SDK function after being unloaded`);i(o).patches.clear(),f()},callOriginal:(t,n,r)=>(c.loaded||e(`Mod '${c.name}' attempted to call SDK function after being unloaded`),"string"==typeof t&&t||e(`Mod '${o}' failed to call a function: Expected function name string, got ${typeof t}`),Array.isArray(n)||e(`Mod '${o}' failed to call a function: Expected args array, got ${typeof n}`),function(o,e,t=window){return l(o).original.apply(t,e)}(t,n,r)),getOriginalHash:t=>("string"==typeof t&&t||e(`Mod '${o}' failed to get hash: Expected function name string, got ${typeof t}`),l(t).originalHash)},c={name:o,version:t,allowReplace:r,api:d,loaded:!0,patching:new Map};return u.set(o,c),Object.freeze(d)}function m(){const o=[];for(const e of u.values())o.push({name:e.name,version:e.version});return o}let w;const y=void 0===window.bcModSdk?window.bcModSdk=function(){const e={version:o,apiVersion:1,registerMod:g,getModsInfo:m,getPatchingInfo:p,errorReporterHooks:Object.seal({hookEnter:null,hookChainExit:null})};return w=e,Object.freeze(e)}():(n(window.bcModSdk)||e("Failed to init Mod SDK: Name already in use"),1!==window.bcModSdk.apiVersion&&e(`Failed to init Mod SDK: Different version already loaded ('1.0.2' vs '${window.bcModSdk.version}')`),window.bcModSdk.version!==o&&alert(`Mod SDK warning: Loading different but compatible versions ('1.0.2' vs '${window.bcModSdk.version}')\nOne of mods you are using is using an old version of SDK. It will work for now but please inform author to update`),window.bcModSdk);return"undefined"!=typeof exports&&(Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=y),y}();
+var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ERROR:\n"+e);const o=new Error(e);throw console.error(o),o}const t=new TextEncoder;function n(e){return!!e&&"object"==typeof e&&!Array.isArray(e)}function r(e){const o=new Set;return e.filter((e=>!o.has(e)&&o.add(e)))}const i=new Map,a=new Set;function d(e){a.has(e)||(a.add(e),console.warn(e))}function s(e){const o=[],t=new Map,n=new Set;for(const r of p.values()){const i=r.patching.get(e.name);if(i){o.push(...i.hooks);for(const[o,a]of i.patches.entries())t.has(o)&&t.get(o)!==a&&d(`ModSDK: Mod '${r.name}' is patching function ${e.name} with same pattern that is already applied by different mod, but with different pattern:\nPattern:\n${o}\nPatch1:\n${t.get(o)||""}\nPatch2:\n${a}`),t.set(o,a),n.add(r.name)}}o.sort(((e,o)=>o.priority-e.priority));const r=function(e,o){if(0===o.size)return e;let t=e.toString().replaceAll("\r\n","\n");for(const[n,r]of o.entries())t.includes(n)||d(`ModSDK: Patching ${e.name}: Patch ${n} not applied`),t=t.replaceAll(n,r);return(0,eval)(`(${t})`)}(e.original,t);let i=function(o){var t,i;const a=null===(i=(t=m.errorReporterHooks).hookChainExit)||void 0===i?void 0:i.call(t,e.name,n),d=r.apply(this,o);return null==a||a(),d};for(let t=o.length-1;t>=0;t--){const n=o[t],r=i;i=function(o){var t,i;const a=null===(i=(t=m.errorReporterHooks).hookEnter)||void 0===i?void 0:i.call(t,e.name,n.mod),d=n.hook.apply(this,[o,e=>{if(1!==arguments.length||!Array.isArray(o))throw new Error(`Mod ${n.mod} failed to call next hook: Expected args to be array, got ${typeof e}`);return r.call(this,e)}]);return null==a||a(),d}}return{hooks:o,patches:t,patchesSources:n,enter:i,final:r}}function c(e,o=!1){let r=i.get(e);if(r)o&&(r.precomputed=s(r));else{let o=window;const a=e.split(".");for(let t=0;t<a.length-1;t++)if(o=o[a[t]],!n(o))throw new Error(`ModSDK: Function ${e} to be patched not found; ${a.slice(0,t+1).join(".")} is not object`);const d=o[a[a.length-1]];if("function"!=typeof d)throw new Error(`ModSDK: Function ${e} to be patched not found`);const c=function(e){let o=-1;for(const n of t.encode(e)){let e=255&(o^n);for(let o=0;o<8;o++)e=1&e?-306674912^e>>>1:e>>>1;o=o>>>8^e}return((-1^o)>>>0).toString(16).padStart(8,"0").toUpperCase()}(d.toString().replaceAll("\r\n","\n")),l={name:e,original:d,originalHash:c};r=Object.assign(Object.assign({},l),{precomputed:s(l),router:()=>{},context:o,contextProperty:a[a.length-1]}),r.router=function(e){return function(...o){return e.precomputed.enter.apply(this,[o])}}(r),i.set(e,r),o[r.contextProperty]=r.router}return r}function l(){const e=new Set;for(const o of p.values())for(const t of o.patching.keys())e.add(t);for(const o of i.keys())e.add(o);for(const o of e)c(o,!0)}function f(){const e=new Map;for(const[o,t]of i)e.set(o,{name:o,original:t.original,originalHash:t.originalHash,sdkEntrypoint:t.router,currentEntrypoint:t.context[t.contextProperty],hookedByMods:r(t.precomputed.hooks.map((e=>e.mod))),patchedByMods:Array.from(t.precomputed.patchesSources)});return e}const p=new Map;function u(e){p.get(e.name)!==e&&o(`Failed to unload mod '${e.name}': Not registered`),p.delete(e.name),e.loaded=!1,l()}function g(e,t,r){"string"==typeof e&&"string"==typeof t&&(alert(`Mod SDK warning: Mod '${e}' is registering in a deprecated way.\nIt will work for now, but please inform author to update.`),e={name:e,fullName:e,version:t},t={allowReplace:!0===r}),e&&"object"==typeof e||o("Failed to register mod: Expected info object, got "+typeof e),"string"==typeof e.name&&e.name||o("Failed to register mod: Expected name to be non-empty string, got "+typeof e.name);let i=`'${e.name}'`;"string"==typeof e.fullName&&e.fullName||o(`Failed to register mod ${i}: Expected fullName to be non-empty string, got ${typeof e.fullName}`),i=`'${e.fullName} (${e.name})'`,"string"!=typeof e.version&&o(`Failed to register mod ${i}: Expected version to be string, got ${typeof e.version}`),e.repository||(e.repository=void 0),void 0!==e.repository&&"string"!=typeof e.repository&&o(`Failed to register mod ${i}: Expected repository to be undefined or string, got ${typeof e.version}`),null==t&&(t={}),t&&"object"==typeof t||o(`Failed to register mod ${i}: Expected options to be undefined or object, got ${typeof t}`);const a=!0===t.allowReplace,d=p.get(e.name);d&&(d.allowReplace&&a||o(`Refusing to load mod ${i}: it is already loaded and doesn't allow being replaced.\nWas the mod loaded multiple times?`),u(d));const s=e=>{"string"==typeof e&&e||o(`Mod ${i} failed to patch a function: Expected function name string, got ${typeof e}`);let t=g.patching.get(e);return t||(t={hooks:[],patches:new Map},g.patching.set(e,t)),t},f={unload:()=>u(g),hookFunction:(e,t,n)=>{g.loaded||o(`Mod ${i} attempted to call SDK function after being unloaded`);const r=s(e);"number"!=typeof t&&o(`Mod ${i} failed to hook function '${e}': Expected priority number, got ${typeof t}`),"function"!=typeof n&&o(`Mod ${i} failed to hook function '${e}': Expected hook function, got ${typeof n}`);const a={mod:g.name,priority:t,hook:n};return r.hooks.push(a),l(),()=>{const e=r.hooks.indexOf(a);e>=0&&(r.hooks.splice(e,1),l())}},patchFunction:(e,t)=>{g.loaded||o(`Mod ${i} attempted to call SDK function after being unloaded`);const r=s(e);n(t)||o(`Mod ${i} failed to patch function '${e}': Expected patches object, got ${typeof t}`);for(const[n,a]of Object.entries(t))"string"==typeof a?r.patches.set(n,a):null===a?r.patches.delete(n):o(`Mod ${i} failed to patch function '${e}': Invalid format of patch '${n}'`);l()},removePatches:e=>{g.loaded||o(`Mod ${i} attempted to call SDK function after being unloaded`);s(e).patches.clear(),l()},callOriginal:(e,t,n)=>(g.loaded||o(`Mod ${i} attempted to call SDK function after being unloaded`),"string"==typeof e&&e||o(`Mod ${i} failed to call a function: Expected function name string, got ${typeof e}`),Array.isArray(t)||o(`Mod ${i} failed to call a function: Expected args array, got ${typeof t}`),function(e,o,t=window){return c(e).original.apply(t,o)}(e,t,n)),getOriginalHash:e=>("string"==typeof e&&e||o(`Mod ${i} failed to get hash: Expected function name string, got ${typeof e}`),c(e).originalHash)},g={name:e.name,fullName:e.fullName,version:e.version,repository:e.repository,allowReplace:a,api:f,loaded:!0,patching:new Map};return p.set(e.name,g),Object.freeze(f)}function h(){const e=[];for(const o of p.values())e.push({name:o.name,fullName:o.fullName,version:o.version,repository:o.repository});return e}let m;const y=function(){if(void 0===window.bcModSdk)return window.bcModSdk=function(){const o={version:e,apiVersion:1,registerMod:g,getModsInfo:h,getPatchingInfo:f,errorReporterHooks:Object.seal({hookEnter:null,hookChainExit:null})};return m=o,Object.freeze(o)}();if(n(window.bcModSdk)||o("Failed to init Mod SDK: Name already in use"),1!==window.bcModSdk.apiVersion&&o(`Failed to init Mod SDK: Different version already loaded ('1.1.0' vs '${window.bcModSdk.version}')`),window.bcModSdk.version!==e&&(alert(`Mod SDK warning: Loading different but compatible versions ('1.1.0' vs '${window.bcModSdk.version}')\nOne of mods you are using is using an old version of SDK. It will work for now but please inform author to update`),window.bcModSdk.version.startsWith("1.0.")&&void 0===window.bcModSdk._shim10register)){const e=window.bcModSdk,o=Object.freeze(Object.assign(Object.assign({},e),{registerMod:(o,t,n)=>o&&"object"==typeof o&&"string"==typeof o.name&&"string"==typeof o.version?e.registerMod(o.name,o.version,"object"==typeof t&&!!t&&!0===t.allowReplace):e.registerMod(o,t,n),_shim10register:!0}));window.bcModSdk=o}return window.bcModSdk}();return"undefined"!=typeof exports&&(Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=y),y}();
 
 //sdk stuff
 
@@ -17,6 +17,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
   await waitFor(() => ServerIsConnected && ServerSocket);
   //end of do not touch
   const bcarSettingsKey = () => `bcarSettings.${Player?.AccountName}`;
+    const subcommands = ["arousalhelp", "arousaloff", "arousalon", "changelog", "earhelp", "earoff", "earon", "ear1", "ear2", "help", "load1", "load2", "profile1", "profile2", "profilehelp", "save1", "save2", "status", "tailhelp", "tailoff", "tailon", "tail1", "tail2", "winghelp", "wingoff", "wingon", "wing1", "wing2"];
 
   await bcarSettingsLoad();
 
@@ -81,6 +82,87 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
    }
  }
 
+     function ArousalEarCaress(){
+         if(Player.BCAR.bcarSettings.arousalEnable === true){
+         Player.BCT.splitOrgasmArousal.arousalProgress = 30;
+         Player.BCT.splitOrgasmArousal.ProgressTimer = Player.BCT.splitOrgasmArousal.arousalProgress + 15;
+         Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
+         ActivityChatRoomBCTArousalSync(Player);
+         ActivityChatRoomArousalSync(Player);
+         }
+     }
+
+     function ArousalEarNibble(){
+         if(Player.BCAR.bcarSettings.arousalEnable === true){
+         Player.BCT.splitOrgasmArousal.arousalProgress = 100;
+         Player.BCT.splitOrgasmArousal.ProgressTimer = Player.BCT.splitOrgasmArousal.arousalProgress + 50;
+         Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 10;
+         ActivityChatRoomBCTArousalSync(Player);
+         ActivityChatRoomArousalSync(Player);
+        }
+     }
+
+    function ArousalEarLick(){
+        if(Player.BCAR.bcarSettings.arousalEnable === true){
+        Player.BCT.splitOrgasmArousal.arousalProgress = 100;
+        Player.BCT.splitOrgasmArousal.ProgressTimer = Player.BCT.splitOrgasmArousal.arousalProgress + 50;
+        Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 7;
+        ActivityChatRoomBCTArousalSync(Player);
+        ActivityChatRoomArousalSync(Player);
+        }
+    }
+
+    function ArousalEarKiss(){
+        if(Player.BCAR.bcarSettings.arousalEnable === true){
+        Player.BCT.splitOrgasmArousal.arousalProgress = 100;
+        Player.BCT.splitOrgasmArousal.ProgressTimer = Player.BCT.splitOrgasmArousal.arousalProgress + 50;
+        Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 7;
+        ActivityChatRoomBCTArousalSync(Player);
+        ActivityChatRoomArousalSync(Player);
+        }
+    }
+
+    function ArousalHeadBrush(){
+        if(Player.BCAR.bcarSettings.arousalEnable === true){
+        Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
+        ActivityChatRoomArousalSync(Player);
+        }
+    }
+
+    function ArousalHeadPat(){
+        if(Player.BCAR.bcarSettings.arousalEnable === true){
+        Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
+        ActivityChatRoomArousalSync(Player);
+        }
+    }
+
+    function ArousalCaressBack(){
+        if(Player.BCAR.bcarSettings.arousalEnable === true){
+        Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
+        ActivityChatRoomArousalSync(Player);
+        }
+    }
+
+    function ArousalMassageBack(){
+        if(Player.BCAR.bcarSettings.arousalEnable === true){
+        Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
+        ActivityChatRoomArousalSync(Player);
+        }
+    }
+
+    function ArousalCaressButt(){
+        if(Player.BCAR.bcarSettings.arousalEnable === true){
+        Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
+        ActivityChatRoomArousalSync(Player);
+        }
+    }
+
+    function Sleep(){
+        console.log(Sleep)
+			CharacterSetFacialExpression(Player, "Eyes", "Closed");
+			}
+
+
      function TailWag(){
       if(Player.BCAR.bcarSettings.tailWaggingEnable === true){
         let tailsVariations = [Player.BCAR.bcarSettings.tailsDefault.tails2,Player.BCAR.bcarSettings.tailsDefault.tails1];
@@ -98,7 +180,6 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
  }
 
      function WingFlap(){
-         console.log("Flap ");
       if(Player.BCAR.bcarSettings.wingFlappingEnable === true){
         let wingsVariations = [Player.BCAR.bcarSettings.wingsDefault.wings2,Player.BCAR.bcarSettings.wingsDefault.wings1];
         let wingsColor = [Player.BCAR.bcarSettings.wingsDefault.wingsColor2,Player.BCAR.bcarSettings.wingsDefault.wingsColor1];
@@ -113,19 +194,35 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
      }
    }
  }
+
+      function WingsSpread(){
+      if(Player.BCAR.bcarSettings.wingFlappingEnable === true){
+        InventoryWear(Player, Player.BCAR.bcarSettings.wingsDefault.wings1, "Wings", Player.BCAR.bcarSettings.wingsDefault.wingsColor1);
+        ChatRoomCharacterItemUpdate(Player, "Wings");
+   }
+ }
+
       function Fly(){
-         console.log("Fly ");
       if(Player.BCAR.bcarSettings.wingFlappingEnable === true){
        InventoryGet(Player, 'Emoticon').Property.OverrideHeight = { Height: +70 };
    }
  }
 
       function Landing(){
-         console.log("Landing ");
       if(Player.BCAR.bcarSettings.wingFlappingEnable === true){
-       delete InventoryGet(Player, 'Emoticon').Property.OverrideHeight;
+        delete InventoryGet(Player, 'Emoticon').Property.OverrideHeight;
+        CurrentScreen === 'ChatRoom'
+        ? ChatRoomCharacterUpdate(Player)
+        : CharacterRefresh(Player);
    }
  }
+
+    function WingsHide(){
+        InventoryRemove(Player, "Wings");
+                CurrentScreen === 'ChatRoom'
+        ? ChatRoomCharacterUpdate(Player)
+        : CharacterRefresh(Player);
+    }
 
   // on channel join data Type is Action, Content is ServerEnter and MemberNumber is the joining user
   //do not touch this
@@ -133,34 +230,87 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
     await sleep(10);
 
 
-      if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
-					var flapMessage = data.Content;
-					let patterns = [/flaps.*wings/mi, /wings.*flapping/mi, /flapping.*wings/mi, /wings.*flap/mi] ; // matches {<any> flaps <any> wings <any>}
-					let result = patterns.find(pattern => pattern.test(flapMessage));
-					if(result){
-						WingFlap();
-					}
-				}
+//      if (Player.BCT.bctSettings.tailWaggingEnable === true){
+//          Player.BCT.bctSettings.tailWaggingEnable = false
+//      }
 
       if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
-					var flyMessage = data.Content;
-					let patterns = [/begins.*fly/mi, /starts.*flying/mi] ; // matches {<any> begins <any> fly <any>}
-					let result = patterns.find(pattern => pattern.test(flyMessage));
-					if(result){
-                        Fly();
-						WingFlap();
-					}
-				}
+          var sleepMessage = data.Content;
+          let patterns = [/falls.*asleep/mi, /sleeps/mi] ; // matches {<any> falls <any> asleep <any>}
+          let result = patterns.find(pattern => pattern.test(sleepMessage));
+          if(result){
+              Sleep();
+          }
+      }
+
+//      if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
+//          var wagMessage = data.Content;
+//          let patterns = [/wags.*tail/mi, /tail.*wagging/mi, /wagging.*tail/mi] ; // matches {<any> wags <any> tail <any>}
+//          let result = patterns.find(pattern => pattern.test(wagMessage));
+//          if(result){
+//              TailWag();
+//          }
+//      }
 
       if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
-					var stopFlyMessage = data.Content;
-					let patterns = [/lands.*/mi, /stops.*flying/mi] ; // matches {<any> begins <any> fly <any>}
-					let result = patterns.find(pattern => pattern.test(stopFlyMessage));
-					if(result){
-                        WingFlap();
-                        Landing();
-					}
-				}
+          var wingsSpreadMessage = data.Content;
+          let patterns = [/shows.*wings/mi, /spread.*wings/mi] ; // matches {<any> flaps <any> wings <any>}
+          let result = patterns.find(pattern => pattern.test(wingsSpreadMessage));
+          if(result){
+              WingsSpread();
+          }
+      }
+
+      if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
+          var flapMessage = data.Content;
+          let patterns = [/flaps.*wings/mi, /wings.*flapping/mi, /flapping.*wings/mi, /wings.*flap/mi] ; // matches {<any> flaps <any> wings <any>}
+          let result = patterns.find(pattern => pattern.test(flapMessage));
+          if(result){
+              WingFlap();
+          }
+      }
+
+      if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
+          var flyMessage = data.Content;
+          let patterns = [/begins.*fly/mi, /starts.*flying/mi] ; // matches {<any> begins <any> fly <any>}
+          let result = patterns.find(pattern => pattern.test(flyMessage));
+          let NeckRestraints = InventoryGet(Player, "ItemNeckRestraints");
+          if(result){
+          	if (InventoryGet(Player, "ItemNeckRestraints")){
+              		console.log("IF")
+              		ChatRoomSendLocal(
+                  		"<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
+                  		"You can't fly because " + NeckRestraints.Asset.Description + "</p>"
+              			)
+          		}
+          	else {
+              		console.log("ELSE")
+              		Fly();
+              		WingFlap();
+          	}
+	  }
+      }
+
+      if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
+          var stopFlyMessage = data.Content;
+          let patterns = [/lands.*/mi, /stops.*flying/mi] ; // matches {<any> stops <any> fly <any>}
+          let result = patterns.find(pattern => pattern.test(stopFlyMessage));
+          if(result){
+              WingFlap();
+              Landing();
+          }
+      }
+
+      if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
+          var wingsHideMessage = data.Content;
+          let patterns = [/hides.*wings/mi, /folds.*wings/mi, /retracts.*wings/mi] ; // matches {<any> flaps <any> wings <any>}
+          let result = patterns.find(pattern => pattern.test(wingsHideMessage));
+          if(result){
+              Landing();
+              WingsHide();
+          }
+      }
+
 
       if (data.Type === "Activity"){
       var activityDictionary = data.Dictionary
@@ -182,23 +332,17 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                   ActivityBeeper("EarCaress",nya);
 
                   setTimeout(EarWiggle);
-                  Player.BCT.splitOrgasmArousal.arousalProgress = 30;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
-                  ActivityChatRoomBCTArousalSync(Player);
-                  ActivityChatRoomArousalSync(Player);
+                  ArousalEarCaress();
                   }
               }
-              else if (data.Content.indexOf("Nibble") !== -1) {
+            else if (data.Content.indexOf("Nibble") !== -1) {
                   let nya = Math.floor(Math.random() * 3);
                   if(Player.BCAR.bcarSettings.earWigglingEnable === true){
                   console.log(nya)
                   ActivityBeeper("EarNibble",nya);
 
                   setTimeout(EarWiggle);
-                  Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 10;
-                  ActivityChatRoomBCTArousalSync(Player);
-                  ActivityChatRoomArousalSync(Player);
+                  ArousalEarNibble();
                   }
               }
               else if (data.Content.indexOf("Lick") !== -1) {
@@ -208,10 +352,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                   ActivityBeeper("EarLick",nya);
 
                   setTimeout(EarWiggle);
-                  Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 7;
-                  ActivityChatRoomBCTArousalSync(Player);
-                  ActivityChatRoomArousalSync(Player);
+                  ArousalEarLick();
                   }
               }
               else if (data.Content.indexOf("Kiss") !== -1) {
@@ -221,12 +362,9 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                   ActivityBeeper("EarKiss",nya);
 
                   setTimeout(EarWiggle);
-                  Player.BCT.splitOrgasmArousal.arousalProgress = 100;
-                  Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 7;
-                  ActivityChatRoomBCTArousalSync(Player);
-                  ActivityChatRoomArousalSync(Player);
+                  ArousalEarKiss();
                   }
-            }
+              }
         }
         else if ((data.Content.startsWith("ChatOther-ItemHead") || (data.Content.startsWith("ChatSelf-ItemHead") === -1))) {
             if (data.Content.indexOf("TakeCare") !== -1) {
@@ -236,8 +374,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityBeeper("HeadBrush",nya);
 
                 setTimeout(EarWiggle);
-                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
-                ActivityChatRoomArousalSync(Player);
+                ArousalHeadBrush();
                 }
             }
             else if (data.Content.indexOf("Pet") !== -1) {
@@ -247,8 +384,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityBeeper("HeadPat",nya);
 
                 setTimeout(EarWiggle);
-                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
-                ActivityChatRoomArousalSync(Player);
+                ArousalHeadPat();
                 }
             }
         }
@@ -260,8 +396,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityBeeper("CaressBack",nya);
 
                 setTimeout(TailWag);
-                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
-                ActivityChatRoomArousalSync(Player);
+                ArousalCaressBack();
                 }
             }
             else if (data.Content.indexOf("MassageHands") !== -1) {
@@ -271,8 +406,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityBeeper("MassageBack",nya);
 
                 setTimeout(TailWag);
-                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
-                ActivityChatRoomArousalSync(Player);
+                ArousalMassageBack();
                 }
             }
         }
@@ -284,8 +418,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                 ActivityBeeper("CaressButt",nya);
 
                 setTimeout(TailWag);
-                Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
-                ActivityChatRoomArousalSync(Player);
+                ArousalCaressButt();
                 }
             }
 	}
@@ -340,7 +473,9 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
     async function bcarSettingsLoad() {
 		await waitFor(() => !!Player?.AccountName);
         const BCAR_DEFAULT_SETTINGS = {
-	    earWigglingEnable : false,
+	    arousalEnable : true,
+        arousalStatus : "Enabled",
+        earWigglingEnable : false,
         earWigglingStatus : "Disabled", //Output for the status page
             earsDefault : {
                 "ears1" : null, // change based on ear type
@@ -461,7 +596,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                     "wingsDescription2" : "None",
                 },
             },
-
+            bctLoaded : false,
         }
         Player.BCAR = {};
         Player.BCAR.bcarSettings = {};
@@ -504,6 +639,10 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 				beepChangelog();
 			}
 
+//            if(Player.BCT != null){
+//              console.log("BCT is loaded")
+//          }
+
 			settings.version = BCAR_Settings_Version;
 			Player.BCAR.bcarSettings = settings;
         }
@@ -511,6 +650,10 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
     }
 
+    if(Player.BCT != null){
+       Player.BCAR.bcarSettings.bctLoaded = true
+        console.log("BCT is Loaded");
+    }
 
     function CommandEarsChange(argsList)
 	{
@@ -528,7 +671,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             Player.BCAR.bcarSettings.earsDefault.earsColor1 = ears.Color;
             Player.BCAR.bcarSettings.earsDefault.earsDescription1 = ears.Asset.Description;
                 ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "Primary ears have been updated!</p>" +
                     "<div style='background-color:#5FBD7A'>Ear wiggle is now enabled!</div>"
                  );
@@ -539,7 +682,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             Player.BCAR.bcarSettings.earsDefault.earsColor1 = ears.Color;
             Player.BCAR.bcarSettings.earsDefault.earsDescription1 = ears.Asset.Description;
                 ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "Primary ears have been updated!</p>"
                  );
               }
@@ -550,7 +693,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             Player.BCAR.bcarSettings.earsDefault.earsColor2 = ears.Color;
             Player.BCAR.bcarSettings.earsDefault.earsDescription2 = ears.Asset.Description;
             ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "Secondary ears have been updated!</p>"
                 );
         }
@@ -569,7 +712,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             Player.BCAR.bcarSettings.earWigglingEnable = true;
             Player.BCAR.bcarSettings.earWigglingStatus = "Enabled";
             ChatRoomSendLocal(
-                "<p style='background-color:#5FBD7A'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "Ear wiggle is now enabled!</p>"
                 );
         }
@@ -577,7 +720,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             Player.BCAR.bcarSettings.earWigglingEnable = false;
             Player.BCAR.bcarSettings.earWigglingStatus = "Disabled";
             ChatRoomSendLocal(
-                "<p style='background-color:#630A0A'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "Ear wiggle is now disabled!</p>"
                 );
         }
@@ -595,13 +738,14 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         if (change === "tail1") {
             if(Player.BCAR.bcarSettings.tailWaggingEnable === false){
             let tails = InventoryGet(Player,"TailStraps");
+            Player.BCT.bctSettings.tailWaggingEnable = false
             Player.BCAR.bcarSettings.tailWaggingEnable = true;
             Player.BCAR.bcarSettings.tailWaggingStatus = "Enabled";
             Player.BCAR.bcarSettings.tailsDefault.tails1 = tails.Asset.Name;
             Player.BCAR.bcarSettings.tailsDefault.tailsColor1 = tails.Color;
             Player.BCAR.bcarSettings.tailsDefault.tailsDescription1 = tails.Asset.Description;
             ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "Primary tail has been updated!</p>" +
                     "<div style='background-color:#5FBD7A'>Tail wagging is now enabled!</div>"
                 );
@@ -612,7 +756,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             Player.BCAR.bcarSettings.tailsDefault.tailsColor1 = tails.Color;
             Player.BCAR.bcarSettings.tailsDefault.tailsDescription1 = tails.Asset.Description;
                 ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "Primary tail has been updated!</p>"
                  );
               }
@@ -623,7 +767,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             Player.BCAR.bcarSettings.tailsDefault.tailsColor2 = tails.Color;
             Player.BCAR.bcarSettings.tailsDefault.tailsDescription2 = tails.Asset.Description;
             ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "Secondary tail has been updated!</p>"
                 );
         }
@@ -642,7 +786,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             Player.BCAR.bcarSettings.tailWaggingEnable = true;
             Player.BCAR.bcarSettings.tailWaggingStatus = "Enabled";
             ChatRoomSendLocal(
-                "<p style='background-color:#5FBD7A'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "Tail wagging is now enabled!</p>"
                 );
         }
@@ -650,7 +794,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             Player.BCAR.bcarSettings.tailWaggingEnable = false;
             Player.BCAR.bcarSettings.tailWaggingStatus = "Disabled";
             ChatRoomSendLocal(
-                "<p style='background-color:#630A0A'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "Tail wagging is now disabled!</p>"
                 );
         }
@@ -675,7 +819,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             Player.BCAR.bcarSettings.wingsDefault.wingsColor1 = wings.Color;
             Player.BCAR.bcarSettings.wingsDefault.wingsDescription1 = wings.Asset.Description;
             ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "Primary wings has been updated!</p>" +
                     "<div style='background-color:#5FBD7A'>Wing flapping is now enabled!!</div>"
                 );
@@ -686,7 +830,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             Player.BCAR.bcarSettings.wingsDefault.wingsColor1 = wings.Color;
             Player.BCAR.bcarSettings.wingsDefault.wingsDescription1 = wings.Asset.Description;
                 ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "Primary wings has been updated!</p>"
                  );
               }
@@ -697,7 +841,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             Player.BCAR.bcarSettings.wingsDefault.wingsColor2 = wings.Color;
             Player.BCAR.bcarSettings.wingsDefault.wingsDescription2 = wings.Asset.Description;
             ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "Secondary wings has been updated!</p>"
                 );
         }
@@ -716,7 +860,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             Player.BCAR.bcarSettings.wingFlappingEnable = true;
             Player.BCAR.bcarSettings.wingFlappingStatus = "Enabled";
             ChatRoomSendLocal(
-                "<p style='background-color:#5FBD7A'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "Wing flapping is now enabled!</p>"
                 );
         }
@@ -724,7 +868,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             Player.BCAR.bcarSettings.wingFlappingEnable = false;
             Player.BCAR.bcarSettings.wingFlappingStatus = "Disabled";
             ChatRoomSendLocal(
-                "<p style='background-color:#630A0A'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "Wing flapping is now disabled!</p>"
                 );
         }
@@ -746,7 +890,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             Player.BCAR.bcarSettings.genderDefault.intensive = "him";
             Player.BCAR.bcarSettings.genderDefault.possessive = "his";
             ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "The reactions refer to " + CharacterNickname(Player) + " as ''he'' now!\n" +
                     "Please relog for the changes to take effect.</p>"
                 );
@@ -758,7 +902,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             Player.BCAR.bcarSettings.genderDefault.intensive = "her";
             Player.BCAR.bcarSettings.genderDefault.possessive = "her";
             ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "The reactions refer to " + CharacterNickname(Player) + " as ''she'' now!\n" +
                     "Please relog for the changes to take effect.</p>"
                 );
@@ -770,7 +914,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             Player.BCAR.bcarSettings.genderDefault.intensive = "them";
             Player.BCAR.bcarSettings.genderDefault.possessive = "their";
             ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "The reactions refer to " + CharacterNickname(Player) + " as ''they'' now!\n" +
                     "Please relog for the changes to take effect.</p>"
                 );
@@ -789,19 +933,20 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
         if (openHelp === "help") {
             ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Commands overview and info:\n" +
-                    "/bcar changeog - Show recent BCAR changelog\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>: Commands overview and info:\n" +
+                    "/bcar arousalhelp - Opens arousal instructions and commands page.\n" +
+                    "/bcar changelog - Shows the BCAR changelog.\n" +
                     "/bcar help - Opens this help window.\n" +
                     "/bcar status - Opens the status window.\n" +
                     "/bcar earhelp - Opens ear instructions and commands page.\n" +
                     "/bcar tailhelp - Opens tail instructions and commands page.\n" +
                     "/bcar winghelp - Opens wing instructions and commands page.\n" +
                     "/bcar profilehelp - Opens profile instructions and commands page.\n" +
-                    "/bcar male - Lets the reactions refer to " + CharacterNickname(Player) + " as ''he''\n" +
-                    "/bcar female - Lets the reactions refer to " + CharacterNickname(Player) + " as ''she''\n" +
-                    "/bcar other - Lets the reactions refer to " + CharacterNickname(Player) + " as ''they''\n" +
+                    "/bcar male - Lets the reactions refer to " + CharacterNickname(Player) + " as ''he''.\n" +
+                    "/bcar female - Lets the reactions refer to " + CharacterNickname(Player) + " as ''she''.\n" +
+                    "/bcar other - Lets the reactions refer to " + CharacterNickname(Player) + " as ''they''.\n" +
                     "/bcar reset - Resets the ears, tails and wings to the default settings.\n" +
-                    "Visit the <a href='https://github.com/DrBranestawm/BCAR' target='_blank'>BCAR</a> github for more info.</p>"
+                    "Visit the <a href='https://github.com/DrBranestawm/BCAR/wiki' target='_blank'>BCAR Wiki</a> for more info.</p>"
                  );
         }
 
@@ -814,7 +959,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
         if (openStatus === "status") {
             ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Current status:\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>: Current status:\n" +
                     "Ear Animation: " + Player.BCAR.bcarSettings.earWigglingStatus + "\n" +
                     "Primary Ears: " + Player.BCAR.bcarSettings.earsDefault.earsDescription1 + "\n" +
                     "Secondary Ears: " + Player.BCAR.bcarSettings.earsDefault.earsDescription2 + "\n" +
@@ -824,7 +969,27 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
                     "Wing Animation: " + Player.BCAR.bcarSettings.wingFlappingStatus + "\n" +
                     "Primary Wings: " + Player.BCAR.bcarSettings.wingsDefault.wingsDescription1 + "\n" +
                     "Secondary Wings: " + Player.BCAR.bcarSettings.wingsDefault.wingsDescription2 + "\n" +
-                    "Gender: " + Player.BCAR.bcarSettings.genderDefault.gender + "</p>"
+                    "Gender: " + Player.BCAR.bcarSettings.genderDefault.gender + "\n" +
+                    "Arousal Manipulation: " + Player.BCAR.bcarSettings.arousalStatus + "</p>"
+                 );
+        }
+
+      }
+
+    function CommandArousalHelp(argsList)
+	{
+       let openHelp = argsList[0];
+       let openHelpto = argsList.slice(1);
+
+        if (openHelp === "arousalhelp") {
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>: Arousal instructions:\n" +
+                    "With the arousal commands you can switch the manipulation on and off.\n" +
+                    "The manipulation takes effect on headpets, hair brushing, almost every ear action, back and butt caress.\n" +
+                    " \n" +
+                    "Commands:\n" +
+                    "/bcar arousalon - Turns arousal manipulation on.\n" +
+                    "/bcar arousaloff - Turns arousal manipulation off.</p>"
                  );
         }
 
@@ -837,7 +1002,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
         if (openHelp === "earhelp") {
             ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Ear instructions:\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>: Ear instructions:\n" +
                     "First equip the main ears you want to wear in primarily the ''Ears'' slot in your wardrobe. Type ''/bcar ear1'' in the chat to save the main ears. \n" +
 		    "For your ears to wiggle follow the same steps and equip a different type of ears to use as your secondary. Type ''/bcar ear2'' in the chat to save the secondary ears. \n" +
                     " \n" +
@@ -858,7 +1023,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
         if (openHelp === "tailhelp") {
             ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Tail instructions:\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>: Tail instructions:\n" +
                     "First equip the main tail you want to wear in primarily the ''Tail Strap'' slot in your wardrobe. Type ''/bcar tail1'' in the chat to save the main tail. \n" +
 		     "For your tail to wag follow the same steps and equip a different type of tail to use as your secondary. Type ''/bcar tail2'' in the chat to save the secondary tail. \n" +
                     " \n" +
@@ -879,7 +1044,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
         if (openHelp === "winghelp") {
             ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Wing instructions:\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>: Wing instructions:\n" +
                     "First equip the main wings you want to wear in primarily the ''Wings'' slot in your wardrobe. Type ''/bcar wing1'' in the chat to save the main wings. \n" +
 		    "For your wings to wiggle follow the same steps and equip a different type of wings to use as your secondary. Type ''/bcar wing2'' in the chat to save the secondary wings. \n" +
                     "To let your wings flap type an emote anything that includes the words ''flaps'' and ''wings''. \n" +
@@ -905,16 +1070,16 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
         if (openHelp === "profilehelp") {
             ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Profiles instructions:\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>: Profiles instructions:\n" +
                     "With the Profiles you can save presets for your ears, tail and wings. \n" +
                     " \n" +
                     "Commands:\n" +
-                    "/bcar save1 - Saves current setup in Profile1\n" +
-                    "/bcar save2 - Saves current setup in Profile2\n" +
-                    "/bcar load1 - Loads the setup saved in Profile1\n" +
-                    "/bcar load2 - Loads the setup saved in Profile2\n" +
-                    "/bcar profile1 - Shows which setup is saved in Profile1\n" +
-                    "/bcar profile2 - Shows which setup is saved in Profile2</p>"
+                    "/bcar save1 - Saves current setup in Profile1.\n" +
+                    "/bcar save2 - Saves current setup in Profile2.\n" +
+                    "/bcar load1 - Loads the setup saved in Profile1.\n" +
+                    "/bcar load2 - Loads the setup saved in Profile2.\n" +
+                    "/bcar profile1 - Shows which setup is saved in Profile1.\n" +
+                    "/bcar profile2 - Shows which setup is saved in Profile2.</p>"
                  );
         }
 
@@ -927,7 +1092,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
         if (showProfile === "profile1") {
             ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Profile1 preset:\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>: Profile1 preset:\n" +
                     "Ear Animation: " + Player.BCAR.bcarSettings.profile1.earWigglingStatus + "\n" +
                     "Primary Ears: " + Player.BCAR.bcarSettings.profile1.earsDefault.earsDescription1 + "\n" +
                     "Secondary Ears: " + Player.BCAR.bcarSettings.profile1.earsDefault.earsDescription2 + "\n" +
@@ -941,7 +1106,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
         }
         else if (showProfile === "profile2") {
             ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>: Profile2 preset:\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>: Profile2 preset:\n" +
                     "Ear Animation: " + Player.BCAR.bcarSettings.profile2.earWigglingStatus + "\n" +
                     "Primary Ears: " + Player.BCAR.bcarSettings.profile2.earsDefault.earsDescription1 + "\n" +
                     "Secondary Ears: " + Player.BCAR.bcarSettings.profile2.earsDefault.earsDescription2 + "\n" +
@@ -991,7 +1156,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             Player.BCAR.bcarSettings.profile1.wingsDefault.wingsDescription1 = Player.BCAR.bcarSettings.wingsDefault.wingsDescription1;
             Player.BCAR.bcarSettings.profile1.wingsDefault.wingsDescription2 = Player.BCAR.bcarSettings.wingsDefault.wingsDescription2;
                 ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "Profile1 has been saved!</p>"
                  );
 
@@ -1025,7 +1190,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             Player.BCAR.bcarSettings.profile2.wingsDefault.wingsDescription1 = Player.BCAR.bcarSettings.wingsDefault.wingsDescription1;
             Player.BCAR.bcarSettings.profile2.wingsDefault.wingsDescription2 = Player.BCAR.bcarSettings.wingsDefault.wingsDescription2;
             ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "Profile2 has been saved!</p>"
                 );
         }
@@ -1072,13 +1237,13 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             Player.BCAR.bcarSettings.wingsDefault.wingsDescription2 = Player.BCAR.bcarSettings.profile1.wingsDefault.wingsDescription2;
                 InventoryWear(Player, Player.BCAR.bcarSettings.profile1.wingsDefault.wings1, "Wings", Player.BCAR.bcarSettings.profile1.wingsDefault.wingsColor1)
                 ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "Profile1 has been loaded!</p>"
                  );
             }
             else if(Player.BCAR.bcarSettings.profile1Saved === false){
                 ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "Profile1 not found!\n" +
                     "Please save Profile1 first.</p>"
                  );
@@ -1117,17 +1282,44 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
             Player.BCAR.bcarSettings.wingsDefault.wingsDescription2 = Player.BCAR.bcarSettings.profile2.wingsDefault.wingsDescription2;
                 InventoryWear(Player, Player.BCAR.bcarSettings.profile2.wingsDefault.wings1, "Wings", Player.BCAR.bcarSettings.profile2.wingsDefault.wingsColor1)
                 ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "Profile2 has been loaded!</p>"
                 );
             }
             else if(Player.BCAR.bcarSettings.profile2Saved === false){
                 ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "Profile2 not found!\n" +
                     "Please save Profile2 first.</p>"
                  );
             }
+        }
+        bcarSettingsSave();
+
+	}
+
+    function CommandArousalToggle(argsList)
+	{
+		let toggle = argsList[0];
+		let toggleto = argsList.slice(1);
+
+        //console.log("toggle = "+ toggle, "toggleto = "+ toggleto);
+
+        if (toggle === "arousalon") {
+            Player.BCAR.bcarSettings.arousalEnable = true;
+            Player.BCAR.bcarSettings.arousalStatus = "Enabled";
+            ChatRoomSendLocal(
+                "<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
+                    "Arousal manipulation is now enabled!</p>"
+                );
+        }
+        else if (toggle === "arousaloff") {
+            Player.BCAR.bcarSettings.arousalEnable = false;
+            Player.BCAR.bcarSettings.arousalStatus = "Disabled";
+            ChatRoomSendLocal(
+                "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
+                    "Arousal manipulation is now disabled!</p>"
+                );
         }
         bcarSettingsSave();
 
@@ -1140,7 +1332,7 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
         if (remove === "reset") {
             ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React</b>\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                     "Settings have been reseted!</p>"
                 );
             bcarSettingsRemove();
@@ -1156,31 +1348,47 @@ var bcModSdk=function(){"use strict";const o="1.0.2";function e(o){alert("Mod ER
 
         if (changelog === "changelog") {
             ChatRoomSendLocal(
-                "<p style='background-color:#000452'><b>Bondage Club Auto React Changelog</b>: " + BCAR_Version + "\n" +
-                    "" + BCAR_Version + ":\n" +
-                    "- Added wing flapping via chat\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React Changelog</b>: BCAR " + BCAR_Version + "\n" +
+                    "BCAR " + BCAR_Version + ":\n" +
+                    "- Updated to bcModSDK 1.1\n" +
+		    "- Added wing spreding and retracting via chat\n" +
+		    "- Added on/off switch for arousal manipulating\n" +
+		    "\n" +
+		    "BCAR v0.5.0:\n" +
+		    "- Added wing flapping via chat\n" +
                     "- Added profile presets\n" +
-                    "View <a href='https://github.com/DrBranestawm/BCAR/blob/main/script/changelog.md' target='_blank'>Full Changelog</a> to see all changes</p>"
+                    "View <a href='https://github.com/DrBranestawm/BCAR/blob/main/script/changelog.md' target='_blank'>Full Changelog</a> to see all changes.</p>"
                 );
         }
 
 	}
 
     CommandCombine([
-	{
+		{
 		Tag: 'bcar',
             	Description: "help : To open the commands overview and info.",
-		AutoComplete: args => {
+		AutoComplete: (words) => {
 
-		},
+            const matches = []
+            for (let sub of subcommands) {
+                if (sub.startsWith(words[0])) matches.push(sub)
+            }
+
+            window.ElementValue("InputChat", "/bcar " + matches[0])
+
+
+
+        },
 		Action: args => {
                 	CommandEarsChange(args.split(" "));
                 	CommandTailChange(args.split(" "));
                 	CommandWingChange(args.split(" "));
+                    CommandArousalToggle(args.split(" "));
                 	CommandEarsToggle(args.split(" "));
                 	CommandTailToggle(args.split(" "));
                 	CommandWingToggle(args.split(" "));
-                	CommandOpenHelp(args.split(" "));
+                	CommandArousalHelp(args.split(" "));
+                    CommandOpenHelp(args.split(" "));
                 	CommandEarHelp(args.split(" "));
                 	CommandTailHelp(args.split(" "));
                 	CommandWingHelp(args.split(" "));
