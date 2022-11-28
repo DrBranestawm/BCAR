@@ -18,7 +18,7 @@ or add it as Bookmark any of your devices. To do that save
 as a bookmark on your devices.
 
 
-# BCAR Beta (_Does NOT work at the moment!_)
+# BCAR Beta
 Use the beta at own risk!  
 You can add the beta script via Tampermonkey [BCAR Beta](https://github.com/DrBranestawm/BCAR/raw/main/script/bcarBetaLoader.user.js)  
 or add it as Bookmark any of your devices. To do that save  
