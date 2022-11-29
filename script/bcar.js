@@ -454,7 +454,7 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 		bctBeepNotify("BCAR updated", "BCAR got updated. Type ''/bcar changelog'' to view the changelog.");
 	}
 
-	function bctBeepNotify (title, text){
+	function bcarBeepNotify (title, text){
 		modAPI.callOriginal("ServerAccountBeep", [
 			{
 				MemberNumber: Player.MemberNumber,
@@ -1383,37 +1383,44 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
                 if (sub.startsWith(words[0])) matches.push(sub)
             }
 
-            window.ElementValue("InputChat", "/bcar " + matches[0])
+            if (matches.length > 1) {
+                window.ChatRoomSendLocal("<div><b>" + matches.join("</b></div><div><b>") + "</b></div>", 10000)
+            }
 
+            if (matches.length < 1) {/*No output, because no match*/}
+
+            if (matches.length === 1) {
+                window.ElementValue("InputChat", "/bcar " + matches[0])
+            }
 
 
         },
-		Action: args => {
-                	CommandEarsChange(args.split(" "));
-                	CommandTailChange(args.split(" "));
-                	CommandWingChange(args.split(" "));
-                    CommandArousalToggle(args.split(" "));
-                	CommandEarsToggle(args.split(" "));
-                	CommandTailToggle(args.split(" "));
-                	CommandWingToggle(args.split(" "));
-                	CommandArousalHelp(args.split(" "));
-                    CommandOpenHelp(args.split(" "));
-                	CommandEarHelp(args.split(" "));
-                	CommandTailHelp(args.split(" "));
-                	CommandWingHelp(args.split(" "));
-                	CommandProfileHelp(args.split(" "));
-                	CommandGenderToggle(args.split(" "));
-               		CommandStatus(args.split(" "));
-                	CommandShowProfile(args.split(" "));
-                	CommandSaveProfile(args.split(" "));
-                	CommandLoadProfile(args.split(" "));
-                	CommandChangelog(args.split(" "));
-                	CommandResetSettings(args.split(" "));
+            Action: args => {
+                CommandEarsChange(args.split(" "));
+                CommandTailChange(args.split(" "));
+                CommandWingChange(args.split(" "));
+                CommandArousalToggle(args.split(" "));
+                CommandEarsToggle(args.split(" "));
+                CommandTailToggle(args.split(" "));
+                CommandWingToggle(args.split(" "));
+                CommandArousalHelp(args.split(" "));
+                CommandOpenHelp(args.split(" "));
+                CommandEarHelp(args.split(" "));
+                CommandTailHelp(args.split(" "));
+                CommandWingHelp(args.split(" "));
+                CommandProfileHelp(args.split(" "));
+                CommandGenderToggle(args.split(" "));
+                CommandStatus(args.split(" "));
+                CommandShowProfile(args.split(" "));
+                CommandSaveProfile(args.split(" "));
+                CommandLoadProfile(args.split(" "));
+                CommandChangelog(args.split(" "));
+                CommandResetSettings(args.split(" "));
 
-			}
-		}
+            }
+        }
 
-	])
+    ])
 
   //do not touch this
   async function waitFor(func, cancelFunc = () => false) {
