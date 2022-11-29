@@ -1414,6 +1414,15 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 		}
 
 	])
+	
+	const w = window;
+
+	if (typeof ChatRoomCharacter === "undefined") {
+		console.warn(
+			"Bondage Club not detected. Skipping BCE customizer initialization."
+		);
+		return;
+	}
 
 	await waitFor(() => !!w.Player?.Name && !!w.bce_initializeDefaultExpression);
 
