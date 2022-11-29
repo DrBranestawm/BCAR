@@ -1,4 +1,4 @@
-const BCAR_Version = "0.5.2";
+const BCAR_Version = "0.5.2-beta2";
 const BCAR_Settings_Version = 4;
 //sdk stuff
 
@@ -8,8 +8,8 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 
 (async function () {
 	const modApi = bcModSdk.registerMod({
-	name: 'BCAR+',
-	fullName: 'Bondage Club Auto React + BCE Expressions',
+	name: 'BCAR',
+	fullName: 'Bondage Club Auto React',
 	version: BCAR_Version,
 	// Optional - Link to the source code of the mod
 	repository: 'https://github.com/DrBranestawm/BCAR',
@@ -454,7 +454,7 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 		bctBeepNotify("BCAR updated", "BCAR got updated. Type ''/bcar changelog'' to view the changelog.");
 	}
 
-	function bctBeepNotify (title, text){
+	function bcarBeepNotify (title, text){
 		modAPI.callOriginal("ServerAccountBeep", [
 			{
 				MemberNumber: Player.MemberNumber,
@@ -1414,18 +1414,6 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 		}
 
 	])
-
-(async function () {
-	"use strict";
-
-	const w = window;
-
-	if (typeof ChatRoomCharacter === "undefined") {
-		console.warn(
-			"Bondage Club not detected. Skipping BCE customizer initialization."
-		);
-		return;
-	}
 
 	await waitFor(() => !!w.Player?.Name && !!w.bce_initializeDefaultExpression);
 
@@ -2698,8 +2686,6 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 			],
 		},
 	];
-
-})();
 
   //do not touch this
   async function waitFor(func, cancelFunc = () => false) {
