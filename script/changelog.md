@@ -1,11 +1,19 @@
-# [BCAR v0.5.1](https://github.com/DrBranestawm/BCAR/releases/edit/v0.5.1)
+# BCAR Changelog
+
+## [v0.5.2](https://github.com/DrBranestawm/BCAR/releases/edit/v0.5.2)
 ### What's Changed
-* Added wing spreding and retracting via chat\n" +
-* Added on/off switch for arousal manipulating\n" +
+* RegisterMod hotfix
+
+**Full Changelog**: [0.5.1...0.5.2](https://github.com/DrBranestawm/BCAR/compare/0.5.1...0.5.2)
+
+## [v0.5.1](https://github.com/DrBranestawm/BCAR/releases/edit/v0.5.1)
+### What's Changed
+* Added wing spreding and retracting via chat
+* Added on/off switch for arousal manipulating
 
 **Full Changelog**: [0.5.0...0.5.1](https://github.com/DrBranestawm/BCAR/compare/0.5.0...0.5.1)
 
-# [BCAR v0.5.0](https://github.com/DrBranestawm/BCAR/releases/edit/v0.5.0)
+## [v0.5.0](https://github.com/DrBranestawm/BCAR/releases/edit/v0.5.0)
 ### What's Changed
 * Added on/off switch for earWiggle, tailWagging & wingFlapping
 * Added butt caress reaction
@@ -18,7 +26,7 @@
 
 **Full Changelog**: [0.4.2...0.5.0](https://github.com/DrBranestawm/BCAR/compare/0.4.2...0.5.0)
 
-## [BCAR v0.4.2](https://github.com/DrBranestawm/BCAR/releases/edit/v0.4.2)
+## [v0.4.2](https://github.com/DrBranestawm/BCAR/releases/edit/v0.4.2)
 ### What's Changed
 * Added a help menu to BCAR by @DrBranestawm
 * Added chat prompt on changes by @DrBranestawm
@@ -31,7 +39,7 @@
 
 **Full Changelog**: [0.4.0...0.4.2](https://github.com/DrBranestawm/BCAR/compare/0.4.0...0.4.2)
 
-## [BCAR v0.4.0](https://github.com/DrBranestawm/BCAR/releases/edit/v0.4.0)
+## [v0.4.0](https://github.com/DrBranestawm/BCAR/releases/edit/v0.4.0)
 ### What's Changed
 * Added tail wagging @DrBranestawm 
 * Added on/off switch for earWiggle & tailWagging @DrBranestawm 
@@ -44,7 +52,7 @@
 
  **Full Changelog**: [0.1...0.4.0](https://github.com/DrBranestawm/BCAR/compare/0.1...0.4.0)
 
-## [BCAR v0.3.0](https://github.com/DrBranestawm/BCAR/releases/tag/v0.3.0)
+## [v0.3.0](https://github.com/DrBranestawm/BCAR/releases/tag/v0.3.0)
 ### What's Changed
 * Dev by @DrBranestawm in https://github.com/DrBranestawm/BCAR/pull/8
 * Save settings for ear wiggle by @crimsontropy in https://github.com/DrBranestawm/BCAR/pull/9
