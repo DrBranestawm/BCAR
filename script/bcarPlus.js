@@ -8,8 +8,8 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 
 (async function () {
 	const modApi = bcModSdk.registerMod({
-	name: 'BCAR+',
-	fullName: 'Bondage Club Auto React + Expressions',
+	name: 'BCAR',
+	fullName: 'Bondage Club Auto React',
 	version: BCAR_Version,
 	// Optional - Link to the source code of the mod
 	repository: 'https://github.com/DrBranestawm/BCAR',
@@ -65,11 +65,12 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
         }
 
     function ActivityBeeper(type,nya){
-        retype = ElementValue("InputChat");
+        //retype = ElementValue("InputChat");
         ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: CharacterNickname(Player) + typeAction[type][1][nya] }]});
-        ElementValue("InputChat",typeAction[type][0][nya]);
-        ChatRoomSendChat();
-        ElementValue("InputChat", retype);
+        //ElementValue("InputChat",typeAction[type][0][nya]);
+        //ChatRoomSendChat();
+        //ElementValue("InputChat", retype); -->
+      ServerSend("ChatRoomChat",{Type:"Chat",Content:typeAction[type][0][nya]});
     }
 
      function EarWiggle(){
@@ -232,7 +233,8 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 
       function Fly(){
       if(Player.BCAR.bcarSettings.wingFlappingEnable === true){
-       InventoryGet(Player, 'Emoticon').Property.OverrideHeight = { Height: +70 };
+        CharacterSetActivePose(Player, "LegsClosed");
+        InventoryGet(Player, 'Emoticon').Property.OverrideHeight = { Height: +70 };
    }
  }
 
@@ -251,6 +253,21 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
         ? ChatRoomCharacterUpdate(Player)
         : CharacterRefresh(Player);
     }
+/*
+    //greeting message.
+    BCAR_Greeting = function(data) {
+        Player.RestrictionSettings.BypassNPCPunishments = true;
+        ChatRoomSendLocal(
+            "<img src='https://user-images.githubusercontent.com/115511728/199107170-b32c4f2b-9319-422a-8488-51d22fe98704.png' style='width:300px;height:100px;align:center;'>\n" +
+            "Type /bcar or /bcar help to open the help. Type /bcar nohelp to never show this message again."
+        );
+        ServerSocket.off('ChatRoomMessage', BCAR_Greeting)
+    }
+
+    setTimeout(function() {
+        ServerSocket.on('ChatRoomMessage', BCAR_Greeting);
+    }, 5000);
+*/
 
     const restraints = ["CollarChainLong", "CollarRopeLong", "CollarChainMedium", "CollarRopeMedium", "CollarChainShort", "CollarRopeShort", "Post", "PetPost"]
     window.ChatRoomRegisterMessageHandler({ Priority: -200, Description: "BCAR Ground flying players with chains", Callback: (data, sender, msg, metadata) => {
@@ -671,7 +688,7 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
                     "wingsDescription2" : "None",
                 },
             },
-            bctLoaded : false,
+            bcarLoaded : false,
         }
         Player.BCAR = {};
         Player.BCAR.bcarSettings = {};
@@ -725,9 +742,10 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 
     }
 
-    if(Player.BCT != null){
-       Player.BCAR.bcarSettings.bctLoaded = true
-        console.log("BCT is Loaded");
+    if(Player.BCAR != null){
+       Player.BCAR.bcarSettings.BCARLoaded = true
+        console.log("BCAR is Loaded");
+//        BCAR_Greeting();
     }
 
     function CommandEarsChange(argsList)
@@ -1032,7 +1050,8 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 
         if (openStatus === "status") {
             ChatRoomSendLocal(
-                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>: Current status:\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'> <img src='https://user-images.githubusercontent.com/115511728/199107170-b32c4f2b-9319-422a-8488-51d22fe98704.png' style='width:1100px;height:380px;'>" + "\n" +
+                    "<b>Bondage Club Auto React:</b> Current status:\n" +
                     "Ear Animation: " + Player.BCAR.bcarSettings.earWigglingStatus + "\n" +
                     "Primary Ears: " + Player.BCAR.bcarSettings.earsDefault.earsDescription1 + "\n" +
                     "Secondary Ears: " + Player.BCAR.bcarSettings.earsDefault.earsDescription2 + "\n" +
@@ -1055,7 +1074,7 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
        let openHelp = argsList[0];
        let openHelpto = argsList.slice(1);
 
-        if (openHelp === "arousalhelp") {
+        if (openHelp === "arousal" || openHelp === "arousalhelp") {
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>: Arousal instructions:\n" +
                     "With the arousal commands you can switch the manipulation on and off.\n" +
@@ -1074,11 +1093,11 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
        let openHelp = argsList[0];
        let openHelpto = argsList.slice(1);
 
-        if (openHelp === "expressionhelp") {
+        if (openHelp === "expression" || openHelp === "expressionhelp") {
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>: Expression instructions:\n" +
                     "BCAR Expressions is a modified version of BCE Expressions and requires FBC to run.\n" +
-                    "With the expression commands you can switch the the usage for Expressions on and off.\n" +
+                    "With the expression commands you can switch the usage for Expressions on and off.\n" +
                     "The expression takes effect on headpets, ear caress and cuddling.\n" +
                     "Look at the <a href='https://github.com/DrBranestawm/BCAR/wiki/Expression' target='_blank'>BCAR Expression Wiki</a> for full list.\n" +
                     " \n" +
@@ -1095,7 +1114,7 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
        let openHelp = argsList[0];
        let openHelpto = argsList.slice(1);
 
-        if (openHelp === "earhelp") {
+        if (openHelp === "ear" || openHelp === "earhelp") {
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>: Ear instructions:\n" +
                     "First equip the main ears you want to wear in primarily the ''Ears'' slot in your wardrobe. Type ''/bcar ear1'' in the chat to save the main ears. \n" +
@@ -1116,7 +1135,7 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
        let openHelp = argsList[0];
        let openHelpto = argsList.slice(1);
 
-        if (openHelp === "tailhelp") {
+        if (openHelp === "tail" || openHelp === "tailhelp") {
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>: Tail instructions:\n" +
                     "First equip the main tail you want to wear in primarily the ''Tail Strap'' slot in your wardrobe. Type ''/bcar tail1'' in the chat to save the main tail. \n" +
@@ -1137,7 +1156,7 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
        let openHelp = argsList[0];
        let openHelpto = argsList.slice(1);
 
-        if (openHelp === "winghelp") {
+        if (openHelp === "wing" || openHelp === "winghelp") {
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>: Wing instructions:\n" +
                     "First equip the main wings you want to wear in primarily the ''Wings'' slot in your wardrobe. Type ''/bcar wing1'' in the chat to save the main wings. \n" +
@@ -1163,7 +1182,7 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
        let openHelp = argsList[0];
        let openHelpto = argsList.slice(1);
 
-        if (openHelp === "profilehelp") {
+        if (openHelp === "profile" || openHelp === "profilehelp") {
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>: Profiles instructions:\n" +
                     "With the Profiles you can save presets for your ears, tail and wings. \n" +
@@ -1432,7 +1451,7 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
             Player.BCAR.bcarSettings.expressionsStatus = "Enabled";
             ChatRoomSendLocal(
                 "<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
-                    "BCE Expresions is now enabled!</p>"
+                    "BCE Expressions is now enabled!</p>"
                 );
         }
         else if (toggle === "expressionoff") {
@@ -1440,7 +1459,7 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
             Player.BCAR.bcarSettings.expressionsStatus = "Disabled";
             ChatRoomSendLocal(
                 "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
-                    "BCE Expresions will be disabled!\n" +
+                    "BCE Expressions will be disabled!\n" +
                     "Please relog for the changes to take effect.</p>"
                 );
         }
@@ -1474,8 +1493,8 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React Changelog</b>: BCAR " + BCAR_Version + "\n" +
                     "BCAR v" + BCAR_Version + ":\n" +
-                    "- Included BCE Expresions into BCAR\n" +
-                    "- Added am autocompletion for subcommands\n" +
+                    "- Included BCE Expressions into BCAR\n" +
+                    "- Added an autocompletion for subcommands\n" +
                     "- Neck Restraints blocking fyling now\n" +
                     "\n" +
                     "BCAR v0.5.2:\n" +
@@ -1555,7 +1574,7 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 
     ])
 
-
+//BCE Expressions
     const w = window;
 
 	if (typeof ChatRoomCharacter === "undefined") {
@@ -2859,6 +2878,7 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 	];
     }
     }
+//end of BCE Expressions
 
   //do not touch this
   async function waitFor(func, cancelFunc = () => false) {
