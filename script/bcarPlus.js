@@ -8,8 +8,8 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 
 (async function () {
 	const modApi = bcModSdk.registerMod({
-	name: 'BCAR',
-	fullName: 'Bondage Club Auto React',
+	name: 'BCAR+',
+	fullName: 'Bondage Club Auto React + Expression',
 	version: BCAR_Version,
 	// Optional - Link to the source code of the mod
 	repository: 'https://github.com/DrBranestawm/BCAR',
