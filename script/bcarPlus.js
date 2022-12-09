@@ -9,7 +9,7 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 (async function () {
 	const modApi = bcModSdk.registerMod({
 	name: 'BCAR+',
-	fullName: 'Bondage Club Auto React + BCE Expressions',
+	fullName: 'Bondage Club Auto React + Expression',
 	version: BCAR_Version,
 	// Optional - Link to the source code of the mod
 	repository: 'https://github.com/DrBranestawm/BCAR',
@@ -65,9 +65,10 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
         }
 
     function ActivityBeeper(type,nya){
+
         ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: CharacterNickname(Player) + typeAction[type][1][nya] }]});
         const msg = typeAction[type][0][nya]
-        if (msg.length > 0) ServerSend("ChatRoomChat",{Type:"Chat",Content:msg})
+        if (msg.length > 0) ServerSend("ChatRoomChat",{Type:"Chat",Content:msg});
     }
 
      function EarWiggle(){
