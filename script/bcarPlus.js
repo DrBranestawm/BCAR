@@ -1,8 +1,9 @@
-const BCAR_Version = "0.5.5"
+const BCAR_Version = "0.5.4"
 const BCAR_Settings_Version = 6;
 window.LoadedError = class extends Error {}
 if (window.BCAR_VERSION) {
-    if (window.BCAR_VERSION < BCAR_Version) {
+    if (is_newer(window.BCAR_VERSION, BCAR_Version)) {
+        beepChangelog();
         console.log("BCAR has been udapted") // I mean do your thing here
     }
     throw new LoadedError("BCAR already loaded")
@@ -546,6 +547,15 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
     return;
   });
 
+
+    function is_newer(current, candidate) {
+        const current_levels = current.split("."), candidate_levels = candidate.split(".")
+        for(let i = 0; i < 3; i++) {
+            if (candidate_levels[i] === current_levels[i]) continue
+            return candidate_levels[i] > current_levels[i]
+        }
+        return false
+    }
 
     function bcarSettingsSave() {
     localStorage.setItem(bcarSettingsKey(),JSON.stringify(Player.BCAR.bcarSettings));
