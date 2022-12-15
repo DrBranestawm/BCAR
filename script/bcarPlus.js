@@ -4,7 +4,8 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 
 //sdk stuff
 
-const BCAR_Version = "0.4.2"
+
+const BCAR_Version = "0.5.42"
 const BCAR_Settings_Version = 6;
 class LoadedError extends Error {
 }
