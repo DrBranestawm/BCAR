@@ -1,7 +1,6 @@
-const BCAR_Version = "0.5.5"
+const BCAR_Version = "0.5.4"
 const BCAR_Settings_Version = 6;
-class LoadedError extends Error {
-}
+window.LoadedError = class extends Error {}
 if (window.BCAR_VERSION) {
     if (window.BCAR_VERSION < BCAR_Version) {
         console.log("BCAR has been udapted") // I mean do your thing here
