@@ -1,4 +1,4 @@
-const BCAR_Version = "0.5.2-beta4"
+const BCAR_Version = "0.5.24"
 const BCAR_Settings_Version = 6;
 class LoadedError extends Error {
 }
