@@ -1,4 +1,4 @@
-const BCAR_Version = "0.5.4"
+const BCAR_Version = "0.5.5"
 const BCAR_Settings_Version = 6;
 window.LoadedError = class extends Error {}
 if (window.BCAR_VERSION) {
