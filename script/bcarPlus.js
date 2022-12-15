@@ -585,19 +585,6 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 		//bcarBeepNotify("BCAR updated", "BCAR got updated. Type ''/bcar changelog'' to view the changelog.");
 	}
 
-	function bcarBeepNotify (title, text){
-		ServerAccountBeep, [
-			{
-				MemberNumber: Player.MemberNumber,
-				MemberName: "BCAR+",
-				ChatRoomName: title,
-				Private: true,
-				Message: text,
-				ChatRoomSpace: "",
-			},
-		]);
-	}
-
     function bcarSettingsRemove() {
     delete Player.OnlineSettings.BCAR
       window.ServerAccountUpdate.QueueData({OnlineSettings: window.Player.OnlineSettings})
