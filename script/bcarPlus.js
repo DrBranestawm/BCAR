@@ -1,4 +1,4 @@
-const BCAR_Version = "0.5.5"
+const BCAR_Version = "0.5.4"
 const BCAR_Settings_Version = 6;
 
 function is_newer(current, candidate) {
@@ -578,11 +578,15 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
     async function beepChangelog() {
 		await waitFor(() => !!Player?.AccountName);
 		await sleep(5000);
-		bcarBeepNotify("BCAR updated", "BCAR got updated. Type ''/bcar changelog'' to view the changelog.");
+        ChatRoomSendLocal(
+           "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>: New Version\n" +
+           "BCAR has been updated, please relog to get the new version.</p>"
+       );
+		//bcarBeepNotify("BCAR updated", "BCAR got updated. Type ''/bcar changelog'' to view the changelog.");
 	}
 
 	function bcarBeepNotify (title, text){
-		modAPI.callOriginal("ServerAccountBeep", [
+		ServerAccountBeep, [
 			{
 				MemberNumber: Player.MemberNumber,
 				MemberName: "BCAR+",
