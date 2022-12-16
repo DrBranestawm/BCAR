@@ -1,4 +1,4 @@
-const BCAR_Version = "0.5.5"
+const BCAR_Version = "0.5.2-beta6"
 const BCAR_Settings_Version = 6;
 
 function is_newer(current, candidate) {
@@ -46,14 +46,15 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
     const BCAR_CHANGELOG =
           "BCAR v" + BCAR_Version + ":\n" +
           "- Included BCE Expressions into BCAR\n" +
-          "- Added an autocompletion for subcommands\n" +
-          "- Neck Restraints blocking fyling now\n" +
+          "- Added an auto completion and partial for subcommands\n" +
+          "- Neck Restraints blocks flying now\n" +
           "- Automatic messages bypass whispers now\n" +
           "- Using BCT API to sync the BCT arousal bar with the room\n" +
           "- Settings now save on server\n" +
           "- Code clean up\n" +
           "- Added the possiblitly to change back to no ears/tail/wings\n" +
-          "- Added Commands eardelete/taildelete/wingdelete" +
+          "- Added Commands eardelete/taildelete/wingdelete\n" +
+          "- BCAR check atomatically for updates and notfies the user.\n" +
           "\n" +
           "BCAR v0.5.2:\n" +
           "- RegisterMod hotfix\n" +
@@ -79,7 +80,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
         fetch(`https://drbranestawm.github.io/BCAR/script/bcarPlus.js?ts=${Date.now()}`).then(r => r.text()).then(r => eval(r)).catch(x => x instanceof LoadedError || console.error(x))
     }
 
-    setInterval(checkUpdates, 300000)
+    setInterval(checkUpdates, 3600000)
 
   //Functions
 
@@ -1479,6 +1480,18 @@ function CommandStatus(argsList)
         }
     }
 
+    window.prefix = function(words){
+        // check border cases size 1 array and empty first word)
+        if (!words[0] || words.length ==  1) return words[0] || "";
+        let i = 0;
+        // while all words have the same character at position i, increment i
+        while(words[0][i] && words.every(w => w[i] === words[0][i]))
+            i++;
+
+        // prefix is the substring from the beginning to the last successfully checked i
+        return words[0].substr(0, i);
+    }
+
     CommandCombine([
         {
             Tag: 'bcar',
@@ -1496,6 +1509,8 @@ function CommandStatus(argsList)
                     }
 
                     if (matches.length > 1) {
+                        const common_prefix = prefix(matches)
+                        if (common_prefix.length > words[0].length) window.ElementValue("InputChat", "/bcar " + common_prefix)
                         window.ChatRoomSendLocal("<style type='text/css'> .bcar_hint {display: flex; flex-flow: column wrap; overflow: auto; height: 5em; background: #000452; font-size: 1em; } .bcar_hint div {	margin:0 0.5ex; }</style><div class='bcar_hint'><div><b>" + matches.join("</b></div><div><b>") + "</b></div></div>", 20000)
                     }
 
@@ -1503,6 +1518,7 @@ function CommandStatus(argsList)
 
                     if (matches.length === 1) {
                         window.ElementValue("InputChat", "/bcar " + matches[0])
+
                     }
                 }
 
