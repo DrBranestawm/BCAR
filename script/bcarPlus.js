@@ -1570,7 +1570,7 @@ function CommandStatus(argsList)
 		return;
 	}
 
-	await waitFor(() => !!w.Player?.Name && !!w.bce_initializeDefaultExpression);
+	await waitFor(() => !!w.Player?.Name && !!w.bce_initializeDefaultExpression && !!w.bce_ActivityTriggers);
 
 	// NOTICE: You may delete blocks that you do not wish to customize in order to use the default ones.
 
@@ -2391,6 +2391,7 @@ function bcarExpressions(){
        w.bce_ActivityTriggers.push(...TriggerAdditions)
 
 }
+    bcarExpressions()
 //end of BCE Expressions
 
   //do not touch this
