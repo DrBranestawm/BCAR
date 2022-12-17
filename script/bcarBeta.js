@@ -1,4 +1,4 @@
-const BCAR_Version = "0.5.2";
+const BCAR_Version = "0.5.3";
 const BCAR_Settings_Version = 4;
 //sdk stuff
 
@@ -317,9 +317,9 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
           }
       }
 
-
-      if (data.Type === "Activity"){
+ if (data.Type === "Activity"){
       var activityDictionary = data.Dictionary
+      const target = activityDictionary.find(obj => obj.Tag === "TargetCharacter")
 
       for(let i = 0; i < activityDictionary.length; i++)
       {
@@ -329,7 +329,7 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
               break;
           }
       }
-    if(activityDictionary[3].MemberNumber === Player.MemberNumber) {
+    if(target.MemberNumber === Player.MemberNumber) {
         if((data.Content.startsWith("ChatOther-ItemEars") || (data.Content.startsWith("ChatSelf-ItemEars") === -1))) {
               if (data.Content.indexOf("Caress") !== -1) {
                   let nya = Math.floor(Math.random() * 5);
@@ -1356,6 +1356,9 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React Changelog</b>: BCAR " + BCAR_Version + "\n" +
                     "BCAR v" + BCAR_Version + ":\n" +
+		    "- Compatiblity with R87\n" +
+		    "\n" +
+		    "BCAR v0.5.2:\n" +
                     " - RegisterMod hotfix\n" +
                     "\n" +
 		    "BCAR v0.5.1:\n" +

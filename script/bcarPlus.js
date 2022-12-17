@@ -1,4 +1,4 @@
-const BCAR_Version = "0.5.2-beta6"
+const BCAR_Version = "0.5.2-beta7"
 const BCAR_Settings_Version = 6;
 
 function is_newer(current, candidate) {
@@ -45,6 +45,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
     const w = window;
     const BCAR_CHANGELOG =
           "BCAR v" + BCAR_Version + ":\n" +
+          "- Compatiblity with R87\n" +
           "- Included BCE Expressions into BCAR\n" +
           "- Added an auto completion and partial for subcommands\n" +
           "- Neck Restraints blocks flying now\n" +
@@ -315,10 +316,10 @@ const TriggerAdditions = [
       return result
     }
     function ActivityBeeper(type,nya){
-//        const beep_text = CharacterNickname(Player) + typeAction[type][1][nya]
-//        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: substitude_genders(beep_text)}]});
-        const beep_text = CharacterNickname(Player) + substitude_genders(typeAction[type][1][nya])
-        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: beep_text}]});
+        const beep_text = CharacterNickname(Player) + typeAction[type][1][nya]
+        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: substitude_genders(beep_text)}]});
+//        const beep_text = CharacterNickname(Player) + substitude_genders(typeAction[type][1][nya])
+//        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: beep_text}]});
         const msg = typeAction[type][0][nya]
         if (msg.length > 0) ServerSend("ChatRoomChat",{Type:"Chat",Content:substitude_genders(msg)})
     }
@@ -635,8 +636,7 @@ const TriggerAdditions = [
           }
       }
 
-
-      if (data.Type === "Activity"){
+ if (data.Type === "Activity"){
       var activityDictionary = data.Dictionary
       const target = activityDictionary.find(obj => obj.Tag === "TargetCharacter")
 
@@ -1577,8 +1577,8 @@ function CommandGenderToggle(argsList)
         if (toggle === "male") {
             Player.BCAR.bcarSettings.genderDefault.gender = "Male";
             Player.BCAR.bcarSettings.genderDefault.capPronoun = "He";
-            Player.BCAR.bcarSettings.genderDefault.CapIntensive = "Him";
-            Player.BCAR.bcarSettings.genderDefault.CapPossessive = "His";
+            Player.BCAR.bcarSettings.genderDefault.capIntensive = "Him";
+            Player.BCAR.bcarSettings.genderDefault.capPossessive = "His";
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                 "The reactions refer to " + CharacterNickname(Player) + " as ''he'' now!\n" +
@@ -1589,7 +1589,7 @@ function CommandGenderToggle(argsList)
             Player.BCAR.bcarSettings.genderDefault.gender = "Female";
             Player.BCAR.bcarSettings.genderDefault.capPronoun = "She";
             Player.BCAR.bcarSettings.genderDefault.capIntensive = "Her";
-            Player.BCAR.bcarSettings.genderDefault.CapPossessive = "Her";
+            Player.BCAR.bcarSettings.genderDefault.capPossessive = "Her";
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                 "The reactions refer to " + CharacterNickname(Player) + " as ''she'' now!\n" +
