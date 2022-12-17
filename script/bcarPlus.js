@@ -1,4 +1,4 @@
-const BCAR_Version = "0.5.2-beta6"
+const BCAR_Version = "0.5.2-beta7"
 const BCAR_Settings_Version = 6;
 
 function is_newer(current, candidate) {
@@ -45,6 +45,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
     const w = window;
     const BCAR_CHANGELOG =
           "BCAR v" + BCAR_Version + ":\n" +
+          "- Compatiblity with R87\n" +
           "- Included BCE Expressions into BCAR\n" +
           "- Added an auto completion and partial for subcommands\n" +
           "- Neck Restraints blocks flying now\n" +
@@ -1576,8 +1577,8 @@ function CommandGenderToggle(argsList)
         if (toggle === "male") {
             Player.BCAR.bcarSettings.genderDefault.gender = "Male";
             Player.BCAR.bcarSettings.genderDefault.capPronoun = "He";
-            Player.BCAR.bcarSettings.genderDefault.CapIntensive = "Him";
-            Player.BCAR.bcarSettings.genderDefault.CapPossessive = "His";
+            Player.BCAR.bcarSettings.genderDefault.capIntensive = "Him";
+            Player.BCAR.bcarSettings.genderDefault.capPossessive = "His";
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                 "The reactions refer to " + CharacterNickname(Player) + " as ''he'' now!\n" +
@@ -1588,7 +1589,7 @@ function CommandGenderToggle(argsList)
             Player.BCAR.bcarSettings.genderDefault.gender = "Female";
             Player.BCAR.bcarSettings.genderDefault.capPronoun = "She";
             Player.BCAR.bcarSettings.genderDefault.capIntensive = "Her";
-            Player.BCAR.bcarSettings.genderDefault.CapPossessive = "Her";
+            Player.BCAR.bcarSettings.genderDefault.capPossessive = "Her";
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                 "The reactions refer to " + CharacterNickname(Player) + " as ''she'' now!\n" +
