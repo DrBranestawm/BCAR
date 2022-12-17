@@ -1356,7 +1356,10 @@ var bcModSdk=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React Changelog</b>: BCAR " + BCAR_Version + "\n" +
                     "BCAR v" + BCAR_Version + ":\n" +
-                    " - RegisterMod hotfix\n" +
+                    "- Compatiblity with R87\n" +
+		    "\n" +
+		    "BCAR v0.5.2:\n" +
+		    " - RegisterMod hotfix\n" +
                     "\n" +
 		    "BCAR v0.5.1:\n" +
 		    "- Updated to bcModSDK 1.1\n" +
