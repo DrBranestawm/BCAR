@@ -82,47 +82,245 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 
     setInterval(checkUpdates, 3600000)
 
-  //Functions
+//BCAR Expression
+    	/**
+	 * These are the various expressions that BCE can trigger. Most of these are mapped to chat messages using bce_ChatTriggers below.
+	 * Special events that are not triggered from chat:
+	 * - PostOrgasm: this is triggered when the player begins recovering from orgasm.
+	 *
+	 * Data model:
+	 * - Type: name for the event, should match the key in the object
+	 * - Duration: how long the expression lasts, in milliseconds, or -1 for indefinite
+	 * - Priority: how important the expression is, higher is more important. Expressions with the same or lower priority are cut short when another expression is triggered.
+	 * - Expression: a map of face component (Blush, Eyes, Eyes2, Mouth, Fluids, Eyebrows) to the expression timeline.
+	 * - Poses: the pose timeline.
+	 *
+	 * The expression timeline is a list of expressions, which are objects with the following properties:
+	 * - Expression: the expression type, e.g. "DroolSides". Refer to the expressions cheatsheet at https://gitlab.com/Sidiousious/bce/-/blob/main/README.md
+	 * - Duration: how long the expression lasts, in milliseconds, or -1 for indefinite
+	 * - Priority: how important the expression is, higher is more important. Expressions with the same or lower priority are cut short when another expression is triggered.
+	 * - ExpressionModifier: a number from -4 to +4 that modifies the intensity of the expression. This is only valid for Blush. Use only Expression or ExpressionModifier, not both.
+	 * - Skip: if true, the expression will be skipped for the duration.
+	 *
+	 * The pose timeline is a list of poses, which are objects with the following properties:
+	 * - Pose: the complete pose array, refer to https://github.com/Ben987/Bondage-College/blob/2cc8eabd51c075cb1e88c5ab36317bfc51709470/BondageClub/Assets/Female3DCG/Female3DCG.js#L5711 for a complete list. Max one per category.
+	 * - Duration: how long the pose lasts, in milliseconds, or -1 for indefinite
+	 * - Priority: how important the pose is, higher is more important. Poses with the same or lower priority are cut short when another pose is triggered.
+	 */
+const BCAR_Expression_Additions = {
+  BCAR_Confused: {
+      Type: "Confused",
+      Duration: 90000,
+      Priority: 600,
+      Expression: {
+          Eyebrows: [{ Expression: "OneRaised", Duration: 90000 }],
+      },
+  },
+    BCAR_Cackle: {
+        Type: "Cackle",
+        Duration: 6000,
+        Priority: 600,
+        Expression: {
+            Mouth: [
+                { Expression: "TonguePinch", Duration: 200 },
+                { Expression: "Laughing", Duration: 800 },
+                { Expression: "Moan", Duration: 200 },
+                { Expression: "Laughing", Duration: 700 },
+                { Expression: "Devious", Duration: 200 },
+                { Expression: "Laughing", Duration: 200 },
+                { Expression: "Moan", Duration: 400 },
+                { Expression: "TonguePinch", Duration: 200 },
+            ],
+        },
+    },
+    BCAR_Chuckle: {
+        Type: "Chuckle",
+        Duration: 4000,
+        Priority: 500,
+        Expression: {
+            Mouth: [
+                { Expression: "Laughing", Duration: 800 },
+                { Expression: "Grin", Duration: 200 },
+                { Expression: "Laughing", Duration: 700 },
+                { Expression: "Grin", Duration: 200 },
+                { Expression: "Laughing", Duration: 600 },
+                { Expression: "Grin", Duration: 200 },
+                { Expression: "Laughing", Duration: 500 },
+                { Expression: "Grin", Duration: 200 },
+                { Expression: "Laughing", Duration: 400 },
+                { Expression: "Grin", Duration: 200 },
+            ],
+        },
+    },
+        BCAR_GetHeadPet: {
+            Type: "GetHeadPet",
+            Duration: 5000,
+            Priority: 250,
+            Expression: {
+                Eyes: [{ Expression: "ShylyHappy", Duration: 5000 }],
+                Eyes2: [{ Expression: "ShylyHappy", Duration: 5000 }],
+                Eyebrows: [{ Expression: "Raised", Duration: 5000 }],
+                Blush: [{ ExpressionModifier: 1, Duration: 5000}],
+                Mouth: [{ Expression: "Happy", Duration: 5000 }],
+            },
+        },
+    BCAR_PetOthers: {
+        Type: "PetOthers",
+        Duration: 5000,
+        Priority: 250,
+        Expression: {
+            Eyes: [{ Expression: "Horny", Duration: 5000 }],
+            Eyes2: [{ Expression: "Horny", Duration: 5000 }],
+            Eyebrows: [{ Expression: "Raised", Duration: 5000 }],
+            Mouth: [{ Expression: "Happy", Duration: 5000 }],
+        },
+    },
+    BCAR_EarsCaress: {
+        Type: "EarsCaress",
+        Duration: 3000,
+        Priority: 250,
+        Expression: {
+            Eyes: [{ Expression: "Lewd", Duration: 3000 }],
+            Eyes2: [{ Expression: "Lewd", Duration: 3000 }],
+            Eyebrows: [{ Expression: "Harsh", Duration: 3000 }],
+            Blush: [{ ExpressionModifier: 1, Duration: 3000 }],
+            Mouth: [{ Expression: "Happy", Duration: 3000 }],
+        },
+    },
+};
+
+	/**
+	 * This list maps incoming messages to expressions.
+	 *
+	 * - Event: The event to trigger.
+	 * - Type: The type of the message (Activity, Action, Emote, etc.)
+	 * - Matchers: a list of matchers, one of which must match for the expression to be triggered.
+	 *
+	 * In matchers:
+	 * - Tester: a regular expression that must match the Content of the message. For Emote this is the message sent by the user. For Activity/Action this is the label used by the game (e.g. "ChatOther-ItemArms-Pinch" or "ActionActivityShockItem")
+	 * - Criteria: a list of additional criteria that must be met for the expression to be triggered.
+	 *
+	 * In criteria:
+	 * - TargetIsPlayer: if present and true, the expression will only be triggered if the target is the player.
+	 * - SenderIsPlayer: if present and true, the expression will only be triggered if the sender is the player.
+	 */
+const TriggerAdditions = [
+     {
+         Event: "BCAR_EarsCaress",
+         Type: "Activity",
+         Matchers: [
+             {
+                 Tester: /^ChatOther-ItemEars-Caress$/u,
+                 Criteria: {
+                     TargetIsPlayer: true,
+                 },
+             }
+         ],
+     },
+     {
+         Event: "BCAR_PetOthers",
+         Type: "Activity",
+         Matchers: [
+             {
+                 Tester: /^ChatSelf-ItemHead-Pet$/u,
+             },
+
+             {
+                 Tester: /^ChatOther-ItemHead-Pet$/u,
+                 Criteria: {
+                     SenderIsPlayer: true,
+                 },
+             },
+         ],
+     },
+     {
+         Event: "BCAR_GetHeadPet",
+         Type: "Activity",
+         Matchers: [
+             {
+                 Tester: /^ChatOther-ItemHead-Pet$/u,
+                 Criteria: {
+                     TargetIsPlayer: true,
+                 },
+             },
+         ],
+     },
+     {
+         Event: "BCAR_Cackle",
+         Type: "Emote",
+         Matchers: [
+             {
+                 Tester: /^cackles/u,
+             },
+         ],
+     },
+     {
+         Event: "BCAR_OpenMouthSlow",
+         Type: "Emote",
+         Matchers: [
+             {
+                 Tester: /^slowly opens her mouth/u,
+             },
+         ],
+     },
+ ]
+//End of BCAR Expression
+
+//Functions
 
     const typeAction = { EarCaress :
                 [["Mnyaa~","Nnyaaaaah~","Nnyaaaaah~","Nnyaa~","Nyaa~"], // sounds
-                [" purrs softly, twitching " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears.", " twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears, purring loudly as " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears are toyed with.",
-                " twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears, purring loudly as " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears are toyed with.", " squirms, twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears and purrs.",
-                " wiggles and twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears purring softly."]], // actions // order matters, match sound with action
+                [" purrs softly, twitching %POSSESSIVE% ears.", " twitches %POSSESSIVE% ears, purring loudly as %POSSESSIVE% ears are toyed with.",
+                " twitches %POSSESSIVE% ears, purring loudly as %POSSESSIVE% ears are toyed with.", " squirms, twitches %POSSESSIVE% ears and purrs.",
+                " wiggles and twitches %POSSESSIVE% ears purring softly."]], // actions // order matters, match sound with action
                 EarNibble :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears as it's nibbled.", " wiggles and twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears between the teeth.",
-                " moans softly, twitching " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears as it's nibbled."]],
+                [" moans softly and twitches %POSSESSIVE% ears as it's nibbled.", " wiggles and twitches %POSSESSIVE% ears between the teeth.",
+                " moans softly, twitching %POSSESSIVE% ears as it's nibbled."]],
                 EarLick :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears as it's licked.", " wiggles and twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears caused by the licking.",
-                " moans softly, twitching " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears as it's licked."]],
+                [" moans softly and twitches %POSSESSIVE% ears as it's licked.", " wiggles and twitches %POSSESSIVE% ears caused by the licking.",
+                " moans softly, twitching %POSSESSIVE% ears as it's licked."]],
                 EarKiss :
                 [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears as it's kissed.", " wiggles and twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears caused by the kissing.",
-                " moans softly, twitching " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears as it's kissed."]],
+                [" moans softly and twitches %POSSESSIVE% ears as it's kissed.", " wiggles and twitches %POSSESSIVE% ears caused by the kissing.",
+                " moans softly, twitching %POSSESSIVE% ears as it's kissed."]],
                 HeadBrush :
                 [["",""],
-                [" purrs softly and twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears.", " purrs happily and twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears."]],
+                [" purrs softly and twitches %POSSESSIVE% ears.", " purrs happily and twitches %POSSESSIVE% ears."]],
                 HeadPat :
                 [["","","",""],
-                [" purrs softly and twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears.", " purrs happily and twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears.",
-                 " purrs softly, twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears and nuzzles into the pat."," purrs happily, twitches " + Player.BCAR.bcarSettings.genderDefault.possessive + " ears and nuzzles into the pat."]],
+                [" purrs softly and twitches %POSSESSIVE% ears.", " purrs happily and twitches %POSSESSIVE% ears.",
+                 " purrs softly, twitches %POSSESSIVE% ears and nuzzles into the pat."," purrs happily, twitches %POSSESSIVE% ears and nuzzles into the pat."]],
                 CaressBack :
                 [["",""],
-                [" purrs softly and wags " + Player.BCAR.bcarSettings.genderDefault.possessive + " tail.", " purrs softly, arches " + Player.BCAR.bcarSettings.genderDefault.possessive + " back and wags " + Player.BCAR.bcarSettings.genderDefault.possessive + " tail."]],
+                [" purrs softly and wags %POSSESSIVE% tail.", " purrs softly, arches %POSSESSIVE% back and wags %POSSESSIVE% tail."]],
                 MassageBack :
                 [[""],
-                [" purrs softly and wags " + Player.BCAR.bcarSettings.genderDefault.possessive + " tail."]],
+                [" purrs softly and wags %POSSESSIVE% tail."]],
                 CaressButt :
                 [["Mnyaa~"],
-                [" purrs softly, wiggles " + Player.BCAR.bcarSettings.genderDefault.possessive + " butt and wags " + Player.BCAR.bcarSettings.genderDefault.possessive + " tail."]],
+                [" purrs softly, wiggles %POSSESSIVE% butt and wags %POSSESSIVE% tail."]],
         }
 
+    function substitude_genders(text) {
+     let result = text
+     result = result.replaceAll("%POSSESSIVE%", Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase())
+     result = result.replaceAll("%CAP_POSSESSIVE%", Player.BCAR.bcarSettings.genderDefault.capPossessive)
+     result = result.replaceAll("%PRONOUN%", Player.BCAR.bcarSettings.genderDefault.capPronoun.toLocaleLowerCase())
+     result = result.replaceAll("%CAP_PRONOUN%", Player.BCAR.bcarSettings.genderDefault.capPronoun)
+     result = result.replaceAll("%INTENSIVE%", Player.BCAR.bcarSettings.genderDefault.capIntensive.toLocaleLowerCase())
+     result = result.replaceAll("%CAP_INTENSIVE%", Player.BCAR.bcarSettings.genderDefault.capIntensive)
+      // repeat for other vars
+      return result
+    }
     function ActivityBeeper(type,nya){
-        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: CharacterNickname(Player) + typeAction[type][1][nya] }]});
+//        const beep_text = CharacterNickname(Player) + typeAction[type][1][nya]
+//        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: substitude_genders(beep_text)}]});
+        const beep_text = CharacterNickname(Player) + substitude_genders(typeAction[type][1][nya])
+        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: beep_text}]});
         const msg = typeAction[type][0][nya]
-        if (msg.length > 0) ServerSend("ChatRoomChat",{Type:"Chat",Content:msg})
+        if (msg.length > 0) ServerSend("ChatRoomChat",{Type:"Chat",Content:substitude_genders(msg)})
     }
 
      function EarWiggle(){
@@ -637,9 +835,8 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
             },
             genderDefault : {
                  "capPronoun" : "They", //Capitalized Pronoun (He, She, They)
-                 "pronoun" : "they", //Pronoun (he, she, they)
-                 "intensive" : "them", //Intensive (him, her, them)
-                 "possessive" : "their", //Possessive (his, her, their)
+                 "capIntensive" : "Them", //Capitalized Intensive (Him, Her, Them)
+                 "capPossessive" : "Their", //Capitalized Possessive (His, Her, Their)
                  "gender" : "Non-Binary", //Output for the status page
             },
             profile1Saved : false,
@@ -1379,9 +1576,8 @@ function CommandGenderToggle(argsList)
         if (toggle === "male") {
             Player.BCAR.bcarSettings.genderDefault.gender = "Male";
             Player.BCAR.bcarSettings.genderDefault.capPronoun = "He";
-            Player.BCAR.bcarSettings.genderDefault.pronoun = "he";
-            Player.BCAR.bcarSettings.genderDefault.intensive = "him";
-            Player.BCAR.bcarSettings.genderDefault.possessive = "his";
+            Player.BCAR.bcarSettings.genderDefault.CapIntensive = "Him";
+            Player.BCAR.bcarSettings.genderDefault.CapPossessive = "His";
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                 "The reactions refer to " + CharacterNickname(Player) + " as ''he'' now!\n" +
@@ -1391,9 +1587,8 @@ function CommandGenderToggle(argsList)
         else if (toggle === "female") {
             Player.BCAR.bcarSettings.genderDefault.gender = "Female";
             Player.BCAR.bcarSettings.genderDefault.capPronoun = "She";
-            Player.BCAR.bcarSettings.genderDefault.pronoun = "she";
-            Player.BCAR.bcarSettings.genderDefault.intensive = "her";
-            Player.BCAR.bcarSettings.genderDefault.possessive = "her";
+            Player.BCAR.bcarSettings.genderDefault.capIntensive = "Her";
+            Player.BCAR.bcarSettings.genderDefault.CapPossessive = "Her";
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                 "The reactions refer to " + CharacterNickname(Player) + " as ''she'' now!\n" +
@@ -1403,9 +1598,8 @@ function CommandGenderToggle(argsList)
         else if (toggle === "other") {
             Player.BCAR.bcarSettings.genderDefault.gender = "Non-Binary";
             Player.BCAR.bcarSettings.genderDefault.capPronoun = "They";
-            Player.BCAR.bcarSettings.genderDefault.pronoun = "they";
-            Player.BCAR.bcarSettings.genderDefault.intensive = "them";
-            Player.BCAR.bcarSettings.genderDefault.possessive = "their";
+            Player.BCAR.bcarSettings.genderDefault.capIntensive = "Them";
+            Player.BCAR.bcarSettings.genderDefault.capPossessive = "Their";
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                 "The reactions refer to " + CharacterNickname(Player) + " as ''they'' now!\n" +
@@ -1572,825 +1766,17 @@ function CommandStatus(argsList)
 
 	await waitFor(() => !!w.Player?.Name && !!w.bce_initializeDefaultExpression && !!w.bce_ActivityTriggers);
 
-	// NOTICE: You may delete blocks that you do not wish to customize in order to use the default ones.
-
-	/**
-	 * These are the various expressions that BCE can trigger. Most of these are mapped to chat messages using bce_ChatTriggers below.
-	 * Special events that are not triggered from chat:
-	 * - PostOrgasm: this is triggered when the player begins recovering from orgasm.
-	 *
-	 * Data model:
-	 * - Type: name for the event, should match the key in the object
-	 * - Duration: how long the expression lasts, in milliseconds, or -1 for indefinite
-	 * - Priority: how important the expression is, higher is more important. Expressions with the same or lower priority are cut short when another expression is triggered.
-	 * - Expression: a map of face component (Blush, Eyes, Eyes2, Mouth, Fluids, Eyebrows) to the expression timeline.
-	 * - Poses: the pose timeline.
-	 *
-	 * The expression timeline is a list of expressions, which are objects with the following properties:
-	 * - Expression: the expression type, e.g. "DroolSides". Refer to the expressions cheatsheet at https://gitlab.com/Sidiousious/bce/-/blob/main/README.md
-	 * - Duration: how long the expression lasts, in milliseconds, or -1 for indefinite
-	 * - Priority: how important the expression is, higher is more important. Expressions with the same or lower priority are cut short when another expression is triggered.
-	 * - ExpressionModifier: a number from -4 to +4 that modifies the intensity of the expression. This is only valid for Blush. Use only Expression or ExpressionModifier, not both.
-	 * - Skip: if true, the expression will be skipped for the duration.
-	 *
-	 * The pose timeline is a list of poses, which are objects with the following properties:
-	 * - Pose: the complete pose array, refer to https://github.com/Ben987/Bondage-College/blob/2cc8eabd51c075cb1e88c5ab36317bfc51709470/BondageClub/Assets/Female3DCG/Female3DCG.js#L5711 for a complete list. Max one per category.
-	 * - Duration: how long the pose lasts, in milliseconds, or -1 for indefinite
-	 * - Priority: how important the pose is, higher is more important. Poses with the same or lower priority are cut short when another pose is triggered.
-	 */
-function bcarExpressions(){
-        if(Player.BCAR.bcarSettings.expressionsEnable === true){
-
-    w.bce_EventExpressions = {
-		PostOrgasm: {
-			Type: "PostOrgasm",
-			Duration: 20000,
-			Priority: 10000,
-			Expression: {
-				Blush: [
-					{ Expression: "Extreme", Duration: 5000 },
-					{ ExpressionModifier: -1, Duration: 5000 },
-					{ ExpressionModifier: -1, Duration: 5000, Priority: 1000 },
-					{ ExpressionModifier: -1, Duration: 5000, Priority: 200 },
-				],
-				Eyes: [
-					{ Expression: "Closed", Duration: 8500 },
-					{ Expression: "HeartPink", Duration: 7500 },
-					{ Expression: "Sad", Duration: 4000, Priority: 200 },
-				],
-				Eyes2: [
-					{ Expression: "Closed", Duration: 8000 },
-					{ Expression: "HeartPink", Duration: 8000 },
-					{ Expression: "Sad", Duration: 4000, Priority: 200 },
-				],
-				Mouth: [
-					{ Expression: "Ahegao", Duration: 5000 },
-					{ Expression: "Moan", Duration: 5000 },
-					{ Expression: "HalfOpen", Duration: 10000, Priority: 200 },
-				],
-				Fluids: [
-					{ Expression: "DroolMessy", Duration: 5000 },
-					{ Expression: "DroolSides", Duration: 9000, Priority: 400 },
-					{ Expression: "DroolLow", Duration: 6000, Priority: 200 },
-				],
-				Eyebrows: [
-					{ Expression: "Soft", Duration: 10000 },
-					{ Expression: "Lowered", Duration: 5000, Priority: 200 },
-					{ Expression: null, Duration: 5000, Priority: 1 },
-				],
-			},
-		},
-		Pout: {
-			Type: "Pout",
-			Duration: -1,
-			Expression: {
-				Mouth: [{ Expression: "Pout", Duration: -1 }],
-				Eyes: [{ Expression: "Dazed", Duration: -1 }],
-				Eyes2: [{ Expression: "Dazed", Duration: -1 }],
-				Eyebrows: [{ Expression: "Harsh", Duration: -1 }],
-			},
-		},
-		ResetBrows: {
-			Type: "ResetBrows",
-			Duration: -1,
-			Expression: {
-				Eyebrows: [{ Expression: null, Duration: -1 }],
-			},
-		},
-		RaiseBrows: {
-			Type: "RaiseBrows",
-			Duration: -1,
-			Expression: {
-				Eyebrows: [{ Expression: "Raised", Duration: -1 }],
-			},
-		},
-		Confused: {
-			Type: "Confused",
-			Duration: -1,
-			Expression: {
-				Eyebrows: [{ Expression: "OneRaised", Duration: 90000 }],
-			},
-		},
-		Smirk: {
-			Type: "Smirk",
-			Duration: -1,
-			Expression: {
-				Mouth: [{ Expression: "Smirk", Duration: -1 }],
-			},
-		},
-		Wink: {
-			Type: "Wink",
-			Duration: 1500,
-			Expression: {
-				Eyes: [{ Expression: "Closed", Duration: 1500 }],
-			},
-		},
-		Laugh: {
-			Type: "Laugh",
-			Duration: 8000,
-			Expression: {
-				Mouth: [
-					{ Expression: "Laughing", Duration: 1000 },
-					{ Expression: "Grin", Duration: 200 },
-					{ Expression: "Laughing", Duration: 1000 },
-					{ Expression: "Happy", Duration: 200 },
-					{ Expression: "Laughing", Duration: 800 },
-					{ Expression: "Grin", Duration: 400 },
-					{ Expression: "Laughing", Duration: 800 },
-					{ Expression: "Happy", Duration: 400 },
-					{ Expression: "Laughing", Duration: 600 },
-					{ Expression: "Grin", Duration: 600 },
-					{ Expression: "Laughing", Duration: 600 },
-					{ Expression: "Happy", Duration: 600 },
-					{ Expression: "Laughing", Duration: 200 },
-					{ Expression: "Grin", Duration: 200 },
-					{ Expression: "Laughing", Duration: 200 },
-					{ Expression: "Happy", Duration: 200 },
-				],
-			},
-		},
-        Cackle: {
-            Type: "Cackle",
-			Duration: 6000,
-			Expression: {
-				Mouth: [
-					{ Expression: "TonguePinch", Duration: 200 },
-					{ Expression: "Laughing", Duration: 800 },
-					{ Expression: "Moan", Duration: 200 },
-					{ Expression: "Laughing", Duration: 700 },
-					{ Expression: "Devious", Duration: 200 },
-					{ Expression: "Laughing", Duration: 200 },
-					{ Expression: "Moan", Duration: 400 },
-					{ Expression: "TonguePinch", Duration: 200 },
-				],
-			},
-		},
-		Giggle: {
-			Type: "Giggle",
-			Duration: 4000,
-			Expression: {
-				Mouth: [
-					{ Expression: "Laughing", Duration: 800 },
-					{ Expression: "Grin", Duration: 200 },
-					{ Expression: "Laughing", Duration: 700 },
-					{ Expression: "Happy", Duration: 200 },
-					{ Expression: "Laughing", Duration: 600 },
-					{ Expression: "Grin", Duration: 200 },
-					{ Expression: "Laughing", Duration: 500 },
-					{ Expression: "Grin", Duration: 200 },
-					{ Expression: "Laughing", Duration: 400 },
-					{ Expression: "Happy", Duration: 200 },
-				],
-			},
-		},
-		Chuckle: {
-			Type: "Chuckle",
-			Duration: 4000,
-			Expression: {
-				Mouth: [
-					{ Expression: "Laughing", Duration: 800 },
-					{ Expression: "Grin", Duration: 200 },
-					{ Expression: "Laughing", Duration: 700 },
-					{ Expression: "Grin", Duration: 200 },
-					{ Expression: "Laughing", Duration: 600 },
-					{ Expression: "Grin", Duration: 200 },
-					{ Expression: "Laughing", Duration: 500 },
-					{ Expression: "Grin", Duration: 200 },
-					{ Expression: "Laughing", Duration: 400 },
-					{ Expression: "Grin", Duration: 200 },
-				],
-			},
-		},
-		Smile: {
-			Type: "Smile",
-			Duration: -1,
-			Expression: {
-				Mouth: [{ Expression: "Grin", Duration: -1 }],
-			},
-		},
-		Blink: {
-			Type: "Blink",
-			Duration: 200,
-			Expression: {
-				Eyes: [{ Expression: "Closed", Duration: 200 }],
-				Eyes2: [{ Expression: "Closed", Duration: 200 }],
-			},
-		},
-		Grin: {
-			Type: "Grin",
-			Duration: -1,
-			Expression: {
-				Eyes: [{ Expression: "Horny", Duration: -1 }],
-				Eyes2: [{ Expression: "Horny", Duration: -1 }],
-				Mouth: [{ Expression: "Grin", Duration: -1 }],
-			},
-		},
-		Cuddle: {
-			Type: "Cuddle",
-			Duration: 10000,
-			Priority: 150,
-			Expression: {
-				Mouth: [{ Expression: "Happy", Duration: 10000 }],
-				Eyes: [{ Expression: "ShylyHappy", Duration: 10000 }],
-				Eyes2: [{ Expression: "ShylyHappy", Duration: 10000 }],
-				Eyebrows: [{ Expression: "Raised", Duration: 10000 }],
-			},
-		},
-		Blush: {
-			Type: "Blush",
-			Duration: 5000,
-			Expression: {
-				Blush: [{ ExpressionModifier: 2, Duration: 5000 }],
-			},
-		},
-		Choke: {
-			Type: "Choke",
-			Duration: 4000,
-			Priority: 150,
-			Expression: {
-				Blush: [{ ExpressionModifier: 3, Duration: 4000 }],
-				Eyes: [
-					{ Expression: "VeryLewd", Duration: 3000 },
-					{ Expression: "Sad", Duration: 1000 },
-				],
-				Eyes2: [
-					{ Expression: "VeryLewd", Duration: 3000 },
-					{ Expression: "Sad", Duration: 1000 },
-				],
-				Eyebrows: [{ Expression: "Harsh", Duration: 4000 }],
-			},
-		},
-		Stimulated: {
-			Type: "Stimulated",
-			Duration: 5000,
-			Priority: 400,
-			Expression: {
-				Blush: [{ ExpressionModifier: 2, Duration: 5000 }],
-				Eyes: [
-					{ Expression: "VeryLewd", Duration: 4000 },
-					{ Expression: "Sad", Duration: 1000 },
-				],
-				Eyes2: [
-					{ Expression: "VeryLewd", Duration: 4000 },
-					{ Expression: "Sad", Duration: 1000 },
-				],
-				Eyebrows: [{ Expression: "Soft", Duration: 5000 }],
-			},
-		},
-		StimulatedLong: {
-			Type: "StimulatedLong",
-			Duration: 20000,
-			Priority: 400,
-			Expression: {
-				Blush: [{ ExpressionModifier: 1, Duration: 20000 }],
-			},
-		},
-		Shock: {
-			Type: "Shock",
-			Duration: 15000,
-			Priority: 1000,
-			Expression: {
-				Blush: [{ ExpressionModifier: 5, Duration: 15000 }],
-				Eyes: [
-					{ Expression: "Dizzy", Duration: 1000 },
-					{ Expression: "Scared", Duration: 8000 },
-					{ Expression: "Surprised", Duration: 7000 },
-				],
-				Eyes2: [
-					{ Expression: "Dizzy", Duration: 1000 },
-					{ Expression: "Scared", Duration: 8000 },
-					{ Expression: "Surprised", Duration: 7000 },
-				],
-				Eyebrows: [{ Expression: "Soft", Duration: 15000 }],
-				Mouth: [{ Expression: "Pained", Duration: 15000 }],
-			},
-		},
-		Hit: {
-			Type: "Hit",
-			Duration: 7000,
-			Priority: 500,
-			Expression: {
-				Blush: [{ Expression: "VeryHigh", Duration: 7000 }],
-				Eyes: [
-					{ Expression: "Daydream", Duration: 1000 },
-					{ Expression: "Closed", Duration: 3000 },
-					{ Expression: "Daydream", Duration: 3000 },
-				],
-				Eyes2: [
-					{ Expression: "Daydream", Duration: 1000 },
-					{ Expression: "Closed", Duration: 3000 },
-					{ Expression: "Daydream", Duration: 3000 },
-				],
-				Eyebrows: [{ Expression: "Soft", Duration: 7000 }],
-			},
-		},
-		Spank: {
-			Type: "Spank",
-			Duration: 3000,
-			Priority: 300,
-			Expression: {
-				Eyes: [{ Expression: "Lewd", Duration: 3000 }],
-				Eyes2: [{ Expression: "Lewd", Duration: 3000 }],
-				Eyebrows: [{ Expression: "Soft", Duration: 3000 }],
-			},
-		},
-		Kiss: {
-			Type: "Kiss",
-			Duration: 2000,
-			Priority: 200,
-			Expression: {
-				Mouth: [{ Expression: "HalfOpen", Duration: 2000 }],
-			},
-		},
-		KissOnLips: {
-			Type: "KissOnLips",
-			Duration: 2000,
-			Priority: 200,
-			Expression: {
-				Eyes: [{ Expression: "Closed", Duration: 2000 }],
-				Eyes2: [{ Expression: "Closed", Duration: 2000 }],
-				Mouth: [{ Expression: "HalfOpen", Duration: 2000 }],
-				Blush: [
-					{ Skip: true, Duration: 1000 },
-					{ ExpressionModifier: 1, Duration: 1000 },
-				],
-			},
-		},
-		LongKiss: {
-			Type: "LongKiss",
-			Duration: 4000,
-			Priority: 200,
-			Expression: {
-				Eyes: [{ Expression: "Closed", Duration: 4000 }],
-				Eyes2: [{ Expression: "Closed", Duration: 4000 }],
-				Mouth: [{ Expression: "Open", Duration: 4000 }],
-				Blush: [
-					{ Skip: true, Duration: 1000 },
-					{ ExpressionModifier: 1, Duration: 1000 },
-					{ ExpressionModifier: 1, Duration: 2000 },
-				],
-			},
-		},
-		Disoriented: {
-			Type: "Disoriented",
-			Duration: 8000,
-			Priority: 250,
-			Expression: {
-				Eyes: [{ Expression: "Dizzy", Duration: 8000 }],
-				Eyes2: [{ Expression: "Dizzy", Duration: 8000 }],
-				Eyebrows: [{ Expression: "Raised", Duration: 8000 }],
-				Blush: [{ ExpressionModifier: 2, Duration: 8000 }],
-			},
-		},
-		Angry: {
-			Type: "Angry",
-			Duration: -1,
-			Expression: {
-				Mouth: [{ Expression: "Angry", Duration: -1 }],
-				Eyes: [{ Expression: "Angry", Duration: -1 }],
-				Eyes2: [{ Expression: "Angry", Duration: -1 }],
-				Eyebrows: [{ Expression: "Angry", Duration: -1 }],
-			},
-		},
-		Sad: {
-			Type: "Sad",
-			Duration: -1,
-			Expression: {
-				Mouth: [{ Expression: "Frown", Duration: -1 }],
-				Eyes: [{ Expression: "Shy", Duration: -1 }],
-				Eyes2: [{ Expression: "Shy", Duration: -1 }],
-				Eyebrows: [{ Expression: "Soft", Duration: -1 }],
-			},
-		},
-		Worried: {
-			Type: "Worried",
-			Duration: -1,
-			Expression: {
-				Eyes: [{ Expression: "Surprised", Duration: -1 }],
-				Eyes2: [{ Expression: "Surprised", Duration: -1 }],
-				Eyebrows: [{ Expression: "Soft", Duration: -1 }],
-			},
-		},
-		Distressed: {
-			Type: "Distressed",
-			Duration: -1,
-			Expression: {
-				Eyes: [{ Expression: "Scared", Duration: -1 }],
-				Eyes2: [{ Expression: "Scared", Duration: -1 }],
-				Eyebrows: [{ Expression: "Soft", Duration: -1 }],
-				Mouth: [{ Expression: "Angry", Duration: -1 }],
-			},
-		},
-		Reset: {
-			Type: "Reset",
-			Duration: -1,
-			Expression: {
-				Mouth: [{ Expression: null, Duration: -1 }],
-				Eyes: [{ Expression: null, Duration: -1 }],
-				Eyes2: [{ Expression: null, Duration: -1 }],
-				Eyebrows: [{ Expression: null, Duration: -1 }],
-				Blush: [{ Expression: null, Duration: -1 }],
-				Fluids: [{ Expression: null, Duration: -1 }],
-			},
-		},
-		Cry: {
-			Type: "Cry",
-			Duration: -1,
-			Expression: {
-				Drool: [{ Expression: "TearsMedium", Duration: -1 }],
-			},
-		},
-		DroolReset: {
-			Type: "DroolReset",
-			Duration: -1,
-			Expression: {
-				Fluids: [{ Expression: null, Duration: -1 }],
-			},
-		},
-		DroolSides: {
-			Type: "DroolSides",
-			Duration: -1,
-			Expression: {
-				Fluids: [{ Expression: "DroolSides", Duration: -1 }],
-			},
-		},
-		BareTeeth: {
-			Type: "BareTeeth",
-			Duration: -1,
-			Expression: {
-				Mouth: [{ Expression: "Angry", Duration: -1 }],
-			},
-		},
-		Happy: {
-			Type: "Happy",
-			Duration: -1,
-			Expression: {
-				Mouth: [{ Expression: "Happy", Duration: -1 }],
-			},
-		},
-		Frown: {
-			Type: "Frown",
-			Duration: -1,
-			Expression: {
-				Mouth: [{ Expression: "Frown", Duration: -1 }],
-			},
-		},
-		Glare: {
-			Type: "Glare",
-			Duration: -1,
-			Expression: {
-				Eyes: [{ Expression: "Angry", Duration: -1 }],
-				Eyes2: [{ Expression: "Angry", Duration: -1 }],
-				Eyebrows: [{ Expression: "Harsh", Duration: -1 }],
-			},
-		},
-		NarrowEyes: {
-			Type: "NarrowEyes",
-			Duration: -1,
-			Expression: {
-				Eyes: [{ Expression: "Horny", Duration: -1 }],
-				Eyes2: [{ Expression: "Horny", Duration: -1 }],
-			},
-		},
-		OpenEyes: {
-			Type: "OpenEyes",
-			Duration: -1,
-			Expression: {
-				Eyes: [{ Expression: null, Duration: -1 }],
-				Eyes2: [{ Expression: null, Duration: -1 }],
-			},
-		},
-		CloseEyes: {
-			Type: "CloseEyes",
-			Duration: -1,
-			Expression: {
-				Eyes: [{ Expression: "Closed", Duration: -1 }],
-				Eyes2: [{ Expression: "Closed", Duration: -1 }],
-			},
-		},
-		CloseMouth: {
-			Type: "CloseMouth",
-			Duration: -1,
-			Expression: {
-				Mouth: [{ Expression: null, Duration: -1 }],
-			},
-		},
-		OpenMouth: {
-			Type: "OpenMouth",
-			Duration: -1,
-			Expression: {
-				Mouth: [{ Expression: "Moan", Duration: -1 }],
-			},
-		},
-        OpenMouthSlow: {
-            Type: "OpenMouthSlow",
-			Duration: 9000,
-            Priority: 200,
-			Expression: {
-				Mouth: [{ Expression: "HalfOpen", Duration: 3000 },
-                       { Expression: "Open", Duration: 3000 },
-                       { Expression: "Moan", Duration: 3000}],
-            },
-		},
-		LipBite: {
-			Type: "LipBite",
-			Duration: -1,
-			Expression: {
-				Mouth: [{ Expression: "LipBite", Duration: -1 }],
-			},
-		},
-		Lick: {
-			Type: "Lick",
-			Duration: 4000,
-			Priority: 200,
-			Expression: {
-				Mouth: [{ Expression: "Ahegao", Duration: 700 },
-                        { Expression: "Happy", Duration: 300 },
-                        { Expression: "Ahegao", Duration: 700 },
-                        { Expression: "Happy", Duration: 300 },
-                        { Expression: "Ahegao", Duration: 700 },
-                        { Expression: "Happy", Duration: 300 },
-                        { Expression: "Ahegao", Duration: 700 },
-                        { Expression: "Happy", Duration: 300 },
-                       ],
-				Blush: [{ ExpressionModifier: 1, Duration: 4000 }],
-			},
-		},
-		GagInflate: {
-			Type: "GagInflate",
-			Duration: 4000,
-			Priority: 400,
-			Expression: {
-				Eyes: [{ Expression: "Lewd", Duration: 4000 }],
-				Eyes2: [{ Expression: "Lewd", Duration: 4000 }],
-				Blush: [
-					{ ExpressionModifier: 2, Duration: 2000 },
-					{ ExpressionModifier: -1, Duration: 2000 },
-				],
-			},
-		},
-		Iced: {
-			Type: "Iced",
-			Duration: 4000,
-			Priority: 500,
-			Expression: {
-				Eyes: [
-					{ Expression: "Surprised", Duration: 3000 },
-					{ Expression: null, Duration: 1000 },
-				],
-				Eyes2: [
-					{ Expression: "Surprised", Duration: 3000 },
-					{ Expression: null, Duration: 1000 },
-				],
-				Mouth: [{ Expression: "Angry", Duration: 4000 }],
-			},
-		},
-		AllFours: {
-			Type: "AllFours",
-			Duration: -1,
-			Poses: [{ Pose: ["AllFours"], Duration: -1 }],
-		},
-		SpreadKnees: {
-			Type: "SpreadKnees",
-			Duration: -1,
-			Poses: [{ Pose: ["KneelingSpread"], Duration: -1 }],
-		},
-		Hogtied: {
-			Type: "Hogtied",
-			Duration: -1,
-			Poses: [{ Pose: ["Hogtied"], Duration: -1 }],
-		},
-		Handstand: {
-			Type: "Handstand",
-			Duration: -1,
-			Poses: [{ Pose: ["Suspension", "OverTheHead"], Duration: -1 }],
-		},
-		Stretch: {
-			Type: "Stretch",
-			Priority: 100,
-			Duration: 6000,
-			Poses: [
-				{ Pose: ["OverTheHead"], Duration: 1000 },
-				{ Pose: ["Yoked"], Duration: 1000 },
-				{ Pose: ["BaseUpper"], Duration: 1000 },
-				{ Pose: ["Spread"], Duration: 1000 },
-				{ Pose: ["LegsClosed"], Duration: 1000 },
-				{ Pose: ["BaseLower"], Duration: 1000 },
-			],
-		},
-		SpreadLegs: {
-			Type: "SpreadLegs",
-			Duration: -1,
-			Poses: [{ Pose: ["Spread"], Duration: -1 }],
-		},
-		JumpingJacks: {
-			Type: "JumpingJacks",
-			Priority: 100,
-			Duration: 8000,
-			Poses: [
-				{ Pose: ["OverTheHead", "Spread"], Duration: 1000 },
-				{ Pose: ["BaseUpper", "LegsClosed"], Duration: 1000 },
-				{ Pose: ["OverTheHead", "Spread"], Duration: 1000 },
-				{ Pose: ["BaseUpper", "LegsClosed"], Duration: 1000 },
-				{ Pose: ["OverTheHead", "Spread"], Duration: 1000 },
-				{ Pose: ["BaseUpper", "LegsClosed"], Duration: 1000 },
-				{ Pose: ["OverTheHead", "Spread"], Duration: 1000 },
-				{ Pose: ["BaseUpper", "LegsClosed"], Duration: 1000 },
-			],
-		},
-        GetHeadPet: {
-			Type: "GetHeadPet",
-			Duration: 5000,
-			Priority: 250,
-			Expression: {
-                Eyes: [{ Expression: "ShylyHappy", Duration: 5000 }],
-                Eyes2: [{ Expression: "ShylyHappy", Duration: 5000 }],
-                Eyebrows: [{ Expression: "Raised", Duration: 5000 }],
-                Blush: [{ ExpressionModifier: 1, Duration: 5000}],
-                Mouth: [{ Expression: "Happy", Duration: 5000 }],
-			},
-		},
-        PetOthers: {
-			Type: "PetOthers",
-			Duration: 5000,
-			Priority: 250,
-			Expression: {
-                Eyes: [{ Expression: "Horny", Duration: 5000 }],
-                Eyes2: [{ Expression: "Horny", Duration: 5000 }],
-                Eyebrows: [{ Expression: "Raised", Duration: 5000 }],
-                Mouth: [{ Expression: "Happy", Duration: 5000 }],
-			},
-		},
-        EarsCaress: {
-			Type: "EarsCaress",
-			Duration: 3000,
-			Priority: 250,
-			Expression: {
-				Eyes: [{ Expression: "Lewd", Duration: 3000 }],
-				Eyes2: [{ Expression: "Lewd", Duration: 3000 }],
-				Eyebrows: [{ Expression: "Harsh", Duration: 3000 }],
-				Blush: [{ ExpressionModifier: 1, Duration: 3000 }],
-                Mouth: [{ Expression: "Happy", Duration: 3000 }],
-			},
-		},
-    };
+    function bcarExpressions(){
+        if(Player.BCAR.bcarSettings.expressionsEnable){ // load the expressions and triggers
+            Object.assign(w.bce_EventExpressions, BCAR_Expression_Additions) // that is all we need, that simple
+            w.bce_ActivityTriggers.push(...TriggerAdditions) // you add these triggers to the ones already present in the FBC variable
+        } else { // unload the expressions and triggers
+            w.bce_ActivityTriggers = w.bce_ActivityTriggers.filter(at => at.Mod !== "BCAR")
+            for (let name of Object.keys(w.bce_EventExpressions)) {
+                if (BCAR_Expression_Additions[name]) delete w.bce_EventExpressions[name]
+            }
         }
-    if(Player.BCAR.bcarSettings.expressionsEnable === false){
-
-    w.bce_EventExpressions = {
-        Confused: {
-			Type: "Confused",
-			Duration: -1,
-			Expression: {
-				Eyebrows: [{ Expression: "OneRaised", Duration: 90000 }],
-			},
-		},
-        Cackle: {
-            Type: "Cackle",
-			Duration: 6000,
-			Expression: null,
-        },
-        Chuckle: {
-			Type: "Chuckle",
-			Duration: 4000,
-			Expression: {
-				Mouth: [
-					{ Expression: "Laughing", Duration: 800 },
-					{ Expression: "Grin", Duration: 200 },
-					{ Expression: "Laughing", Duration: 700 },
-					{ Expression: "Grin", Duration: 200 },
-					{ Expression: "Laughing", Duration: 600 },
-					{ Expression: "Grin", Duration: 200 },
-					{ Expression: "Laughing", Duration: 500 },
-					{ Expression: "Grin", Duration: 200 },
-					{ Expression: "Laughing", Duration: 400 },
-					{ Expression: "Grin", Duration: 200 },
-				],
-			},
-		},
-        OpenMouthSlow: {
-            Type: "OpenMouthSlow",
-			Duration: 9000,
-            Priority: 200,
-			Expression: null,
-		},
-        GetHeadPet: {
-			Type: "GetHeadPet",
-			Duration: 5000,
-			Priority: 250,
-			Expression: null,
-		},
-        PetOthers: {
-			Type: "PetOthers",
-			Duration: 5000,
-			Priority: 250,
-			Expression: null,
-		},
-        EarsCaress: {
-			Type: "EarsCaress",
-			Duration: 3000,
-			Priority: 250,
-			Expression: null,
-		},
-    };
-        }
-	/**
-	 * This list maps incoming messages to expressions.
-	 *
-	 * - Event: The event to trigger.
-	 * - Type: The type of the message (Activity, Action, Emote, etc.)
-	 * - Matchers: a list of matchers, one of which must match for the expression to be triggered.
-	 *
-	 * In matchers:
-	 * - Tester: a regular expression that must match the Content of the message. For Emote this is the message sent by the user. For Activity/Action this is the label used by the game (e.g. "ChatOther-ItemArms-Pinch" or "ActionActivityShockItem")
-	 * - Criteria: a list of additional criteria that must be met for the expression to be triggered.
-	 *
-	 * In criteria:
-	 * - TargetIsPlayer: if present and true, the expression will only be triggered if the target is the player.
-	 * - SenderIsPlayer: if present and true, the expression will only be triggered if the sender is the player.
-	 */
-
-	   const TriggerAdditions = [
-           {
-               Event: "EarsCaress",
-               Type: "Activity",
-               Matchers: [
-                   {
-                       Tester: /^ChatOther-ItemEars-Caress$/u,
-                       Criteria: {
-                           TargetIsPlayer: true,
-                       },
-                   }
-               ],
-           },
-           {
-               Event: "PetOthers",
-               Type: "Activity",
-               Matchers: [
-                   {
-                       Tester: /^ChatSelf-ItemHead-Pet$/u,
-                   },
-
-                   {
-                       Tester: /^ChatOther-ItemHead-Pet$/u,
-                       Criteria: {
-                           SenderIsPlayer: true,
-                       },
-                   },
-               ],
-           },
-           {
-               Event: "GetHeadPet",
-               Type: "Activity",
-               Matchers: [
-                   {
-                       Tester: /^ChatOther-ItemHead-Pet$/u,
-                       Criteria: {
-                           TargetIsPlayer: true,
-                       },
-                   },
-               ],
-           },
-           {
-               Event: "Stretch",
-               Type: "Emote",
-               Matchers: [
-                   {
-                       Tester: /^stretches($| her)/u,
-                   },
-               ],
-           },
-           {
-               Event: "Cackle",
-               Type: "Emote",
-               Matchers: [
-                   {
-                       Tester: /^cackles/u,
-                   },
-               ],
-           },
-           {
-               Event: "Cuddle",
-               Type: "Emote",
-               Matchers: [
-                   {
-                       Tester: /^cuddles/u,
-                   },
-               ],
-           },
-           {
-               Event: "OpenMouthSlow",
-               Type: "Emote",
-               Matchers: [
-                   {
-                       Tester: /^slowly opens her mouth/u,
-                   },
-               ],
-           },
-       ]
-       w.bce_ActivityTriggers.push(...TriggerAdditions)
-
-}
+    }
     bcarExpressions()
 //end of BCE Expressions
 
