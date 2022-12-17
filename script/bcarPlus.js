@@ -638,6 +638,7 @@ const TriggerAdditions = [
 
       if (data.Type === "Activity"){
       var activityDictionary = data.Dictionary
+      const target = activityDictionary.find(obj => obj.Tag === "TargetCharacter")
 
       for(let i = 0; i < activityDictionary.length; i++)
       {
@@ -647,7 +648,7 @@ const TriggerAdditions = [
               break;
           }
       }
-    if(activityDictionary[3].MemberNumber === Player.MemberNumber) {
+    if(target.MemberNumber === Player.MemberNumber) {
         if((data.Content.startsWith("ChatOther-ItemEars") || (data.Content.startsWith("ChatSelf-ItemEars") === -1))) {
               if (data.Content.indexOf("Caress") !== -1) {
                   let nya = Math.floor(Math.random() * 5);
