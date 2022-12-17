@@ -32,12 +32,18 @@ as a bookmark on your devices.
  - Angela ([@AngelaTheCat](https://github.com/AngelaTheCat/))
     - Privoviding the main script
     - Some compability fixes with FBC4.6 (Also thanks to Elicia)
- - Julia ([@agicitag](https://github.com/agicitag/))
-    - Providing general help
-    - Permission to use their save and load settings feature
  - Haruhi ([@crimsontropy](https://github.com/crimsontropy/))
     - Clean up the if-else for actions
     - Their tail wag script on which the ear wiggle is based
     - Implementing the save and load settings feature
+ - Julia ([@agicitag](https://github.com/agicitag/))
+    - Providing general help
+    - Permission to use their save and load settings feature
+ - Mute ([@Mute](https://code.fleshless.org/mute/MBCHC/))
+    - Giving coding Lessons
+    - Help to clean up a lot of code
+    - Help with the autocompletion of commands and subcommands
+    - Help to save settings online
+    - And much more
  - Utsumi
     - Help with an issue with the activityDictionary
