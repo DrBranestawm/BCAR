@@ -1,5 +1,11 @@
 # BCAR Changelog
 
+## [v0.5.3](https://github.com/DrBranestawm/BCAR/releases/edit/v0.5.3)
+### What's Changed
+* RegisterMod hotfix
+
+**Full Changelog**: [0.5.2...0.5.3](https://github.com/DrBranestawm/BCAR/compare/0.5.2...0.5.3)
+  
 ## [v0.5.2](https://github.com/DrBranestawm/BCAR/releases/edit/v0.5.2)
 ### What's Changed
 * RegisterMod hotfix
