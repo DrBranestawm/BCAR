@@ -2,7 +2,7 @@
 
 ## [v0.5.3](https://github.com/DrBranestawm/BCAR/releases/edit/v0.5.3)
 ### What's Changed
-* RegisterMod hotfix
+* Compatibility with R87
 
 **Full Changelog**: [0.5.2...0.5.3](https://github.com/DrBranestawm/BCAR/compare/0.5.2...0.5.3)
   
