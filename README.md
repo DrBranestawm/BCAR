@@ -1,4 +1,5 @@
-# ![BCAR_Banner](https://user-images.githubusercontent.com/115511728/199107170-b32c4f2b-9319-422a-8488-51d22fe98704.png)
+# ![BCAR+_Banner](https://user-images.githubusercontent.com/115511728/208284090-78b2688d-ed76-4ca9-ae6e-d630bd369d7f.png)
+
  
 This extension lets your Character react automatically to Actions done to them.  
 The ears can wiggle and the tail can wag too. To change the ears wiggle and the tail wag animation see "[Commands of BCAR+](https://github.com/DrBranestawm/BCAR#commands-of-bcar)" down below or look at the [Wiki](https://github.com/DrBranestawm/BCAR/wiki) page. You can add the script via Tampermonkey [BCAR+](https://github.com/DrBranestawm/BCAR/raw/main/script/bcarLoader.user.js)  
