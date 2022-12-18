@@ -1,4 +1,4 @@
-const BCAR_Version = "0.5.2-beta7"
+const BCAR_Version = "0.5.2-beta8"
 const BCAR_Settings_Version = 6;
 
 function is_newer(current, candidate) {
@@ -13,10 +13,10 @@ function is_newer(current, candidate) {
 window.LoadedError = class extends Error {}
 if (window.BCAR_VERSION) {
     if (is_newer(window.BCAR_VERSION, BCAR_Version)) {
-        beepChangelog();
-        console.log("BCAR has been udapted") // I mean do your thing here
+        beepNewVersion();
+        console.log("BCAR+ has been udapted") // I mean do your thing here
     }
-    throw new LoadedError("BCAR already loaded")
+    throw new LoadedError("BCAR+ already loaded")
 }
 //sdk stuff
 
@@ -27,7 +27,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 (async function () {
 	const modApi = bcModSDK.registerMod({
 	name: 'BCAR+',
-	fullName: 'Bondage Club Auto React + BCE Expressions',
+	fullName: 'Bondage Club Auto React Plus',
 	version: BCAR_Version,
 	// Optional - Link to the source code of the mod
 	repository: 'https://github.com/DrBranestawm/BCAR',
@@ -41,21 +41,22 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
   await waitFor(() => ServerIsConnected && ServerSocket);
   //end of do not touch
   const bcarSettingsKey = () => `bcarSettings.${Player?.AccountName}`;
-    const subcommands = ["arousalhelp", "arousaloff", "arousalon", "changelog", "earhelp", "earoff", "earon", "ear1", "ear2", "eardelete", "expressionhelp", "expressionon", "expressionoff", "male", "female", "other", "help", "load1", "load2", "profile1", "profile2", "profilehelp", "save1", "save2", "status", "tailhelp", "tailoff", "tailon", "tail1", "tail2", "taildelete", "winghelp", "wingoff", "wingon", "wing1", "wing2", "wingdelete"];
+    const subcommands = ["arousalhelp", "arousaloff", "arousalon", "changelog", "earhelp", "earoff", "earon", "ear1", "ear2", "eardelete", "expressionhelp", "expressionon", "expressionoff", "male", "female", "other", "help", "load1", "load2", "load3", "profile1", "profile2", "profile3", "profilehelp", "save1", "save2", "save3", "status", "tailhelp", "tailoff", "tailon", "tail1", "tail2", "taildelete", "winghelp", "wingoff", "wingon", "wing1", "wing2", "wingdelete"];
     const w = window;
     const BCAR_CHANGELOG =
-          "BCAR v" + BCAR_Version + ":\n" +
-          "- Compatiblity with R87\n" +
-          "- Included BCE Expressions into BCAR\n" +
+          "BCAR+ v" + BCAR_Version + ":\n" +
+          "- BCAR is now known as BCAR+\n" +
+          "- Included BCE Expressions into BCAR+\n" +
           "- Added an auto completion and partial for subcommands\n" +
           "- Neck Restraints blocks flying now\n" +
           "- Automatic messages bypass whispers now\n" +
-          "- Using BCT API to sync the BCT arousal bar with the room\n" +
+          "- Using BCTweaks API to sync the BCTweaks arousal bar with the room\n" +
           "- Settings now save on server\n" +
           "- Code clean up\n" +
           "- Added the possiblitly to change back to no ears/tail/wings\n" +
           "- Added Commands eardelete/taildelete/wingdelete\n" +
-          "- BCAR check atomatically for updates and notfies the user.\n" +
+          "- BCAR+ checks automatically for updates and notifies the user.\n" +
+          "- Genders can now be changed without relog\n" +
           "\n" +
           "BCAR v0.5.2:\n" +
           "- RegisterMod hotfix\n" +
@@ -72,7 +73,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 
   await bcarSettingsLoad();
             if(Player.BCAR != null){
-        console.log("BCAR is Loaded");
+        console.log("BCAR+ is Loaded");
 //            BCAR_Greeting();
         }
         window.BCAR_VERSION = BCAR_Version
@@ -255,6 +256,16 @@ const TriggerAdditions = [
              },
          ],
      },
+    {
+			Event: "BCAR_Confused",
+			Type: "Emote",
+			Matchers: [
+				{
+					Tester:
+						/^((seems|looks) (confused|curious|suspicious)|raises an eyebrow)/u,
+				},
+			],
+		},
      {
          Event: "BCAR_OpenMouthSlow",
          Type: "Emote",
@@ -517,7 +528,7 @@ const TriggerAdditions = [
 */
 
     const restraints = ["CollarChainLong", "CollarRopeLong", "CollarChainMedium", "CollarRopeMedium", "CollarChainShort", "CollarRopeShort", "Post", "PetPost"]
-    window.ChatRoomRegisterMessageHandler({ Priority: -200, Description: "BCAR Ground flying players with chains", Callback: (data, sender, msg, metadata) => {
+    window.ChatRoomRegisterMessageHandler({ Priority: -200, Description: "BCAR+ Ground flying players with chains", Callback: (data, sender, msg, metadata) => {
         if ("ActionUse" != msg) return // this is not our message
         let asset_name, dest
         for (let item of data.Dictionary) {
@@ -577,7 +588,7 @@ const TriggerAdditions = [
 
       if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
           var wingsSpreadMessage = data.Content;
-          let patterns = [/shows.*wings/mi, /spread.*wings/mi] ; // matches {<any> flaps <any> wings <any>}
+          let patterns = [/shows.*wings/mi, /spreads.*wings/mi] ; // matches {<any> spreads <any> wings <any>}
           let result = patterns.find(pattern => pattern.test(wingsSpreadMessage));
           if(result){
               WingsSpread();
@@ -769,18 +780,16 @@ const TriggerAdditions = [
   });
 
     function bcarSettingsSave() {
-    localStorage.setItem(bcarSettingsKey(),JSON.stringify(Player.BCAR.bcarSettings));
-
     Player.OnlineSettings.BCAR = Player.BCAR
       window.ServerAccountUpdate.QueueData({OnlineSettings: window.Player.OnlineSettings})
     }
 
-    async function beepChangelog() {
+    async function beepNewVersion() {
 		await waitFor(() => !!Player?.AccountName);
 		await sleep(5000);
         ChatRoomSendLocal(
            "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>: New Version\n" +
-           "BCAR has been updated, please relog to get the new version.</p>"
+           "BCAR+ has been updated, please relog to get the new version.</p>"
        );
 		//bcarBeepNotify("BCAR updated", "BCAR got updated. Type ''/bcar changelog'' to view the changelog.");
 	}
@@ -789,6 +798,23 @@ const TriggerAdditions = [
     delete Player.OnlineSettings.BCAR
       window.ServerAccountUpdate.QueueData({OnlineSettings: window.Player.OnlineSettings})
     }
+
+    function migrate_gender() {
+        const gd = Player.BCAR.bcarSettings.genderDefault
+        if (gd.pronoun || gd.intensive || gd.possessive) {
+            CommandGenderToggle(gd.gender.toLowerCase()); // this will set correct values, deletes will delete old values
+            delete gd.pronoun; // this deletes Player.BCAR.bcarSettings.genderDefault.pronoun
+            delete gd.intensive;
+            delete gd.possessive;
+    }
+  }
+
+    function migrateSettings() {
+        const local_settings_json = localStorage.getItem(bcarSettingsKey())
+        if (!local_settings_json) return
+        localStorage.removeItem(bcarSettingsKey())
+        return JSON.parse(local_settings_json)
+}
 
     async function bcarSettingsLoad() {
 		await waitFor(() => !!Player?.AccountName);
@@ -921,11 +947,12 @@ const TriggerAdditions = [
 //            bcarLoaded : false,
         }
 
+
         // if there are no settings on the server initialize with an empty object
         Player.BCAR = Player.OnlineSettings.BCAR || {bcarSettings: {}}
         //if online settings are not an older version then local ones, use them instead
 
-        const settings = Player.OnlineSettings.BCAR?.bcarSettings || {}
+        const settings = migrateSettings() || Player.OnlineSettings.BCAR?.bcarSettings || {}
         //        if(!settings) settings = {};
 
         // Reorganize old settings into the new structure
@@ -943,17 +970,10 @@ const TriggerAdditions = [
             }
         }
 
-        //if the version of the current settings is newer then the loaded ones, beep that bcar got an update
-        if (
-            typeof settings.version === "undefined" ||
-            settings.version < BCAR_Settings_Version
-        ) {
-            beepChangelog();
-        }
-
         settings.version = BCAR_Settings_Version;
         Player.BCAR.bcarSettings = settings;
 
+        migrate_gender();
         bcarSettingsSave();
     }
 
@@ -1307,6 +1327,20 @@ function CommandShowProfile(argsList)
                 "Secondary Wings: " + Player.BCAR.bcarSettings.profile2.wingsDefault.wingsDescription2 + "</p>"
             );
         }
+        else if (showProfile === "profile3") {
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>: Profile2 preset:\n" +
+                "Ear Animation: " + Player.BCAR.bcarSettings.profile3.earWigglingStatus + "\n" +
+                "Primary Ears: " + Player.BCAR.bcarSettings.profile3.earsDefault.earsDescription1 + "\n" +
+                "Secondary Ears: " + Player.BCAR.bcarSettings.profile3.earsDefault.earsDescription2 + "\n" +
+                "Tail Animation: " + Player.BCAR.bcarSettings.profile3.tailWaggingStatus + "\n" +
+                "Primary Tail: " + Player.BCAR.bcarSettings.profile3.tailsDefault.tailsDescription1 + "\n" +
+                "Secondary Tail: " + Player.BCAR.bcarSettings.profile3.tailsDefault.tailsDescription2 + "\n" +
+                "Wing Animation: " + Player.BCAR.bcarSettings.profile3.wingFlappingStatus + "\n" +
+                "Primary Wings: " + Player.BCAR.bcarSettings.profile3.wingsDefault.wingsDescription1 + "\n" +
+                "Secondary Wings: " + Player.BCAR.bcarSettings.profile3.wingsDefault.wingsDescription2 + "</p>"
+            );
+        }
     }
 
 function CommandSaveProfile(argsList)
@@ -1348,6 +1382,24 @@ function CommandSaveProfile(argsList)
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
                 "Profile2 has been saved!</p>"
+            );
+        }
+        else if (saving === "save3") {
+            Player.BCAR.bcarSettings.profile3Saved = true;
+            Player.BCAR.bcarSettings.profile3.earWigglingEnable = Player.BCAR.bcarSettings.earWigglingEnable;
+            Player.BCAR.bcarSettings.profile3.earWigglingStatus = Player.BCAR.bcarSettings.earWigglingStatus;
+            Player.BCAR.bcarSettings.profile3.earsDefault = Player.BCAR.bcarSettings.earsDefault
+
+            Player.BCAR.bcarSettings.profile3.tailWaggingEnable = Player.BCAR.bcarSettings.tailWaggingEnable;
+            Player.BCAR.bcarSettings.profile3.tailWaggingStatus = Player.BCAR.bcarSettings.tailWaggingStatus;
+            Player.BCAR.bcarSettings.profile3.tailsDefault = Player.BCAR.bcarSettings.tailsDefault
+
+            Player.BCAR.bcarSettings.profile3.wingFlappingEnable = Player.BCAR.bcarSettings.wingFlappingEnable;
+            Player.BCAR.bcarSettings.profile3.wingFlappingStatus = Player.BCAR.bcarSettings.wingFlappingStatus;
+            Player.BCAR.bcarSettings.profile3.wingsDefault = Player.BCAR.bcarSettings.wingsDefault
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
+                "Profile3 has been saved!</p>"
             );
         }
         bcarSettingsSave();
@@ -1442,6 +1494,48 @@ function CommandLoadProfile(argsList)
                 );
             }
         }
+        else if (loading === "load3") {
+            if(Player.BCAR.bcarSettings.profile3Saved){
+                Player.BCAR.bcarSettings.earWigglingEnable = Player.BCAR.bcarSettings.profile3.earWigglingEnable;
+                Player.BCAR.bcarSettings.earWigglingStatus = Player.BCAR.bcarSettings.profile3.earWigglingStatus;
+                Player.BCAR.bcarSettings.earsDefault = Player.BCAR.bcarSettings.profile3.earsDefault
+                if(!Player.BCAR.bcarSettings.earsDefault.ears1){
+                    InventoryRemove(Player,"HairAccessory2");
+                }
+                else {
+                    InventoryWear(Player, Player.BCAR.bcarSettings.profile3.earsDefault.ears1, "HairAccessory2", Player.BCAR.bcarSettings.profile3.earsDefault.earsColor1);
+                }
+                Player.BCAR.bcarSettings.tailWaggingEnable = Player.BCAR.bcarSettings.profile3.tailWaggingEnable;
+                Player.BCAR.bcarSettings.tailWaggingStatus = Player.BCAR.bcarSettings.profile3.tailWaggingStatus;
+                Player.BCAR.bcarSettings.tailsDefault = Player.BCAR.bcarSettings.profile3.tailsDefault
+                if(!Player.BCAR.bcarSettings.tailsDefault.tails1){
+                    InventoryRemove(Player,"TailStraps");
+                }
+                else {
+                    InventoryWear(Player, Player.BCAR.bcarSettings.profile3.tailsDefault.tails1, "TailStraps", Player.BCAR.bcarSettings.profile3.tailsDefault.tailsColor1);
+                }
+                Player.BCAR.bcarSettings.wingFlappingEnable = Player.BCAR.bcarSettings.profile3.wingFlappingEnable;
+                Player.BCAR.bcarSettings.wingFlappingStatus = Player.BCAR.bcarSettings.profile3.wingFlappingStatus;
+                Player.BCAR.bcarSettings.wingsDefault = Player.BCAR.bcarSettings.profile3.wingsDefault
+                if(!Player.BCAR.bcarSettings.tailsDefault.tails1){
+                    InventoryRemove(Player,"TailStraps");
+                }
+                else {
+                InventoryWear(Player, Player.BCAR.bcarSettings.profile3.wingsDefault.wings1, "Wings", Player.BCAR.bcarSettings.profile3.wingsDefault.wingsColor1)
+                }
+                ChatRoomSendLocal(
+                    "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
+                    "Profile3 has been loaded!</p>"
+                );
+            }
+            else {
+                ChatRoomSendLocal(
+                    "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
+                    "Profile3 not found!\n" +
+                    "Please save Profile3 first.</p>"
+                );
+            }
+        }
         bcarSettingsSave();
     }
 
@@ -1458,10 +1552,13 @@ function CommandProfileHelp(argsList)
                 "Commands:\n" +
                 "/bcar save1 - Saves current setup in Profile1.\n" +
                 "/bcar save2 - Saves current setup in Profile2.\n" +
+                "/bcar save3 - Saves current setup in Profile3.\n" +
                 "/bcar load1 - Loads the setup saved in Profile1.\n" +
                 "/bcar load2 - Loads the setup saved in Profile2.\n" +
+                "/bcar load3 - Loads the setup saved in Profile3.\n" +
                 "/bcar profile1 - Shows which setup is saved in Profile1.\n" +
-                "/bcar profile2 - Shows which setup is saved in Profile2.</p>"
+                "/bcar profile2 - Shows which setup is saved in Profile2.\n" +
+                "/bcar profile3 - Shows which setup is saved in Profile3.</p>"
             );
         }
     }
@@ -1517,7 +1614,7 @@ function CommandChangelog(argsList)
 
         if (changelog === "changelog") {
             ChatRoomSendLocal(
-                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React Changelog</b>: BCAR " + BCAR_Version + "\n" +
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React Changelog</b>: BCAR+ " + BCAR_Version + "\n" +
                 BCAR_CHANGELOG
             );
         }
@@ -1541,8 +1638,7 @@ function CommandExpressionToggle(argsList)
             Player.BCAR.bcarSettings.expressionsStatus = "Disabled";
             ChatRoomSendLocal(
                 "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
-                "BCE Expressions will be disabled!\n" +
-                "Please relog for the changes to take effect.</p>"
+                "BCE Expressions will be disabled!</p>"
             );
         }
         bcarSettingsSave();
@@ -1557,14 +1653,13 @@ function CommandExpressionHelp(argsList)
         if (openHelp === "expression" || openHelp === "expressionhelp") {
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>: Expression instructions:\n" +
-                "BCAR Expressions is a modified version of BCE Expressions and requires FBC to run.\n" +
-                "With the expression commands you can switch the usage for Expressions on and off.\n" +
-                "The expression takes effect on headpets, ear caress and cuddling.\n" +
-                "Look at the <a href='https://github.com/DrBranestawm/BCAR/wiki/Expression' target='_blank'>BCAR Expression Wiki</a> for full list.\n" +
+                "BCAR+ Expressions adds Expressions to BCE Expressions and requires FBC to run.\n" +
+                "With the expression commands you can switch the BCAR+ Expressions on and off.\n" +
+                "Look at the <a href='https://github.com/DrBranestawm/BCAR/wiki/Expression' target='_blank'>BCAR+ Expression Wiki</a> for full list.\n" +
                 " \n" +
                 "Commands:\n" +
                 "/bcar expressionon - Turns expression on.\n" +
-                "/bcar expressionoff - Turns expression off. (Only takes effect after relogging)</p>"
+                "/bcar expressionoff - Turns expression off.</p>"
             );
         }
     }
@@ -1581,8 +1676,7 @@ function CommandGenderToggle(argsList)
             Player.BCAR.bcarSettings.genderDefault.capPossessive = "His";
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
-                "The reactions refer to " + CharacterNickname(Player) + " as ''he'' now!\n" +
-                "Please relog for the changes to take effect.</p>"
+                "The reactions refer to " + CharacterNickname(Player) + " as ''he'' now!</p>"
             );
         }
         else if (toggle === "female") {
@@ -1592,8 +1686,7 @@ function CommandGenderToggle(argsList)
             Player.BCAR.bcarSettings.genderDefault.capPossessive = "Her";
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
-                "The reactions refer to " + CharacterNickname(Player) + " as ''she'' now!\n" +
-                "Please relog for the changes to take effect.</p>"
+                "The reactions refer to " + CharacterNickname(Player) + " as ''she'' now!</p>"
             );
         }
         else if (toggle === "other") {
@@ -1603,8 +1696,7 @@ function CommandGenderToggle(argsList)
             Player.BCAR.bcarSettings.genderDefault.capPossessive = "Their";
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>\n" +
-                "The reactions refer to " + CharacterNickname(Player) + " as ''they'' now!\n" +
-                "Please relog for the changes to take effect.</p>"
+                "The reactions refer to " + CharacterNickname(Player) + " as ''they'' now!</p>"
             );
         }
         bcarSettingsSave();
@@ -1620,7 +1712,7 @@ function CommandOpenHelp(argsList)
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React</b>: Commands overview and info:\n" +
                 "/bcar arousalhelp - Opens arousal instructions and commands page.\n" +
                 "/bcar expressionhelp - Opens expression instructions and commands page.\n" +
-                "/bcar changelog - Shows the BCAR changelog.\n" +
+                "/bcar changelog - Shows the BCAR+ changelog.\n" +
                 "/bcar help - Opens this help window.\n" +
                 "/bcar status - Opens the status window.\n" +
                 "/bcar earhelp - Opens ear instructions and commands page.\n" +
@@ -1631,7 +1723,7 @@ function CommandOpenHelp(argsList)
                 "/bcar female - Lets the reactions refer to " + CharacterNickname(Player) + " as ''she''.\n" +
                 "/bcar other - Lets the reactions refer to " + CharacterNickname(Player) + " as ''they''.\n" +
                 "/bcar reset - Resets the ears, tails and wings to the default settings.\n" +
-                "Visit the <a href='https://github.com/DrBranestawm/BCAR/wiki' target='_blank'>BCAR Wiki</a> for more info.</p>"
+                "Visit the <a href='https://github.com/DrBranestawm/BCAR/wiki' target='_blank'>BCAR+ Wiki</a> for more info.</p>"
             );
         }
     }
@@ -1670,7 +1762,7 @@ function CommandStatus(argsList)
                 "Secondary Wings: " + Player.BCAR.bcarSettings.wingsDefault.wingsDescription2 + "\n" +
                 "Gender: " + Player.BCAR.bcarSettings.genderDefault.gender + "\n" +
                 "Arousal Manipulation: " + Player.BCAR.bcarSettings.arousalStatus + "\n" +
-                "BCAR Expressions: " + Player.BCAR.bcarSettings.expressionsStatus + "</p>"
+                "BCAR+ Expressions: " + Player.BCAR.bcarSettings.expressionsStatus + "</p>"
             );
         }
     }
