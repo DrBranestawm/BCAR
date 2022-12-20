@@ -1,13 +1,14 @@
-# ![BCAR_Banner](https://user-images.githubusercontent.com/115511728/199107170-b32c4f2b-9319-422a-8488-51d22fe98704.png)
+# ![BCAR+_Banner](https://user-images.githubusercontent.com/115511728/208284090-78b2688d-ed76-4ca9-ae6e-d630bd369d7f.png)
+
  
 This extension lets your Character react automatically to Actions done to them.  
-The ears can wiggle and the tail can wag too. To change the ears wiggle and the tail wag animation see "[Commands of BCAR](https://github.com/DrBranestawm/BCAR#commands-of-bcar)" down below or look at the [Wiki](https://github.com/DrBranestawm/BCAR/wiki) page. You can add the script via Tampermonkey [BCAR](https://github.com/DrBranestawm/BCAR/raw/main/script/bcarLoader.user.js)  
+The ears can wiggle and the tail can wag too. To change the ears wiggle and the tail wag animation see "[Commands of BCAR+](https://github.com/DrBranestawm/BCAR#commands-of-bcar)" down below or look at the [Wiki](https://github.com/DrBranestawm/BCAR/wiki) page. You can add the script via Tampermonkey [BCAR+](https://github.com/DrBranestawm/BCAR/raw/main/script/bcarLoader.user.js)  
 or add it as Bookmark any of your devices. To do that save  
 `javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/script/bcar.js').then(r=>r.text()).then(r=>eval(r));})();`
 as a bookmark on your devices.
 
 
-## Commands of BCAR
+## Commands of BCAR+
 The commands were move the [Wiki](https://github.com/DrBranestawm/BCAR/wiki) page.
 
 # BCE Expressions for BCAR 
@@ -18,9 +19,9 @@ or add it as Bookmark any of your devices. To do that save
 as a bookmark on your devices.
 
 
-# BCAR Beta
+# BCAR+ Beta
 Use the beta at own risk!  
-You can add the beta script via Tampermonkey [BCAR Beta](https://github.com/DrBranestawm/BCAR/raw/main/script/bcarBetaLoader.user.js)  
+You can add the beta script via Tampermonkey [BCAR+ Beta](https://github.com/DrBranestawm/BCAR/raw/main/script/bcarBetaLoader.user.js)  
 or add it as Bookmark any of your devices. To do that save  
 `javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/script/bcarBeta.js').then(r=>r.text()).then(r=>eval(r));})();` 
 as a bookmark on your devices.
@@ -32,12 +33,18 @@ as a bookmark on your devices.
  - Angela ([@AngelaTheCat](https://github.com/AngelaTheCat/))
     - Privoviding the main script
     - Some compability fixes with FBC4.6 (Also thanks to Elicia)
- - Julia ([@agicitag](https://github.com/agicitag/))
-    - Providing general help
-    - Permission to use their save and load settings feature
  - Haruhi ([@crimsontropy](https://github.com/crimsontropy/))
     - Clean up the if-else for actions
     - Their tail wag script on which the ear wiggle is based
     - Implementing the save and load settings feature
+ - Julia ([@agicitag](https://github.com/agicitag/))
+    - Providing general help
+    - Permission to use their save and load settings feature
+ - Mute ([@Mute](https://code.fleshless.org/mute/MBCHC/))
+    - Giving coding Lessons
+    - Help to clean up a lot of code
+    - Help with the autocompletion of commands and subcommands
+    - Help to save settings online
+    - And much more
  - Utsumi
     - Help with an issue with the activityDictionary
