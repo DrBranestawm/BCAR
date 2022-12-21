@@ -117,9 +117,13 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 const BCAR_Expression_Additions = {
     OpenMouthSlow: {
         Type: "OpenMouth",
-        Duration: 10000,
+        Duration: 4000,
         Expression: {
-            Mouth: [{ Expression: "Moan", Duration: -1 }],
+            Mouth: [
+                { Expression: "HalfOpen", Duration: 2000 },
+                { Expression: "Open", Duration: 2000 },
+                { Expression: "Moan", Duration: -1 },
+            ],
         },
     },
     Confused: {
@@ -391,35 +395,35 @@ const TriggerAdditions = [
 
     function ArousalHeadBrush(){
         if(Player.BCAR.bcarSettings.arousalEnable === true){
-            Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
+            Player.BCT.splitOrgasmArousal.ProgressTimer = Player.BCT.splitOrgasmArousal.arousalProgress + 2;
             BCT_API?.ActivityChatRoomBCTArousalSync(Player);
         }
     }
 
     function ArousalHeadPat(){
         if(Player.BCAR.bcarSettings.arousalEnable === true){
-            Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
+            Player.BCT.splitOrgasmArousal.ProgressTimer = Player.BCT.splitOrgasmArousal.arousalProgress + 2;
             BCT_API?.ActivityChatRoomBCTArousalSync(Player);
         }
     }
 
     function ArousalCaressBack(){
         if(Player.BCAR.bcarSettings.arousalEnable === true){
-            Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
+            Player.BCT.splitOrgasmArousal.ProgressTimer = Player.BCT.splitOrgasmArousal.arousalProgress + 2;
             BCT_API?.ActivityChatRoomBCTArousalSync(Player);
         }
     }
 
     function ArousalMassageBack(){
         if(Player.BCAR.bcarSettings.arousalEnable === true){
-            Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 2;
+            Player.BCT.splitOrgasmArousal.ProgressTimer = Player.BCT.splitOrgasmArousal.arousalProgress + 2;
             BCT_API?.ActivityChatRoomBCTArousalSync(Player);
         }
     }
 
     function ArousalCaressButt(){
         if(Player.BCAR.bcarSettings.arousalEnable === true){
-            Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 5;
+            Player.BCT.splitOrgasmArousal.ProgressTimer = Player.BCT.splitOrgasmArousal.arousalProgress + 5;
             BCT_API?.ActivityChatRoomBCTArousalSync(Player);
         }
     }
@@ -631,9 +635,9 @@ ServerSocket.on("ChatRoomMessage", async (data) => {
               		console.log("IF")
                 ChatRoomSendLocal(
                     "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                    "You can't fly because the " + NeckRestraints.Asset.Description + " holds you down.</p>"
+                    "You can't fly because the " + NeckRestraints.Asset.Description + " holds you down.</p>", 15000
                 )
-                ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: CharacterNickname(Player) + " tried to fly while " + Player.BCAR.bcarSettings.genderDefault.pronoun + " is held down by a " + NeckRestraints.Asset.Description + "." }]});
+                ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: CharacterNickname(Player) + " tried to fly while " + Player.BCAR.bcarSettings.genderDefault.CapPronoun.toLocaleLowerCase() + " is held down by a " + NeckRestraints.Asset.Description + "." }]});
             }
               else {
                   console.log("ELSE")
@@ -838,7 +842,6 @@ ServerSocket.on("ChatRoomMessage", async (data) => {
         const BCAR_DEFAULT_SETTINGS = {
             arousalEnable : true,
             arousalStatus : "Enabled",
-            asleep: false,
             expressionsEnable :false,
             expressionsStatus : "Disabled",
             earWigglingEnable : false,
@@ -1030,6 +1033,7 @@ ServerSocket.on("ChatRoomMessage", async (data) => {
         Player.BCAR.bcarSettings = settings;
 
         migrate_gender();
+        delete Player.BCAR.bcarSettings.asleep
         bcarSettingsSave();
     }
 
@@ -2064,6 +2068,45 @@ function CommandStatus(argsList)
 
     ])
 
+ function CommandLeaveChatRoom(argsList)
+    {
+        let leave = argsList[0];
+        let leaveto = argsList.slice(1);
+
+        if (!leave) {
+            if (CurrentScreen == "ChatRoom") {
+                ElementRemove("FriendList");
+                ElementRemove("InputChat");
+                ElementRemove("TextAreaChatLog");
+                ChatRoomSetLastChatRoom("");
+                ServerSend("ChatRoomLeave", "");
+                CommonSetScreen("Online", "ChatSearch");
+                OnlineGameName = "";};
+            if (CurrentScreen == "Cell") {
+                PrisonLeaveCell();};
+        }
+    }
+    CommandCombine([
+        {
+            Tag: 'leave',
+            Description: "leave the room",
+            AutoComplete: (words) => {
+
+                 if (words.length < 1) {
+                    window.ChatRoomSendLocal("<style type='text/css'> .bcar_hint {display: flex; flex-flow: column wrap; overflow: auto; height: 5em; background: #000452; font-size: 1em; } .bcar_hint div {	margin:0 0.5ex; }</style><div class='bcar_hint'><div><b>" + subcommands.join("</b></div><div><b>") + "</b></div></div>", 20000)
+                }
+                 if (words.length > 1) { /*No output, because user has entered multiple words, and we can only complete the last one*/ }
+                 if (words.length === 1) {
+                    window.ElementValue("InputChat", "/leave " + matches[0])
+
+                }
+
+             },
+            Action: args => {
+                CommandLeaveChatRoom(args.split(" "));
+            }
+        }
+    ])
     //BCE Expressions
 
 
@@ -2073,6 +2116,7 @@ function CommandStatus(argsList)
 		);
 		return;
 	}
+
 
 	await waitFor(() => !!w.Player?.Name && !!w.bce_initializeDefaultExpression && !!w.bce_ActivityTriggers);
 
