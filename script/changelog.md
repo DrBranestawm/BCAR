@@ -9,13 +9,13 @@
 * Automatic messages bypass whispers now
 * Using BCTweaks API to sync the BCTweaks arousal bar with the room
 * Settings saves on server now
-* Code clean up
 * Added the possiblitly to change back to no ears/tail/wings
 * Added Commands eardelete/taildelete/wingdelete
 * BCAR+ checks automatically for updates and notifies the user
 * Genders can now be changed without relog
 * Added a third profile slot
 * Users can now set the number and the speed of ear wiggles, tail wags and wing flaps
+* Code clean up
 
 **Full Changelog**: [0.5.3...0.6.0](https://github.com/DrBranestawm/BCAR/compare/0.5.3...0.6.0)
 
