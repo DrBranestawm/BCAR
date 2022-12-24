@@ -1,4 +1,4 @@
-const BCAR_Version = '0.5.3-beta10';
+const BCAR_Version = '0.6.0';
 const BCAR_Settings_Version = 6;
 
 function is_newer(current, candidate) {
@@ -48,12 +48,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
           "- BCAR is now known as BCAR+\n" +
           "- Included BCE Expressions into BCAR+\n" +
           "- Added an auto completion for subcommands\n" +
-          "- Neck Restraints blocks flying now\n" +
-          "- Automatic messages bypass whispers now\n" +
-          "- Using BCTweaks API to sync the BCTweaks arousal bar with the room\n" +
           "- Settings saves on server now\n" +
-          "- Code clean up\n" +
-          "- Added the possiblitly to change back to no ears/tail/wings\n" +
           "- Added Commands eardelete/taildelete/wingdelete\n" +
           "- BCAR+ checks automatically for updates and notifies the user.\n" +
           "- Genders can now be changed without relog\n" +
@@ -84,7 +79,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
         window.BCAR_VERSION = BCAR_Version
 
     function checkUpdates () {
-        fetch(`https://drbranestawm.github.io/BCAR/script/bcarPlus.js?ts=${Date.now()}`).then(r => r.text()).then(r => eval(r)).catch(x => x instanceof LoadedError || console.error(x))
+        fetch(`https://drbranestawm.github.io/BCAR/script/bcar.js?ts=${Date.now()}`).then(r => r.text()).then(r => eval(r)).catch(x => x instanceof LoadedError || console.error(x))
     }
 
     setInterval(checkUpdates, 3600000)
