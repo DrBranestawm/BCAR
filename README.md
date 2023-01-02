@@ -1,4 +1,4 @@
-# ![BCAR+_Banner](https://user-images.githubusercontent.com/115511728/208284090-78b2688d-ed76-4ca9-ae6e-d630bd369d7f.png)
+# ![BCAR+_Banner](https://user-images.githubusercontent.com/115511728/208785119-dc3cd2f3-e83a-4f8a-ad65-360e18cabdbc.png)
 
  
 This extension lets your Character react automatically to Actions done to them.  
@@ -9,14 +9,15 @@ as a bookmark on your devices.
 
 
 ## Commands of BCAR+
-The commands were move the [Wiki](https://github.com/DrBranestawm/BCAR/wiki) page.
+The commands were moved to the [Wiki](https://github.com/DrBranestawm/BCAR/wiki) page.
 
-# BCE Expressions for BCAR 
-If you use FBC(formerly BCE) and want special Expressions for BCAR reactions I recommend to add this addon to your list. (Requiers [FBC](https://sidiousious.gitlab.io/bce/) and [BCAR](https://github.com/DrBranestawm/BCAR#))  
+# BCE Expressions for BCAR (No longer required, included in BCAR+)
+If you use FBC(formerly BCE) and want special expressions for BCAR reactions <s>I recommend to add this addon to your list. (Requires [FBC](https://sidiousious.gitlab.io/bce/) and [BCAR](https://github.com/DrBranestawm/BCAR#))  
 You can add the script via Tampermonkey [BCE Expressions for BCAR](https://github.com/DrBranestawm/BCAR/raw/main/bceExpressionsForBCAR/scriptLoader.user.js)  
 or add it as Bookmark any of your devices. To do that save  
-`javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/bceExpressionsForBCAR/script.js').then(r=>r.text()).then(r=>eval(r));})();` 
-as a bookmark on your devices.
+`javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/bceExpressionsForBCAR/script.js').then(r=>r.text()).then(r=>eval(r));})();`
+as a bookmark on your devices.</s>  
+Use the command <b>/bcar expressionon</b> (Requires [FBC](https://sidiousious.gitlab.io/bce/)).
 
 
 # BCAR+ Beta
