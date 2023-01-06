@@ -1,4 +1,4 @@
-const BCAR_Version = '0.6.0';
+const BCAR_Version = '0.6.1-beta1';
 const BCAR_Settings_Version = 6;
 
 function is_newer(current, candidate) {
@@ -26,7 +26,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 
 (async function () {
 	const modApi = bcModSDK.registerMod({
-	name: 'BCAR+ Beta',
+	name: 'BCAR+',
 	fullName: 'Bondage Club Auto React +',
 	version: BCAR_Version,
 	// Optional - Link to the source code of the mod
@@ -41,10 +41,20 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
   await waitFor(() => ServerIsConnected && ServerSocket);
   //end of do not touch
   const bcarSettingsKey = () => `bcarSettings.${Player?.AccountName}`;
-    const subcommands = ["arousalhelp", "arousaloff", "arousalon", "changelog", "ear1", "ear2", "eardelete", "eardelay", "earhelp", "earoff", "earon", "ear1", "ear2", "earwiggles", "expressionhelp", "expressionon", "expressionoff", "male", "female", "other", "help", "load1", "load2", "load3", "profile1", "profile2", "profile3", "profilehelp", "save1", "save2", "save3", "status", "tail1", "tail2", "tailhelp", "taildelay", "taildelete", "tailoff", "tailon", "tailwags", "wing1", "wing2", "wingdelay", "wingdelete", "wingflaps", "winghelp", "wingoff", "wingon"];
+    const subcommands = ["arousalhelp", "arousaloff", "arousalon", "changelog", "ear1", "ear2", "eardelete", "eardelay", "earhelp", "earoff", "earon", "ear1", "ear2", "earwiggles", "expressionhelp", "expressionon", "expressionoff", "male", "female", "other", "help", "load1", "load2", "load3", "profile1", "profile1delete", "profile2", "profile2delete", "profile3", "profile3delete", "profilehelp", "save1", "save2", "save3", "status", "tail1", "tail2", "tailhelp", "taildelay", "taildelete", "tailoff", "tailon", "tailwags", "wing1", "wing2", "wingdelay", "wingdelete", "wingflaps", "winghelp", "wingoff", "wingon"];
     const w = window;
     const BCAR_CHANGELOG =
           "BCAR+ v" + BCAR_Version + ":\n" +
+          "- Orgasms can stop the Player from leaving\n" +
+          "- Added some commands\n" +
+          "     - /cum\n" +
+          "     - /leave\n" +
+          "     - /safewordspecific\n" +
+          "     - /wardrobe\n" +
+          "- Profiles3 does work now\n" +
+          "- Code clean up\n" +
+          "\n" +
+          "BCAR v0.6.0:\n" +
           "- BCAR is now known as BCAR+\n" +
           "- Included BCE Expressions into BCAR+\n" +
           "- Added an auto completion for subcommands\n" +
@@ -53,24 +63,8 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
           "- BCAR+ checks automatically for updates and notifies the user.\n" +
           "- Genders can now be changed without relog\n" +
           "- Added a third profile slot\n" +
-		  "- Users can now set the number and the speed of ear wiggles, tail wags and wing flaps\n" +
-          "\n" +
-          "BCAR v0.5.3:\n" +
-          "- Compatiblity with R87\n" +
-		  "\n" +
-          "BCAR v0.5.2:\n" +
-          "- RegisterMod hotfix\n" +
-          "\n" +
-          "BCAR v0.5.1:\n" +
-          "- Updated to bcModSDK 1.1\n" +
-          "- Added wing spreding and retracting via chat\n" +
-          "- Added on/off switch for arousal manipulating\n" +
-          "\n" +
-          "BCAR v0.5.0:\n" +
-          "- Added wing flapping via chat\n" +
-          "- Added profile presets\n" +
-          "View <a href='https://github.com/DrBranestawm/BCAR/blob/main/script/changelog.md' target='_blank'>Full Changelog</a> to see all changes.</p>"
-
+	  "- Users can now set the number and the speed of ear wiggles, tail wags and wing flaps\n" +
+          
   await bcarSettingsLoad();
             if(Player.BCAR != null){
         console.log("BCAR+ is Loaded");
@@ -79,7 +73,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
         window.BCAR_VERSION = BCAR_Version
 
     function checkUpdates () {
-        fetch(`https://drbranestawm.github.io/BCAR/script/bcar.js?ts=${Date.now()}`).then(r => r.text()).then(r => eval(r)).catch(x => x instanceof LoadedError || console.error(x))
+        fetch(`https://drbranestawm.github.io/BCAR/script/bcarBeta.js?ts=${Date.now()}`).then(r => r.text()).then(r => eval(r)).catch(x => x instanceof LoadedError || console.error(x))
     }
 
     setInterval(checkUpdates, 3600000)
@@ -340,6 +334,8 @@ const TriggerAdditions = [
         result = result.replaceAll("%CAP_PRONOUN%", Player.BCAR.bcarSettings.genderDefault.capPronoun)
         result = result.replaceAll("%INTENSIVE%", Player.BCAR.bcarSettings.genderDefault.capIntensive.toLocaleLowerCase())
         result = result.replaceAll("%CAP_INTENSIVE%", Player.BCAR.bcarSettings.genderDefault.capIntensive)
+        result = result.replaceAll("%NAME%", CharacterNickname(Player))
+        result = result.replaceAll("%OPP_NAME%")
         // repeat for other vars
         return result
     }
@@ -365,7 +361,7 @@ const TriggerAdditions = [
         if(Player.BCAR.bcarSettings.arousalEnable === true){
             Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 10;
             ActivityChatRoomArousalSync(Player);
-            Player.BCT.splitOrgasmArousal.ProgressTimer = Player.BCT.splitOrgasmArousal.arousalProgress + 50;
+            Player.BCT.splitOrgasmArousal.ProgressTimer = Player.BCT.splitOrgasmArousal.arousalProgress + 20;
             BCT_API?.ActivityChatRoomBCTArousalSync(Player);
         }
     }
@@ -374,7 +370,7 @@ const TriggerAdditions = [
         if(Player.BCAR.bcarSettings.arousalEnable === true){
             Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 7;
             ActivityChatRoomArousalSync(Player);
-            Player.BCT.splitOrgasmArousal.ProgressTimer = Player.BCT.splitOrgasmArousal.arousalProgress + 50;
+            Player.BCT.splitOrgasmArousal.ProgressTimer = Player.BCT.splitOrgasmArousal.arousalProgress + 20;
             BCT_API?.ActivityChatRoomBCTArousalSync(Player);
         }
     }
@@ -383,7 +379,7 @@ const TriggerAdditions = [
         if(Player.BCAR.bcarSettings.arousalEnable === true){
             Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 7;
             ActivityChatRoomArousalSync(Player);
-            Player.BCT.splitOrgasmArousal.ProgressTimer = Player.BCT.splitOrgasmArousal.arousalProgress + 50;
+            Player.BCT.splitOrgasmArousal.ProgressTimer = Player.BCT.splitOrgasmArousal.arousalProgress + 20;
             BCT_API?.ActivityChatRoomBCTArousalSync(Player);
         }
     }
@@ -397,6 +393,8 @@ const TriggerAdditions = [
 
     function ArousalHeadPat(){
         if(Player.BCAR.bcarSettings.arousalEnable === true){
+            Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 1;
+            ActivityChatRoomArousalSync(Player);
             Player.BCT.splitOrgasmArousal.ProgressTimer = Player.BCT.splitOrgasmArousal.arousalProgress + 2;
             BCT_API?.ActivityChatRoomBCTArousalSync(Player);
         }
@@ -418,6 +416,8 @@ const TriggerAdditions = [
 
     function ArousalCaressButt(){
         if(Player.BCAR.bcarSettings.arousalEnable === true){
+            Player.ArousalSettings.ProgressTimer = Player.ArousalSettings.Progress + 1;
+            ActivityChatRoomArousalSync(Player);
             Player.BCT.splitOrgasmArousal.ProgressTimer = Player.BCT.splitOrgasmArousal.arousalProgress + 5;
             BCT_API?.ActivityChatRoomBCTArousalSync(Player);
         }
@@ -512,13 +512,14 @@ const TriggerAdditions = [
         }
     }
 
-    function Landing(){
-        if(Player.BCAR.bcarSettings.wingFlappingEnable === true){
-            delete InventoryGet(Player, 'Emoticon').Property.OverrideHeight;
-            CurrentScreen === 'ChatRoom'
-                ? ChatRoomCharacterUpdate(Player)
-            : CharacterRefresh(Player);
+    function Landing() {
+      if (Player?.BCAR?.bcarSettings?.wingFlappingEnable) {
+        const emoticon = InventoryGet(Player, 'Emoticon');
+        if (emoticon?.Property) {
+          delete emoticon.Property.OverrideHeight;
+          CurrentScreen === 'ChatRoom' ? ChatRoomCharacterUpdate(Player) : CharacterRefresh(Player);
         }
+      }
     }
 
     function WingsHide(){
@@ -527,6 +528,15 @@ const TriggerAdditions = [
             ? ChatRoomCharacterUpdate(Player)
         : CharacterRefresh(Player);
     }
+
+    function StopLeaving(){
+        if(ChatRoomSlowtimer != 0){
+            ChatRoomSlowtimer = CurrentTime + 1;
+            ChatRoomSlowStop = true;
+            ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: CharacterNickname(Player) + " was stopped from leaving by " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " own orgasm." }]})
+        }
+    }
+
     /*
 //greeting message.
     BCAR_Greeting = function(data) {
@@ -562,20 +572,13 @@ const TriggerAdditions = [
 
 // on channel join data Type is Action, Content is ServerEnter and MemberNumber is the joining user
 //do not touch this
-ServerSocket.on("ChatRoomMessage", async (data) => {
-        await sleep(10);
-
-//    window.ChatRoomRegisterMessageHandler({ Priority: -220, Description: "Lilly",
-//    Callback: (data, sender, msg, metadata) => {
-//    console.log({data, sender, msg, metadata})
-//  }
-//})
 
 //      if (Player.BCT.bctSettings.tailWaggingEnable === true){
 //          Player.BCT.bctSettings.tailWaggingEnable = false
 //      }
 
-      if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
+    window.ChatRoomRegisterMessageHandler({ Priority: -200, Description: "BCAR+ Emotes", Callback: (data, sender, msg, metadata) => {
+    if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
           var sleepMessage = data.Content;
           let patterns = [/falls.*asleep/mi, /sleeps/mi] ; // matches {<any> falls <any> asleep <any>}
           let result = patterns.find(pattern => pattern.test(sleepMessage));
@@ -584,7 +587,7 @@ ServerSocket.on("ChatRoomMessage", async (data) => {
           }
       }
 
-      if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
+    if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
           var wakeMessage = data.Content;
           let patterns = [/wakes.*up/mi] ; // matches {<any> falls <any> asleep <any>}
           let result = patterns.find(pattern => pattern.test(wakeMessage));
@@ -602,7 +605,7 @@ ServerSocket.on("ChatRoomMessage", async (data) => {
 //          }
 //      }
 
-      if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
+    if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
           var wingsSpreadMessage = data.Content;
           let patterns = [/shows.*wings/mi, /spreads.*wings/mi] ; // matches {<any> spreads <any> wings <any>}
           let result = patterns.find(pattern => pattern.test(wingsSpreadMessage));
@@ -611,7 +614,7 @@ ServerSocket.on("ChatRoomMessage", async (data) => {
           }
       }
 
-      if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
+    if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
           var flapMessage = data.Content;
           let patterns = [/flaps.*wings/mi, /wings.*flapping/mi, /flapping.*wings/mi, /wings.*flap/mi] ; // matches {<any> flaps <any> wings <any>}
           let result = patterns.find(pattern => pattern.test(flapMessage));
@@ -620,19 +623,19 @@ ServerSocket.on("ChatRoomMessage", async (data) => {
           }
       }
 
-      if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
+    if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
           var flyMessage = data.Content;
           let patterns = [/begins.*fly/mi, /starts.*flying/mi] ; // matches {<any> begins <any> fly <any>}
           let result = patterns.find(pattern => pattern.test(flyMessage));
           let NeckRestraints = InventoryGet(Player, "ItemNeckRestraints");
           if(result){
-          	if (InventoryGet(Player, "ItemNeckRestraints")){
-              		console.log("IF")
+              if (InventoryGet(Player, "ItemNeckRestraints")){
+                console.log("IF")
                 ChatRoomSendLocal(
                     "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
                     "You can't fly because the " + NeckRestraints.Asset.Description + " holds you down.</p>", 15000
                 )
-                ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: CharacterNickname(Player) + " tried to fly while " + Player.BCAR.bcarSettings.genderDefault.CapPronoun.toLocaleLowerCase() + " is held down by a " + NeckRestraints.Asset.Description + "." }]});
+                ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: CharacterNickname(Player) + " tried to fly while " + Player.BCAR.bcarSettings.genderDefault.capPronoun.toLocaleLowerCase() + " is held down by a " + NeckRestraints.Asset.Description + "." }]});
             }
               else {
                   console.log("ELSE")
@@ -653,7 +656,7 @@ ServerSocket.on("ChatRoomMessage", async (data) => {
           }
       }
 
-      if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
+    if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
           var wingsHideMessage = data.Content;
           let patterns = [/hides.*wings/mi, /folds.*wings/mi, /retracts.*wings/mi] ; // matches {<any> flaps <any> wings <any>}
           let result = patterns.find(pattern => pattern.test(wingsHideMessage));
@@ -662,147 +665,110 @@ ServerSocket.on("ChatRoomMessage", async (data) => {
               WingsHide();
           }
       }
+}});
 
- if (data.Type === "Activity"){
-      var activityDictionary = data.Dictionary
-      const target = activityDictionary.find(obj => obj.Tag === "TargetCharacter")
-
-      for(let i = 0; i < activityDictionary.length; i++)
-      {
-          if(activityDictionary[i].Tag == "fbc_nonce")
-          {
-              activityDictionary.splice(i, 1);
-              break;
-          }
-      }
-    if(target.MemberNumber === Player.MemberNumber) {
-        if((data.Content.startsWith("ChatOther-ItemEars") || (data.Content.startsWith("ChatSelf-ItemEars") === -1))) {
-              if (data.Content.indexOf("Caress") !== -1) {
-                  let nya = Math.floor(Math.random() * 5);
-                  if(Player.BCAR.bcarSettings.earWigglingEnable === true){
-                  console.log(nya)
-                  ActivityBeeper("EarCaress",nya);
-
-                  setTimeout(EarWiggle);
-                  ArousalEarCaress();
-                  }
-              }
-            else if (data.Content.indexOf("Nibble") !== -1) {
-                  let nya = Math.floor(Math.random() * 3);
-                  if(Player.BCAR.bcarSettings.earWigglingEnable === true){
-                  console.log(nya)
-                  ActivityBeeper("EarNibble",nya);
-
-                  setTimeout(EarWiggle);
-                  ArousalEarNibble();
-                  }
-              }
-              else if (data.Content.indexOf("Lick") !== -1) {
-                  let nya = Math.floor(Math.random() * 3);
-                  if(Player.BCAR.bcarSettings.earWigglingEnable === true){
-                  console.log(nya)
-                  ActivityBeeper("EarLick",nya);
-
-                  setTimeout(EarWiggle);
-                  ArousalEarLick();
-                  }
-              }
-              else if (data.Content.indexOf("Kiss") !== -1) {
-                  let nya = Math.floor(Math.random() * 3);
-                  if(Player.BCAR.bcarSettings.earWigglingEnable === true){
-                  console.log(nya)
-                  ActivityBeeper("EarKiss",nya);
-
-                  setTimeout(EarWiggle);
-                  ArousalEarKiss();
-                  }
-              }
+    window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Activites", Callback: (data, sender, msg, metadata) => {
+        if (data.Type === "Activity" && data.Sender === Player.MemberNumber){
+            if ((data.Content.startsWith("Orgasm") || (data.Content.startsWith("Orgasm") === -1))) {
+                if (data.Content.indexOf("0") !== -1 || data.Content.indexOf("1") !== -1 || data.Content.indexOf("2") !== -1 || data.Content.indexOf("3") !== -1 || data.Content.indexOf("4") !== -1 || data.Content.indexOf("5") !== -1 || data.Content.indexOf("6") !== -1 || data.Content.indexOf("7") !== -1 || data.Content.indexOf("8") !== -1 || data.Content.indexOf("9") !== -1) {
+                    console.log("Player orgasmed")
+                    StopLeaving();
+                }
+            }
         }
-        else if ((data.Content.startsWith("ChatOther-ItemHead") || (data.Content.startsWith("ChatSelf-ItemHead") === -1))) {
-            if (data.Content.indexOf("TakeCare") !== -1) {
-                let nya = Math.floor(Math.random() * 2);
-                if(Player.BCAR.bcarSettings.earWigglingEnable === true){
-                console.log(nya)
-                ActivityBeeper("HeadBrush",nya);
+    }});
 
-                setTimeout(EarWiggle);
+    window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto Reactions", Callback: (data, sender, msg, metadata) => {
+        if (data.Type !== 'Activity') return // isn't an Activity message
+        console.log(data);
+        if (!Player?.MemberNumber) return // we need Player.MemberNumber
+        if (Player.MemberNumber !== data.Dictionary.find(obj => obj.Tag === "TargetCharacter")?.MemberNumber) return // we aren't the target
+        let nya
+        switch (data.Content) {
+            case 'ChatOther-ItemEars-Caress': case 'ChatSelf-ItemEars-Caress':
+                if (!Player.BCAR.bcarSettings.earWigglingEnable) break;
+                nya = Math.floor(Math.random() * 5);
+                console.log(nya);
+                ActivityBeeper("EarCaress", nya);
+                EarWiggle();
+                ArousalEarCaress();
+                break;
+            case 'ChatOther-ItemEars-Nibble': case 'ChatSelf-ItemEars-Nibble':
+                if (!Player.BCAR.bcarSettings.earWigglingEnable) break;
+                nya = Math.floor(Math.random() * 3);
+                console.log(nya);
+                ActivityBeeper("EarNibble", nya);
+                EarWiggle();
+                ArousalEarNibble();
+                break;
+            case 'ChatOther-ItemEars-Lick': case 'ChatSelf-ItemEars-Lick':
+                if (!Player.BCAR.bcarSettings.earWigglingEnable) break;
+                nya = Math.floor(Math.random() * 3);
+                console.log(nya);
+                ActivityBeeper("EarLick", nya);
+                EarWiggle();
+                ArousalEarLick();
+                break;
+            case 'ChatOther-ItemEars-Kiss': case 'ChatSelf-ItemEars-Kiss':
+                if (!Player.BCAR.bcarSettings.earWigglingEnable) break;
+                nya = Math.floor(Math.random() * 3);
+                console.log(nya);
+                ActivityBeeper("EarKiss", nya);
+                EarWiggle();
+                ArousalEarKiss();
+                break;
+            case 'ChatOther-ItemHead-TakeCare': case 'ChatSelf-ItemHead-TakeCare':
+                if (!Player.BCAR.bcarSettings.earWigglingEnable) break;
+                nya = Math.floor(Math.random() * 2);
+                console.log(nya);
+                ActivityBeeper("HeadBrush", nya);
+                EarWiggle();
                 ArousalHeadBrush();
-                }
-            }
-            else if (data.Content.indexOf("Pet") !== -1) {
-                let nya = Math.floor(Math.random() * 4);
-                if(Player.BCAR.bcarSettings.earWigglingEnable === true){
-                console.log(nya)
-                ActivityBeeper("HeadPat",nya);
-
-                setTimeout(EarWiggle);
+                break;
+            case 'ChatOther-ItemHead-Pet': case 'ChatSelf-ItemHead-Pet':
+                if (!Player.BCAR.bcarSettings.earWigglingEnable) break;
+                nya = Math.floor(Math.random() * 4);
+                console.log(nya);
+                ActivityBeeper("HeadPat", nya);
+                EarWiggle();
                 ArousalHeadPat();
-                }
-            }
-        }
-	else if ((data.Content.startsWith("ChatOther-ItemTorso") || (data.Content.startsWith("ChatSelf-ItemTorso") === -1))) {
-            if (data.Content.indexOf("Caress") !== -1) {
-                let nya = Math.floor(Math.random() * 1);
-                if(Player.BCAR.bcarSettings.tailWaggingEnable === true){
-                console.log(nya)
+                break;
+            case 'ChatOther-ItemTorso-Caress': case 'ChatSelf-ItemTorso-Caress':
+                if (!Player.BCAR.bcarSettings.tailWaggingEnable) break;
+                nya = Math.floor(Math.random() * 1);
+                console.log(nya);
                 ActivityBeeper("CaressBack",nya);
-
-                setTimeout(TailWag);
+                TailWag();
                 ArousalCaressBack();
-                }
-            }
-            else if (data.Content.indexOf("MassageHands") !== -1) {
-                let nya = Math.floor(Math.random() * 1);
-                if(Player.BCAR.bcarSettings.tailWaggingEnable === true){
-                console.log(nya)
-                ActivityBeeper("MassageBack",nya);
-
-                setTimeout(TailWag);
+                break;
+            case 'ChatOther-ItemTorso-MassageHands': case 'ChatSelf-ItemTorso-MassageHands':
+                if (!Player.BCAR.bcarSettings.tailWaggingEnable) break;
+                nya = Math.floor(Math.random() * 1);
+                console.log(nya);
+                ActivityBeeper("MassageBack", nya);
+                TailWag();
                 ArousalMassageBack();
-                }
-            }
-        }
-	else if ((data.Content.startsWith("ChatOther-ItemButt") || (data.Content.startsWith("ChatSelf-ItemButt") === -1))) {
-            if (data.Content.indexOf("Caress") !== -1) {
-                let nya = Math.floor(Math.random() * 1);
-                if(Player.BCAR.bcarSettings.tailWaggingEnable === true){
-                console.log(nya)
-                ActivityBeeper("CaressButt",nya);
-
-                setTimeout(TailWag);
+                break;
+            case 'ChatOther-ItemButt-Caress': case 'ChatSelf-ItemButt-Caress':
+                if (!Player.BCAR.bcarSettings.tailWaggingEnable) break;
+                nya = Math.floor(Math.random() * 1);
+                console.log(nya);
+                ActivityBeeper("CaressButt", nya);
+                TailWag();
                 ArousalCaressButt();
-                }
-            }
-	}
+                break;
+        }
+    }});
 
-        else if ((data.Content.startsWith("ChatSelf-ItemNeckRestraints") === -1)) {
-            if (data.Content.indexOf("Caress") !== -1) {
-                let nya = Math.floor(Math.random() * 1);
-                if(Player.BCAR.bcarSettings.tailWaggingEnable === true){
-                console.log(nya)
-
-                Landing();
-                }
-            }
-	}
-
-
-    }
-
-}
-
-
-    return;
-  });
 
     function bcarSettingsSave() {
-    Player.OnlineSettings.BCAR = Player.BCAR
-      window.ServerAccountUpdate.QueueData({OnlineSettings: window.Player.OnlineSettings})
+        Player.OnlineSettings.BCAR = Player.BCAR
+        window.ServerAccountUpdate.QueueData({OnlineSettings: window.Player.OnlineSettings})
     }
 
     async function beepNewVersion() {
-		await waitFor(() => !!Player?.AccountName);
-		await sleep(5000);
+        await waitFor(() => !!Player?.AccountName);
+        await sleep(5000);
         ChatRoomSendLocal(
            "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React + New Version</b>\n" +
            "BCAR+ has been updated, please relog to get the new version.</p>"
@@ -1035,6 +1001,7 @@ ServerSocket.on("ChatRoomMessage", async (data) => {
 //Ear Commands
 function CommandEarsChange(argsList)
 {
+    console.log(argsList)
     let change = argsList[0];
     let changeto = argsList.slice(1);
 
@@ -1097,7 +1064,7 @@ function CommandEarWiggleCountChange(argsList) {
     let number = parseInt(argsList.slice(1));
 
     if (toggle === "earwiggles") {
-      if (number > 0 && number < 41 && (number % 2 === 0)) {
+      if (number > -1 && number < 41 && (number % 2 === 0)) {
         Player.BCAR.bcarSettings.earsDefault.earsCount = number;
         ChatRoomSendLocal(
           "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
@@ -1119,7 +1086,7 @@ function CommandEarWiggleDelayChange(argsList) {
     let number = parseInt(argsList.slice(1));
 
     if (toggle === "eardelay") {
-      if (number > 49 && number < 3000) {
+      if (number > 49 && number < 3001) {
         Player.BCAR.bcarSettings.earsDefault.earsDelay = number;
         ChatRoomSendLocal(
           "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
@@ -1215,6 +1182,18 @@ function CommandTailChange(argsList)
             "Secondary tail has been updated!</p>"
         );
     }
+    else if (change === "tailget") {
+        let tails = InventoryGet(Player,"TailStraps");
+        Player.BCAR.bcarSettings.tailsDefault.tails1 = Player?.BCT?.bctSettings?.tailWaggingTailOneName;
+        Player.BCAR.bcarSettings.tailsDefault.tailsColor1 = tails?.Color;
+        Player.BCAR.bcarSettings.tailsDefault.tails2 = Player?.BCT?.bctSettings?.tailWaggingTailTwoName;
+        Player.BCAR.bcarSettings.tailsDefault.tailsColor2 = tails?.Color;
+        Player.BCAR.bcarSettings.tailsDefault.tailsDescription2 = tails?.Asset?.Description;
+        ChatRoomSendLocal(
+            "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
+            "Secondary tail has been updated!</p>"
+        );
+    }
     bcarSettingsSave();
 }
 
@@ -1247,7 +1226,7 @@ function CommandTailWagCountChange(argsList) {
     let number = parseInt(argsList.slice(1));
 
     if (toggle === "tailwags") {
-      if (number > 0 && number < 41 && (number % 2 === 0)) {
+      if (number > -1 && number < 41 && (number % 2 === 0)) {
         Player.BCAR.bcarSettings.tailsDefault.tailsCount = number;
         ChatRoomSendLocal(
           "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
@@ -1269,7 +1248,7 @@ function CommandTailWagDelayChange(argsList) {
     let number = parseInt(argsList.slice(1));
 
     if (toggle === "taildelay") {
-      if (number > 199 && number < 5000) {
+      if (number > 199 && number < 5001) {
         Player.BCAR.bcarSettings.tailsDefault.tailsDelay = number;
         ChatRoomSendLocal(
           "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
@@ -1397,7 +1376,7 @@ function CommandWingFlapCountChange(argsList) {
     let number = parseInt(argsList.slice(1));
 
     if (toggle === "wingflaps") {
-      if (number > 0 && number < 41 && (number % 2 === 0)) {
+      if (number > -1 && number < 41 && (number % 2 === 0)) {
         Player.BCAR.bcarSettings.wingsDefault.wingsCount = number;
         ChatRoomSendLocal(
           "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
@@ -1419,7 +1398,7 @@ function CommandWingFlapDelayChange(argsList) {
     let number = parseInt(argsList.slice(1));
 
     if (toggle === "wingdelay") {
-      if (number > 199 && number < 5000) {
+      if (number > 199 && number < 5001) {
         Player.BCAR.bcarSettings.wingsDefault.wingsDelay = number;
         ChatRoomSendLocal(
           "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
@@ -1490,157 +1469,110 @@ function CommandWingHelp(argsList)
 //End of Wing Commands
 
 //Profile Commands
-function CommandShowProfile(argsList)
-    {
-        let showProfile = argsList[0];
-        let showProfileto = argsList.slice(1);
+function CommandProfile(argsList) {
+  const cmd = argsList[0];
+  const number = cmd.at(-1)
+  const prof_number = `profile${number}`
+  const profile = Player?.BCAR?.bcarSettings?.[prof_number] // const profile might be undefined
+  switch (cmd) {
+    case 'profile1': case 'profile2': case 'profile3':
+      ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+        <br>${prof_number} preset:
+        <br>Ear Animation: ${profile?.earWigglingStatus}
+        <br>Primary Ears: ${AssetGet("Female3DCG","HairAccessory2",profile?.earsDefault?.ears1)?.Description || 'None'}
+        <br>Secondary Ears: ${AssetGet("Female3DCG","HairAccessory2",profile?.earsDefault?.ears2)?.Description || 'None'}
+        <br>Tail Animation: ${profile?.tailWaggingStatus}
+        <br>Primary Tail: ${AssetGet("Female3DCG","TailStraps",profile?.tailsDefault?.tails1)?.Description || 'None'}
+        <br>Secondary Tail: ${AssetGet("Female3DCG","TailStraps",profile?.tailsDefault?.tails2)?.Description || 'None'}
+        <br>Wing Animation: ${profile?.wingFlappingStatus}
+        <br>Primary Wings: ${AssetGet("Female3DCG","Wings",profile?.wingsDefault?.wings1)?.Description || 'None'}
+        <br>Secondary Wings: ${AssetGet("Female3DCG","Wings",profile?.wingsDefault?.wings2)?.Description || 'None'}
+      </p>`.replaceAll('\n', ''));
+      break; // this is important
+    case 'save1': case 'save2': case 'save3':
+      Player.BCAR.bcarSettings[`${prof_number}Saved`] = true;
+      profile.earWigglingEnable = Player.BCAR.bcarSettings.earWigglingEnable;
+      profile.earWigglingStatus = Player.BCAR.bcarSettings.earWigglingStatus;
 
-        if (showProfile === "profile1") {
-            ChatRoomSendLocal(
-                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Profile1 preset:\n" +
-                "Ear Animation: " + Player.BCAR.bcarSettings.profile1.earWigglingStatus + "\n" +
-                "Primary Ears: " + Player.BCAR.bcarSettings.profile1.earsDefault.earsDescription1 + "\n" +
-                "Secondary Ears: " + Player.BCAR.bcarSettings.profile1.earsDefault.earsDescription2 + "\n" +
-                "Tail Animation: " + Player.BCAR.bcarSettings.profile1.tailWaggingStatus + "\n" +
-                "Primary Tail: " + Player.BCAR.bcarSettings.profile1.tailsDefault.tailsDescription1 + "\n" +
-                "Secondary Tail: " + Player.BCAR.bcarSettings.profile1.tailsDefault.tailsDescription2 + "\n" +
-                "Wing Animation: " + Player.BCAR.bcarSettings.profile1.wingFlappingStatus + "\n" +
-                "Primary Wings: " + Player.BCAR.bcarSettings.profile1.wingsDefault.wingsDescription1 + "\n" +
-                "Secondary Wings: " + Player.BCAR.bcarSettings.profile1.wingsDefault.wingsDescription2 + "</p>"
-            );
-        }
-        else if (showProfile === "profile2") {
-            ChatRoomSendLocal(
-                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Profile2 preset:\n" +
-                "Ear Animation: " + Player.BCAR.bcarSettings.profile2.earWigglingStatus + "\n" +
-                "Primary Ears: " + Player.BCAR.bcarSettings.profile2.earsDefault.earsDescription1 + "\n" +
-                "Secondary Ears: " + Player.BCAR.bcarSettings.profile2.earsDefault.earsDescription2 + "\n" +
-                "Tail Animation: " + Player.BCAR.bcarSettings.profile2.tailWaggingStatus + "\n" +
-                "Primary Tail: " + Player.BCAR.bcarSettings.profile2.tailsDefault.tailsDescription1 + "\n" +
-                "Secondary Tail: " + Player.BCAR.bcarSettings.profile2.tailsDefault.tailsDescription2 + "\n" +
-                "Wing Animation: " + Player.BCAR.bcarSettings.profile2.wingFlappingStatus + "\n" +
-                "Primary Wings: " + Player.BCAR.bcarSettings.profile2.wingsDefault.wingsDescription1 + "\n" +
-                "Secondary Wings: " + Player.BCAR.bcarSettings.profile2.wingsDefault.wingsDescription2 + "</p>"
-            );
-        }
-        else if (showProfile === "profile3") {
-            ChatRoomSendLocal(
-                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Profile3 preset:\n" +
-                "Ear Animation: " + Player.BCAR.bcarSettings.profile3.earWigglingStatus + "\n" +
-                "Primary Ears: " + Player.BCAR.bcarSettings.profile3.earsDefault.earsDescription1 + "\n" +
-                "Secondary Ears: " + Player.BCAR.bcarSettings.profile3.earsDefault.earsDescription2 + "\n" +
-                "Tail Animation: " + Player.BCAR.bcarSettings.profile3.tailWaggingStatus + "\n" +
-                "Primary Tail: " + Player.BCAR.bcarSettings.profile3.tailsDefault.tailsDescription1 + "\n" +
-                "Secondary Tail: " + Player.BCAR.bcarSettings.profile3.tailsDefault.tailsDescription2 + "\n" +
-                "Wing Animation: " + Player.BCAR.bcarSettings.profile3.wingFlappingStatus + "\n" +
-                "Primary Wings: " + Player.BCAR.bcarSettings.profile3.wingsDefault.wingsDescription1 + "\n" +
-                "Secondary Wings: " + Player.BCAR.bcarSettings.profile3.wingsDefault.wingsDescription2 + "</p>"
-            );
-        }
-    }
+      profile.tailWaggingEnable = Player.BCAR.bcarSettings.tailWaggingEnable;
+      profile.tailWaggingStatus = Player.BCAR.bcarSettings.tailWaggingStatus;
 
-function CommandSaveProfile(argsList)
-    {
-        let saving = argsList[0];
-        let savingto = argsList.slice(1);
+      profile.wingFlappingEnable = Player.BCAR.bcarSettings.wingFlappingEnable;
+      profile.wingFlappingStatus = Player.BCAR.bcarSettings.wingFlappingStatus;
 
-        if (saving === "save1") {
-            Player.BCAR.bcarSettings.profile1Saved = true;
-            Player.BCAR.bcarSettings.profile1.earWigglingEnable = Player.BCAR.bcarSettings.earWigglingEnable;
-            Player.BCAR.bcarSettings.profile1.earWigglingStatus = Player.BCAR.bcarSettings.earWigglingStatus;
-            Player.BCAR.bcarSettings.profile1.earsDefault = Player.BCAR.bcarSettings.earsDefault
+      for (const item of ['ears', 'tails', 'wings']) {
+        profile[`${item}Default`] = Player.BCAR.bcarSettings[`${item}Default`]
+      }
 
-            Player.BCAR.bcarSettings.profile1.tailWaggingEnable = Player.BCAR.bcarSettings.tailWaggingEnable;
-            Player.BCAR.bcarSettings.profile1.tailWaggingStatus = Player.BCAR.bcarSettings.tailWaggingStatus;
-            Player.BCAR.bcarSettings.profile1.tailsDefault = Player.BCAR.bcarSettings.tailsDefault
+      ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b><br>${prof_number} has been saved!</p>`);
+      bcarSettingsSave();
+      break;
+    case 'load1': case 'load2': case 'load3':
+      if (!Player.BCAR.bcarSettings[`${prof_number}Saved`]) {
+        ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b><br>${prof_number} not found!<br>Please save ${prof_number} first.</p>`); // no need to replace newlines, you don't have those here
+        break;
+      }
+      Player.BCAR.bcarSettings.earWigglingEnable = profile.earWigglingEnable;
+      Player.BCAR.bcarSettings.earWigglingStatus = profile.earWigglingStatus;
 
-            Player.BCAR.bcarSettings.profile1.wingFlappingEnable = Player.BCAR.bcarSettings.wingFlappingEnable;
-            Player.BCAR.bcarSettings.profile1.wingFlappingStatus = Player.BCAR.bcarSettings.wingFlappingStatus;
-            Player.BCAR.bcarSettings.profile1.wingsDefault = Player.BCAR.bcarSettings.wingsDefault
-            ChatRoomSendLocal(
-                    "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                    "Profile1 has been saved!</p>"
-                );
-        }
-        else if (saving === "save2") {
-            Player.BCAR.bcarSettings.profile2Saved = true;
-            Player.BCAR.bcarSettings.profile2.earWigglingEnable = Player.BCAR.bcarSettings.earWigglingEnable;
-            Player.BCAR.bcarSettings.profile2.earWigglingStatus = Player.BCAR.bcarSettings.earWigglingStatus;
-            Player.BCAR.bcarSettings.profile2.earsDefault = Player.BCAR.bcarSettings.earsDefault
+      Player.BCAR.bcarSettings.tailWaggingEnable = profile.tailWaggingEnable;
+      Player.BCAR.bcarSettings.tailWaggingStatus = profile.tailWaggingStatus;
 
-            Player.BCAR.bcarSettings.profile2.tailWaggingEnable = Player.BCAR.bcarSettings.tailWaggingEnable;
-            Player.BCAR.bcarSettings.profile2.tailWaggingStatus = Player.BCAR.bcarSettings.tailWaggingStatus;
-            Player.BCAR.bcarSettings.profile2.tailsDefault = Player.BCAR.bcarSettings.tailsDefault
+      Player.BCAR.bcarSettings.wingFlappingEnable = profile.wingFlappingEnable;
+      Player.BCAR.bcarSettings.wingFlappingStatus = profile.wingFlappingStatus;
 
-            Player.BCAR.bcarSettings.profile2.wingFlappingEnable = Player.BCAR.bcarSettings.wingFlappingEnable;
-            Player.BCAR.bcarSettings.profile2.wingFlappingStatus = Player.BCAR.bcarSettings.wingFlappingStatus;
-            Player.BCAR.bcarSettings.profile2.wingsDefault = Player.BCAR.bcarSettings.wingsDefault
-            ChatRoomSendLocal(
-                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Profile2 has been saved!</p>"
-            );
-        }
-        else if (saving === "save3") {
-            Player.BCAR.bcarSettings.profile3Saved = true;
-            Player.BCAR.bcarSettings.profile3.earWigglingEnable = Player.BCAR.bcarSettings.earWigglingEnable;
-            Player.BCAR.bcarSettings.profile3.earWigglingStatus = Player.BCAR.bcarSettings.earWigglingStatus;
-            Player.BCAR.bcarSettings.profile3.earsDefault = Player.BCAR.bcarSettings.earsDefault
+      for (const item of ['ears', 'tails', 'wings']) {
+        Player.BCAR.bcarSettings[`${item}Default`] = profile[`${item}Default`]
+      } // the loop ends here
+      if (Player?.BCAR?.bcarSettings?.earsDefault?.ears1) {
+        InventoryWear(Player, profile?.earsDefault?.ears1, "HairAccessory2", profile?.earsDefault?.earsColor1);
+      } else {
+        InventoryRemove(Player,"HairAccessory2");
+      }
+      if (Player?.BCAR?.bcarSettings?.tailsDefault?.tails1) {
+        InventoryWear(Player, profile?.tailsDefault?.tails1, "TailStraps", profile?.tailsDefault?.tailsColor1);
+      } else {
+        InventoryRemove(Player,"TailStraps");
+      }
+      if (Player?.BCAR?.bcarSettings?.wingsDefault?.wings1) {
+        InventoryWear(Player, profile?.wingsDefault?.wings1, "Wings", profile?.wingsDefault?.wingsColor1);
+      } else {
+        InventoryRemove(Player,"Wings");
+      }
+      ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b><br>${prof_number} has been loaded!</p>`); // was in the loop, needs to be out of it / was i the first if loop your  deleted
 
-            Player.BCAR.bcarSettings.profile3.tailWaggingEnable = Player.BCAR.bcarSettings.tailWaggingEnable;
-            Player.BCAR.bcarSettings.profile3.tailWaggingStatus = Player.BCAR.bcarSettings.tailWaggingStatus;
-            Player.BCAR.bcarSettings.profile3.tailsDefault = Player.BCAR.bcarSettings.tailsDefault
+      bcarSettingsSave();
+      break;
+  }
+}
 
-            Player.BCAR.bcarSettings.profile3.wingFlappingEnable = Player.BCAR.bcarSettings.wingFlappingEnable;
-            Player.BCAR.bcarSettings.profile3.wingFlappingStatus = Player.BCAR.bcarSettings.wingFlappingStatus;
-            Player.BCAR.bcarSettings.profile3.wingsDefault = Player.BCAR.bcarSettings.wingsDefault
-            ChatRoomSendLocal(
-                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Profile3 has been saved!</p>"
-            );
-        }
-        bcarSettingsSave();
-    }
-
-function CommandLoadProfile(argsList)
+function CommandDeleteProfile(argsList)
     {
         let loading = argsList[0];
         let loadingto = argsList.slice(1);
 
-        if (loading === "load1") {
+        if (loading === "profile1delete") {
             if(Player.BCAR.bcarSettings.profile1Saved){
-                Player.BCAR.bcarSettings.earWigglingEnable = Player.BCAR.bcarSettings.profile1.earWigglingEnable;
-                Player.BCAR.bcarSettings.earWigglingStatus = Player.BCAR.bcarSettings.profile1.earWigglingStatus;
-                Player.BCAR.bcarSettings.earsDefault = Player.BCAR.bcarSettings.profile1.earsDefault;
-                if(!Player.BCAR.bcarSettings.earsDefault.ears1){
-                    InventoryRemove(Player,"HairAccessory2");
-                }
-                else {
-                    InventoryWear(Player, Player.BCAR.bcarSettings.profile1.earsDefault.ears1, "HairAccessory2", Player.BCAR.bcarSettings.profile1.earsDefault.earsColor1);
-                }
-                Player.BCAR.bcarSettings.tailWaggingEnable = Player.BCAR.bcarSettings.profile1.tailWaggingEnable;
-                Player.BCAR.bcarSettings.tailWaggingStatus = Player.BCAR.bcarSettings.profile1.tailWaggingStatus;
-                Player.BCAR.bcarSettings.tailsDefault = Player.BCAR.bcarSettings.profile1.tailsDefault;
-                if(!Player.BCAR.bcarSettings.tailsDefault.tails1){
-                    InventoryRemove(Player,"TailStraps");
-                }
-                else {
-                    InventoryWear(Player, Player.BCAR.bcarSettings.profile1.tailsDefault.tails1, "TailStraps", Player.BCAR.bcarSettings.profile1.tailsDefault.tailsColor1);
-                }
-                Player.BCAR.bcarSettings.wingFlappingEnable = Player.BCAR.bcarSettings.profile1.wingFlappingEnable;
-                Player.BCAR.bcarSettings.wingFlappingStatus = Player.BCAR.bcarSettings.profile1.wingFlappingStatus;
-                Player.BCAR.bcarSettings.wingsDefault = Player.BCAR.bcarSettings.profile1.wingsDefault
-                if(!Player.BCAR.bcarSettings.tailsDefault.tails1){
-                    InventoryRemove(Player,"TailStraps");
-                }
-                else {
-                InventoryWear(Player, Player.BCAR.bcarSettings.profile1.wingsDefault.wings1, "Wings", Player.BCAR.bcarSettings.profile1.wingsDefault.wingsColor1)
-                }
+                Player.BCAR.bcarSettings.profile1.earsDefault = {};
+                Player.BCAR.bcarSettings.profile1.earsDescription1 = "None";
+                Player.BCAR.bcarSettings.profile1.earsDescription2 = "None";
+                Player.BCAR.bcarSettings.profile1.earWigglingEnable = false;
+                Player.BCAR.bcarSettings.profile1.earWigglingStatus = "Disabled";
+
+                Player.BCAR.bcarSettings.profile1.tailsDefault = {};
+                Player.BCAR.bcarSettings.profile1.tailsDefault.tailsDescription1 = "None";
+                Player.BCAR.bcarSettings.profile1.tailsDefault.tailsDescription2 = "None";
+                Player.BCAR.bcarSettings.profile1.tailWaggingEnable = false;
+                Player.BCAR.bcarSettings.profile1.tailWaggingStatus = "Disabled";
+
+                Player.BCAR.bcarSettings.profile1.wingsDefault = {};
+                Player.BCAR.bcarSettings.profile1.wingsDescription1 = "None";
+                Player.BCAR.bcarSettings.profile1.wingsDescription2 = "None";
+                Player.BCAR.bcarSettings.profile1.wingFlappingEnable = false;
+                Player.BCAR.bcarSettings.profile1.wingFlappingStatus = "Disabled";
                 ChatRoomSendLocal(
                     "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                    "Profile1 has been loaded!</p>"
+                    "Profile1 has been cleared!</p>"
                 );
             }
             else {
@@ -1651,38 +1583,28 @@ function CommandLoadProfile(argsList)
                 );
             }
         }
-        else if (loading === "load2") {
+        else if (loading === "profile2delete") {
             if(Player.BCAR.bcarSettings.profile2Saved){
-                Player.BCAR.bcarSettings.earWigglingEnable = Player.BCAR.bcarSettings.profile2.earWigglingEnable;
-                Player.BCAR.bcarSettings.earWigglingStatus = Player.BCAR.bcarSettings.profile2.earWigglingStatus;
-                Player.BCAR.bcarSettings.earsDefault = Player.BCAR.bcarSettings.profile2.earsDefault
-                if(!Player.BCAR.bcarSettings.earsDefault.ears1){
-                    InventoryRemove(Player,"HairAccessory2");
-                }
-                else {
-                    InventoryWear(Player, Player.BCAR.bcarSettings.profile2.earsDefault.ears1, "HairAccessory2", Player.BCAR.bcarSettings.profile2.earsDefault.earsColor1);
-                }
-                Player.BCAR.bcarSettings.tailWaggingEnable = Player.BCAR.bcarSettings.profile2.tailWaggingEnable;
-                Player.BCAR.bcarSettings.tailWaggingStatus = Player.BCAR.bcarSettings.profile2.tailWaggingStatus;
-                Player.BCAR.bcarSettings.tailsDefault = Player.BCAR.bcarSettings.profile2.tailsDefault
-                if(!Player.BCAR.bcarSettings.tailsDefault.tails1){
-                    InventoryRemove(Player,"TailStraps");
-                }
-                else {
-                    InventoryWear(Player, Player.BCAR.bcarSettings.profile2.tailsDefault.tails1, "TailStraps", Player.BCAR.bcarSettings.profile2.tailsDefault.tailsColor1);
-                }
-                Player.BCAR.bcarSettings.wingFlappingEnable = Player.BCAR.bcarSettings.profile2.wingFlappingEnable;
-                Player.BCAR.bcarSettings.wingFlappingStatus = Player.BCAR.bcarSettings.profile2.wingFlappingStatus;
-                Player.BCAR.bcarSettings.wingsDefault = Player.BCAR.bcarSettings.profile2.wingsDefault
-                if(!Player.BCAR.bcarSettings.tailsDefault.tails1){
-                    InventoryRemove(Player,"TailStraps");
-                }
-                else {
-                InventoryWear(Player, Player.BCAR.bcarSettings.profile2.wingsDefault.wings1, "Wings", Player.BCAR.bcarSettings.profile2.wingsDefault.wingsColor1)
-                }
+                Player.BCAR.bcarSettings.profile2.earsDefault = {};
+                Player.BCAR.bcarSettings.profile2.earsDescription1 = "None";
+                Player.BCAR.bcarSettings.profile2.earsDescription2 = "None";
+                Player.BCAR.bcarSettings.profile2.earWigglingEnable = false;
+                Player.BCAR.bcarSettings.profile2.earWigglingStatus = "Disabled";
+
+                Player.BCAR.bcarSettings.profile2.tailsDefault = {};
+                Player.BCAR.bcarSettings.profile2.tailsDefault.tailsDescription1 = "None";
+                Player.BCAR.bcarSettings.profile2.tailsDefault.tailsDescription2 = "None";
+                Player.BCAR.bcarSettings.profile2.tailWaggingEnable = false;
+                Player.BCAR.bcarSettings.profile2.tailWaggingStatus = "Disabled";
+
+                Player.BCAR.bcarSettings.profile2.wingsDefault = {};
+                Player.BCAR.bcarSettings.profile2.wingsDescription1 = "None";
+                Player.BCAR.bcarSettings.profile2.wingsDescription2 = "None";
+                Player.BCAR.bcarSettings.profile2.wingFlappingEnable = false;
+                Player.BCAR.bcarSettings.profile2.wingFlappingStatus = "Disabled";
                 ChatRoomSendLocal(
                     "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                    "Profile2 has been loaded!</p>"
+                    "Profile2 has been cleared!</p>"
                 );
             }
             else {
@@ -1693,38 +1615,28 @@ function CommandLoadProfile(argsList)
                 );
             }
         }
-        else if (loading === "load3") {
+        else if (loading === "profile3delete") {
             if(Player.BCAR.bcarSettings.profile3Saved){
-                Player.BCAR.bcarSettings.earWigglingEnable = Player.BCAR.bcarSettings.profile3.earWigglingEnable;
-                Player.BCAR.bcarSettings.earWigglingStatus = Player.BCAR.bcarSettings.profile3.earWigglingStatus;
-                Player.BCAR.bcarSettings.earsDefault = Player.BCAR.bcarSettings.profile3.earsDefault
-                if(!Player.BCAR.bcarSettings.earsDefault.ears1){
-                    InventoryRemove(Player,"HairAccessory2");
-                }
-                else {
-                    InventoryWear(Player, Player.BCAR.bcarSettings.profile3.earsDefault.ears1, "HairAccessory2", Player.BCAR.bcarSettings.profile3.earsDefault.earsColor1);
-                }
-                Player.BCAR.bcarSettings.tailWaggingEnable = Player.BCAR.bcarSettings.profile3.tailWaggingEnable;
-                Player.BCAR.bcarSettings.tailWaggingStatus = Player.BCAR.bcarSettings.profile3.tailWaggingStatus;
-                Player.BCAR.bcarSettings.tailsDefault = Player.BCAR.bcarSettings.profile3.tailsDefault
-                if(!Player.BCAR.bcarSettings.tailsDefault.tails1){
-                    InventoryRemove(Player,"TailStraps");
-                }
-                else {
-                    InventoryWear(Player, Player.BCAR.bcarSettings.profile3.tailsDefault.tails1, "TailStraps", Player.BCAR.bcarSettings.profile3.tailsDefault.tailsColor1);
-                }
-                Player.BCAR.bcarSettings.wingFlappingEnable = Player.BCAR.bcarSettings.profile3.wingFlappingEnable;
-                Player.BCAR.bcarSettings.wingFlappingStatus = Player.BCAR.bcarSettings.profile3.wingFlappingStatus;
-                Player.BCAR.bcarSettings.wingsDefault = Player.BCAR.bcarSettings.profile3.wingsDefault
-                if(!Player.BCAR.bcarSettings.tailsDefault.tails1){
-                    InventoryRemove(Player,"TailStraps");
-                }
-                else {
-                InventoryWear(Player, Player.BCAR.bcarSettings.profile3.wingsDefault.wings1, "Wings", Player.BCAR.bcarSettings.profile3.wingsDefault.wingsColor1)
-                }
+                Player.BCAR.bcarSettings.profile3.earsDefault = {};
+                Player.BCAR.bcarSettings.profile3.earsDescription1 = "None";
+                Player.BCAR.bcarSettings.profile3.earsDescription2 = "None";
+                Player.BCAR.bcarSettings.profile3.earWigglingEnable = false;
+                Player.BCAR.bcarSettings.profile3.earWigglingStatus = "Disabled";
+
+                Player.BCAR.bcarSettings.profile3.tailsDefault = {};
+                Player.BCAR.bcarSettings.profile3.tailsDefault.tailsDescription1 = "None";
+                Player.BCAR.bcarSettings.profile3.tailsDefault.tailsDescription2 = "None";
+                Player.BCAR.bcarSettings.profile3.tailWaggingEnable = false;
+                Player.BCAR.bcarSettings.profile3.tailWaggingStatus = "Disabled";
+
+                Player.BCAR.bcarSettings.profile3.wingsDefault = {};
+                Player.BCAR.bcarSettings.profile3.wingsDescription1 = "None";
+                Player.BCAR.bcarSettings.profile3.wingsDescription2 = "None";
+                Player.BCAR.bcarSettings.profile3.wingFlappingEnable = false;
+                Player.BCAR.bcarSettings.profile3.wingFlappingStatus = "Disabled";
                 ChatRoomSendLocal(
                     "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                    "Profile3 has been loaded!</p>"
+                    "Profile3 has been cleared!</p>"
                 );
             }
             else {
@@ -1737,6 +1649,8 @@ function CommandLoadProfile(argsList)
         }
         bcarSettingsSave();
     }
+
+
 
 function CommandProfileHelp(argsList)
     {
@@ -1952,28 +1866,29 @@ function CommandStatus(argsList)
         let openStatusto = argsList.slice(1);
 
         if (openStatus === "status") {
-            ChatRoomSendLocal(
-                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Current status:\n" +
-                "Ear Animation: " + Player.BCAR.bcarSettings.earWigglingStatus + "\n" +
-                "Primary Ears: " + Player.BCAR.bcarSettings.earsDefault.earsDescription1 + "\n" +
-                "Secondary Ears: " + Player.BCAR.bcarSettings.earsDefault.earsDescription2 + "\n" +
-                "Ear Wiggles: " + Player.BCAR.bcarSettings.earsDefault.earsCount + "\n" +
-                "Ear Wiggle Delay: " + Player.BCAR.bcarSettings.earsDefault.earsDelay + "\n" +
-                "Tail Animation: " + Player.BCAR.bcarSettings.tailWaggingStatus + "\n" +
-                "Primary Tail: " + Player.BCAR.bcarSettings.tailsDefault.tailsDescription1 + "\n" +
-                "Secondary Tail: " + Player.BCAR.bcarSettings.tailsDefault.tailsDescription2 + "\n" +
-                "Tail Wags: " + Player.BCAR.bcarSettings.tailsDefault.tailsCount + "\n" +
-                "Tail Wag Delay: " + Player.BCAR.bcarSettings.tailsDefault.tailsDelay + "\n" +
-                "Wing Animation: " + Player.BCAR.bcarSettings.wingFlappingStatus + "\n" +
-                "Primary Wings: " + Player.BCAR.bcarSettings.wingsDefault.wingsDescription1 + "\n" +
-                "Secondary Wings: " + Player.BCAR.bcarSettings.wingsDefault.wingsDescription2 + "\n" +
-                "Wing Flaps: " + Player.BCAR.bcarSettings.wingsDefault.wingsCount + "\n" +
-                "Wing Flap Delay: " + Player.BCAR.bcarSettings.wingsDefault.wingsDelay + "\n" +
-                "Gender: " + Player.BCAR.bcarSettings.genderDefault.gender + "\n" +
-                "Arousal Manipulation: " + Player.BCAR.bcarSettings.arousalStatus + "\n" +
-                "BCAR+ Expressions: " + Player.BCAR.bcarSettings.expressionsStatus + "</p>"
-            );
+            const s = Player?.BCAR?.bcarSettings; // I know you showed me often enough now ^^
+            ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                               <br>Current status:
+                               <br>Ear Animation: ${s?.earWigglingStatus}
+                               <br>Primary Ears: ${s?.earsDefault?.earsDescription1}
+                               <br>Secondary Ears: ${ Player.BCAR.bcarSettings.earsDefault.earsDescription2}
+                               <br>Ear Wiggles: ${Player.BCAR.bcarSettings.earsDefault.earsCount}
+                               <br>Ear Wiggle Delay: ${Player.BCAR.bcarSettings.earsDefault.earsDelay}
+	                           <br>Tail Animation: ${Player.BCAR.bcarSettings.tailWaggingStatus}
+	                           <br>Primary Tail: ${AssetGet("Female3DCG","TailStraps",s?.tailsDefault?.tails1)?.Description || 'None'}
+	                           <br>Secondary Tail: ${AssetGet("Female3DCG","TailStraps",s?.tailsDefault?.tails2)?.Description || 'None'}
+	                           <br>Tail Wags: ${Player.BCAR.bcarSettings.tailsDefault.tailsCount}
+	                           <br>Tail Wag Delay: ${Player.BCAR.bcarSettings.tailsDefault.tailsDelay}
+	                           <br>Wing Animation: ${Player.BCAR.bcarSettings.wingFlappingStatus}
+	                           <br>Primary Wings: ${Player.BCAR.bcarSettings.wingsDefault.wingsDescription1}
+	                           <br>Secondary Wings: ${Player.BCAR.bcarSettings.wingsDefault.wingsDescription2}
+	                           <br>Wing Flaps: ${Player.BCAR.bcarSettings.wingsDefault.wingsCount}
+	                           <br>Wing Flap Delay: ${Player.BCAR.bcarSettings.wingsDefault.wingsDelay}
+	                           <br>Gender: ${Player.BCAR.bcarSettings.genderDefault.gender}
+	                           <br>Arousal Manipulation: ${Player.BCAR.bcarSettings.arousalStatus}
+	                           <br>BCAR+ Expressions: ${Player.BCAR.bcarSettings.expressionsStatus}
+                               </p>`.replaceAll('\n', '')
+                             );
         }
     }
 
@@ -2044,9 +1959,7 @@ function CommandStatus(argsList)
                 CommandWingDelete(args.split(" "));
                 CommandWingHelp(args.split(" "));
                 //Profile Commands
-                CommandShowProfile(args.split(" "));
-                CommandSaveProfile(args.split(" "));
-                CommandLoadProfile(args.split(" "));
+                CommandProfile(args.split(" "));
                 CommandProfileHelp(args.split(" "));
                 //Misc Commands
                 CommandArousalToggle(args.split(" "));
@@ -2063,7 +1976,39 @@ function CommandStatus(argsList)
 
     ])
 
- function CommandLeaveChatRoom(argsList)
+function CommandCum(argsList)
+    {
+        let cum = argsList[0];
+        let cumto = argsList.slice(1);
+
+        if (!cum) {
+            ActivityOrgasmRuined = false;
+            ActivityOrgasmStart(Player);
+        }
+    }
+    CommandCombine([
+        {
+            Tag: 'cum',
+            Description: "cum instantly",
+            AutoComplete: (words) => {
+
+                 if (words.length < 1) {
+                    window.ChatRoomSendLocal("<style type='text/css'> .bcar_hint {display: flex; flex-flow: column wrap; overflow: auto; height: 5em; background: #000452; font-size: 1em; } .bcar_hint div {	margin:0 0.5ex; }</style><div class='bcar_hint'><div><b>" + subcommands.join("</b></div><div><b>") + "</b></div></div>", 20000)
+                }
+                 if (words.length > 1) { /*No output, because user has entered multiple words, and we can only complete the last one*/ }
+                 if (words.length === 1) {
+                    window.ElementValue("InputChat", "/cum" + matches[0])
+
+                }
+
+             },
+            Action: args => {
+                CommandCum(args.split(" "));
+            }
+        }
+    ])
+
+function CommandLeaveChatRoom(argsList)
     {
         let leave = argsList[0];
         let leaveto = argsList.slice(1);
@@ -2092,7 +2037,7 @@ function CommandStatus(argsList)
                 }
                  if (words.length > 1) { /*No output, because user has entered multiple words, and we can only complete the last one*/ }
                  if (words.length === 1) {
-                    window.ElementValue("InputChat", "/leave " + matches[0])
+                    window.ElementValue("InputChat", "/leave" + matches[0])
 
                 }
 
@@ -2102,9 +2047,88 @@ function CommandStatus(argsList)
             }
         }
     ])
-    //BCE Expressions
+
+function CommandSafeword(argsList)
+    {
+        let safewordspecific = argsList[0];
+        let safewordspecificto = argsList.slice(1);
+
+        if (!safewordspecific) {
+            ChatRoomSendLocal(
+	        "<p style='background-color:#000452;color:#EEEEEE'>Bondage Club Auto React +: You have 5 seconds to click  on target, select area. If successful, will be returned. If not, retry.</p>"
+	    );
+            setTimeout(function() {
+                if (CurrentCharacter !== Player) {
+                    ServerSend("ChatRoomChat", {
+                        Content: "Bondage Club Auto React +: " + Player.Name + " has removed " + InventoryGet(CurrentCharacter, CurrentCharacter.FocusGroup.Name).Asset.Name + " on you via console. If this is undesired, blacklist player.",
+                        Type: "Whisper",
+                        Target: CurrentCharacter.MemberNumber
+                    })
+                };
+                CurrentCharacter.Appearance = CurrentCharacter.Appearance.filter(x => (CurrentCharacter.FocusGroup && CurrentCharacter.FocusGroup.Name) ? x.Asset.Group.Name !=
+                CurrentCharacter.FocusGroup.Name : true);
+                ChatRoomCharacterUpdate(CurrentCharacter);
+                DialogLeave();
+            }, 5000);
+        }
+    }
+    CommandCombine([
+        {
+            Tag: 'safewordspecific',
+            Description: "frees you from a specific item",
+            AutoComplete: (words) => {
+
+                 if (words.length < 1) {
+                    window.ChatRoomSendLocal("<style type='text/css'> .bcar_hint {display: flex; flex-flow: column wrap; overflow: auto; height: 5em; background: #000452; font-size: 1em; } .bcar_hint div {	margin:0 0.5ex; }</style><div class='bcar_hint'><div><b>" + subcommands.join("</b></div><div><b>") + "</b></div></div>", 20000)
+                }
+                 if (words.length > 1) { /*No output, because user has entered multiple words, and we can only complete the last one*/ }
+                 if (words.length === 1) {
+                    window.ElementValue("InputChat", "/safewordspecific" + matches[0])
+
+                }
+
+             },
+            Action: args => {
+                CommandSafeword(args.split(" "));
+            }
+        }
+    ])
 
 
+function CommandWardrobe(argsList)
+    {
+        let wardrobe = argsList[0];
+        let wardrobeto = argsList.slice(1);
+
+        if (!wardrobe) {
+            ChatRoomClickCharacter(Player);
+            DialogChangeClothes();
+        }
+    }
+    CommandCombine([
+        {
+            Tag: 'wardrobe',
+            Description: "opens your wardrobe",
+            AutoComplete: (words) => {
+
+                 if (words.length < 1) {
+                    window.ChatRoomSendLocal("<style type='text/css'> .bcar_hint {display: flex; flex-flow: column wrap; overflow: auto; height: 5em; background: #000452; font-size: 1em; } .bcar_hint div {	margin:0 0.5ex; }</style><div class='bcar_hint'><div><b>" + subcommands.join("</b></div><div><b>") + "</b></div></div>", 20000)
+                }
+                 if (words.length > 1) { /*No output, because user has entered multiple words, and we can only complete the last one*/ }
+                 if (words.length === 1) {
+                    window.ElementValue("InputChat", "/wardrobe" + matches[0])
+
+                }
+
+             },
+            Action: args => {
+                CommandWardrobe(args.split(" "));
+            }
+        }
+    ])
+
+
+//BCE Expressions
 	if (typeof ChatRoomCharacter === "undefined") {
 		console.warn(
 			"Bondage Club not detected. Skipping BCE customizer initialization."
