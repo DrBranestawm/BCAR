@@ -1,4 +1,4 @@
-const BCAR_Version = '0.6.1-beta1';
+const BCAR_Version = '0.6.1-beta2';
 const BCAR_Settings_Version = 6;
 
 function is_newer(current, candidate) {
@@ -41,33 +41,34 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
   await waitFor(() => ServerIsConnected && ServerSocket);
   //end of do not touch
   const bcarSettingsKey = () => `bcarSettings.${Player?.AccountName}`;
-    const subcommands = ["arousalhelp", "arousaloff", "arousalon", "changelog", "ear1", "ear2", "eardelete", "eardelay", "earhelp", "earoff", "earon", "ear1", "ear2", "earwiggles", "expressionhelp", "expressionon", "expressionoff", "male", "female", "other", "help", "load1", "load2", "load3", "profile1", "profile1delete", "profile2", "profile2delete", "profile3", "profile3delete", "profilehelp", "save1", "save2", "save3", "status", "tail1", "tail2", "tailhelp", "taildelay", "taildelete", "tailoff", "tailon", "tailwags", "wing1", "wing2", "wingdelay", "wingdelete", "wingflaps", "winghelp", "wingoff", "wingon"];
+    const subcommands = ["animal", "arousalhelp", "arousaloff", "arousalon", "changelog", "cat", "dog", "ear1", "ear2", "eardelete", "eardelay", "earhelp", "earoff", "earon", "ear1", "ear2", "earwiggles", "expressionhelp", "expressionon", "expressionoff", "fox", "female", "help", "load1", "load2", "load3", "male", "mouse", "other", "profile1", "profile2", "profile3", "profile1delete", "profile2delete", "profile3delete", "profilehelp", "save1", "save2", "save3", "status", "tail1", "tail2", "tailhelp", "taildelay", "taildelete", "tailoff", "tailon", "tailwags", "wing1", "wing2", "wingdelay", "wingdelete", "wingflaps", "winghelp", "wingoff", "wingon"];
     const w = window;
     const BCAR_CHANGELOG =
-          "BCAR+ v" + BCAR_Version + ":\n" +
-          "- Orgasms can stop the Player from leaving\n" +
-          "- Added some commands\n" +
-          "     - /cum\n" +
-          "     - /leave\n" +
-          "     - /safewordspecific\n" +
-          "     - /wardrobe\n" +
-          "- Profiles3 does work now\n" +
-          "- Code clean up\n" +
-          "\n" +
-          "BCAR v0.6.0:\n" +
-          "- BCAR is now known as BCAR+\n" +
-          "- Included BCE Expressions into BCAR+\n" +
-          "- Added an auto completion for subcommands\n" +
-          "- Settings saves on server now\n" +
-          "- Added Commands eardelete/taildelete/wingdelete\n" +
-          "- BCAR+ checks automatically for updates and notifies the user.\n" +
-          "- Genders can now be changed without relog\n" +
-          "- Added a third profile slot\n" +
-	  "- Users can now set the number and the speed of ear wiggles, tail wags and wing flaps\n" +
-          
+          "BCAR+ v" + BCAR_Version +
+          "<br>- Added Animal Profiles" +
+          "<br>- Orgasms can stop the Player from leaving" +
+          "<br>- Added some commands" +
+          "<br>     - /cum" +
+          "<br>     - /leave" +
+          "<br>     - /safewordspecific" +
+          "<br>     - /wardrobe" +
+          "<br>- Profiles3 does work now" +
+          "<br>- Code clean up" +
+          "<br>" +
+          "<br>BCAR v0.6.0:" +
+          "<br>- BCAR is now known as BCAR+" +
+          "<br>- Included BCE Expressions into BCAR+" +
+          "<br>- Added an auto completion for subcommands" +
+          "<br>- Settings saves on server now" +
+          "<br>- Added Commands eardelete/taildelete/wingdelete" +
+          "<br>- BCAR+ checks automatically for updates and notifies the user." +
+          "<br>- Genders can now be changed without relog" +
+          "<br>- Added a third profile slot" +
+		  "<br>- Users can now set the number and the speed of ear wiggles, tail wags and wing flaps"
+
   await bcarSettingsLoad();
             if(Player.BCAR != null){
-        console.log("BCAR+ is Loaded");
+        console.log("BCAR+ loaded");
 //            BCAR_Greeting();
         }
         window.BCAR_VERSION = BCAR_Version
@@ -282,7 +283,7 @@ const TriggerAdditions = [
         Type: "Emote",
         Matchers: [
             {
-                Tester: /^slowly opens her mouth/u,
+                Tester: /^slowly opens (her|his|their) mouth/u,
             },
         ],
     },
@@ -291,42 +292,328 @@ const TriggerAdditions = [
 
 //Functions
 
-    const typeAction = { EarCaress :
-                [["Mnyaa~","Nnyaaaaah~","Nnyaaaaah~","Nnyaa~","Nyaa~"], // sounds
-                [" purrs softly, twitching %POSSESSIVE% ears.", " twitches %POSSESSIVE% ears, purring loudly as %POSSESSIVE% ears are toyed with.",
-                " twitches %POSSESSIVE% ears, purring loudly as %POSSESSIVE% ears are toyed with.", " squirms, twitches %POSSESSIVE% ears and purrs.",
-                " wiggles and twitches %POSSESSIVE% ears purring softly."]], // actions // order matters, match sound with action
-                EarNibble :
-                [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches %POSSESSIVE% ears as it's nibbled.", " wiggles and twitches %POSSESSIVE% ears between the teeth.",
-                " moans softly, twitching %POSSESSIVE% ears as it's nibbled."]],
-                EarLick :
-                [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches %POSSESSIVE% ears as it's licked.", " wiggles and twitches %POSSESSIVE% ears caused by the licking.",
-                " moans softly, twitching %POSSESSIVE% ears as it's licked."]],
-                EarKiss :
-                [["Mnyaa~","Nnyaa~","Nnyaaaaah~"],
-                [" moans softly and twitches %POSSESSIVE% ears as it's kissed.", " wiggles and twitches %POSSESSIVE% ears caused by the kissing.",
-                " moans softly, twitching %POSSESSIVE% ears as it's kissed."]],
-                HeadBrush :
-                [["",""],
-                [" purrs softly and twitches %POSSESSIVE% ears.", " purrs happily and twitches %POSSESSIVE% ears."]],
-                HeadPat :
-                [["","","",""],
-                [" purrs softly and twitches %POSSESSIVE% ears.", " purrs happily and twitches %POSSESSIVE% ears.",
-                 " purrs softly, twitches %POSSESSIVE% ears and nuzzles into the pat."," purrs happily, twitches %POSSESSIVE% ears and nuzzles into the pat."]],
-                CaressBack :
-                [["",""],
-                [" purrs softly and wags %POSSESSIVE% tail.", " purrs softly, arches %POSSESSIVE% back and wags %POSSESSIVE% tail."]],
-                MassageBack :
-                [[""],
-                [" purrs softly and wags %POSSESSIVE% tail."]],
-                CaressButt :
-                [["Mnyaa~"],
-                [" purrs softly, wiggles %POSSESSIVE% butt and wags %POSSESSIVE% tail."]],
-                       }
+   const typeAction = {
+      cat: {
+        EarCaress: [
+          {sound: "", action: "%NAME% closes %POSSESSIVE% eyes and purrs as %OPP_NAME% pets %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME% twitches %POSSESSIVE% ears, enjoying the sensation."},
+          {sound: "", action: "%NAME% leans into %OPP_NAME%'s touch, savoring the ear scratch."},
+          {sound: "", action: "%NAME%'s ear flicks with delight at %OPP_NAME%'s caresses."},
+          {sound: "", action: "%NAME% nuzzles into %OPP_NAME%'s hand, savoring the ear rub."},
+          {sound: "", action: "%NAME% lets out a contented sigh as %OPP_NAME% pets %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME% leans into %OPP_NAME%'s hand, enjoying the ear scratch."},
+          {sound: "", action: "%NAME% makes soft noises of enjoyment as %OPP_NAME% rubs %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME% visibly relaxes under %OPP_NAME%'s touch on %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME% nuzzles into %OPP_NAME%'s hand, relishing the gentle touch on %POSSESSIVE% ear."},
+          {sound: "", action: "%OPP_NAME%'s soothing touch causes %NAME% to relax and wiggle %POSSESSIVE% ear in contentment."},
+          {sound: "", action: "%NAME% presses %POSSESSIVE% ear into %OPP_NAME%'s hand, soaking in the affection."},
+        ],
+        EarNibble: [
+          {sound: "", action: "%OPP_NAME%'s soft nibbles send shivers down %NAME%'s spine, making %POSSESSIVE% ear twitch."},
+          {sound: "", action: "%NAME%'s ear twitches with pleasure as %OPP_NAME% nibbles it."},
+          {sound: "", action: "%NAME% leans into %OPP_NAME%'s touch, savoring the ear nibble."},
+          {sound: "", action: "%NAME%'s tail twitches with joy as %OPP_NAME% nibbles %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME% nuzzles closer to %OPP_NAME%, enjoying the ear nibble."},
+          {sound: "", action: "%NAME% lets out a contented purr as %OPP_NAME% nibbles %POSSESSIVE% ear."},
+          {sound: "", action: "With a flick of %POSSESSIVE% ear, %NAME% expresses %POSSESSIVE% enjoyment of %OPP_NAME%'s attention."},
+          {sound: "", action: "%NAME% closes %POSSESSIVE% eyes, purring as %OPP_NAME% teases %POSSESSIVE% ear."},
+        ],
+        EarLick: [
+          {sound: "", action: "A soft meow escapes %NAME% as %OPP_NAME% licks %POSSESSIVE% ear"},
+          {sound: "", action: "%NAME% twitches %POSSESSIVE% ear with pleasure as %OPP_NAME% licks it."},
+          {sound: "", action: "%NAME% nuzzles closer to %OPP_NAME%, savoring the ear lick."},
+          {sound: "", action: "%NAME%'s tail twitches with delight as %OPP_NAME% licks %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME%'s ear flickers with enjoyment as %OPP_NAME% licks it."},
+          {sound: "", action: "%NAME% closes %POSSESSIVE% eyes, contentedly purring as %OPP_NAME% licks %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME% leans into the attention, %POSSESSIVE% ear and tail twitching as %OPP_NAME% licks it."},
+        ],
+        EarKiss: [
+          {sound: "", action: "%NAME% nuzzles %OPP_NAME%'s cheek, seeming to enjoy the ear kiss."},
+          {sound: "", action: "%NAME%'s ears twitch in delight as %OPP_NAME% kisses %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME% closes %POSSESSIVE% eyes, relishing in the affection from %OPP_NAME%'s ear kiss."},
+          {sound: "", action: "%NAME% meows contentedly, clearly enjoying the ear kiss from %OPP_NAME%."},
+          {sound: "", action: "%NAME% leans into the ear kiss from %OPP_NAME%, basking in the love and attention."},
+          {sound: "", action: "%NAME% lets out a soft purr as %OPP_NAME% gives %POSSESSIVE% a kiss on the ear."},
+          {sound: "", action: "%OPP_NAME%'s kiss on the ear brings a happy grin to %NAME%'s face."},
+          {sound: "", action: "%NAME% can't help but purr as %OPP_NAME% plants a kiss on %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME% leans into %OPP_NAME%'s affection, a contented grin on %POSSESSIVE% face."},
+          {sound: "", action: "%OPP_NAME%'s kiss makes %NAME% feel safe, %POSSESSIVE% ears folding backwards in trust."},
+        ],
+        HeadBrush: [
+          {sound: "", action: "%NAME% closes %POSSESSIVE% eyes, thoroughly enjoying the brush from %OPP_NAME%."},
+          {sound: "", action: "%NAME% closes %POSSESSIVE% eyes, enjoying the feeling of %OPP_NAME% brushing %POSSESSIVE% hair."},
+          {sound: "", action: "%NAME% relaxes into %OPP_NAME%'s touch as %OPP_NAME% brushes %POSSESSIVE% hair."},
+          {sound: "", action: "%NAME% purrs contently as %OPP_NAME% strokes %POSSESSIVE% hair."},
+          {sound: "", action: "%NAME%'s ears perk up as %OPP_NAME% brushes %POSSESSIVE% hair."},
+          {sound: "", action: "%NAME% twitches %POSSESSIVE% ears in delight as %OPP_NAME% smooths out tangles in %POSSESSIVE% hair."},
+          {sound: "", action: "%NAME%'s body sways with the rhythm of %OPP_NAME%'s brush strokes."},
+          {sound: "", action: "%NAME%'s body relaxes as %OPP_NAME% brushes away all of %POSSESSIVE% worries."},
+          {sound: "", action: "%NAME% hums with contentment while %OPP_NAME% brushes %POSSESSIVE% hair."},
+          {sound: "", action: "%NAME% nuzzles %OPP_NAME% affectionately as %POSSESSIVE% hair is brushed."},
+        ],
+        HeadPat: [
+          {sound: "", action: "%NAME% is purring contently as %OPP_NAME% gently pets %POSSESSIVE% head."},
+          {sound: "", action: "%NAME% is closing %POSSESSIVE% eyes and nuzzling into %OPP_NAME%'s hand as %OPP_NAME% pets %POSSESSIVE% head."},
+          {sound: "", action: "%NAME%'s ears are twitching with pleasure as %OPP_NAME% pets %POSSESSIVE% head."},
+          {sound: "", action: "%NAME% leans into %OPP_NAME%'s hand, enjoying the gentle petting on %POSSESSIVE% head."},
+          {sound: "", action: "%NAME% is relaxing completely as %OPP_NAME% runs %POSSESSIVE% hand over %POSSESSIVE% head."},
+          {sound: "", action: "With eyes closed, %NAME% purrs as %OPP_NAME% pets %POSSESSIVE% head, %POSSESSIVE% ears twitching with each stroke."},
+          {sound: "", action: "%NAME%'s ears flop adorably as %OPP_NAME% pets %POSSESSIVE%."},
+        ],
+        CaressBack: [
+          {sound: "", action: "%NAME%'s tail twitches happily as %OPP_NAME% strokes %POSSESSIVE% fur."},
+          {sound: "", action: "%NAME% closes %POSSESSIVE% eyes in contentment, enjoying the sensation of %OPP_NAME%'s gentle touch."},
+          {sound: "", action: "%NAME% is purring with delight as %OPP_NAME% runs a hand down %POSSESSIVE% back."},
+          {sound: "", action: "%NAME%'s tail curves into a satisfied arch as %OPP_NAME% pets %POSSESSIVE% back."},
+          {sound: "", action: "%NAME% rumbles contentedly as %OPP_NAME% strokes %POSSESSIVE% back, tail twitching in pleasure."},
+          {sound: "", action: "%NAME%'s tail curls around %OPP_NAME%'s hand, a sign of enjoyment as %NAME% relaxes."},
+        ],
+        MassageBack: [
+          {sound: "", action: "%NAME%'s tail sways as %OPP_NAME% pampers %POSSESSIVE% with a back massage."},
+          {sound: "", action: "%NAME% closes %POSSESSIVE% eyes and purrs as %OPP_NAME% gently rubs %POSSESSIVE% back."},
+          {sound: "", action: "%NAME%'s tail twitches with pleasure as %OPP_NAME% massages %POSSESSIVE% back."},
+          {sound: "", action: "%NAME% stretches and relaxes under %OPP_NAME%'s skilled touch."},
+          {sound: "", action: "%NAME%'s purrs become louder as %OPP_NAME% massages %POSSESSIVE% back."},
+          {sound: "", action: "%NAME%'s tail twitches back and forth with delight as %OPP_NAME% massages %POSSESSIVE% back."},
+        ],
+        CaressButt: [
+          {sound: "", action: "%NAME%'s tail twirls with happiness as %OPP_NAME% caresses %POSSESSIVE% butt."},
+          {sound: "", action: "%NAME%'s purrs become louder as %OPP_NAME% massages %POSSESSIVE% butt."},
+          {sound: "", action: "%NAME% purrs and the tips of %POSSESSIVE% tail twitches in pleasure as %OPP_NAME% strokes %POSSESSIVE% butt."},
+          {sound: "", action: "%NAME%'s tail twirls and %POSSESSIVE% eyes soften as %OPP_NAME% rubs %POSSESSIVE% butt."},
+          {sound: "", action: "%NAME%'s tail wags eagerly as %OPP_NAME% runs some fingers along %POSSESSIVE% butt."},
+          {sound: "", action: "%OPP_NAME%'s soft touch makes %NAME% purr with joy and wag %POSSESSIVE% tail."},
+          {sound: "", action: "A deep purr rumbles from %NAME% as %OPP_NAME% strokes %POSSESSIVE% butt."},
+        ],
+      },
+      dog: {
+        EarCaress: [
+          {sound: "", action: "%NAME%'s eyes close as %OPP_NAME% rubs %POSSESSIVE% ear gently."},
+          {sound: "", action: "%NAME% leans into %OPP_NAME%'s hand, enjoying the ear scratch."},
+          {sound: "", action: "%NAME%'s ear perks up as %OPP_NAME% strokes it softly."},
+          {sound: "", action: "%NAME% sighs contentedly as %OPP_NAME% massages %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME%'s ear flops happily under %OPP_NAME%'s touch."},
+          {sound: "", action: "%NAME%'s ear vibrates with pleasure as %OPP_NAME% rubs it."},
+          {sound: "", action: "%NAME% lets out a soft growl, enjoying %OPP_NAME%'s ear rub."},
+        ],
+        EarNibble: [
+          {sound: "", action: "%NAME%'s ear quivers with delight as %OPP_NAME% nibbles it."},
+          {sound: "", action: "%NAME% lets out a happy sigh as %OPP_NAME% gently nips %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME%'s ear perks up, eager for more from %OPP_NAME%'s nibbling."},
+          {sound: "", action: "%NAME%'s ear twitches as %OPP_NAME% gently nibbles it."},
+          {sound: "", action: "%NAME%'s body relaxes as %OPP_NAME% continues to nibble %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME% lets out a contented sigh as %OPP_NAME% nibbles %POSSESSIVE% ear."},
+        ],
+        EarLick: [
+          {sound: "", action: "%NAME% grins, reveling in the attention from %OPP_NAME% licking %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME%'s ear wiggles, %POSSESSIVE% tail thumping, as %OPP_NAME% licks."},
+          {sound: "", action: "%NAME% eagerly leans into %OPP_NAME%'s ear licking, enjoying the sensation."},
+          {sound: "", action: "%NAME% closes %POSSESSIVE% eyes and relaxes as %OPP_NAME% licks %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME%'s whole body shivers with happiness as %OPP_NAME% licks %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME%'s ear twitches with delight as %OPP_NAME% licks it."},
+        ],
+        EarKiss: [
+          {sound: "", action: "%OPP_NAME%'s kiss on the ear brings a happy grin to %NAME%'s face."},
+          {sound: "", action: "%NAME% lets out a content sigh as %OPP_NAME% kisses %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME%'s ear twitches in delight as %OPP_NAME% gives it a kiss."},
+          {sound: "", action: "%NAME% closes %POSSESSIVE% eyes and relaxes as %OPP_NAME% kisses %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME%'s ear flops affectionately as %OPP_NAME% plants a kiss."},
+          {sound: "", action: "%NAME% gives a contented sigh as %OPP_NAME% kisses %POSSESSIVE% ear."},
+        ],
+        HeadBrush: [
+          {sound: "", action: "%NAME%'s muscles relax as %OPP_NAME% expertly brushes %POSSESSIVE% hair."},
+          {sound: "", action: "%NAME%'s breathing slows down, relishing the brush from %OPP_NAME%."},
+          {sound: "", action: "%NAME%'s eyes sparkle as %OPP_NAME% brushes away any tangles in %POSSESSIVE% hair."},
+          {sound: "", action: "%NAME%'s body sways with the rhythm of %OPP_NAME%'s brush strokes."},
+          {sound: "", action: "%NAME% nuzzles against %OPP_NAME% while %OPP_NAME% brushes %POSSESSIVE% hair."},
+          {sound: "", action: "%NAME%'s body relaxes as %OPP_NAME% brushes away all of %POSSESSIVE% worries."},
+          {sound: "", action: "%NAME% hums with contentment while %OPP_NAME% brushes %POSSESSIVE% hair."},
+        ],
+        HeadPat: [
+          {sound: "", action: "%NAME% closes %POSSESSIVE% eyes in bliss as %OPP_NAME% strokes %POSSESSIVE% head."},
+          {sound: "", action: "%NAME% leans into the petting, %POSSESSIVE% ears flicking contentedly."},
+          {sound: "", action: "A soft sigh escapes %NAME% as %OPP_NAME% gently pets %POSSESSIVE% head."},
+          {sound: "", action: "%NAME% nuzzles into %OPP_NAME%'s hand, %POSSESSIVE% ears twitching with pleasure."},
+          {sound: "", action: "%NAME% gives a content sigh, settling into the comfort of %OPP_NAME%'s touch."},
+          {sound: "", action: "%NAME% leans into the petting, making %POSSESSIVE% body completely relaxed."},
+        ],
+        CaressBack: [
+          {sound: "", action: "%NAME%'s tail wags as %OPP_NAME% strokes %POSSESSIVE% back."},
+          {sound: "", action: "%NAME% leans into %OPP_NAME%'s touch, tail wagging happily."},
+          {sound: "", action: "%NAME%'s tail wags happily as %OPP_NAME% scratches %POSSESSIVE% back."},
+          {sound: "", action: "%NAME%'s eyes close in contentment as %OPP_NAME% rubs %POSSESSIVE% back."},
+          {sound: "", action: "%NAME%'s eyes close in bliss as %OPP_NAME% pampers %POSSESSIVE% back."},
+          {sound: "", action: "%NAME%'s tail wags back and forth as %OPP_NAME% rubs %POSSESSIVE% back."},
+        ],
+        MassageBack: [
+          {sound: "", action: "%NAME%'s tail wags contentedly as %OPP_NAME% massages %POSSESSIVE% back."},
+          {sound: "", action: "%NAME% closes %POSSESSIVE% eyes, enjoying the sensation of the massage."},
+          {sound: "", action: "%NAME% leans into %OPP_NAME%'s touch, tail swaying back and forth."},
+          {sound: "", action: "%NAME% lets out a soft sigh, tail lazily wagging as %OPP_NAME% massages."},
+          {sound: "", action: "%NAME% is savoring every moment, wagging %POSSESSIVE% tail joyfully."},
+          {sound: "", action: "%NAME% is completely relaxed and wags %POSSESSIVE% tail contentedly."},
+        ],
+        CaressButt: [
+          {sound: "", action: "%OPP_NAME%'s touch sends shivers down %NAME%'s back, causing %POSSESSIVE% tail to quiver."},
+          {sound: "", action: "%NAME%'s tail twitches with pleasure as %OPP_NAME% rubs %POSSESSIVE% butt."},
+          {sound: "", action: "%NAME% is in pure heaven, tail wagging at full speed."},
+          {sound: "", action: "%NAME%'s tail wags eagerly as %OPP_NAME% runs some fingers along %POSSESSIVE% butt."},
+          {sound: "", action: "Ears perked up, %NAME% revels in the attention on %POSSESSIVE% butt."},
+          {sound: "", action: "%NAME%'s tail curls happily as %OPP_NAME% pets %POSSESSIVE% butt."},
+        ],
+      },
+      fox: {
+        EarCaress: [
+          {sound: "", action: "%NAME% closes %POSSESSIVE% eyes and leans into %OPP_NAME%'s touch."},
+          {sound: "", action: "%NAME% emits a contented sigh as %OPP_NAME% rubs %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME% tilts %POSSESSIVE% head to enjoy %OPP_NAME%'s touch more."},
+          {sound: "", action: "%NAME%'s ear twitches with each gentle stroke from %OPP_NAME%"},
+          {sound: "", action: "%NAME% makes soft noises of enjoyment as %OPP_NAME% rubs %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME% visibly relaxes under %OPP_NAME%'s touch on %POSSESSIVE% ear."},
+        ],
+        EarNibble: [
+          {sound: "", action: "%NAME% closes %POSSESSIVE% eyes, relishing in the sensation of %OPP_NAME% nibbling %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME%'s ear flickers as %OPP_NAME% tenderly nibbles on it."},
+          {sound: "", action: "%OPP_NAME%'s gentle nibbling causes %NAME% to give a contented sigh."},
+          {sound: "", action: "%NAME%'s ear quivers in pleasure as %OPP_NAME% gives it a soft nibble."},
+          {sound: "", action: "%OPP_NAME%'s nibbling on %NAME%'s ear elicits a low, satisfied rumble from the fox."},
+          {sound: "", action: "%NAME%'s ear twitches with excitement as %OPP_NAME% playfully nibbles on it."},
+        ],
+        EarLick: [
+          {sound: "", action: "%NAME% shivers with pleasure as %OPP_NAME% licks %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME% wiggles %POSSESSIVE% ear, soaking up the attention from %OPP_NAME%'s lick."},
+          {sound: "", action: "%NAME% lets out a happy yip as %OPP_NAME% licks %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME% relaxes, enjoying the sensation of %OPP_NAME% licking %POSSESSIVE% ear."},
+          {sound: "", action: "%OPP_NAME%'s lick sends shivers down %NAME%'s spine, causing %POSSESSIVE% ears to twitch."},
+          {sound: "", action: "%NAME%'s eyes close in contentment as %OPP_NAME% gently licks %POSSESSIVE% ears."},
+        ],
+        EarKiss: [
+          {sound: "", action: "%NAME% is enjoying the kiss on %POSSESSIVE% ear, %POSSESSIVE% ear twitching with pleasure."},
+          {sound: "", action: "%NAME% leans into the kiss, %POSSESSIVE% ear flicking with delight."},
+          {sound: "", action: "%NAME% closes %POSSESSIVE% eyes, relishing the feel of %OPP_NAME%'s kiss on %POSSESSIVE% ear."},
+          {sound: "", action: "A shiver runs down %NAME%'s back as %OPP_NAME%'s kiss reaches %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME% tilts %POSSESSIVE% head, %POSSESSIVE% ear twitching in response to the soft kiss from %OPP_NAME%."},
+          {sound: "", action: "%NAME% nuzzles into %OPP_NAME%, %POSSESSIVE% ear quivering with contentment."},
+        ],
+        HeadBrush: [
+          {sound: "", action: "%NAME% relaxes into %OPP_NAME%'s touch, %POSSESSIVE% ears drooping contentedly."},
+          {sound: "", action: "%NAME% lets out a happy sigh as %OPP_NAME% brushes %POSSESSIVE% hair."},
+          {sound: "", action: "%NAME% closes %POSSESSIVE% eyes, thoroughly enjoying the brush from %OPP_NAME%."},
+          {sound: "", action: "%NAME%'s ears flicker as %OPP_NAME% smooths down %POSSESSIVE% hair."},
+          {sound: "", action: "%NAME%'s hair ruffles in the breeze as %OPP_NAME% brushes it."},
+          {sound: "", action: "%NAME% nuzzles %OPP_NAME% affectionately as %POSSESSIVE% hair is brushed."},
+          {sound: "", action: "%NAME% lets out a happy yip as %OPP_NAME% brushes %POSSESSIVE% hair."},
+        ],
+        HeadPat: [
+          {sound: "", action: "%NAME% lets out a happy little chirp at the attention from %OPP_NAME%."},
+          {sound: "", action: "%NAME%'s ears twitch as %OPP_NAME% gently rubs %POSSESSIVE% head."},
+          {sound: "", action: "%NAME% gives a soft sigh, enjoying %OPP_NAME%'s affectionate touch."},
+          {sound: "", action: "%NAME% leans into %OPP_NAME%'s hand, closing %POSSESSIVE% eyes contentedly."},
+          {sound: "", action: "%NAME%'s ears perk up happily at the touch from %OPP_NAME%."},
+          {sound: "", action: "%NAME%'s ears flop adorably as %OPP_NAME% pets %POSSESSIVE%."},
+        ],
+        CaressBack: [
+          {sound: "", action: "%NAME%'s tail twirls and %POSSESSIVE% eyes soften as %OPP_NAME% rubs %POSSESSIVE% back."},
+          {sound: "", action: "%NAME% tilts %POSSESSIVE% head back and wags %POSSESSIVE% tail happily as %OPP_NAME% scratches %POSSESSIVE% back."},
+          {sound: "", action: "%NAME%'s eyes close in bliss as %OPP_NAME% scratches %POSSESSIVE% spine."},
+          {sound: "", action: "%NAME% let's out a content sigh as %OPP_NAME% gently rubs %POSSESSIVE% back."},
+          {sound: "", action: "%NAME%'s tail wags eagerly as %OPP_NAME% runs some fingers along %POSSESSIVE% back."},
+          {sound: "", action: "%NAME%'s tail twitches with joy as %OPP_NAME% pats %POSSESSIVE% back."},
+        ],
+        MassageBack: [
+          {sound: "", action: "%NAME% lets out a happy sigh and %POSSESSIVE% tail flickers with joy as %OPP_NAME% massages %POSSESSIVE% back."},
+          {sound: "", action: "%NAME%'s tail wags happily as %OPP_NAME% massages %POSSESSIVE% back."},
+          {sound: "", action: "%NAME% closes %POSSESSIVE% eyes in bliss as %OPP_NAME% rubs %POSSESSIVE% back."},
+          {sound: "", action: "%NAME%'s tail twitches with pleasure as %OPP_NAME% massages %POSSESSIVE% back."},
+          {sound: "", action: "%OPP_NAME%'s skilled hands have %NAME%'s tail wagging in pure joy"},
+          {sound: "", action: "%NAME%'s tail twitches back and forth with delight as %OPP_NAME% massages %POSSESSIVE% back."},
+        ],
+        CaressButt: [
+          {sound: "", action: "%NAME%'s tail twirls with happiness as %OPP_NAME% caresses %POSSESSIVE% butt."},
+          {sound: "", action: "%NAME% leans into %OPP_NAME%'s touch, tail thumping with pleasure as %OPP_NAME% rubs %POSSESSIVE% butt."},
+          {sound: "", action: "%NAME% closes %POSSESSIVE% eyes and wags %POSSESSIVE% tail with delight as %OPP_NAME% caresses %POSSESSIVE% butt."},
+          {sound: "", action: "%NAME%'s tail wags eagerly as %OPP_NAME% runs some fingers along %POSSESSIVE% butt."},
+          {sound: "", action: "%NAME%'s tail twitches in pleasure as %OPP_NAME% rubs %POSSESSIVE% butt."},
+          {sound: "", action: "%NAME% relaxes and leans into %OPP_NAME%'s touch, tail wagging with joy."},
+        ],
+      },
+      mouse: {
+        EarCaress: [
+          {sound: "", action: "%NAME% leans into %OPP_NAME%'s touch, savoring the caress of %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME% closes %POSSESSIVE% eyes in bliss as %OPP_NAME% strokes %POSSESSIVE% ear."},
+          {sound: "", action: "%OPP_NAME%'s gentle touch sends shivers down %NAME%'s spine and wiggles %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME% cuddles closer to %OPP_NAME%, basking in the attention to %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME% twitches %POSSESSIVE% ear in delight as %OPP_NAME% rubs it tenderly."},
+          {sound: "", action: "%NAME% nuzzles into %OPP_NAME%'s hand, relishing the gentle touch on %POSSESSIVE% ear."},
+        ],
+        EarNibble: [
+          {sound: "", action: "%OPP_NAME%'s gentle nibbling causes %NAME%'s ear to quiver with pleasure."},
+          {sound: "", action: "%NAME% lets out a contented sigh as %OPP_NAME% nibbles %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME% closes %POSSESSIVE% eyes and relishes in the sensation of %OPP_NAME% nibbling %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME% shivers with pleasure as %OPP_NAME% tenderly nibbles %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME%'s ear twitches with excitement as %OPP_NAME% playfully nibbles on it."},
+          {sound: "", action: "With a flick of %POSSESSIVE% ear, %NAME% expresses %POSSESSIVE% enjoyment of %OPP_NAME%'s attention."},
+        ],
+        EarLick: [
+          {sound: "", action: "%NAME%'s ears twitch with delight as %OPP_NAME% licks %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME% lets out a contented sigh as %OPP_NAME% tenderly licks %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME% shivers with pleasure as %OPP_NAME% delicately licks %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME%'s ear perks up, eager for more affection as %OPP_NAME% licks it."},
+          {sound: "", action: "%OPP_NAME%'s lick sends shivers down %NAME%'s spine, causing %POSSESSIVE% ears to quiver."},
+          {sound: "", action: "%NAME% relaxes, enjoying the sensation of %OPP_NAME% licking %POSSESSIVE% ear."},
+        ],
+        EarKiss: [
+          {sound: "", action: "%NAME%'s eyes close in bliss as %OPP_NAME% kisses %POSSESSIVE% ear."},
+          {sound: "", action: "%OPP_NAME%'s kiss sends shivers down %NAME%'s back, %POSSESSIVE% ears perking up."},
+          {sound: "", action: "%NAME% can't help but squeak as %OPP_NAME% plants a kiss on %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME% leans into %OPP_NAME%'s affection, a contented grin on %POSSESSIVE% face."},
+          {sound: "", action: "%OPP_NAME%'s kiss makes %NAME% feel safe, %POSSESSIVE% ears folding backwards in trust."},
+          {sound: "", action: "%NAME% lets out a contented sigh as %OPP_NAME% kisses %POSSESSIVE% ear."},
+        ],
+        HeadBrush: [
+          {sound: "", action: "%NAME%'s ears perk up as %OPP_NAME% brushes %POSSESSIVE% hair."},
+          {sound: "", action: "%NAME% relaxes into %OPP_NAME%'s touch, enjoying the brush."},
+          {sound: "", action: "%NAME% closes %POSSESSIVE% eyes, savoring the sensation of the brush."},
+          {sound: "", action: "%NAME%'s ears flop over in happiness as %OPP_NAME% attends to %POSSESSIVE% hair."},
+          {sound: "", action: "%NAME%'s eyes half-close in contentment as %OPP_NAME% brushes %POSSESSIVE% hair."},
+          {sound: "", action: "%NAME%'s ears twitch with delight at the sensation of the brush."},
+        ],
+        HeadPat: [
+          {sound: "", action: "%NAME% nuzzles into %OPP_NAME%'s hand, seeking more pets on %POSSESSIVE% head."},
+          {sound: "", action: "%NAME% relaxes completely, basking in the attention from %OPP_NAME%."},
+          {sound: "", action: "%NAME%'s ears perk up at the touch of %OPP_NAME%'s hand on %POSSESSIVE% head."},
+          {sound: "", action: "%NAME%'s ears twitch with delight as %OPP_NAME% pets %POSSESSIVE% head."},
+          {sound: "", action: "%NAME% gives a happy squeak as %OPP_NAME% pets %POSSESSIVE% head."},
+          {sound: "", action: "%OPP_NAME%'s gentle touch makes %NAME%'s eyes close in pleasure."},
+        ],
+        CaressBack: [
+          {sound: "", action: "%NAME% savors the feeling of %OPP_NAME%'s touch, %POSSESSIVE% tail lazily swishing back and forth."},
+          {sound: "", action: "%NAME% shivers with delight as %OPP_NAME% runs some fingers along %POSSESSIVE% back, %POSSESSIVE% tail wags excitedly."},
+          {sound: "", action: "%NAME% relaxes into %OPP_NAME%'s embrace, %POSSESSIVE% tail swaying softly."},
+          {sound: "", action: "%NAME%'s tail whips back and forth in delight as %OPP_NAME% strokes %POSSESSIVE% back."},
+          {sound: "", action: "%NAME% squeaks with happiness as %OPP_NAME% pets %POSSESSIVE% back, %POSSESSIVE% tail curling into a contented loop."},
+          {sound: "", action: "%NAME% leans into %OPP_NAME%'s touch, %POSSESSIVE% tail giving tiny little flickers of pleasure."},
+        ],
+        MassageBack: [
+          {sound: "", action: "%NAME%'s tail wags happily as %OPP_NAME% massages %POSSESSIVE% back."},
+          {sound: "", action: "%OPP_NAME%'s fingers work magic on %NAME%'s back, eliciting happy squeaks."},
+          {sound: "", action: "%NAME% can barely contain %POSSESSIVE% excitement as %OPP_NAME% massages %POSSESSIVE% back."},
+          {sound: "", action: "%NAME%'s tail wags in delight as %OPP_NAME% gently massages %POSSESSIVE% back."},
+          {sound: "", action: "%OPP_NAME%'s touch sends shivers down %NAME%'s spine, causing %POSSESSIVE% tail to quiver with pleasure."},
+          {sound: "", action: "%OPP_NAME%'s massage has %NAME% squeaking with happiness, tail twirling with joy."},
+        ],
+        CaressButt: [
+          {sound: "", action: "%NAME%'s tail twitches with pleasure as %OPP_NAME% caresses %POSSESSIVE% butt."},
+          {sound: "", action: "%NAME%'s eyes close in bliss as %OPP_NAME% rubs %POSSESSIVE% butt."},
+          {sound: "", action: "%NAME% leans into %OPP_NAME%'s touch, tail thumping with happiness."},
+          {sound: "", action: "%NAME% closes %POSSESSIVE% eyes, letting out a contented squeak, as %OPP_NAME% caresses %POSSESSIVE% butt."},
+          {sound: "", action: "With a soft squeak, %NAME% leans into %OPP_NAME%'s touch, tail twitching and eyes half-closed in bliss."},
+          {sound: "", action: "%NAME% lets out a contented squeak, %POSSESSIVE% tail twirling around in delight."},
+        ],
+      },
+    }
 
-    function substitude_genders(text) {
+    function replace_template(text, source_name = '') {
         let result = text
         result = result.replaceAll("%POSSESSIVE%", Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase())
         result = result.replaceAll("%CAP_POSSESSIVE%", Player.BCAR.bcarSettings.genderDefault.capPossessive)
@@ -334,19 +621,21 @@ const TriggerAdditions = [
         result = result.replaceAll("%CAP_PRONOUN%", Player.BCAR.bcarSettings.genderDefault.capPronoun)
         result = result.replaceAll("%INTENSIVE%", Player.BCAR.bcarSettings.genderDefault.capIntensive.toLocaleLowerCase())
         result = result.replaceAll("%CAP_INTENSIVE%", Player.BCAR.bcarSettings.genderDefault.capIntensive)
-        result = result.replaceAll("%NAME%", CharacterNickname(Player))
-        result = result.replaceAll("%OPP_NAME%")
-        // repeat for other vars
+        result = result.replaceAll("%NAME%", CharacterNickname(Player)) //Does this works to print "Lilly"? -- it should, yes
+        result = result.replaceAll("%OPP_NAME%", source_name) // finally we can use the source name to make the substitution
+
         return result
     }
-    function ActivityBeeper(type,nya){
-        const beep_text = CharacterNickname(Player) + typeAction[type][1][nya]
-        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: substitude_genders(beep_text)}]});
-        //        const beep_text = CharacterNickname(Player) + substitude_genders(typeAction[type][1][nya])
-        //        ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: beep_text}]});
-        const msg = typeAction[type][0][nya]
-        if (msg.length > 0) ServerSend("ChatRoomChat",{Type:"Chat",Content:substitude_genders(msg)})
-    }
+  function ActivityBeeper(type, source_name) {
+    const animal = Player.BCAR.bcarSettings.animal
+    const actions = typeAction[animal]?.[type];
+    if (!actions) return;
+    const index = Math.floor(Math.random() * actions.length);
+    console.log(index);
+    ServerSend("ChatRoomChat", {Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: replace_template(actions[index].action, source_name)}]});
+    if (actions[index].sound.length) ServerSend("ChatRoomChat", {Type: "Chat", Content: actions[index].sound})
+  }
+
 
     function ArousalEarCaress(){
         if(Player.BCAR.bcarSettings.arousalEnable === true){
@@ -439,7 +728,7 @@ const TriggerAdditions = [
     function Wake(){
         if(InventoryGet(Player, "Emoticon")?.Property?.Expression === "Sleep"){ // check if Expression is sleep
             console.log("Wake - Check")
-            let numberBlinks = 1;
+            let numberBlinks = 5;
             let delay = 3000;
             for(let i=0; i < numberBlinks; i++)
             {
@@ -648,7 +937,7 @@ const TriggerAdditions = [
 
       if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
           var stopFlyMessage = data.Content;
-          let patterns = [/lands.*/mi, /stops.*flying/mi] ; // matches {<any> stops <any> fly <any>}
+          let patterns = [/(?<!Wheel of Fortune )lands/mi, /stops.*flying/mi] ; // matches {<any> stops <any> fly <any>}
           let result = patterns.find(pattern => pattern.test(stopFlyMessage));
           if(result){
               WingFlap();
@@ -678,88 +967,72 @@ const TriggerAdditions = [
         }
     }});
 
-    window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto Reactions", Callback: (data, sender, msg, metadata) => {
-        if (data.Type !== 'Activity') return // isn't an Activity message
-        console.log(data);
-        if (!Player?.MemberNumber) return // we need Player.MemberNumber
-        if (Player.MemberNumber !== data.Dictionary.find(obj => obj.Tag === "TargetCharacter")?.MemberNumber) return // we aren't the target
-        let nya
-        switch (data.Content) {
-            case 'ChatOther-ItemEars-Caress': case 'ChatSelf-ItemEars-Caress':
-                if (!Player.BCAR.bcarSettings.earWigglingEnable) break;
-                nya = Math.floor(Math.random() * 5);
-                console.log(nya);
-                ActivityBeeper("EarCaress", nya);
-                EarWiggle();
-                ArousalEarCaress();
-                break;
-            case 'ChatOther-ItemEars-Nibble': case 'ChatSelf-ItemEars-Nibble':
-                if (!Player.BCAR.bcarSettings.earWigglingEnable) break;
-                nya = Math.floor(Math.random() * 3);
-                console.log(nya);
-                ActivityBeeper("EarNibble", nya);
-                EarWiggle();
-                ArousalEarNibble();
-                break;
-            case 'ChatOther-ItemEars-Lick': case 'ChatSelf-ItemEars-Lick':
-                if (!Player.BCAR.bcarSettings.earWigglingEnable) break;
-                nya = Math.floor(Math.random() * 3);
-                console.log(nya);
-                ActivityBeeper("EarLick", nya);
-                EarWiggle();
-                ArousalEarLick();
-                break;
-            case 'ChatOther-ItemEars-Kiss': case 'ChatSelf-ItemEars-Kiss':
-                if (!Player.BCAR.bcarSettings.earWigglingEnable) break;
-                nya = Math.floor(Math.random() * 3);
-                console.log(nya);
-                ActivityBeeper("EarKiss", nya);
-                EarWiggle();
-                ArousalEarKiss();
-                break;
-            case 'ChatOther-ItemHead-TakeCare': case 'ChatSelf-ItemHead-TakeCare':
-                if (!Player.BCAR.bcarSettings.earWigglingEnable) break;
-                nya = Math.floor(Math.random() * 2);
-                console.log(nya);
-                ActivityBeeper("HeadBrush", nya);
-                EarWiggle();
-                ArousalHeadBrush();
-                break;
-            case 'ChatOther-ItemHead-Pet': case 'ChatSelf-ItemHead-Pet':
-                if (!Player.BCAR.bcarSettings.earWigglingEnable) break;
-                nya = Math.floor(Math.random() * 4);
-                console.log(nya);
-                ActivityBeeper("HeadPat", nya);
-                EarWiggle();
-                ArousalHeadPat();
-                break;
-            case 'ChatOther-ItemTorso-Caress': case 'ChatSelf-ItemTorso-Caress':
-                if (!Player.BCAR.bcarSettings.tailWaggingEnable) break;
-                nya = Math.floor(Math.random() * 1);
-                console.log(nya);
-                ActivityBeeper("CaressBack",nya);
-                TailWag();
-                ArousalCaressBack();
-                break;
-            case 'ChatOther-ItemTorso-MassageHands': case 'ChatSelf-ItemTorso-MassageHands':
-                if (!Player.BCAR.bcarSettings.tailWaggingEnable) break;
-                nya = Math.floor(Math.random() * 1);
-                console.log(nya);
-                ActivityBeeper("MassageBack", nya);
-                TailWag();
-                ArousalMassageBack();
-                break;
-            case 'ChatOther-ItemButt-Caress': case 'ChatSelf-ItemButt-Caress':
-                if (!Player.BCAR.bcarSettings.tailWaggingEnable) break;
-                nya = Math.floor(Math.random() * 1);
-                console.log(nya);
-                ActivityBeeper("CaressButt", nya);
-                TailWag();
-                ArousalCaressButt();
-                break;
-        }
-    }});
+window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto Reactions", Callback: (data, sender, msg, metadata) => {
+  if (data.Type !== 'Activity') return // isn't an Activity message
+  console.log(data);
+  if (!Player?.MemberNumber) return // we need Player.MemberNumber
+  if (Player.MemberNumber !== data.Dictionary.find(obj => obj.Tag === "TargetCharacter")?.MemberNumber) return // we aren't the target
+  const source_number = data.Dictionary.find(obj => obj.Tag === "SourceCharacter")?.MemberNumber;
+  const source = window.ChatRoomCharacter.find(c => c.MemberNumber === source_number);
+  const source_name = window.CharacterNickname(source);
 
+    switch (data.Content) {
+        case 'ChatOther-ItemEars-Caress': //case 'ChatSelf-ItemEars-Caress':
+            if (!Player.BCAR.bcarSettings.earWigglingEnable) break;
+            ActivityBeeper("EarCaress", source_name);
+            EarWiggle();
+            ArousalEarCaress();
+            break;
+        case 'ChatOther-ItemEars-Nibble': //case 'ChatSelf-ItemEars-Nibble':
+            if (!Player.BCAR.bcarSettings.earWigglingEnable) break;
+            ActivityBeeper("EarNibble", source_name);
+            EarWiggle();
+            ArousalEarNibble();
+            break;
+        case 'ChatOther-ItemEars-Lick': //case 'ChatSelf-ItemEars-Lick':
+            if (!Player.BCAR.bcarSettings.earWigglingEnable) break;
+            ActivityBeeper("EarLick", source_name);
+            EarWiggle();
+            ArousalEarLick();
+            break;
+        case 'ChatOther-ItemEars-Kiss': //case 'ChatSelf-ItemEars-Kiss':
+            if (!Player.BCAR.bcarSettings.earWigglingEnable) break;
+            ActivityBeeper("EarKiss", source_name);
+            EarWiggle();
+            ArousalEarKiss();
+            break;
+        case 'ChatOther-ItemHead-TakeCare': //case 'ChatSelf-ItemHead-TakeCare':
+            if (!Player.BCAR.bcarSettings.earWigglingEnable) break;
+            ActivityBeeper("HeadBrush", source_name);
+            EarWiggle();
+            ArousalHeadBrush();
+            break;
+        case 'ChatOther-ItemHead-Pet': //case 'ChatSelf-ItemHead-Pet':
+            if (!Player.BCAR.bcarSettings.earWigglingEnable) break;
+            ActivityBeeper("HeadPat", source_name);
+            EarWiggle();
+            ArousalHeadPat();
+            break;
+        case 'ChatOther-ItemTorso-Caress': //case 'ChatSelf-ItemTorso-Caress':
+            if (!Player.BCAR.bcarSettings.tailWaggingEnable) break;
+            ActivityBeeper("CaressBack", source_name);
+            TailWag();
+            ArousalCaressBack();
+            break;
+        case 'ChatOther-ItemTorso-MassageHands': //case 'ChatSelf-ItemTorso-MassageHands':
+            if (!Player.BCAR.bcarSettings.tailWaggingEnable) break;
+            ActivityBeeper("MassageBack", source_name);
+            TailWag();
+            ArousalMassageBack();
+            break;
+        case 'ChatOther-ItemButt-Caress': //case 'ChatSelf-ItemButt-Caress':
+            if (!Player.BCAR.bcarSettings.tailWaggingEnable) break;
+            ActivityBeeper("CaressButt", source_name);
+            TailWag();
+            ArousalCaressButt();
+            break;
+    }
+}});
 
     function bcarSettingsSave() {
         Player.OnlineSettings.BCAR = Player.BCAR
@@ -801,6 +1074,7 @@ const TriggerAdditions = [
     async function bcarSettingsLoad() {
 		await waitFor(() => !!Player?.AccountName);
         const BCAR_DEFAULT_SETTINGS = {
+            animal : "cat",
             arousalEnable : true,
             arousalStatus : "Enabled",
             expressionsEnable :false,
@@ -924,6 +1198,7 @@ const TriggerAdditions = [
                     "wingsDescription1" : "None", //Output for the status page
                     "wingsDescription2" : "None",
                 },
+            },
             profile3Saved : false,
             profile3 : {
                 earWigglingEnable : false,
@@ -962,7 +1237,6 @@ const TriggerAdditions = [
                     "wingsDescription1" : "None", //Output for the status page
                     "wingsDescription2" : "None",
                 },
-            },
             },
 //            bcarLoaded : false,
         }
@@ -1019,7 +1293,7 @@ function CommandEarsChange(argsList)
         ChatRoomSendLocal(
             "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
             "Primary ears have been updated!</p>" +
-            updated_text
+            updated_text, 15000
         );
     }
     else if (change === "ear2") {
@@ -1029,7 +1303,7 @@ function CommandEarsChange(argsList)
         Player.BCAR.bcarSettings.earsDefault.earsDescription2 = ears?.Asset?.Description || "None";
         ChatRoomSendLocal(
             "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-            "Secondary ears have been updated!</p>"
+            "Secondary ears have been updated!</p>", 15000
         );
     }
     bcarSettingsSave();
@@ -1045,7 +1319,7 @@ function CommandEarsToggle(argsList)
         Player.BCAR.bcarSettings.earWigglingStatus = "Enabled";
         ChatRoomSendLocal(
             "<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-            "Ear wiggle is now enabled!</p>"
+            "Ear wiggle is now enabled!</p>", 15000
         );
     }
     else if (toggle === "earoff") {
@@ -1053,7 +1327,7 @@ function CommandEarsToggle(argsList)
         Player.BCAR.bcarSettings.earWigglingStatus = "Disabled";
         ChatRoomSendLocal(
             "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-            "Ear wiggle is now disabled!</p>"
+            "Ear wiggle is now disabled!</p>", 15000
         );
     }
     bcarSettingsSave();
@@ -1114,9 +1388,11 @@ function CommandEarsDelete(argsList)
             Player.BCAR.bcarSettings.earsDefault.earsDescription2 = "None";
             Player.BCAR.bcarSettings.earWigglingEnable = false;
             Player.BCAR.bcarSettings.earWigglingStatus = "Disabled";
+            Player.BCAR.bcarSettings.earsDefault.earsCount = 12;
+            Player.BCAR.bcarSettings.earsDefault.earsDelay = 175;
             ChatRoomSendLocal(
                 "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Ears has been removed and ear wiggle is now disabled!</p>"
+                "Ears has been removed and ear wiggle is now disabled!</p>", 15000
             );
             InventoryRemove(Player, "HairAccessory2")
         }
@@ -1142,7 +1418,7 @@ function CommandEarHelp(argsList)
                 "/bcar earoff - Disables the ear wiggling off.\n" +
                 "/bcar earwiggles - Determines the number of wiggles.\n" +
                 "/bcar eardelay - Determines the wiggle speed.\n" +
-                "/bcar eardelete - Removes the ears.</p>"
+                "/bcar eardelete - Removes the ears.</p>", 30000
             );
         }
 
@@ -1169,7 +1445,7 @@ function CommandTailChange(argsList)
         ChatRoomSendLocal(
             "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
             "Primary tail has been updated!</p>" +
-            updated_text
+            updated_text, 15000
         );
     }
     else if (change === "tail2") {
@@ -1179,7 +1455,7 @@ function CommandTailChange(argsList)
         Player.BCAR.bcarSettings.tailsDefault.tailsDescription2 = tails?.Asset?.Description;
         ChatRoomSendLocal(
             "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-            "Secondary tail has been updated!</p>"
+            "Secondary tail has been updated!</p>", 15000
         );
     }
     else if (change === "tailget") {
@@ -1191,7 +1467,7 @@ function CommandTailChange(argsList)
         Player.BCAR.bcarSettings.tailsDefault.tailsDescription2 = tails?.Asset?.Description;
         ChatRoomSendLocal(
             "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-            "Secondary tail has been updated!</p>"
+            "Secondary tail has been updated!</p>", 15000
         );
     }
     bcarSettingsSave();
@@ -1207,7 +1483,7 @@ function CommandTailToggle(argsList)
             Player.BCAR.bcarSettings.tailWaggingStatus = "Enabled";
             ChatRoomSendLocal(
                 "<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Tail wagging is now enabled!</p>"
+                "Tail wagging is now enabled!</p>", 15000
             );
         }
         else if (toggle === "tailoff") {
@@ -1215,7 +1491,7 @@ function CommandTailToggle(argsList)
             Player.BCAR.bcarSettings.tailWaggingStatus = "Disabled";
             ChatRoomSendLocal(
                 "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Tail wagging is now disabled!</p>"
+                "Tail wagging is now disabled!</p>", 15000
             );
         }
         bcarSettingsSave();
@@ -1276,9 +1552,11 @@ function CommandTailDelete(argsList)
             Player.BCAR.bcarSettings.tailsDefault.tailsDescription2 = "None";
             Player.BCAR.bcarSettings.tailWaggingEnable = false;
             Player.BCAR.bcarSettings.tailWaggingStatus = "Disabled";
+            Player.BCAR.bcarSettings.tailsDefault.tailsCount = 6;
+            layer.BCAR.bcarSettings.tailsDefault.tailsDelay = 800;
             ChatRoomSendLocal(
                 "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Tail has been removed and tail wagging is now disabled!</p>"
+                "Tail has been removed and tail wagging is now disabled!</p>", 15000
             );
             InventoryRemove(Player, "TailStraps")
         }
@@ -1304,7 +1582,7 @@ function CommandTailHelp(argsList)
                 "/bcar tailoff - Disbales the tail wagging off.\n" +
                 "/bcar tailwags - Determines the number of wags.\n" +
                 "/bcar taildelay - Determines the wagging speed.\n" +
-                "/bcar taildelete - Removes the tail.</p>"
+                "/bcar taildelete - Removes the tail.</p>", 30000
             );
         }
 
@@ -1331,7 +1609,7 @@ function CommandWingChange(argsList)
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
                 "Primary wings has been updated!</p>" +
-                updated_text
+                updated_text, 15000
             );
         }
         else if (change === "wing2") {
@@ -1341,7 +1619,7 @@ function CommandWingChange(argsList)
             Player.BCAR.bcarSettings.wingsDefault.wingsDescription2 = wings?.Asset?.Description;
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Secondary wings has been updated!</p>"
+                "Secondary wings has been updated!</p>", 15000
             );
         }
         bcarSettingsSave();
@@ -1357,7 +1635,7 @@ function CommandWingToggle(argsList)
             Player.BCAR.bcarSettings.wingFlappingStatus = "Enabled";
             ChatRoomSendLocal(
                 "<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Wing flapping is now enabled!</p>"
+                "Wing flapping is now enabled!</p>", 15000
             );
         }
         else if (toggle === "wingoff") {
@@ -1365,7 +1643,7 @@ function CommandWingToggle(argsList)
             Player.BCAR.bcarSettings.wingFlappingStatus = "Disabled";
             ChatRoomSendLocal(
                 "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Wing flapping is now disabled!</p>"
+                "Wing flapping is now disabled!</p>", 15000
             );
         }
         bcarSettingsSave();
@@ -1426,9 +1704,11 @@ function CommandWingDelete(argsList)
             Player.BCAR.bcarSettings.wingsDefault.wingsDescription2 = "None";
             Player.BCAR.bcarSettings.wingFlappingEnable = false;
             Player.BCAR.bcarSettings.wingFlappingStatus = "Disabled";
+            Player.BCAR.bcarSettings.wingsDefault.wingsCount = 6;
+            Player.BCAR.bcarSettings.wingsDefault.wingsDelay = 500;
             ChatRoomSendLocal(
                 "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Wings has been removed and wing flapping is now disabled!</p>"
+                "Wings has been removed and wing flapping is now disabled!</p>", 15000
             );
             InventoryRemove(Player, "Wings")
         }
@@ -1461,7 +1741,7 @@ function CommandWingHelp(argsList)
                 "<i>*flaps her wings \n" +
                 "*is flapping her wings \n" +
                 "*lets her wings flap \n" +
-                "*spreads her wings, flapping with them</i></p>"
+                "*spreads her wings, flapping with them</i></p>", 30000
             );
         }
 
@@ -1477,7 +1757,7 @@ function CommandProfile(argsList) {
   switch (cmd) {
     case 'profile1': case 'profile2': case 'profile3':
       ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
-        <br>${prof_number} preset:
+        <br><span style="text-transform:capitalize">${prof_number}</span> preset:
         <br>Ear Animation: ${profile?.earWigglingStatus}
         <br>Primary Ears: ${AssetGet("Female3DCG","HairAccessory2",profile?.earsDefault?.ears1)?.Description || 'None'}
         <br>Secondary Ears: ${AssetGet("Female3DCG","HairAccessory2",profile?.earsDefault?.ears2)?.Description || 'None'}
@@ -1504,12 +1784,12 @@ function CommandProfile(argsList) {
         profile[`${item}Default`] = Player.BCAR.bcarSettings[`${item}Default`]
       }
 
-      ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b><br>${prof_number} has been saved!</p>`);
+      ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b><br><span style="text-transform:capitalize">${prof_number}</span> has been saved!</p>`, 15000);
       bcarSettingsSave();
       break;
     case 'load1': case 'load2': case 'load3':
       if (!Player.BCAR.bcarSettings[`${prof_number}Saved`]) {
-        ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b><br>${prof_number} not found!<br>Please save ${prof_number} first.</p>`); // no need to replace newlines, you don't have those here
+        ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b><br><span style="text-transform:capitalize">${prof_number}</span> not found!<br>Please save <span style="text-transform:capitalize">${prof_number}</span> first.</p>`, 15000);
         break;
       }
       Player.BCAR.bcarSettings.earWigglingEnable = profile.earWigglingEnable;
@@ -1539,7 +1819,7 @@ function CommandProfile(argsList) {
       } else {
         InventoryRemove(Player,"Wings");
       }
-      ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b><br>${prof_number} has been loaded!</p>`); // was in the loop, needs to be out of it / was i the first if loop your  deleted
+      ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b><br><span style="text-transform:capitalize">${prof_number}</span> has been loaded!</p>`, 15000);
 
       bcarSettingsSave();
       break;
@@ -1572,14 +1852,14 @@ function CommandDeleteProfile(argsList)
                 Player.BCAR.bcarSettings.profile1.wingFlappingStatus = "Disabled";
                 ChatRoomSendLocal(
                     "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                    "Profile1 has been cleared!</p>"
+                    "Profile1 has been cleared!</p>", 15000
                 );
             }
             else {
                 ChatRoomSendLocal(
                     "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
                     "Profile1 not found!\n" +
-                    "Please save Profile1 first.</p>"
+                    "Please save Profile1 first.</p>", 15000
                 );
             }
         }
@@ -1604,14 +1884,14 @@ function CommandDeleteProfile(argsList)
                 Player.BCAR.bcarSettings.profile2.wingFlappingStatus = "Disabled";
                 ChatRoomSendLocal(
                     "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                    "Profile2 has been cleared!</p>"
+                    "Profile2 has been cleared!</p>", 15000
                 );
             }
             else {
                 ChatRoomSendLocal(
                     "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
                     "Profile2 not found!\n" +
-                    "Please save Profile2 first.</p>"
+                    "Please save Profile2 first.</p>", 15000
                 );
             }
         }
@@ -1636,14 +1916,14 @@ function CommandDeleteProfile(argsList)
                 Player.BCAR.bcarSettings.profile3.wingFlappingStatus = "Disabled";
                 ChatRoomSendLocal(
                     "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                    "Profile3 has been cleared!</p>"
+                    "Profile3 has been cleared!</p>", 15000
                 );
             }
             else {
                 ChatRoomSendLocal(
                     "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
                     "Profile3 not found!\n" +
-                    "Please save Profile3 first.</p>"
+                    "Please save Profile3 first.</p>", 15000
                 );
             }
         }
@@ -1672,13 +1952,35 @@ function CommandProfileHelp(argsList)
                 "/bcar load3 - Loads the setup saved in Profile3.\n" +
                 "/bcar profile1 - Shows which setup is saved in Profile1.\n" +
                 "/bcar profile2 - Shows which setup is saved in Profile2.\n" +
-                "/bcar profile3 - Shows which setup is saved in Profile3.</p>"
+                "/bcar profile3 - Shows which setup is saved in Profile3.</p>", 15000
             );
         }
     }
 //End of Profile Commands
 
 //Misc Commands
+function CommandAnimals(argsList) {
+  const cmd = argsList[0].toLocaleLowerCase();
+  switch (cmd) {
+    case 'cat': case 'dog': case 'fox': case 'mouse':
+      Player.BCAR.bcarSettings.animal = cmd
+      ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b><br><span style="text-transform:capitalize">${cmd}</span> reactions are selected!</p>`);
+      bcarSettingsSave();
+  break;
+    case 'animal':
+      ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+      <br><span style="text-transform:capitalize">${cmd}s</span> und so!
+      <br>
+      <br>/bcar cat - Changes the reactions to cat realted ones.
+      <br>/bcar dog - Changes the reactions to dog realted ones.
+      <br>/bcar fox - Changes the reactions to fox realted ones.
+      <br>/bcar mouse - Changes the reactions to mouse realted ones.
+      </p>`.replaceAll('\n', ''), 15000
+      );
+      bcarSettingsSave();
+  }
+}
+
 function CommandArousalToggle(argsList)
     {
         let toggle = argsList[0];
@@ -1689,7 +1991,7 @@ function CommandArousalToggle(argsList)
             Player.BCAR.bcarSettings.arousalStatus = "Enabled";
             ChatRoomSendLocal(
                 "<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Arousal manipulation is now enabled!</p>"
+                "Arousal manipulation is now enabled!</p>", 15000
             );
         }
         else if (toggle === "arousaloff") {
@@ -1697,7 +1999,7 @@ function CommandArousalToggle(argsList)
             Player.BCAR.bcarSettings.arousalStatus = "Disabled";
             ChatRoomSendLocal(
                 "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Arousal manipulation is now disabled!</p>"
+                "Arousal manipulation is now disabled!</p>", 15000
             );
         }
         bcarSettingsSave();
@@ -1717,7 +2019,7 @@ function CommandArousalHelp(argsList)
                 " \n" +
                 "Commands:\n" +
                 "/bcar arousalon - Turns arousal manipulation on.\n" +
-                "/bcar arousaloff - Turns arousal manipulation off.</p>"
+                "/bcar arousaloff - Turns arousal manipulation off.</p>", 15000
             );
         }
     }
@@ -1729,8 +2031,8 @@ function CommandChangelog(argsList)
 
         if (changelog === "changelog") {
             ChatRoomSendLocal(
-                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React + changelog</b>\n" +
-                BCAR_CHANGELOG
+                `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React + changelog</b>
+                <br>${BCAR_CHANGELOG}`.replaceAll('\n', ''), 20000
             );
         }
 	}
@@ -1741,21 +2043,39 @@ function CommandExpressionToggle(argsList)
         let toggleto = argsList.slice(1);
 
         if (toggle === "expressionon") {
+/*            if (FBC_VERSION = {}) {
+                 ChatRoomSendLocal(
+                     "<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
+                     "FBC is not loaded yet.\n" +
+                     "Please load FBC to use BCAR Expressions.</p>", 15000
+                );
+            }
+            else { */
             Player.BCAR.bcarSettings.expressionsEnable = true;
             Player.BCAR.bcarSettings.expressionsStatus = "Enabled";
             ChatRoomSendLocal(
                 "<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "BCE Expressions is now enabled!</p>"
+                "BCE Expressions is now enabled!</p>", 15000
                 );
         }
+//    }
         else if (toggle === "expressionoff") {
+/*            if (FBC_VERSION = {}) {
+                 ChatRoomSendLocal(
+                     "<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
+                     "FBC is not loaded yet.\n" +
+                     "Please load FBC to use BCAR Expressions.</p>", 15000
+                );
+            }
+            else { */
             Player.BCAR.bcarSettings.expressionsEnable = false;
             Player.BCAR.bcarSettings.expressionsStatus = "Disabled";
             ChatRoomSendLocal(
                 "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "BCE Expressions will be disabled!</p>"
+                "BCE Expressions will be disabled!</p>", 15000
             );
-        }
+            }
+//        }
         bcarSettingsSave();
         bcarExpressions();
     }
@@ -1775,7 +2095,7 @@ function CommandExpressionHelp(argsList)
                 " \n" +
                 "Commands:\n" +
                 "/bcar expressionon - Turns expression on.\n" +
-                "/bcar expressionoff - Turns expression off.</p>"
+                "/bcar expressionoff - Turns expression off.</p>", 15000
             );
         }
     }
@@ -1792,7 +2112,7 @@ function CommandGenderToggle(argsList)
             Player.BCAR.bcarSettings.genderDefault.capPossessive = "His";
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "The reactions refer to " + CharacterNickname(Player) + " as ''he'' now!</p>"
+                "The reactions refer to " + CharacterNickname(Player) + " as ''he'' now!</p>", 15000
             );
         }
         else if (toggle === "female") {
@@ -1802,7 +2122,7 @@ function CommandGenderToggle(argsList)
             Player.BCAR.bcarSettings.genderDefault.capPossessive = "Her";
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "The reactions refer to " + CharacterNickname(Player) + " as ''she'' now!</p>"
+                "The reactions refer to " + CharacterNickname(Player) + " as ''she'' now!</p>", 15000
             );
         }
         else if (toggle === "other") {
@@ -1812,7 +2132,7 @@ function CommandGenderToggle(argsList)
             Player.BCAR.bcarSettings.genderDefault.capPossessive = "Their";
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "The reactions refer to " + CharacterNickname(Player) + " as ''they'' now!</p>"
+                "The reactions refer to " + CharacterNickname(Player) + " as ''they'' now!</p>", 15000
             );
         }
         bcarSettingsSave();
@@ -1820,27 +2140,26 @@ function CommandGenderToggle(argsList)
 
 function CommandOpenHelp(argsList)
     {
-        let openHelp = argsList[0];
-        let openHelpto = argsList.slice(1);
-
-        if (!openHelp || openHelp === "help") {
+        const cmd = argsList[0].toLocaleLowerCase();
+  switch (cmd) {
+    case 'help': case '':
             ChatRoomSendLocal(
-                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Commands overview and info:\n" +
-                "/bcar arousalhelp - Opens arousal instructions and commands page.\n" +
-                "/bcar expressionhelp - Opens expression instructions and commands page.\n" +
-                "/bcar changelog - Shows the BCAR+ changelog.\n" +
-                "/bcar help - Opens this help window.\n" +
-                "/bcar status - Opens the status window.\n" +
-                "/bcar earhelp - Opens ear instructions and commands page.\n" +
-                "/bcar tailhelp - Opens tail instructions and commands page.\n" +
-                "/bcar winghelp - Opens wing instructions and commands page.\n" +
-                "/bcar profilehelp - Opens profile instructions and commands page.\n" +
-                "/bcar male - Lets the reactions refer to " + CharacterNickname(Player) + " as ''he''.\n" +
-                "/bcar female - Lets the reactions refer to " + CharacterNickname(Player) + " as ''she''.\n" +
-                "/bcar other - Lets the reactions refer to " + CharacterNickname(Player) + " as ''they''.\n" +
-                "/bcar reset - Resets the ears, tails and wings to the default settings.\n" +
-                "Visit the <a href='https://github.com/DrBranestawm/BCAR/wiki' target='_blank'>BCAR+ Wiki</a> for more info.</p>"
+                `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>Commands overview and info:
+                <br>/bcar arousalhelp - Opens arousal instructions and commands page.
+                <br>/bcar expressionhelp - Opens expression instructions and commands page.
+                <br>/bcar changelog - Shows the BCAR+ changelog.
+                <br>/bcar help - Opens this help window.
+                <br>/bcar status - Opens the status window.
+                <br>/bcar earhelp - Opens ear instructions and commands page.
+                <br>/bcar tailhelp - Opens tail instructions and commands page.
+                <br>/bcar winghelp - Opens wing instructions and commands page.
+                <br>/bcar profilehelp - Opens profile instructions and commands page.
+                <br>/bcar male - Lets the reactions refer to ${CharacterNickname(Player)} as ''he''.
+                <br>/bcar female - Lets the reactions refer to ${CharacterNickname(Player)} as ''she''.
+                <br>/bcar other - Lets the reactions refer to ${CharacterNickname(Player)} as ''they''.
+                <br>/bcar reset - Resets the ears, tails and wings to the default settings.
+                <br>Visit the <a href='https://github.com/DrBranestawm/BCAR/wiki' target='_blank'>BCAR+ Wiki</a> for more info.</p>`.replaceAll('\n', ''), 30000
             );
         }
     }
@@ -1853,7 +2172,7 @@ function CommandResetSettings(argsList)
         if (remove === "reset") {
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Settings have been reseted!</p>"
+                "Settings have been reseted!</p>", 15000
             );
             bcarSettingsRemove();
             bcarSettingsLoad();
@@ -1871,23 +2190,24 @@ function CommandStatus(argsList)
                                <br>Current status:
                                <br>Ear Animation: ${s?.earWigglingStatus}
                                <br>Primary Ears: ${s?.earsDefault?.earsDescription1}
-                               <br>Secondary Ears: ${ Player.BCAR.bcarSettings.earsDefault.earsDescription2}
-                               <br>Ear Wiggles: ${Player.BCAR.bcarSettings.earsDefault.earsCount}
-                               <br>Ear Wiggle Delay: ${Player.BCAR.bcarSettings.earsDefault.earsDelay}
-	                           <br>Tail Animation: ${Player.BCAR.bcarSettings.tailWaggingStatus}
-	                           <br>Primary Tail: ${AssetGet("Female3DCG","TailStraps",s?.tailsDefault?.tails1)?.Description || 'None'}
-	                           <br>Secondary Tail: ${AssetGet("Female3DCG","TailStraps",s?.tailsDefault?.tails2)?.Description || 'None'}
-	                           <br>Tail Wags: ${Player.BCAR.bcarSettings.tailsDefault.tailsCount}
-	                           <br>Tail Wag Delay: ${Player.BCAR.bcarSettings.tailsDefault.tailsDelay}
-	                           <br>Wing Animation: ${Player.BCAR.bcarSettings.wingFlappingStatus}
-	                           <br>Primary Wings: ${Player.BCAR.bcarSettings.wingsDefault.wingsDescription1}
-	                           <br>Secondary Wings: ${Player.BCAR.bcarSettings.wingsDefault.wingsDescription2}
-	                           <br>Wing Flaps: ${Player.BCAR.bcarSettings.wingsDefault.wingsCount}
-	                           <br>Wing Flap Delay: ${Player.BCAR.bcarSettings.wingsDefault.wingsDelay}
-	                           <br>Gender: ${Player.BCAR.bcarSettings.genderDefault.gender}
-	                           <br>Arousal Manipulation: ${Player.BCAR.bcarSettings.arousalStatus}
-	                           <br>BCAR+ Expressions: ${Player.BCAR.bcarSettings.expressionsStatus}
-                               </p>`.replaceAll('\n', '')
+                               <br>Secondary Ears: ${s?.earsDefault?.earsDescription2}
+                               <br>Ear Wiggles: ${s?.earsDefault?.earsCount}
+                               <br>Ear Wiggle Delay: ${s?.earsDefault?.earsDelay}
+                               <br>Tail Animation: ${s?.tailWaggingStatus}
+                               <br>Primary Tail: ${AssetGet("Female3DCG","TailStraps",s?.tailsDefault?.tails1)?.Description || 'None'}
+                               <br>Secondary Tail: ${AssetGet("Female3DCG","TailStraps",s?.tailsDefault?.tails2)?.Description || 'None'}
+                               <br>Tail Wags: ${s?.tailsDefault?.tailsCount}
+                               <br>Tail Wag Delay: ${s?.tailsDefault?.tailsDelay}
+                               <br>Wing Animation: ${s?.wingFlappingStatus}
+                               <br>Primary Wings: ${s?.wingsDefault?.wingsDescription1}
+                               <br>Secondary Wings: ${s?.wingsDefault?.wingsDescription2}
+                               <br>Wing Flaps: ${s?.wingsDefault?.wingsCount}
+                               <br>Wing Flap Delay: ${s?.wingsDefault?.wingsDelay}
+                               <br>Gender: ${s?.genderDefault?.gender}
+                               <br>Arousal Manipulation: ${s?.arousalStatus}
+                               <br>BCAR+ Expressions: ${s?.expressionsStatus}
+                               <br>Animal: <span style="text-transform:capitalize">${s?.animal}</span>
+                               </p>`.replaceAll('\n', ''), 30000
                              );
         }
     }
@@ -1962,6 +2282,7 @@ function CommandStatus(argsList)
                 CommandProfile(args.split(" "));
                 CommandProfileHelp(args.split(" "));
                 //Misc Commands
+                CommandAnimals(args.split(" "));
                 CommandArousalToggle(args.split(" "));
                 CommandArousalHelp(args.split(" "));
                 CommandChangelog(args.split(" "));
@@ -1976,44 +2297,23 @@ function CommandStatus(argsList)
 
     ])
 
-function CommandCum(argsList)
+CommandCombine([
     {
-        let cum = argsList[0];
-        let cumto = argsList.slice(1);
+        Tag: 'cum',
+        Description: ": cum instantly",
 
-        if (!cum) {
+        Action: () => {
             ActivityOrgasmRuined = false;
             ActivityOrgasmStart(Player);
         }
-    }
-    CommandCombine([
-        {
-            Tag: 'cum',
-            Description: "cum instantly",
-            AutoComplete: (words) => {
+    }])
 
-                 if (words.length < 1) {
-                    window.ChatRoomSendLocal("<style type='text/css'> .bcar_hint {display: flex; flex-flow: column wrap; overflow: auto; height: 5em; background: #000452; font-size: 1em; } .bcar_hint div {	margin:0 0.5ex; }</style><div class='bcar_hint'><div><b>" + subcommands.join("</b></div><div><b>") + "</b></div></div>", 20000)
-                }
-                 if (words.length > 1) { /*No output, because user has entered multiple words, and we can only complete the last one*/ }
-                 if (words.length === 1) {
-                    window.ElementValue("InputChat", "/cum" + matches[0])
-
-                }
-
-             },
-            Action: args => {
-                CommandCum(args.split(" "));
-            }
-        }
-    ])
-
-function CommandLeaveChatRoom(argsList)
+CommandCombine([
     {
-        let leave = argsList[0];
-        let leaveto = argsList.slice(1);
+        Tag: 'leave',
+        Description: ": leave the room",
 
-        if (!leave) {
+        Action: args => {
             if (CurrentScreen == "ChatRoom") {
                 ElementRemove("FriendList");
                 ElementRemove("InputChat");
@@ -2025,38 +2325,17 @@ function CommandLeaveChatRoom(argsList)
             if (CurrentScreen == "Cell") {
                 PrisonLeaveCell();};
         }
-    }
-    CommandCombine([
-        {
-            Tag: 'leave',
-            Description: "leave the room",
-            AutoComplete: (words) => {
+    }])
 
-                 if (words.length < 1) {
-                    window.ChatRoomSendLocal("<style type='text/css'> .bcar_hint {display: flex; flex-flow: column wrap; overflow: auto; height: 5em; background: #000452; font-size: 1em; } .bcar_hint div {	margin:0 0.5ex; }</style><div class='bcar_hint'><div><b>" + subcommands.join("</b></div><div><b>") + "</b></div></div>", 20000)
-                }
-                 if (words.length > 1) { /*No output, because user has entered multiple words, and we can only complete the last one*/ }
-                 if (words.length === 1) {
-                    window.ElementValue("InputChat", "/leave" + matches[0])
-
-                }
-
-             },
-            Action: args => {
-                CommandLeaveChatRoom(args.split(" "));
-            }
-        }
-    ])
-
-function CommandSafeword(argsList)
+CommandCombine([
     {
-        let safewordspecific = argsList[0];
-        let safewordspecificto = argsList.slice(1);
+        Tag: 'safewordspecific',
+        Description: ": frees you from a specific item",
 
-        if (!safewordspecific) {
+        Action: args => {
             ChatRoomSendLocal(
-	        "<p style='background-color:#000452;color:#EEEEEE'>Bondage Club Auto React +: You have 5 seconds to click  on target, select area. If successful, will be returned. If not, retry.</p>"
-	    );
+                "<p style='background-color:#000452;color:#EEEEEE'>Bondage Club Auto React +: You have 5 seconds to click  on target, select area. If successful, will be returned. If not, retry.</p>", 15000
+            );
             setTimeout(function() {
                 if (CurrentCharacter !== Player) {
                     ServerSend("ChatRoomChat", {
@@ -2071,62 +2350,18 @@ function CommandSafeword(argsList)
                 DialogLeave();
             }, 5000);
         }
-    }
-    CommandCombine([
-        {
-            Tag: 'safewordspecific',
-            Description: "frees you from a specific item",
-            AutoComplete: (words) => {
+    }])
 
-                 if (words.length < 1) {
-                    window.ChatRoomSendLocal("<style type='text/css'> .bcar_hint {display: flex; flex-flow: column wrap; overflow: auto; height: 5em; background: #000452; font-size: 1em; } .bcar_hint div {	margin:0 0.5ex; }</style><div class='bcar_hint'><div><b>" + subcommands.join("</b></div><div><b>") + "</b></div></div>", 20000)
-                }
-                 if (words.length > 1) { /*No output, because user has entered multiple words, and we can only complete the last one*/ }
-                 if (words.length === 1) {
-                    window.ElementValue("InputChat", "/safewordspecific" + matches[0])
-
-                }
-
-             },
-            Action: args => {
-                CommandSafeword(args.split(" "));
-            }
-        }
-    ])
-
-
-function CommandWardrobe(argsList)
+CommandCombine([
     {
-        let wardrobe = argsList[0];
-        let wardrobeto = argsList.slice(1);
+        Tag: 'wardrobe',
+        Description: ": opens your wardrobe",
 
-        if (!wardrobe) {
+        Action: args => {
             ChatRoomClickCharacter(Player);
             DialogChangeClothes();
         }
-    }
-    CommandCombine([
-        {
-            Tag: 'wardrobe',
-            Description: "opens your wardrobe",
-            AutoComplete: (words) => {
-
-                 if (words.length < 1) {
-                    window.ChatRoomSendLocal("<style type='text/css'> .bcar_hint {display: flex; flex-flow: column wrap; overflow: auto; height: 5em; background: #000452; font-size: 1em; } .bcar_hint div {	margin:0 0.5ex; }</style><div class='bcar_hint'><div><b>" + subcommands.join("</b></div><div><b>") + "</b></div></div>", 20000)
-                }
-                 if (words.length > 1) { /*No output, because user has entered multiple words, and we can only complete the last one*/ }
-                 if (words.length === 1) {
-                    window.ElementValue("InputChat", "/wardrobe" + matches[0])
-
-                }
-
-             },
-            Action: args => {
-                CommandWardrobe(args.split(" "));
-            }
-        }
-    ])
-
+    }])
 
 //BCE Expressions
 	if (typeof ChatRoomCharacter === "undefined") {
@@ -2135,6 +2370,38 @@ function CommandWardrobe(argsList)
 		);
 		return;
 	}
+
+// Create settings page
+
+    async function settingsPage() {
+		await waitFor(() => !!PreferenceSubscreenList);
+
+		const bcarSettingsCategories = [
+			"BCAREars",
+			"BCARTails",
+			"BCARWings",
+			"BCARMisc"
+		];
+		const bcarSettingCategoryLabels = {
+			BCAREars: "Ears",
+			BCARTails: "Tails",
+			BCARWings: "Wings",
+			BCARMisc: "Misc"
+		};
+		const MENU_ELEMENT_X_OFFSET = 1050;
+
+		let menuElements = {};
+		for (category of bcarSettingsCategories){
+			menuElements[category] = [];
+		}
+
+		let settingsHint = "";
+		let currentHint = 0;
+
+		// keep same position in menu
+		PreferenceSubscreenList.splice(13, 0 ,"BCARSettings");
+}
+
 
 
 	await waitFor(() => !!w.Player?.Name && !!w.bce_initializeDefaultExpression && !!w.bce_ActivityTriggers);
