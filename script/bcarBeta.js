@@ -1,5 +1,5 @@
 const BCAR_Version = '0.6.1';
-const BCAR_Settings_Version = 6;
+const BCAR_Settings_Version = 7;
 
 function is_newer(current, candidate) {
 	const current_levels = current.split('.'), candidate_levels = candidate.split('.');
