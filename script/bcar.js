@@ -50,7 +50,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
           "<br>     - Dog" +
           "<br>     - Fox" +
           "<br>     - Mouse" +
-          "<br>- Added induviduel Animal reactions" +
+          "<br>- Added individual Animal reactions" +
           "<br>- Orgasms can stop the Player from leaving" +
           "<br>- Added some commands" +
           "<br>     - /cum" +
