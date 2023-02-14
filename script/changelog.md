@@ -1,5 +1,24 @@
 # BCAR Changelog
 
+## [v0.6.1](https://github.com/DrBranestawm/BCAR/releases/edit/v0.6.1)
+### What's Changed
+* Added Animal Profiles
+    - Cat
+    - Dog
+    - Fox
+    - Mouse
+* Added individual Animal reactions
+* Orgasms can stop the Player from leaving
+* Added some commands
+    - /cum
+    - /leave
+    - /safewordspecific
+    - /wardrobe
+* Profiles3 does work now
+* Code clean up
+
+**Full Changelog**: [0.6.0...0.6.1](https://github.com/DrBranestawm/BCAR/compare/0.6.0...0.6.1)
+
 ## [v0.6.0](https://github.com/DrBranestawm/BCAR/releases/edit/v0.6.0)
 ### What's Changed
 * BCAR is now known as BCAR+
@@ -82,10 +101,10 @@
 * Dev by @DrBranestawm in https://github.com/DrBranestawm/BCAR/pull/8
 * Save settings for ear wiggle by @crimsontropy in https://github.com/DrBranestawm/BCAR/pull/9
 
- - Save ears after relog @crimsontropy 
- - New command for saving @DrBranestawm
- - Readme update with information about the script @DrBranestawm
- - Rebranding of the script @DrBranestawm
+    - Save ears after relog @crimsontropy 
+    - New command for saving @DrBranestawm
+    - Readme update with information about the script @DrBranestawm
+    - Rebranding of the script @DrBranestawm
 
 ### New Contributors
 * @crimsontropy made their first contribution in https://github.com/DrBranestawm/BCAR/pull/9
