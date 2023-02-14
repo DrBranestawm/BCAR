@@ -1,4 +1,4 @@
-const BCAR_Version = '0.6.1-beta2';
+const BCAR_Version = '0.6.1';
 const BCAR_Settings_Version = 6;
 
 function is_newer(current, candidate) {
@@ -41,11 +41,16 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
   await waitFor(() => ServerIsConnected && ServerSocket);
   //end of do not touch
   const bcarSettingsKey = () => `bcarSettings.${Player?.AccountName}`;
-    const subcommands = ["animal", "arousalhelp", "arousaloff", "arousalon", "changelog", "cat", "dog", "ear1", "ear2", "eardelete", "eardelay", "earhelp", "earoff", "earon", "ear1", "ear2", "earwiggles", "expressionhelp", "expressionon", "expressionoff", "fox", "female", "help", "load1", "load2", "load3", "male", "mouse", "other", "profile1", "profile2", "profile3", "profile1delete", "profile2delete", "profile3delete", "profilehelp", "save1", "save2", "save3", "status", "tail1", "tail2", "tailhelp", "taildelay", "taildelete", "tailoff", "tailon", "tailwags", "wing1", "wing2", "wingdelay", "wingdelete", "wingflaps", "winghelp", "wingoff", "wingon"];
+    const subcommands = ["animal", "arousalhelp", "arousaloff", "arousalon", "changelog", "cat", "delete1", "delete2", "delete3", "dog", "ear1", "ear2", "eardelete", "eardelay", "earhelp", "earoff", "earon", "ear1", "ear2", "earwiggles", "expressionhelp", "expressionon", "expressionoff", "fox", "female", "help", "load1", "load2", "load3", "male", "mouse", "other", "profile1", "profile2", "profile3", "profilehelp", "save1", "save2", "save3", "status", "tail1", "tail2", "tailhelp", "taildelay", "taildelete", "tailoff", "tailon", "tailwags", "wing1", "wing2", "wingdelay", "wingdelete", "wingflaps", "winghelp", "wingoff", "wingon"];
     const w = window;
     const BCAR_CHANGELOG =
           "BCAR+ v" + BCAR_Version +
           "<br>- Added Animal Profiles" +
+          "<br>     - Cat" +
+          "<br>     - Dog" +
+          "<br>     - Fox" +
+          "<br>     - Mouse" +
+          "<br>- Added induviduel Animal reactions" +
           "<br>- Orgasms can stop the Player from leaving" +
           "<br>- Added some commands" +
           "<br>     - /cum" +
@@ -55,16 +60,11 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
           "<br>- Profiles3 does work now" +
           "<br>- Code clean up" +
           "<br>" +
-          "<br>BCAR v0.6.0:" +
+          "<br>BCAR+ v0.6.0:" +
           "<br>- BCAR is now known as BCAR+" +
           "<br>- Included BCE Expressions into BCAR+" +
           "<br>- Added an auto completion for subcommands" +
           "<br>- Settings saves on server now" +
-          "<br>- Added Commands eardelete/taildelete/wingdelete" +
-          "<br>- BCAR+ checks automatically for updates and notifies the user." +
-          "<br>- Genders can now be changed without relog" +
-          "<br>- Added a third profile slot" +
-		  "<br>- Users can now set the number and the speed of ear wiggles, tail wags and wing flaps"
 
   await bcarSettingsLoad();
             if(Player.BCAR != null){
@@ -1823,139 +1823,58 @@ function CommandProfile(argsList) {
 
       bcarSettingsSave();
       break;
+    case 'delete1': case 'delete2': case 'delete3':
+      if (!Player.BCAR.bcarSettings[`${prof_number}Saved`]) {
+        ChatRoomSendLocal(
+          "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
+          `Profile${number} has been cleared!</p>`, 15000
+        );
+        return;
+      }
+      profile.earsDefault = {earsDescription1: "None", earsDescription2: "None"};
+      profile.earWigglingEnable = false;
+      profile.earWigglingStatus = "Disabled";
+
+      profile.tailsDefault = {tailsDescription1: "None", tailsDescription2: "None"};
+      profile.tailWaggingEnable = false;
+      profile.tailWaggingStatus = "Disabled";
+
+      profile.wingsDefault = {wingsDescription1: "None", wingsDescription2: "None"};
+      profile.wingFlappingEnable = false;
+      profile.wingFlappingStatus = "Disabled";
+  		// this can be made even shorter like this:
+  		// ['ear', 'tail', 'wing'].forEach(pref => {
+      //   profile[`${pref}sDefault`] = {[`${pref}sDescription1`]: "None", [`${pref}sDescription2`]: "None"};
+      //   profile[`${pref}FlappingEnable`] = false;
+      //   profile[`${pref}FlappingStatus`]= "Disabled";
+			// })
+      ChatRoomSendLocal(
+          "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
+          `Profile${number} has been cleared!</p>`, 15000
+      );
+		  Player.BCAR.bcarSettings[`${prof_number}Saved`] = false
+      bcarSettingsSave();
+      break;
+      case 'profile' : case 'profilehelp' :
+      ChatRoomSendLocal(
+          `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+          <br>"Profiles instructions:
+          <br>"With the Profiles you can save presets for your ears, tail and wings.
+          <br>
+          <br>Commands:
+          <br>/bcar save1 - Saves current setup in Profile1.
+          <br>/bcar save2 - Saves current setup in Profile2.
+          <br>/bcar save3 - Saves current setup in Profile3.
+          <br>/bcar load1 - Loads the setup saved in Profile1.
+          <br>/bcar load2 - Loads the setup saved in Profile2.
+          <br>/bcar load3 - Loads the setup saved in Profile3.
+          <br>/bcar profile1 - Shows which setup is saved in Profile1.
+          <br>/bcar profile2 - Shows which setup is saved in Profile2.
+          <br>/bcar profile3 - Shows which setup is saved in Profile3.
+          </p>`.replaceAll('\n', ''), 15000
+                       );
   }
 }
-
-function CommandDeleteProfile(argsList)
-    {
-        let loading = argsList[0];
-        let loadingto = argsList.slice(1);
-
-        if (loading === "profile1delete") {
-            if(Player.BCAR.bcarSettings.profile1Saved){
-                Player.BCAR.bcarSettings.profile1.earsDefault = {};
-                Player.BCAR.bcarSettings.profile1.earsDescription1 = "None";
-                Player.BCAR.bcarSettings.profile1.earsDescription2 = "None";
-                Player.BCAR.bcarSettings.profile1.earWigglingEnable = false;
-                Player.BCAR.bcarSettings.profile1.earWigglingStatus = "Disabled";
-
-                Player.BCAR.bcarSettings.profile1.tailsDefault = {};
-                Player.BCAR.bcarSettings.profile1.tailsDefault.tailsDescription1 = "None";
-                Player.BCAR.bcarSettings.profile1.tailsDefault.tailsDescription2 = "None";
-                Player.BCAR.bcarSettings.profile1.tailWaggingEnable = false;
-                Player.BCAR.bcarSettings.profile1.tailWaggingStatus = "Disabled";
-
-                Player.BCAR.bcarSettings.profile1.wingsDefault = {};
-                Player.BCAR.bcarSettings.profile1.wingsDescription1 = "None";
-                Player.BCAR.bcarSettings.profile1.wingsDescription2 = "None";
-                Player.BCAR.bcarSettings.profile1.wingFlappingEnable = false;
-                Player.BCAR.bcarSettings.profile1.wingFlappingStatus = "Disabled";
-                ChatRoomSendLocal(
-                    "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                    "Profile1 has been cleared!</p>", 15000
-                );
-            }
-            else {
-                ChatRoomSendLocal(
-                    "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                    "Profile1 not found!\n" +
-                    "Please save Profile1 first.</p>", 15000
-                );
-            }
-        }
-        else if (loading === "profile2delete") {
-            if(Player.BCAR.bcarSettings.profile2Saved){
-                Player.BCAR.bcarSettings.profile2.earsDefault = {};
-                Player.BCAR.bcarSettings.profile2.earsDescription1 = "None";
-                Player.BCAR.bcarSettings.profile2.earsDescription2 = "None";
-                Player.BCAR.bcarSettings.profile2.earWigglingEnable = false;
-                Player.BCAR.bcarSettings.profile2.earWigglingStatus = "Disabled";
-
-                Player.BCAR.bcarSettings.profile2.tailsDefault = {};
-                Player.BCAR.bcarSettings.profile2.tailsDefault.tailsDescription1 = "None";
-                Player.BCAR.bcarSettings.profile2.tailsDefault.tailsDescription2 = "None";
-                Player.BCAR.bcarSettings.profile2.tailWaggingEnable = false;
-                Player.BCAR.bcarSettings.profile2.tailWaggingStatus = "Disabled";
-
-                Player.BCAR.bcarSettings.profile2.wingsDefault = {};
-                Player.BCAR.bcarSettings.profile2.wingsDescription1 = "None";
-                Player.BCAR.bcarSettings.profile2.wingsDescription2 = "None";
-                Player.BCAR.bcarSettings.profile2.wingFlappingEnable = false;
-                Player.BCAR.bcarSettings.profile2.wingFlappingStatus = "Disabled";
-                ChatRoomSendLocal(
-                    "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                    "Profile2 has been cleared!</p>", 15000
-                );
-            }
-            else {
-                ChatRoomSendLocal(
-                    "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                    "Profile2 not found!\n" +
-                    "Please save Profile2 first.</p>", 15000
-                );
-            }
-        }
-        else if (loading === "profile3delete") {
-            if(Player.BCAR.bcarSettings.profile3Saved){
-                Player.BCAR.bcarSettings.profile3.earsDefault = {};
-                Player.BCAR.bcarSettings.profile3.earsDescription1 = "None";
-                Player.BCAR.bcarSettings.profile3.earsDescription2 = "None";
-                Player.BCAR.bcarSettings.profile3.earWigglingEnable = false;
-                Player.BCAR.bcarSettings.profile3.earWigglingStatus = "Disabled";
-
-                Player.BCAR.bcarSettings.profile3.tailsDefault = {};
-                Player.BCAR.bcarSettings.profile3.tailsDefault.tailsDescription1 = "None";
-                Player.BCAR.bcarSettings.profile3.tailsDefault.tailsDescription2 = "None";
-                Player.BCAR.bcarSettings.profile3.tailWaggingEnable = false;
-                Player.BCAR.bcarSettings.profile3.tailWaggingStatus = "Disabled";
-
-                Player.BCAR.bcarSettings.profile3.wingsDefault = {};
-                Player.BCAR.bcarSettings.profile3.wingsDescription1 = "None";
-                Player.BCAR.bcarSettings.profile3.wingsDescription2 = "None";
-                Player.BCAR.bcarSettings.profile3.wingFlappingEnable = false;
-                Player.BCAR.bcarSettings.profile3.wingFlappingStatus = "Disabled";
-                ChatRoomSendLocal(
-                    "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                    "Profile3 has been cleared!</p>", 15000
-                );
-            }
-            else {
-                ChatRoomSendLocal(
-                    "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                    "Profile3 not found!\n" +
-                    "Please save Profile3 first.</p>", 15000
-                );
-            }
-        }
-        bcarSettingsSave();
-    }
-
-
-
-function CommandProfileHelp(argsList)
-    {
-        let openHelp = argsList[0];
-        let openHelpto = argsList.slice(1);
-
-        if (openHelp === "profile" || openHelp === "profilehelp") {
-            ChatRoomSendLocal(
-                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Profiles instructions:\n" +
-                "With the Profiles you can save presets for your ears, tail and wings. \n" +
-                " \n" +
-                "Commands:\n" +
-                "/bcar save1 - Saves current setup in Profile1.\n" +
-                "/bcar save2 - Saves current setup in Profile2.\n" +
-                "/bcar save3 - Saves current setup in Profile3.\n" +
-                "/bcar load1 - Loads the setup saved in Profile1.\n" +
-                "/bcar load2 - Loads the setup saved in Profile2.\n" +
-                "/bcar load3 - Loads the setup saved in Profile3.\n" +
-                "/bcar profile1 - Shows which setup is saved in Profile1.\n" +
-                "/bcar profile2 - Shows which setup is saved in Profile2.\n" +
-                "/bcar profile3 - Shows which setup is saved in Profile3.</p>", 15000
-            );
-        }
-    }
 //End of Profile Commands
 
 //Misc Commands
@@ -2280,7 +2199,6 @@ function CommandStatus(argsList)
                 CommandWingHelp(args.split(" "));
                 //Profile Commands
                 CommandProfile(args.split(" "));
-                CommandProfileHelp(args.split(" "));
                 //Misc Commands
                 CommandAnimals(args.split(" "));
                 CommandArousalToggle(args.split(" "));
