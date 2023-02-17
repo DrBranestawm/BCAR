@@ -41,7 +41,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
   await waitFor(() => ServerIsConnected && ServerSocket);
   //end of do not touch
   const bcarSettingsKey = () => `bcarSettings.${Player?.AccountName}`;
-    const subcommands = ["animal", "arousalhelp", "arousaloff", "arousalon", "changelog", "cat", "delete1", "delete2", "delete3", "dog", "ear1", "ear2", "eardelete", "eardelay", "earhelp", "earoff", "earon", "ear1", "ear2", "earwiggles", "expressionhelp", "expressionon", "expressionoff", "fox", "female", "help", "load1", "load2", "load3", "male", "mouse", "other", "profile1", "profile2", "profile3", "profilehelp", "save1", "save2", "save3", "status", "tail1", "tail2", "tailhelp", "taildelay", "taildelete", "tailoff", "tailon", "tailwags", "wing1", "wing2", "wingdelay", "wingdelete", "wingflaps", "winghelp", "wingoff", "wingon"];
+    const subcommands = ["animal", "animalhelp", "arousalhelp", "arousaloff", "arousalon", "changelog", "cat", "delete1", "delete2", "delete3", "dog", "ear1", "ear2", "eardelete", "eardelay", "earhelp", "earoff", "earon", "ear1", "ear2", "earwiggles", "expressionhelp", "expressionon", "expressionoff", "fox", "female", "help", "load1", "load2", "load3", "male", "misc", "mouse", "other", "profile1", "profile2", "profile3", "profilehelp", "save1", "save2", "save3", "status", "tail1", "tail2", "tailhelp", "taildelay", "taildelete", "tailoff", "tailon", "tailwags", "wing1", "wing2", "wingdelay", "wingdelete", "wingflaps", "winghelp", "wingoff", "wingon"];
     const w = window;
     const BCAR_CHANGELOG =
           "BCAR+ v" + BCAR_Version +
@@ -50,7 +50,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
           "<br>     - Dog" +
           "<br>     - Fox" +
           "<br>     - Mouse" +
-          "<br>- Added individual Animal reactions" +
+          "<br>- Added induviduel Animal reactions" +
           "<br>- Orgasms can stop the Player from leaving" +
           "<br>- Added some commands" +
           "<br>     - /cum" +
@@ -67,6 +67,8 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
           "<br>- Settings saves on server now" +
 
   await bcarSettingsLoad();
+
+
             if(Player.BCAR != null){
         console.log("BCAR+ loaded");
 //            BCAR_Greeting();
@@ -1553,7 +1555,7 @@ function CommandTailDelete(argsList)
             Player.BCAR.bcarSettings.tailWaggingEnable = false;
             Player.BCAR.bcarSettings.tailWaggingStatus = "Disabled";
             Player.BCAR.bcarSettings.tailsDefault.tailsCount = 6;
-            layer.BCAR.bcarSettings.tailsDefault.tailsDelay = 800;
+            Player.BCAR.bcarSettings.tailsDefault.tailsDelay = 800;
             ChatRoomSendLocal(
                 "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
                 "Tail has been removed and tail wagging is now disabled!</p>", 15000
@@ -1886,14 +1888,16 @@ function CommandAnimals(argsList) {
       ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b><br><span style="text-transform:capitalize">${cmd}</span> reactions are selected!</p>`);
       bcarSettingsSave();
   break;
-    case 'animal':
+      case 'animal': case 'animalhelp' :
       ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
-      <br><span style="text-transform:capitalize">${cmd}s</span> und so!
+      <br>It doesn't matter if you are a cat, a dog, a fox or a mouse. With the animal commands you can change your reactions and sounds according to the animal you are.
+      <br>(Animal sounds are disbaled until for this update.)
       <br>
-      <br>/bcar cat - Changes the reactions to cat realted ones.
-      <br>/bcar dog - Changes the reactions to dog realted ones.
-      <br>/bcar fox - Changes the reactions to fox realted ones.
-      <br>/bcar mouse - Changes the reactions to mouse realted ones.
+      <br>/bcar animalhelp - Opens this help menu.
+      <br>/bcar cat - Changes the reactions and sounds to cat realted ones.
+      <br>/bcar dog - Changes the reactions and sounds to dog realted ones.
+      <br>/bcar fox - Changes the reactions and sounds to fox realted ones.
+      <br>/bcar mouse - Changes the reactions and sounds to mouse realted ones.
       </p>`.replaceAll('\n', ''), 15000
       );
       bcarSettingsSave();
@@ -2065,6 +2069,7 @@ function CommandOpenHelp(argsList)
             ChatRoomSendLocal(
                 `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
                 <br>Commands overview and info:
+                <br>/bcar animalhelp - Opens animal instructions and commands page.
                 <br>/bcar arousalhelp - Opens arousal instructions and commands page.
                 <br>/bcar expressionhelp - Opens expression instructions and commands page.
                 <br>/bcar changelog - Shows the BCAR+ changelog.
@@ -2073,12 +2078,34 @@ function CommandOpenHelp(argsList)
                 <br>/bcar earhelp - Opens ear instructions and commands page.
                 <br>/bcar tailhelp - Opens tail instructions and commands page.
                 <br>/bcar winghelp - Opens wing instructions and commands page.
+                <br>/bcar misc - Opens the misc instructions and commands page.
                 <br>/bcar profilehelp - Opens profile instructions and commands page.
                 <br>/bcar male - Lets the reactions refer to ${CharacterNickname(Player)} as ''he''.
                 <br>/bcar female - Lets the reactions refer to ${CharacterNickname(Player)} as ''she''.
                 <br>/bcar other - Lets the reactions refer to ${CharacterNickname(Player)} as ''they''.
                 <br>/bcar reset - Resets the ears, tails and wings to the default settings.
-                <br>Visit the <a href='https://github.com/DrBranestawm/BCAR/wiki' target='_blank'>BCAR+ Wiki</a> for more info.</p>`.replaceAll('\n', ''), 30000
+                <br>Visit the <a href='https://github.com/DrBranestawm/BCAR/wiki' target='_blank'>BCAR+ Wiki</a> for more info.
+                </p>`.replaceAll('\n', ''), 30000
+            );
+        }
+    }
+
+function CommandMisc(argsList)
+    {
+    const cmd = argsList[0].toLocaleLowerCase();
+  switch (cmd) {
+    case 'misc':
+            ChatRoomSendLocal(
+                `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>Commands overview and info:
+                <br>!ATTENTION! These commands can be considered as cheat.
+                <br>The commands ignores any restriction by the game and should only used for RP or insurance to get away from trap rooms or trolls.
+                <br>
+                <br>/cum - Lets the player cum instantly.
+                <br>/leave - Lets the player leave the room immediately.
+                <br>/safewordspecific - Lets the player remove a certain restraint.
+                <br>/wardrobe - Opens the wardrobe of the player.
+                .</p>`.replaceAll('\n', ''), 30000
             );
         }
     }
@@ -2207,6 +2234,7 @@ function CommandStatus(argsList)
                 CommandExpressionToggle(args.split(" "));
                 CommandExpressionHelp(args.split(" "));
                 CommandGenderToggle(args.split(" "));
+                CommandMisc(args.split(" "));
                 CommandOpenHelp(args.split(" "));
                 CommandResetSettings(args.split(" "));
                 CommandStatus(args.split(" "));
@@ -2288,38 +2316,6 @@ CommandCombine([
 		);
 		return;
 	}
-
-// Create settings page
-
-    async function settingsPage() {
-		await waitFor(() => !!PreferenceSubscreenList);
-
-		const bcarSettingsCategories = [
-			"BCAREars",
-			"BCARTails",
-			"BCARWings",
-			"BCARMisc"
-		];
-		const bcarSettingCategoryLabels = {
-			BCAREars: "Ears",
-			BCARTails: "Tails",
-			BCARWings: "Wings",
-			BCARMisc: "Misc"
-		};
-		const MENU_ELEMENT_X_OFFSET = 1050;
-
-		let menuElements = {};
-		for (category of bcarSettingsCategories){
-			menuElements[category] = [];
-		}
-
-		let settingsHint = "";
-		let currentHint = 0;
-
-		// keep same position in menu
-		PreferenceSubscreenList.splice(13, 0 ,"BCARSettings");
-}
-
 
 
 	await waitFor(() => !!w.Player?.Name && !!w.bce_initializeDefaultExpression && !!w.bce_ActivityTriggers);
