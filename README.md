@@ -41,6 +41,8 @@ as a bookmark on your devices.
  - Julia ([@agicitag](https://github.com/agicitag/))
     - Providing general help
     - Permission to use their save and load settings feature
+ - Kira
+    - Creating different animal reactions
  - Mute ([@Mute](https://code.fleshless.org/mute/MBCHC/))
     - Giving coding Lessons
     - Help to clean up a lot of code
