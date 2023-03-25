@@ -1,5 +1,5 @@
-const BCAR_Version = '0.6.1';
-const BCAR_Settings_Version = 7;
+const BCAR_Version = '0.6.2';
+const BCAR_Settings_Version = 8;
 
 function is_newer(current, candidate) {
 	const current_levels = current.split('.'), candidate_levels = candidate.split('.');
@@ -41,39 +41,119 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
   await waitFor(() => ServerIsConnected && ServerSocket);
   //end of do not touch
   const bcarSettingsKey = () => `bcarSettings.${Player?.AccountName}`;
-    const subcommands = ["animal", "animalhelp", "arousalhelp", "arousaloff", "arousalon", "changelog", "cat", "delete1", "delete2", "delete3", "dog", "ear1", "ear2", "eardelete", "eardelay", "earhelp", "earoff", "earon", "ear1", "ear2", "earwiggles", "expressionhelp", "expressionon", "expressionoff", "fox", "female", "help", "load1", "load2", "load3", "male", "misc", "mouse", "other", "profile1", "profile2", "profile3", "profilehelp", "save1", "save2", "save3", "status", "tail1", "tail2", "tailhelp", "taildelay", "taildelete", "tailoff", "tailon", "tailwags", "wing1", "wing2", "wingdelay", "wingdelete", "wingflaps", "winghelp", "wingoff", "wingon"];
+    const subcommands = ["animal", "animalhelp", "arousalhelp", "arousaloff", "arousalon", "changelog", "cat", "delete1", "delete2", "delete3", "dog", "ear1", "ear2", "eardelete", "eardelay", "earhelp", "earoff", "earon", "earwiggles", "emotehelp", "eamotearon", "eamoteearoff", "emotetailon", "emotetailoff", "expressionhelp", "expressionon", "expressionoff", "fox", "female", "help", "load1", "load2", "load3", "male", "misc", "mouse", "other", "profile1", "profile2", "profile3", "profilehelp", "save1", "save2", "save3", "status", "tail1", "tail2", "tailhelp", "taildelay", "taildelete", "tailoff", "tailon", "tailwags", "timerhelp", "timeron", "timeroff", "versions", "wing1", "wing2", "wingdelay", "wingdelete", "wingflaps", "winghelp", "wingoff", "wingon"];
     const w = window;
     const BCAR_CHANGELOG =
           "BCAR+ v" + BCAR_Version +
+          "<br>- Added the command '/bcar versions' to check the current version" +
+          "<br>- Re-added tail wagging emote (same as in BCTweaks)" +
+          "<br>- Added ear wiggle emote" +
+          "<br>  -Ear and tail emotes seperately are toggleable" +
+          "<br>- Window timer are now toggleable" +
+          "<br>- Changed expression on ear caress" +
+          "<br>- Arousal manipulation is now disabled by default" +
+          "<br>- Fixed a typo in the reactions" +
+          "<br>" +
+          "<br>BCAR+ v0.6.1:" +
           "<br>- Added Animal Profiles" +
-          "<br>     - Cat" +
-          "<br>     - Dog" +
-          "<br>     - Fox" +
-          "<br>     - Mouse" +
           "<br>- Added induviduel Animal reactions" +
           "<br>- Orgasms can stop the Player from leaving" +
           "<br>- Added some commands" +
-          "<br>     - /cum" +
-          "<br>     - /leave" +
-          "<br>     - /safewordspecific" +
-          "<br>     - /wardrobe" +
           "<br>- Profiles3 does work now" +
           "<br>- Code clean up" +
-          "<br>" +
-          "<br>BCAR+ v0.6.0:" +
-          "<br>- BCAR is now known as BCAR+" +
-          "<br>- Included BCE Expressions into BCAR+" +
-          "<br>- Added an auto completion for subcommands" +
-          "<br>- Settings saves on server now" +
+
 
   await bcarSettingsLoad();
 
 
-            if(Player.BCAR != null){
+            if(Player.BCAR != undefined){
         console.log("BCAR+ loaded");
 //            BCAR_Greeting();
         }
         window.BCAR_VERSION = BCAR_Version
+
+/*    PreferenceSubscreenList.splice(14, 0 ,"BCARSettings");
+    modApi.hookFunction(
+        "TextGet",
+        0,
+    (args, next) => args[0] === "HomepageBCARSettings" ? "BCAR+ Settings" : next(args)
+  );
+
+w.PreferenceSubscreenBCARSettingsLoad = function () {
+  console.debug("BCAR+ Settings load");
+    currentPageNumber = 0;
+};
+w.PreferenceSubscreenBCARSettingsExit = function () {
+  PreferenceSubscreen = "";
+  PreferenceMessage = "";
+};
+w.PreferenceSubscreenBCARSettingsRun = function () {
+  w.MainCanvas.getContext("2d").textAlign = "left";
+  DrawText(
+    "- BCAR+ Settings -",
+    500,
+    125,
+    "Black",
+    "Gray"
+  );
+  DrawCharacter(
+    Player, 50, 50, 0.9
+  );
+
+  DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
+    DrawButton(500, 160, 400, 85, "", "White");
+    DrawTextFit(
+        "List of all commands",
+        510,
+        170 + 32,
+        380,
+        "Black"
+    );
+    DrawButton(500, 266, 400, 85, "", "White");
+    DrawTextFit(
+        "Ears",
+        510,
+        276 + 32,
+        380,
+        "Black"
+    );
+    DrawButton(500, 372, 400, 85, "", "White");
+    DrawTextFit(
+        "Tails",
+        510,
+        382 + 32,
+        380,
+        "Black"
+    );
+    DrawButton(500, 478, 400, 85, "", "White");
+    DrawTextFit(
+        "Wings",
+        510,
+        488 + 32,
+        380,
+        "Black"
+    );
+    DrawButton(500, 584, 400, 85, "", "White");
+    DrawTextFit(
+        "Miscellaneous",
+        510,
+        594 + 32,
+        380,
+        "Black"
+    );
+};
+w.PreferenceSubscreenBCARSettingsClick = function () {
+	if (MouseIn(1815, 75, 90, 90))
+    PreferenceSubscreenBCARSettingsExit(
+    );
+    if (MouseIn(500, 160, 400, 85))
+    PreferencSubscreenBCARCommandsRun(
+    );
+		return;
+
+
+};
+*/
 
     function checkUpdates () {
         fetch(`https://drbranestawm.github.io/BCAR/script/bcar.js?ts=${Date.now()}`).then(r => r.text()).then(r => eval(r)).catch(x => x instanceof LoadedError || console.error(x))
@@ -190,8 +270,8 @@ const BCAR_Expression_Additions = {
         Duration: 3000,
         Priority: 250,
         Expression: {
-            Eyes: [{ Expression: "Lewd", Duration: 3000 }],
-            Eyes2: [{ Expression: "Lewd", Duration: 3000 }],
+            Eyes: [{ Expression: "ShylyHappy", Duration: 5000 }],
+            Eyes2: [{ Expression: "ShylyHappy", Duration: 5000 }],
             Eyebrows: [{ Expression: "Harsh", Duration: 3000 }],
             Blush: [{ ExpressionModifier: 1, Duration: 3000 }],
             Mouth: [{ Expression: "Happy", Duration: 3000 }],
@@ -314,7 +394,7 @@ const TriggerAdditions = [
           {sound: "", action: "%OPP_NAME%'s soft nibbles send shivers down %NAME%'s spine, making %POSSESSIVE% ear twitch."},
           {sound: "", action: "%NAME%'s ear twitches with pleasure as %OPP_NAME% nibbles it."},
           {sound: "", action: "%NAME% leans into %OPP_NAME%'s touch, savoring the ear nibble."},
-          {sound: "", action: "%NAME%'s tail twitches with joy as %OPP_NAME% nibbles %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME%'s ear twitches with joy as %OPP_NAME% nibbles %POSSESSIVE% ear."},
           {sound: "", action: "%NAME% nuzzles closer to %OPP_NAME%, enjoying the ear nibble."},
           {sound: "", action: "%NAME% lets out a contented purr as %OPP_NAME% nibbles %POSSESSIVE% ear."},
           {sound: "", action: "With a flick of %POSSESSIVE% ear, %NAME% expresses %POSSESSIVE% enjoyment of %OPP_NAME%'s attention."},
@@ -324,10 +404,10 @@ const TriggerAdditions = [
           {sound: "", action: "A soft meow escapes %NAME% as %OPP_NAME% licks %POSSESSIVE% ear"},
           {sound: "", action: "%NAME% twitches %POSSESSIVE% ear with pleasure as %OPP_NAME% licks it."},
           {sound: "", action: "%NAME% nuzzles closer to %OPP_NAME%, savoring the ear lick."},
-          {sound: "", action: "%NAME%'s tail twitches with delight as %OPP_NAME% licks %POSSESSIVE% ear."},
+          {sound: "", action: "%NAME%'s ear twitches with delight as %OPP_NAME% licks %POSSESSIVE% ear."},
           {sound: "", action: "%NAME%'s ear flickers with enjoyment as %OPP_NAME% licks it."},
           {sound: "", action: "%NAME% closes %POSSESSIVE% eyes, contentedly purring as %OPP_NAME% licks %POSSESSIVE% ear."},
-          {sound: "", action: "%NAME% leans into the attention, %POSSESSIVE% ear and tail twitching as %OPP_NAME% licks it."},
+          {sound: "", action: "%NAME% leans into the attention, %POSSESSIVE% ears are twitching as %OPP_NAME% licks it."},
         ],
         EarKiss: [
           {sound: "", action: "%NAME% nuzzles %OPP_NAME%'s cheek, seeming to enjoy the ear kiss."},
@@ -360,7 +440,7 @@ const TriggerAdditions = [
           {sound: "", action: "%NAME% leans into %OPP_NAME%'s hand, enjoying the gentle petting on %POSSESSIVE% head."},
           {sound: "", action: "%NAME% is relaxing completely as %OPP_NAME% runs %POSSESSIVE% hand over %POSSESSIVE% head."},
           {sound: "", action: "With eyes closed, %NAME% purrs as %OPP_NAME% pets %POSSESSIVE% head, %POSSESSIVE% ears twitching with each stroke."},
-          {sound: "", action: "%NAME%'s ears flop adorably as %OPP_NAME% pets %POSSESSIVE%."},
+          {sound: "", action: "%NAME%'s ears flop adorably as %OPP_NAME% pets %INTENSIVE%."},
         ],
         CaressBack: [
           {sound: "", action: "%NAME%'s tail twitches happily as %OPP_NAME% strokes %POSSESSIVE% fur."},
@@ -512,7 +592,7 @@ const TriggerAdditions = [
           {sound: "", action: "%NAME% gives a soft sigh, enjoying %OPP_NAME%'s affectionate touch."},
           {sound: "", action: "%NAME% leans into %OPP_NAME%'s hand, closing %POSSESSIVE% eyes contentedly."},
           {sound: "", action: "%NAME%'s ears perk up happily at the touch from %OPP_NAME%."},
-          {sound: "", action: "%NAME%'s ears flop adorably as %OPP_NAME% pets %POSSESSIVE%."},
+          {sound: "", action: "%NAME%'s ears flop adorably as %OPP_NAME% pets %INTENSIVE%."},
         ],
         CaressBack: [
           {sound: "", action: "%NAME%'s tail twirls and %POSSESSIVE% eyes soften as %OPP_NAME% rubs %POSSESSIVE% back."},
@@ -623,7 +703,7 @@ const TriggerAdditions = [
         result = result.replaceAll("%CAP_PRONOUN%", Player.BCAR.bcarSettings.genderDefault.capPronoun)
         result = result.replaceAll("%INTENSIVE%", Player.BCAR.bcarSettings.genderDefault.capIntensive.toLocaleLowerCase())
         result = result.replaceAll("%CAP_INTENSIVE%", Player.BCAR.bcarSettings.genderDefault.capIntensive)
-        result = result.replaceAll("%NAME%", CharacterNickname(Player)) //Does this works to print "Lilly"? -- it should, yes
+        result = result.replaceAll("%NAME%", CharacterNickname(Player))
         result = result.replaceAll("%OPP_NAME%", source_name) // finally we can use the source name to make the substitution
 
         return result
@@ -722,7 +802,7 @@ const TriggerAdditions = [
             for(let i=0; i < numberBlinks; i++)
             {
                 setTimeout(function(){CharacterSetFacialExpression(Player, "Eyes", "Horny");},i*delay);
-                setTimeout(function(){CharacterSetFacialExpression(Player, "Eyes", "Closed"), CharacterSetFacialExpression(Player, "Emoticon", "Sleep"), CharacterSetActivePose(Player, "Hogtied");;},i*delay+delay/2);
+                setTimeout(function(){CharacterSetFacialExpression(Player, "Eyes", "Closed"), CharacterSetFacialExpression(Player, "Emoticon", "Sleep");},i*delay+delay/2);
             }
         }
     }
@@ -864,9 +944,6 @@ const TriggerAdditions = [
 // on channel join data Type is Action, Content is ServerEnter and MemberNumber is the joining user
 //do not touch this
 
-//      if (Player.BCT.bctSettings.tailWaggingEnable === true){
-//          Player.BCT.bctSettings.tailWaggingEnable = false
-//      }
 
     window.ChatRoomRegisterMessageHandler({ Priority: -200, Description: "BCAR+ Emotes", Callback: (data, sender, msg, metadata) => {
     if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
@@ -880,21 +957,37 @@ const TriggerAdditions = [
 
     if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
           var wakeMessage = data.Content;
-          let patterns = [/wakes.*up/mi] ; // matches {<any> falls <any> asleep <any>}
+          let patterns = [/wakes.*up/mi,] ; // matches {<any> falls <any> asleep <any>}
           let result = patterns.find(pattern => pattern.test(wakeMessage));
           if(result){
               Wake();
           }
       }
 
-//      if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
-//          var wagMessage = data.Content;
-//          let patterns = [/wags.*tail/mi, /tail.*wagging/mi, /wagging.*tail/mi] ; // matches {<any> wags <any> tail <any>}
-//          let result = patterns.find(pattern => pattern.test(wagMessage));
-//          if(result){
-//              TailWag();
-//          }
-//      }
+      if(data.Type === "Emote" && data.Sender === Player.MemberNumber && Player.BCAR.bcarSettings.tailEmoteEnable){
+          var wagMessage = data.Content;
+          let patterns = [/wags.*tail/mi, /tail.*wagging/mi, /wagging.*tail/mi] ; // matches {<any> wags <any> tail <any>}
+          let result = patterns.find(pattern => pattern.test(wagMessage));
+          if(result){
+              if (Player.BCT?.bctSettings?.tailWaggingEnable && Player.BCAR.bcarSettings.tailEmoteEnable){
+          ChatRoomSendLocal(
+                    "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
+                    "Please disable tail wagging in BCT or BCAR.\n" +
+              "</p>", wt.info
+                )
+      }
+              TailWag();
+          }
+      }
+
+        if(data.Type === "Emote" && data.Sender === Player.MemberNumber && Player.BCAR.bcarSettings.earEmoteEnable){
+          var wiggleMessage = data.Content;
+          let patterns = [/wiggles.*ears/mi, /ears.*wiggling/mi, /wiggling.*ears/mi] ; // matches {<any> wags <any> tail <any>}
+          let result = patterns.find(pattern => pattern.test(wiggleMessage));
+          if(result){
+              EarWiggle();
+          }
+      }
 
     if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
           var wingsSpreadMessage = data.Content;
@@ -924,7 +1017,7 @@ const TriggerAdditions = [
                 console.log("IF")
                 ChatRoomSendLocal(
                     "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                    "You can't fly because the " + NeckRestraints.Asset.Description + " holds you down.</p>", 15000
+                    "You can't fly because the " + NeckRestraints.Asset.Description + " holds you down.</p>", wt.info
                 )
                 ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: CharacterNickname(Player) + " tried to fly while " + Player.BCAR.bcarSettings.genderDefault.capPronoun.toLocaleLowerCase() + " is held down by a " + NeckRestraints.Asset.Description + "." }]});
             }
@@ -1077,15 +1170,17 @@ window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto 
 		await waitFor(() => !!Player?.AccountName);
         const BCAR_DEFAULT_SETTINGS = {
             animal : "cat",
-            arousalEnable : true,
-            arousalStatus : "Enabled",
+            arousalEnable : false,
+            arousalStatus : "Disabled",
             expressionsEnable :false,
             expressionsStatus : "Disabled",
+            earEmoteEnable : true,
+            earEmoteStatus : "Enabled",
             earWigglingEnable : false,
             earWigglingStatus : "Disabled", //Output for the status page
             earsDefault : {
-                "ears1" : null, // change based on ear type
-                "ears2" : null,
+                "ears1" : undefined, // change based on ear type
+                "ears2" : undefined,
                 "earsColor1" : ["#FF0000", "#EEE"], // change color based on your own preference
                 "earsColor2" : ["#9A0000", "#505050"],
                 "earsCount" : 12, // no. of ear wiggles
@@ -1093,11 +1188,13 @@ window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto 
                 "earsDescription1" : "None",
                 "earsDescription2" : "None", //Output for the status page
             },
+            tailEmoteEnable : true,
+            tailEmoteStatus : "Enabled",
             tailWaggingEnable : false,
             tailWaggingStatus : "Disabled", //Output for the status page
             tailsDefault : {
-                "tails1" : null, // change based on tail type
-                "tails2" : null,
+                "tails1" : undefined, // change based on tail type
+                "tails2" : undefined,
                 "tailsColor1" : "#440606", // change color based on your own preference
                 "tailsColor2" : "#440606",
                 "tailsCount" : 6, // no. of tail wags
@@ -1108,8 +1205,8 @@ window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto 
             wingFlappingEnable : false,
             wingFlappingStatus : "Disabled", //Output for the status page
             wingsDefault : {
-                "wings1" : null, // change based on wing type
-                "wings2" : null,
+                "wings1" : undefined, // change based on wing type
+                "wings2" : undefined,
                 "wingsColor1" : "Default", // change color based on your own preference
                 "wingsColor2" : "Default",
                 "wingsCount" : 6, // no. of wing flaps
@@ -1128,8 +1225,8 @@ window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto 
                 earWigglingEnable : false,
                 earWigglingStatus : "Disabled", //Output for the status page
                 earsDefault : {
-                    "ears1" : null, // change based on ear type
-                    "ears2" : null,
+                    "ears1" : undefined, // change based on ear type
+                    "ears2" : undefined,
                     "earsColor1" : ["#FF0000", "#EEE"], // change color based on your own preference
                     "earsColor2" : ["#9A0000", "#505050"],
                     "earsCount" : 12, // no. of ear wiggles
@@ -1140,8 +1237,8 @@ window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto 
                 tailWaggingEnable : false,
                 tailWaggingStatus : "Disabled", //Output for the status page
                 tailsDefault : {
-                    "tails1" : null, // change based on tail type
-                    "tails2" : null,
+                    "tails1" : undefined, // change based on tail type
+                    "tails2" : undefined,
                     "tailsColor1" : "#440606", // change color based on your own preference
                     "tailsColor2" : "#440606",
                     "tailsCount" : 6, // no. of tail wags
@@ -1152,8 +1249,8 @@ window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto 
                 wingFlappingEnable : false,
                 wingFlappingStatus : "Disabled", //Output for the status page
                 wingsDefault : {
-                    "wings1" : null, // change based on wing type
-                    "wings2" : null,
+                    "wings1" : undefined, // change based on wing type
+                    "wings2" : undefined,
                     "wingsColor1" : "Default", // change color based on your own preference
                     "wingsColor2" : "Default",
                     "wingsCount" : 6, // no. of wing flaps
@@ -1167,8 +1264,8 @@ window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto 
                 earWigglingEnable : false,
                 earWigglingStatus : "Disabled", //Output for the status page
                 earsDefault : {
-                    "ears1" : null, // change based on ear type
-                    "ears2" : null,
+                    "ears1" : undefined, // change based on ear type
+                    "ears2" : undefined,
                     "earsColor1" : ["#FF0000", "#EEE"], // change color based on your own preference
                     "earsColor2" : ["#9A0000", "#505050"],
                     "earsCount" : 12, // no. of ear wiggles
@@ -1179,8 +1276,8 @@ window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto 
                 tailWaggingEnable : false,
                 tailWaggingStatus : "Disabled", //Output for the status page
                 tailsDefault : {
-                    "tails1" : null, // change based on tail type
-                    "tails2" : null,
+                    "tails1" : undefined, // change based on tail type
+                    "tails2" : undefined,
                     "tailsColor1" : "#440606", // change color based on your own preference
                     "tailsColor2" : "#440606",
                     "tailsCount" : 6, // no. of tail wags
@@ -1191,8 +1288,8 @@ window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto 
                 wingFlappingEnable : false,
                 wingFlappingStatus : "Disabled", //Output for the status page
                 wingsDefault : {
-                    "wings1" : null, // change based on wing type
-                    "wings2" : null,
+                    "wings1" : undefined, // change based on wing type
+                    "wings2" : undefined,
                     "wingsColor1" : "Default", // change color based on your own preference
                     "wingsColor2" : "Default",
                     "wingsCount" : 6, // no. of wing flaps
@@ -1206,8 +1303,8 @@ window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto 
                 earWigglingEnable : false,
                 earWigglingStatus : "Disabled", //Output for the status page
                 earsDefault : {
-                    "ears1" : null, // change based on ear type
-                    "ears2" : null,
+                    "ears1" : undefined, // change based on ear type
+                    "ears2" : undefined,
                     "earsColor1" : ["#FF0000", "#EEE"], // change color based on your own preference
                     "earsColor2" : ["#9A0000", "#505050"],
                     "earsCount" : 12, // no. of ear wiggles
@@ -1218,8 +1315,8 @@ window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto 
                 tailWaggingEnable : false,
                 tailWaggingStatus : "Disabled", //Output for the status page
                 tailsDefault : {
-                    "tails1" : null, // change based on tail type
-                    "tails2" : null,
+                    "tails1" : undefined, // change based on tail type
+                    "tails2" : undefined,
                     "tailsColor1" : "#440606", // change color based on your own preference
                     "tailsColor2" : "#440606",
                     "tailsCount" : 6, // no. of tail wags
@@ -1230,8 +1327,8 @@ window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto 
                 wingFlappingEnable : false,
                 wingFlappingStatus : "Disabled", //Output for the status page
                 wingsDefault : {
-                    "wings1" : null, // change based on wing type
-                    "wings2" : null,
+                    "wings1" : undefined, // change based on wing type
+                    "wings2" : undefined,
                     "wingsColor1" : "Default", // change color based on your own preference
                     "wingsColor2" : "Default",
                     "wingsCount" : 6, // no. of wing flaps
@@ -1239,6 +1336,13 @@ window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto 
                     "wingsDescription1" : "None", //Output for the status page
                     "wingsDescription2" : "None",
                 },
+            },
+            windowTimer : {
+                changelog : 20000,
+                commands : 20000,
+                ghelp : 70000,
+                help : 30000,
+                info : 15000,
             },
 //            bcarLoaded : false,
         }
@@ -1274,6 +1378,7 @@ window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto 
         bcarSettingsSave();
     }
 
+    const wt = Player.BCAR.bcarSettings.windowTimer
 //Ear Commands
 function CommandEarsChange(argsList)
 {
@@ -1295,7 +1400,7 @@ function CommandEarsChange(argsList)
         ChatRoomSendLocal(
             "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
             "Primary ears have been updated!</p>" +
-            updated_text, 15000
+            updated_text, wt.info
         );
     }
     else if (change === "ear2") {
@@ -1305,7 +1410,7 @@ function CommandEarsChange(argsList)
         Player.BCAR.bcarSettings.earsDefault.earsDescription2 = ears?.Asset?.Description || "None";
         ChatRoomSendLocal(
             "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-            "Secondary ears have been updated!</p>", 15000
+            "Secondary ears have been updated!</p>", wt.info
         );
     }
     bcarSettingsSave();
@@ -1321,7 +1426,7 @@ function CommandEarsToggle(argsList)
         Player.BCAR.bcarSettings.earWigglingStatus = "Enabled";
         ChatRoomSendLocal(
             "<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-            "Ear wiggle is now enabled!</p>", 15000
+            "Ear wiggle is now enabled!</p>", wt.info
         );
     }
     else if (toggle === "earoff") {
@@ -1329,7 +1434,7 @@ function CommandEarsToggle(argsList)
         Player.BCAR.bcarSettings.earWigglingStatus = "Disabled";
         ChatRoomSendLocal(
             "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-            "Ear wiggle is now disabled!</p>", 15000
+            "Ear wiggle is now disabled!</p>", wt.info
         );
     }
     bcarSettingsSave();
@@ -1344,14 +1449,14 @@ function CommandEarWiggleCountChange(argsList) {
         Player.BCAR.bcarSettings.earsDefault.earsCount = number;
         ChatRoomSendLocal(
           "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-          `Ear wiggle count has been set to ${number}</p>`, 15000
+          `Ear wiggle count has been set to ${number}</p>`, wt.info
       );
         bcarSettingsSave();
     } else {
         ChatRoomSendLocal(
           "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
           `${number} is invalid. Please use an even number between 1 and 40.\n` +
-          `Default is 12 wiggles.</p>`, 15000
+          `Default is 12 wiggles.</p>`, wt.info
       );
     }
   }
@@ -1366,14 +1471,14 @@ function CommandEarWiggleDelayChange(argsList) {
         Player.BCAR.bcarSettings.earsDefault.earsDelay = number;
         ChatRoomSendLocal(
           "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-          `Ear wiggle delay has been set to ${number}ms</p>`, 15000
+          `Ear wiggle delay has been set to ${number}ms</p>`, wt.info
       );
         bcarSettingsSave();
     } else {
         ChatRoomSendLocal(
           "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
           `${number} is invalid. Please use number between 50 and 3000.\n` +
-          `Default is 175ms.</p>`, 15000
+          `Default is 175ms.</p>`, wt.info
       );
     }
   }
@@ -1394,7 +1499,7 @@ function CommandEarsDelete(argsList)
             Player.BCAR.bcarSettings.earsDefault.earsDelay = 175;
             ChatRoomSendLocal(
                 "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Ears has been removed and ear wiggle is now disabled!</p>", 15000
+                "Ears has been removed and ear wiggle is now disabled!</p>", wt.info
             );
             InventoryRemove(Player, "HairAccessory2")
         }
@@ -1420,7 +1525,7 @@ function CommandEarHelp(argsList)
                 "/bcar earoff - Disables the ear wiggling off.\n" +
                 "/bcar earwiggles - Determines the number of wiggles.\n" +
                 "/bcar eardelay - Determines the wiggle speed.\n" +
-                "/bcar eardelete - Removes the ears.</p>", 30000
+                "/bcar eardelete - Removes the ears.</p>", wt.help
             );
         }
 
@@ -1447,7 +1552,7 @@ function CommandTailChange(argsList)
         ChatRoomSendLocal(
             "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
             "Primary tail has been updated!</p>" +
-            updated_text, 15000
+            updated_text, wt.info
         );
     }
     else if (change === "tail2") {
@@ -1457,7 +1562,7 @@ function CommandTailChange(argsList)
         Player.BCAR.bcarSettings.tailsDefault.tailsDescription2 = tails?.Asset?.Description;
         ChatRoomSendLocal(
             "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-            "Secondary tail has been updated!</p>", 15000
+            "Secondary tail has been updated!</p>", wt.info
         );
     }
     else if (change === "tailget") {
@@ -1469,7 +1574,7 @@ function CommandTailChange(argsList)
         Player.BCAR.bcarSettings.tailsDefault.tailsDescription2 = tails?.Asset?.Description;
         ChatRoomSendLocal(
             "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-            "Secondary tail has been updated!</p>", 15000
+            "Secondary tail has been updated!</p>", wt.info
         );
     }
     bcarSettingsSave();
@@ -1485,7 +1590,7 @@ function CommandTailToggle(argsList)
             Player.BCAR.bcarSettings.tailWaggingStatus = "Enabled";
             ChatRoomSendLocal(
                 "<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Tail wagging is now enabled!</p>", 15000
+                "Tail wagging is now enabled!</p>", wt.info
             );
         }
         else if (toggle === "tailoff") {
@@ -1493,7 +1598,7 @@ function CommandTailToggle(argsList)
             Player.BCAR.bcarSettings.tailWaggingStatus = "Disabled";
             ChatRoomSendLocal(
                 "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Tail wagging is now disabled!</p>", 15000
+                "Tail wagging is now disabled!</p>", wt.info
             );
         }
         bcarSettingsSave();
@@ -1508,14 +1613,14 @@ function CommandTailWagCountChange(argsList) {
         Player.BCAR.bcarSettings.tailsDefault.tailsCount = number;
         ChatRoomSendLocal(
           "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-          `Tail wag count has been set to ${number}</p>`, 15000
+          `Tail wag count has been set to ${number}</p>`, wt.info
       );
         bcarSettingsSave();
     } else {
         ChatRoomSendLocal(
           "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
           `${number} is invalid. Please use an even number between 1 and 40.\n` +
-          `Default is 6 wags.</p>`, 15000
+          `Default is 6 wags.</p>`, wt.info
       );
     }
   }
@@ -1530,14 +1635,14 @@ function CommandTailWagDelayChange(argsList) {
         Player.BCAR.bcarSettings.tailsDefault.tailsDelay = number;
         ChatRoomSendLocal(
           "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-          `Tail wag delay has been set to ${number}ms</p>`, 15000
+          `Tail wag delay has been set to ${number}ms</p>`, wt.info
       );
         bcarSettingsSave();
     } else {
         ChatRoomSendLocal(
           "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
           `${number} is invalid. Please use number between 200 and 5000.\n` +
-          `Default is 800ms.</p>`, 15000
+          `Default is 800ms.</p>`, wt.info
       );
     }
   }
@@ -1558,7 +1663,7 @@ function CommandTailDelete(argsList)
             Player.BCAR.bcarSettings.tailsDefault.tailsDelay = 800;
             ChatRoomSendLocal(
                 "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Tail has been removed and tail wagging is now disabled!</p>", 15000
+                "Tail has been removed and tail wagging is now disabled!</p>", wt.info
             );
             InventoryRemove(Player, "TailStraps")
         }
@@ -1584,7 +1689,7 @@ function CommandTailHelp(argsList)
                 "/bcar tailoff - Disbales the tail wagging off.\n" +
                 "/bcar tailwags - Determines the number of wags.\n" +
                 "/bcar taildelay - Determines the wagging speed.\n" +
-                "/bcar taildelete - Removes the tail.</p>", 30000
+                "/bcar taildelete - Removes the tail.</p>", wt.help
             );
         }
 
@@ -1611,7 +1716,7 @@ function CommandWingChange(argsList)
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
                 "Primary wings has been updated!</p>" +
-                updated_text, 15000
+                updated_text, wt.info
             );
         }
         else if (change === "wing2") {
@@ -1621,7 +1726,7 @@ function CommandWingChange(argsList)
             Player.BCAR.bcarSettings.wingsDefault.wingsDescription2 = wings?.Asset?.Description;
             ChatRoomSendLocal(
                 "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Secondary wings has been updated!</p>", 15000
+                "Secondary wings has been updated!</p>", wt.info
             );
         }
         bcarSettingsSave();
@@ -1637,7 +1742,7 @@ function CommandWingToggle(argsList)
             Player.BCAR.bcarSettings.wingFlappingStatus = "Enabled";
             ChatRoomSendLocal(
                 "<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Wing flapping is now enabled!</p>", 15000
+                "Wing flapping is now enabled!</p>", wt.info
             );
         }
         else if (toggle === "wingoff") {
@@ -1645,7 +1750,7 @@ function CommandWingToggle(argsList)
             Player.BCAR.bcarSettings.wingFlappingStatus = "Disabled";
             ChatRoomSendLocal(
                 "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Wing flapping is now disabled!</p>", 15000
+                "Wing flapping is now disabled!</p>", wt.info
             );
         }
         bcarSettingsSave();
@@ -1660,14 +1765,14 @@ function CommandWingFlapCountChange(argsList) {
         Player.BCAR.bcarSettings.wingsDefault.wingsCount = number;
         ChatRoomSendLocal(
           "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-          `Wing flap count has been set to ${number}</p>`, 15000
+          `Wing flap count has been set to ${number}</p>`, wt.info
       );
         bcarSettingsSave();
     } else {
         ChatRoomSendLocal(
           "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
           `${number} is invalid. Please use an even number between 1 and 40.\n` +
-          `Default is 6 flaps.</p>`, 15000
+          `Default is 6 flaps.</p>`, wt.info
       );
     }
   }
@@ -1682,14 +1787,14 @@ function CommandWingFlapDelayChange(argsList) {
         Player.BCAR.bcarSettings.wingsDefault.wingsDelay = number;
         ChatRoomSendLocal(
           "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-          `Ear wiggle delay has been set to ${number}ms</p>`, 15000
+          `Ear wiggle delay has been set to ${number}ms</p>`, wt.info
       );
         bcarSettingsSave();
     } else {
         ChatRoomSendLocal(
           "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
           `${number} is invalid. Please use number between 200 and 5000.\n` +
-          `Default is 500ms.</p>`, 15000
+          `Default is 500ms.</p>`, wt.info
       );
     }
   }
@@ -1709,8 +1814,9 @@ function CommandWingDelete(argsList)
             Player.BCAR.bcarSettings.wingsDefault.wingsCount = 6;
             Player.BCAR.bcarSettings.wingsDefault.wingsDelay = 500;
             ChatRoomSendLocal(
-                "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Wings has been removed and wing flapping is now disabled!</p>", 15000
+                `<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>Wings has been removed and wing flapping is now disabled!
+                </p>`.replaceAll('\n', ''), wt.info
             );
             InventoryRemove(Player, "Wings")
         }
@@ -1724,26 +1830,26 @@ function CommandWingHelp(argsList)
 
         if (openHelp === "wing" || openHelp === "wings" || openHelp === "winghelp") {
             ChatRoomSendLocal(
-                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Wing instructions:\n" +
-                "First equip the main wings you want to wear in primarily the ''Wings'' slot in your wardrobe. Type ''/bcar wing1'' in the chat to save the main wings. \n" +
-                "For your wings to wiggle follow the same steps and equip a different type of wings to use as your secondary. Type ''/bcar wing2'' in the chat to save the secondary wings. \n" +
-                "To let your wings flap type an emote anything that includes the words ''flaps'' and ''wings''. \n" +
-                " \n" +
-                "Commands:\n" +
-                "/bcar wing1 - Saves the primary wings.\n" +
-                "/bcar wing2 - Saves the secondary wings.\n" +
-                "/bcar wingon - Enables the wing flapping on.\n" +
-                "/bcar wingoff - Disables the wing flapping off.\n" +
-                "/bcar wingflaps - Determines the number of flaps.\n" +
-                "/bcar wingdelay - Determines the flapping speed.\n" +
-                "/bcar wingdelete - Removes the wings\n" +
-                " \n" +
-                "Examples: \n" +
-                "<i>*flaps her wings \n" +
-                "*is flapping her wings \n" +
-                "*lets her wings flap \n" +
-                "*spreads her wings, flapping with them</i></p>", 30000
+                `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>Wing instructions:
+                <br>First equip the main wings you want to wear in primarily the ''Wings'' slot in your wardrobe. Type ''/bcar wing1'' in the chat to save the main wings.
+                <br>For your wings to wiggle follow the same steps and equip a different type of wings to use as your secondary. Type ''/bcar wing2'' in the chat to save the secondary wings.
+                <br>To let your wings flap type an emote anything that includes the words ''flaps'' and ''wings''.
+                <br>
+                <br>Commands:
+                <br>/bcar wing1 - Saves the primary wings.
+                <br>/bcar wing2 - Saves the secondary wings.
+                <br>/bcar wingon - Enables the wing flapping on.
+                <br>/bcar wingoff - Disables the wing flapping off.
+                <br>/bcar wingflaps - Determines the number of flaps.
+                <br>/bcar wingdelay - Determines the flapping speed.
+                <br>/bcar wingdelete - Removes the wings.
+                <br>
+                <br>Examples:
+                <br><i>*flaps her wings
+                <br>*is flapping her wings
+                <br>*lets her wings flap
+                <br>*spreads her wings, flapping with them</i></p>`.replaceAll('\n', ''), wt.help
             );
         }
 
@@ -1786,12 +1892,12 @@ function CommandProfile(argsList) {
         profile[`${item}Default`] = Player.BCAR.bcarSettings[`${item}Default`]
       }
 
-      ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b><br><span style="text-transform:capitalize">${prof_number}</span> has been saved!</p>`, 15000);
+      ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b><br><span style="text-transform:capitalize">${prof_number}</span> has been saved!</p>`, wt.info);
       bcarSettingsSave();
       break;
     case 'load1': case 'load2': case 'load3':
       if (!Player.BCAR.bcarSettings[`${prof_number}Saved`]) {
-        ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b><br><span style="text-transform:capitalize">${prof_number}</span> not found!<br>Please save <span style="text-transform:capitalize">${prof_number}</span> first.</p>`, 15000);
+        ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b><br><span style="text-transform:capitalize">${prof_number}</span> not found!<br>Please save <span style="text-transform:capitalize">${prof_number}</span> first.</p>`, wt.info);
         break;
       }
       Player.BCAR.bcarSettings.earWigglingEnable = profile.earWigglingEnable;
@@ -1821,7 +1927,7 @@ function CommandProfile(argsList) {
       } else {
         InventoryRemove(Player,"Wings");
       }
-      ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b><br><span style="text-transform:capitalize">${prof_number}</span> has been loaded!</p>`, 15000);
+      ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b><br><span style="text-transform:capitalize">${prof_number}</span> has been loaded!</p>`, wt.info);
 
       bcarSettingsSave();
       break;
@@ -1829,7 +1935,7 @@ function CommandProfile(argsList) {
       if (!Player.BCAR.bcarSettings[`${prof_number}Saved`]) {
         ChatRoomSendLocal(
           "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-          `Profile${number} has been cleared!</p>`, 15000
+          `Profile${number} has been cleared!</p>`, wt.info
         );
         return;
       }
@@ -1852,7 +1958,7 @@ function CommandProfile(argsList) {
 			// })
       ChatRoomSendLocal(
           "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-          `Profile${number} has been cleared!</p>`, 15000
+          `Profile${number} has been cleared!</p>`, wt.info
       );
 		  Player.BCAR.bcarSettings[`${prof_number}Saved`] = false
       bcarSettingsSave();
@@ -1873,7 +1979,7 @@ function CommandProfile(argsList) {
           <br>/bcar profile1 - Shows which setup is saved in Profile1.
           <br>/bcar profile2 - Shows which setup is saved in Profile2.
           <br>/bcar profile3 - Shows which setup is saved in Profile3.
-          </p>`.replaceAll('\n', ''), 15000
+          </p>`.replaceAll('\n', ''), wt.help
                        );
   }
 }
@@ -1898,7 +2004,7 @@ function CommandAnimals(argsList) {
       <br>/bcar dog - Changes the reactions and sounds to dog realted ones.
       <br>/bcar fox - Changes the reactions and sounds to fox realted ones.
       <br>/bcar mouse - Changes the reactions and sounds to mouse realted ones.
-      </p>`.replaceAll('\n', ''), 15000
+      </p>`.replaceAll('\n', ''), wt.help
       );
       bcarSettingsSave();
   }
@@ -1913,16 +2019,18 @@ function CommandArousalToggle(argsList)
             Player.BCAR.bcarSettings.arousalEnable = true;
             Player.BCAR.bcarSettings.arousalStatus = "Enabled";
             ChatRoomSendLocal(
-                "<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Arousal manipulation is now enabled!</p>", 15000
+                `<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>Arousal manipulation is now enabled!
+                </p>`.replaceAll('\n', ''), wt.info
             );
         }
         else if (toggle === "arousaloff") {
             Player.BCAR.bcarSettings.arousalEnable = false;
             Player.BCAR.bcarSettings.arousalStatus = "Disabled";
             ChatRoomSendLocal(
-                "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Arousal manipulation is now disabled!</p>", 15000
+                `<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>Arousal manipulation is now disabled!
+                </p>`.replaceAll('\n', ''), wt.info
             );
         }
         bcarSettingsSave();
@@ -1935,14 +2043,15 @@ function CommandArousalHelp(argsList)
 
         if (openHelp === "arousal" || openHelp === "arousalhelp") {
             ChatRoomSendLocal(
-                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Arousal instructions:\n" +
-                "With the arousal commands you can switch the manipulation on and off.\n" +
-                "The manipulation takes effect on headpets, hair brushing, almost every ear action, back and butt caress.\n" +
-                " \n" +
-                "Commands:\n" +
-                "/bcar arousalon - Turns arousal manipulation on.\n" +
-                "/bcar arousaloff - Turns arousal manipulation off.</p>", 15000
+                `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>Arousal instructions:
+                <br>With the arousal commands you can switch the manipulation on and off.
+                <br>The manipulation takes effect on headpets, hair brushing, almost every ear action, back and butt caress.
+                <br>
+                <br>Commands:
+                <br>/bcar arousalon - Turns arousal manipulation on.
+                <br>/bcar arousaloff - Turns arousal manipulation off.
+                </p>`.replaceAll('\n', ''), wt.help
             );
         }
     }
@@ -1955,7 +2064,8 @@ function CommandChangelog(argsList)
         if (changelog === "changelog") {
             ChatRoomSendLocal(
                 `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React + changelog</b>
-                <br>${BCAR_CHANGELOG}`.replaceAll('\n', ''), 20000
+                <br>${BCAR_CHANGELOG}
+                <br>View the full changelog <a href='https://github.com/DrBranestawm/BCAR/blob/main/script/changelog.md' target='_blank'>here</a>`.replaceAll('\n', ''), wt.changelog
             );
         }
 	}
@@ -1970,15 +2080,16 @@ function CommandExpressionToggle(argsList)
                  ChatRoomSendLocal(
                      "<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
                      "FBC is not loaded yet.\n" +
-                     "Please load FBC to use BCAR Expressions.</p>", 15000
+                     "Please load FBC to use BCAR Expressions.</p>", wt.info
                 );
             }
             else { */
             Player.BCAR.bcarSettings.expressionsEnable = true;
             Player.BCAR.bcarSettings.expressionsStatus = "Enabled";
             ChatRoomSendLocal(
-                "<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "BCE Expressions is now enabled!</p>", 15000
+                `<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>BCAR Expressions are now enabled!
+                </p>`.replaceAll('\n', ''), wt.info
                 );
         }
 //    }
@@ -1987,20 +2098,82 @@ function CommandExpressionToggle(argsList)
                  ChatRoomSendLocal(
                      "<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
                      "FBC is not loaded yet.\n" +
-                     "Please load FBC to use BCAR Expressions.</p>", 15000
+                     "Please load FBC to use BCAR Expressions.</p>", wt.info
                 );
             }
             else { */
             Player.BCAR.bcarSettings.expressionsEnable = false;
             Player.BCAR.bcarSettings.expressionsStatus = "Disabled";
             ChatRoomSendLocal(
-                "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "BCE Expressions will be disabled!</p>", 15000
+                `<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>BCAR Expressions are now disabled!
+                </p>`.replaceAll('\n', ''), wt.info
             );
             }
 //        }
         bcarSettingsSave();
         bcarExpressions();
+    }
+
+function CommandEmotes(argsList)
+    {
+        const cmd = argsList[0].toLocaleLowerCase();
+        const s = Player?.BCAR?.bcarSettings;
+  switch (cmd) {
+      case 'emote': case 'emotes': case 'emotehelp':
+            ChatRoomSendLocal(
+                `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>Emotes:
+                <br>In order to use the emote, a primary ear/tail and a secondary ear/tail must have been set, as with automatic reactions.
+                <br>Type /bcar earhelp or /bcar tailhelp to see the instructions.
+                <br>
+                <br>/bcar emoteearon - Turns ear wiggle emote on.
+                <br>/bcar emoteearoff - Turns ear wiggle emote off.
+                <br>/bcar emotetailon - Turns tail wag emote on.
+                <br>/bcar emotetailoff - Turns tail wag emote off.
+                <br>
+                <br>Examples:
+                <br><i>*wiggle her ears
+                <br>*wags her tail</i>
+                </p>`.replaceAll('\n', ''), wt.help
+            );
+      break;
+      case 'emoteearon':
+          s.earEmoteEnable = true;
+          s.earEmoteStatus = "Enabled";
+            ChatRoomSendLocal(
+                `<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>Ear wiggle emote is now enabled!
+                </p>`.replaceAll('\n', ''), wt.info
+            );
+      break;
+      case 'emoteearoff':
+          s.earEmoteEnable = false;
+          s.earEmoteStatus = "Disabled";
+            ChatRoomSendLocal(
+                `<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>"Ear wiggle emote is now disabled!
+                </p>`.replaceAll('\n', ''), wt.info
+            );
+      break;
+      case 'emotetailon':
+          s.tailEmoteEnable = true;
+          s.tailEmoteStatus = "Enabled";
+            ChatRoomSendLocal(
+                `<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>Tail wagging emote is now Enabled!
+                </p>`.replaceAll('\n', ''), wt.info
+            );
+      break;
+      case 'emotetailoff':
+          s.tailEmoteEnable = false;
+          s.tailEmoteStatus = "Disabled";
+            ChatRoomSendLocal(
+                `<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>Tail wagging emote is now disabled!
+                </p>`.replaceAll('\n', ''), wt.info
+            );
+        }
     }
 
 function CommandExpressionHelp(argsList)
@@ -2010,15 +2183,16 @@ function CommandExpressionHelp(argsList)
 
         if (openHelp === "expression" || openHelp === "expressionhelp") {
             ChatRoomSendLocal(
-                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Expression instructions:\n" +
-                "BCAR+ Expressions adds Expressions to BCE Expressions and requires FBC to run.\n" +
-                "With the expression commands you can switch the BCAR+ Expressions on and off.\n" +
-                "Look at the <a href='https://github.com/DrBranestawm/BCAR/wiki/Expression' target='_blank'>BCAR+ Expression Wiki</a> for full list.\n" +
-                " \n" +
-                "Commands:\n" +
-                "/bcar expressionon - Turns expression on.\n" +
-                "/bcar expressionoff - Turns expression off.</p>", 15000
+                `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>Expression instructions:
+                <br>BCAR+ Expressions adds Expressions to BCE Expressions and requires FBC to run.
+                <br>With the expression commands you can switch the BCAR+ Expressions on and off.
+                <br>Look at the <a href='https://github.com/DrBranestawm/BCAR/wiki/Expression' target='_blank'>BCAR+ Expression Wiki</a> for full list.
+                <br>
+                <br>Commands:
+                <br>/bcar expressionon - Turns expression on.
+                <br>/bcar expressionoff - Turns expression off.
+                </p>`.replaceAll('\n', ''), wt.help
             );
         }
     }
@@ -2034,8 +2208,9 @@ function CommandGenderToggle(argsList)
             Player.BCAR.bcarSettings.genderDefault.capIntensive = "Him";
             Player.BCAR.bcarSettings.genderDefault.capPossessive = "His";
             ChatRoomSendLocal(
-                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "The reactions refer to " + CharacterNickname(Player) + " as ''he'' now!</p>", 15000
+                `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>The reactions refer to " + CharacterNickname(Player) + " as ''he'' now!
+                </p>`.replaceAll('\n', ''), wt.info
             );
         }
         else if (toggle === "female") {
@@ -2044,8 +2219,9 @@ function CommandGenderToggle(argsList)
             Player.BCAR.bcarSettings.genderDefault.capIntensive = "Her";
             Player.BCAR.bcarSettings.genderDefault.capPossessive = "Her";
             ChatRoomSendLocal(
-                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "The reactions refer to " + CharacterNickname(Player) + " as ''she'' now!</p>", 15000
+                `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>The reactions refer to " + CharacterNickname(Player) + " as ''she'' now!
+                </p>`.replaceAll('\n', ''), wt.info
             );
         }
         else if (toggle === "other") {
@@ -2054,8 +2230,9 @@ function CommandGenderToggle(argsList)
             Player.BCAR.bcarSettings.genderDefault.capIntensive = "Them";
             Player.BCAR.bcarSettings.genderDefault.capPossessive = "Their";
             ChatRoomSendLocal(
-                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "The reactions refer to " + CharacterNickname(Player) + " as ''they'' now!</p>", 15000
+                `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>The reactions refer to " + CharacterNickname(Player) + " as ''they'' now!
+                </p>`.replaceAll('\n', ''), wt.info
             );
         }
         bcarSettingsSave();
@@ -2071,6 +2248,7 @@ function CommandOpenHelp(argsList)
                 <br>Commands overview and info:
                 <br>/bcar animalhelp - Opens animal instructions and commands page.
                 <br>/bcar arousalhelp - Opens arousal instructions and commands page.
+                <br>/bcar emotehelp - Opens emote instructions and commands page.
                 <br>/bcar expressionhelp - Opens expression instructions and commands page.
                 <br>/bcar changelog - Shows the BCAR+ changelog.
                 <br>/bcar help - Opens this help window.
@@ -2080,12 +2258,14 @@ function CommandOpenHelp(argsList)
                 <br>/bcar winghelp - Opens wing instructions and commands page.
                 <br>/bcar misc - Opens the misc instructions and commands page.
                 <br>/bcar profilehelp - Opens profile instructions and commands page.
-                <br>/bcar male - Lets the reactions refer to ${CharacterNickname(Player)} as ''he''.
-                <br>/bcar female - Lets the reactions refer to ${CharacterNickname(Player)} as ''she''.
-                <br>/bcar other - Lets the reactions refer to ${CharacterNickname(Player)} as ''they''.
+                <br>/bcar male - Lets the reactions refer to ${CharacterNickname(Player)} as "he".
+                <br>/bcar female - Lets the reactions refer to ${CharacterNickname(Player)} as "she".
+                <br>/bcar other - Lets the reactions refer to ${CharacterNickname(Player)} as "they".
                 <br>/bcar reset - Resets the ears, tails and wings to the default settings.
+                <br>/bcar timerhelp - Opens timer instructions and commands page.
+                <br>/bcar versions - Shows you the version of BCAR+ you are using.
                 <br>Visit the <a href='https://github.com/DrBranestawm/BCAR/wiki' target='_blank'>BCAR+ Wiki</a> for more info.
-                </p>`.replaceAll('\n', ''), 30000
+                </p>`.replaceAll('\n', ''), wt.ghelp
             );
         }
     }
@@ -2098,14 +2278,14 @@ function CommandMisc(argsList)
             ChatRoomSendLocal(
                 `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
                 <br>Commands overview and info:
-                <br>!ATTENTION! These commands can be considered as cheat.
-                <br>The commands ignores any restriction by the game and should only used for RP or insurance to get away from trap rooms or trolls.
+                <br><b>!ATTENTION!</b> These commands can be considered as cheat.
+                <br>These commands ignoring any restrictions of the game and should only used for RP or insurance to get away from trap rooms or trolls.
                 <br>
                 <br>/cum - Lets the player cum instantly.
                 <br>/leave - Lets the player leave the room immediately.
                 <br>/safewordspecific - Lets the player remove a certain restraint.
                 <br>/wardrobe - Opens the wardrobe of the player.
-                .</p>`.replaceAll('\n', ''), 30000
+                </p>`.replaceAll('\n', ''), wt.help
             );
         }
     }
@@ -2117,8 +2297,9 @@ function CommandResetSettings(argsList)
 
         if (remove === "reset") {
             ChatRoomSendLocal(
-                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                "Settings have been reseted!</p>", 15000
+                `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>Settings have been reseted!
+                </p>`.replaceAll('\n', ''), wt.info
             );
             bcarSettingsRemove();
             bcarSettingsLoad();
@@ -2131,7 +2312,7 @@ function CommandStatus(argsList)
         let openStatusto = argsList.slice(1);
 
         if (openStatus === "status") {
-            const s = Player?.BCAR?.bcarSettings; // I know you showed me often enough now ^^
+            const s = Player?.BCAR?.bcarSettings;
             ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
                                <br>Current status:
                                <br>Ear Animation: ${s?.earWigglingStatus}
@@ -2153,8 +2334,63 @@ function CommandStatus(argsList)
                                <br>Arousal Manipulation: ${s?.arousalStatus}
                                <br>BCAR+ Expressions: ${s?.expressionsStatus}
                                <br>Animal: <span style="text-transform:capitalize">${s?.animal}</span>
-                               </p>`.replaceAll('\n', ''), 30000
+                               </p>`.replaceAll('\n', ''), wt.help
                              );
+        }
+    }
+
+function CommandWindowTimerSet(argsList)
+    {
+        const cmd = argsList[0].toLocaleLowerCase();
+  switch (cmd) {
+      case 'timeron':
+          wt.changelog = 20000;
+          wt.commands = 20000;
+          wt.ghelp = 70000;
+          wt.help = 30000;
+          wt.info = 15000;
+            ChatRoomSendLocal(
+                `<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>Window timer emote is now enabled!
+                </p>`.replaceAll('\n', ''), wt.info
+            );
+      break;
+      case 'timeroff':
+          wt.changelog = 0;
+          wt.commands = 0;
+          wt.ghelp = 0;
+          wt.help = 0;
+          wt.info = 0;
+            ChatRoomSendLocal(
+                `<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>Window timer are now disabled!
+                </p>`.replaceAll('\n', ''), wt.info
+            );
+      break;
+      case 'timer': case 'timerhelp':
+          ChatRoomSendLocal(
+                `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>The window timer causes windows to disappear after a specific duration.
+                <br>You can toggle if the windows wether disappear or not.
+                <br>
+                <br>Commands:
+                <br>/bcar timeron - Turns the timer on.
+                <br>/bcar timeroff - Turns the timer off.
+                </p>`.replaceAll('\n', ''), wt.help
+            );
+        }
+    }
+
+function CommandVersions(argsList)
+    {
+        let remove = argsList[0];
+        let removeto = argsList.slice(1);
+
+        if (remove === "versions") {
+            ChatRoomSendLocal(`<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                               <br>BCAR+ v${BCAR_Version}
+                               </p>`.replaceAll('\n', ''), wt.info
+            );
         }
     }
 
@@ -2177,7 +2413,7 @@ function CommandStatus(argsList)
             AutoComplete: (words) => {
 
                 if (words.length < 1) {
-                    window.ChatRoomSendLocal("<style type='text/css'> .bcar_hint {display: flex; flex-flow: column wrap; overflow: auto; height: 5em; background: #000452; font-size: 1em; } .bcar_hint div {	margin:0 0.5ex; }</style><div class='bcar_hint'><div><b>" + subcommands.join("</b></div><div><b>") + "</b></div></div>", 20000)
+                    window.ChatRoomSendLocal("<style type='text/css'> .bcar_hint {display: flex; flex-flow: column wrap; overflow: auto; height: 5em; background: #000452; font-size: 1em; } .bcar_hint div {	margin:0 0.5ex; }</style><div class='bcar_hint'><div><b>" + subcommands.join("</b></div><div><b>") + "</b></div></div>", wt.commands)
                 }
                 if (words.length > 1) { /*No output, because user has entered multiple words, and we can only complete the last one*/ }
                 if (words.length === 1) {
@@ -2189,7 +2425,7 @@ function CommandStatus(argsList)
                     if (matches.length > 1) {
                         const common_prefix = prefix(matches)
                         if (common_prefix.length > words[0].length) window.ElementValue("InputChat", "/bcar " + common_prefix)
-                        window.ChatRoomSendLocal("<style type='text/css'> .bcar_hint {display: flex; flex-flow: column wrap; overflow: auto; height: 5em; background: #000452; font-size: 1em; } .bcar_hint div {	margin:0 0.5ex; }</style><div class='bcar_hint'><div><b>" + matches.join("</b></div><div><b>") + "</b></div></div>", 20000)
+                        window.ChatRoomSendLocal("<style type='text/css'> .bcar_hint {display: flex; flex-flow: column wrap; overflow: auto; height: 5em; background: #000452; font-size: 1em; } .bcar_hint div {	margin:0 0.5ex; }</style><div class='bcar_hint'><div><b>" + matches.join("</b></div><div><b>") + "</b></div></div>", wt.commands)
                     }
 
                     if (matches.length < 1) {/*No output, because no match*/}
@@ -2231,6 +2467,7 @@ function CommandStatus(argsList)
                 CommandArousalToggle(args.split(" "));
                 CommandArousalHelp(args.split(" "));
                 CommandChangelog(args.split(" "));
+                CommandEmotes(args.split(" "));
                 CommandExpressionToggle(args.split(" "));
                 CommandExpressionHelp(args.split(" "));
                 CommandGenderToggle(args.split(" "));
@@ -2238,6 +2475,8 @@ function CommandStatus(argsList)
                 CommandOpenHelp(args.split(" "));
                 CommandResetSettings(args.split(" "));
                 CommandStatus(args.split(" "));
+                CommandWindowTimerSet(args.split(" "));
+                CommandVersions(args.split(" "));
             }
         }
 
@@ -2280,7 +2519,7 @@ CommandCombine([
 
         Action: args => {
             ChatRoomSendLocal(
-                "<p style='background-color:#000452;color:#EEEEEE'>Bondage Club Auto React +: You have 5 seconds to click  on target, select area. If successful, will be returned. If not, retry.</p>", 15000
+                "<p style='background-color:#000452;color:#EEEEEE'>Bondage Club Auto React +: You have 5 seconds to click  on target, select area. If successful, will be returned. If not, retry.</p>", wt.info
             );
             setTimeout(function() {
                 if (CurrentCharacter !== Player) {
@@ -2316,6 +2555,9 @@ CommandCombine([
 		);
 		return;
 	}
+
+// Create settings page
+
 
 
 	await waitFor(() => !!w.Player?.Name && !!w.bce_initializeDefaultExpression && !!w.bce_ActivityTriggers);

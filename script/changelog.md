@@ -1,4 +1,17 @@
-# BCAR Changelog
+# BCAR+ Changelog
+
+## [v0.6.2](https://github.com/DrBranestawm/BCAR/releases/edit/v0.6.2)
+### What's Changed
+* Added the command '/bcar versions' to check the current version
+* Re-added tail wagging emote (same as in BCTweaks)
+* Added ear wiggle emote
+    - Ear and tail emotes seperately are toggleable
+* Window timer are now toggleable
+* Changed expression on ear caress
+* Arousal manipulation is now disabled by default
+* Fixed a typo in the reactions
+
+**Full Changelog**: [0.6.1...0.6.2](https://github.com/DrBranestawm/BCAR/compare/0.6.1...0.6.2)
 
 ## [v0.6.1](https://github.com/DrBranestawm/BCAR/releases/edit/v0.6.1)
 ### What's Changed

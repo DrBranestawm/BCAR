@@ -8,18 +8,6 @@ or add it as Bookmark any of your devices. To do that save
 as a bookmark on your devices.
 
 
-## Commands of BCAR+
-The commands were moved to the [Wiki](https://github.com/DrBranestawm/BCAR/wiki) page.
-
-# BCE Expressions for BCAR (No longer required, included in BCAR+)
-If you use FBC(formerly BCE) and want special expressions for BCAR reactions <s>I recommend to add this addon to your list. (Requires [FBC](https://sidiousious.gitlab.io/bce/) and [BCAR](https://github.com/DrBranestawm/BCAR#))  
-You can add the script via Tampermonkey [BCE Expressions for BCAR](https://github.com/DrBranestawm/BCAR/raw/main/bceExpressionsForBCAR/scriptLoader.user.js)  
-or add it as Bookmark any of your devices. To do that save  
-`javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/bceExpressionsForBCAR/script.js').then(r=>r.text()).then(r=>eval(r));})();`
-as a bookmark on your devices.</s>  
-Use the command <b>/bcar expressionon</b> (Requires [FBC](https://sidiousious.gitlab.io/bce/)).
-
-
 # BCAR+ Beta
 Use the beta at own risk!  
 You can add the beta script via Tampermonkey [BCAR+ Beta](https://github.com/DrBranestawm/BCAR/raw/main/script/bcarBetaLoader.user.js)  
@@ -27,9 +15,10 @@ or add it as Bookmark any of your devices. To do that save
 `javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/script/bcarBeta.js').then(r=>r.text()).then(r=>eval(r));})();` 
 as a bookmark on your devices.
 
+## Commands of BCAR+
+The commands were moved to the [Wiki](https://github.com/DrBranestawm/BCAR/wiki) page.
 
 # Special Thanks
-
 
  - Angela ([@AngelaTheCat](https://github.com/AngelaTheCat/))
     - Privoviding the main script
