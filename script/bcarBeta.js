@@ -971,9 +971,10 @@ const TriggerAdditions = [
           if(result){
               if (Player.BCT?.bctSettings?.tailWaggingEnable && Player.BCAR.bcarSettings.tailEmoteEnable){
           ChatRoomSendLocal(
-                    "<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                    "Please disable tail wagging in BCT or BCAR.\n" +
-              "</p>", wt.info
+                    `<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                    <br>Please disable tail wagging in either BCT or BCAR.
+                    <br>Having them both can cause undesireable/wonky results.
+                    </p>`.replaceAll('\n', ''), wt.info
                 )
       }
               TailWag();
