@@ -1,5 +1,14 @@
 # BCAR+ Changelog
 
+## [v0.6.3](https://github.com/DrBranestawm/BCAR/releases/edit/v0.6.3)
+### What's Changed
+
+* Added toggleable animation buttons in chatrooms
+* Merged all on/off commands to a single toggle command
+* Cleaned up the code
+
+**Full Changelog**: [0.6.2...0.6.3](https://github.com/DrBranestawm/BCAR/compare/0.6.2...0.6.3)
+
 ## [v0.6.2](https://github.com/DrBranestawm/BCAR/releases/edit/v0.6.2)
 ### What's Changed
 * Added the command '/bcar versions' to check the current version
