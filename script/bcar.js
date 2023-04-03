@@ -73,8 +73,8 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 
     async function BCARChatRoomClick() {
         modApi.hookFunction('ChatRoomClick', 4, (args, next) => {
-            if (Player.BCAR.bcarSettings.animationButtonsEnable) {
-                if (Player.BCAR.bcarSettings.earWigglingEnable) {
+            if (Player.BCAR.bcarSettings.earWigglingEnable) {
+                if (Player.BCAR.bcarSettings.animationButtonsEnable) {
                     if ((MouseX >= 0) && (MouseX < 45) && (MouseY >= 135) && (MouseY < 180)) {
                         ServerSend("ChatRoomChat", {
                             Content: "Beep",
@@ -91,8 +91,29 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
                         return;
                     }
                 }
+            }
                 if (Player.BCAR.bcarSettings.tailWaggingEnable) {
-                    if ((MouseX >= 0) && (MouseX < 45) && (MouseY >= 180) && (MouseY < 225)) {
+                    if (Player.BCAR.bcarSettings.animationButtonsEnable) {
+                        if ((MouseX >= 0) && (MouseX < 45) && (MouseY >= 180) && (MouseY < 225)) {
+                            ServerSend("ChatRoomChat", {
+                                Content: "Beep",
+                                Type: "Action",
+                                Target: null,
+                                Dictionary: [
+                                    { Tag: "Beep", Text: "msg" },
+                                    { Tag: "Biep", Text: "msg" },
+                                    { Tag: "Sonner", Text: "msg" },
+                                    { Tag: "msg", Text: CharacterNickname(Player) + " wags " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " tail." }
+                                ]
+                            });
+                            TailWag();
+                            return;
+                        }
+                    }
+                }
+            if (Player.BCAR.bcarSettings.wingFlappingEnable) {
+                if (Player.BCAR.bcarSettings.animationButtonsEnable) {
+                    if ((MouseX >= 0) && (MouseX < 45) && (MouseY >= 225) && (MouseY < 270)) {
                         ServerSend("ChatRoomChat", {
                             Content: "Beep",
                             Type: "Action",
@@ -101,33 +122,17 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
                                 { Tag: "Beep", Text: "msg" },
                                 { Tag: "Biep", Text: "msg" },
                                 { Tag: "Sonner", Text: "msg" },
-                                { Tag: "msg", Text: CharacterNickname(Player) + " wags " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " tail." }
+                                { Tag: "msg", Text: CharacterNickname(Player) + " flaps " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " wings." }
                             ]
                         });
-                        TailWag();
+                        WingFlap();
                         return;
                     }
                 }
-            if (Player.BCAR.bcarSettings.wingFlappingEnable) {
-                if ((MouseX >= 0) && (MouseX < 45) && (MouseY >= 225) && (MouseY < 270)) {
-                    ServerSend("ChatRoomChat", {
-                        Content: "Beep",
-                        Type: "Action",
-                        Target: null,
-                        Dictionary: [
-                            { Tag: "Beep", Text: "msg" },
-                            { Tag: "Biep", Text: "msg" },
-                            { Tag: "Sonner", Text: "msg" },
-                            { Tag: "msg", Text: CharacterNickname(Player) + " flaps " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " wings." }
-                        ]
-                    });
-                    WingFlap();
-                    return;
-                }
             }
-                next(args);
-            }});
-        }
+            next(args);
+        });
+    }
 
     async function BCARChatRoomMenuDraw() {
         modApi.hookFunction('ChatRoomMenuDraw', 4, (args, next) => {
