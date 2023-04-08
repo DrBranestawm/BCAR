@@ -151,88 +151,6 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
         })
     };
 
-/*    PreferenceSubscreenList.splice(14, 0 ,"BCARSettings");
-    modApi.hookFunction(
-        "TextGet",
-        0,
-    (args, next) => args[0] === "HomepageBCARSettings" ? "BCAR+ Settings" : next(args)
-  );
-
-w.PreferenceSubscreenBCARSettingsLoad = function () {
-  console.debug("BCAR+ Settings load");
-    currentPageNumber = 0;
-};
-w.PreferenceSubscreenBCARSettingsExit = function () {
-  PreferenceSubscreen = "";
-  PreferenceMessage = "";
-};
-w.PreferenceSubscreenBCARSettingsRun = function () {
-  w.MainCanvas.getContext("2d").textAlign = "left";
-  DrawText(
-    "- BCAR+ Settings -",
-    500,
-    125,
-    "Black",
-    "Gray"
-  );
-  DrawCharacter(
-    Player, 50, 50, 0.9
-  );
-
-  DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-    DrawButton(500, 160, 400, 85, "", "White");
-    DrawTextFit(
-        "List of all commands",
-        510,
-        170 + 32,
-        380,
-        "Black"
-    );
-    DrawButton(500, 266, 400, 85, "", "White");
-    DrawTextFit(
-        "Ears",
-        510,
-        276 + 32,
-        380,
-        "Black"
-    );
-    DrawButton(500, 372, 400, 85, "", "White");
-    DrawTextFit(
-        "Tails",
-        510,
-        382 + 32,
-        380,
-        "Black"
-    );
-    DrawButton(500, 478, 400, 85, "", "White");
-    DrawTextFit(
-        "Wings",
-        510,
-        488 + 32,
-        380,
-        "Black"
-    );
-    DrawButton(500, 584, 400, 85, "", "White");
-    DrawTextFit(
-        "Miscellaneous",
-        510,
-        594 + 32,
-        380,
-        "Black"
-    );
-};
-w.PreferenceSubscreenBCARSettingsClick = function () {
-	if (MouseIn(1815, 75, 90, 90))
-    PreferenceSubscreenBCARSettingsExit(
-    );
-    if (MouseIn(500, 160, 400, 85))
-    PreferencSubscreenBCARCommandsRun(
-    );
-		return;
-
-
-};
-*/
 
     function checkUpdates () {
         fetch(`https://drbranestawm.github.io/BCAR/script/bcarBeta.js?ts=${Date.now()}`).then(r => r.text()).then(r => eval(r)).catch(x => x instanceof LoadedError || console.error(x))
@@ -2748,6 +2666,146 @@ CommandCombine([
   }
   //end of do not touch this
 
-//console.log("End of script")
+
+    // ****************************   PREFERENCES   *********************************
+
+    PreferenceSubscreenList.push("BCARSettings");
+    modApi.hookFunction("TextGet", 2, (args, next) => {
+        if (args[0] == "HomepageBCARSettings") return "BCAR+ Settings";
+        return next(args);
+    });
+    modApi.hookFunction("DrawButton", 2, (args, next) => {
+        if (args[6] == "Icons/BCARSettings.png") args[6] = "Icons/Magic.png";
+        return next(args);
+    });
+
+    function LoadPreferencesSubscreen(screenName) {
+        PreferenceSubscreen = "BCAR" + screenName;
+        PreferenceMessage = screenName;
+    }
+
+    // MAIN MENU
+
+    w.PreferenceSubscreenBCARSettingsLoad = function() {
+        console.debug("BCAR+ Settings load");
+    };
+
+    w.PreferenceSubscreenBCARSettingsExit = function() {
+        PreferenceSubscreen = "";
+        PreferenceMessage = "";
+    };
+
+    w.PreferenceSubscreenBCARSettingsRun = function() {
+        MainCanvas.textAlign = "left";
+        DrawText(
+            "- BCAR+ Settings -",
+            500,
+            125,
+            "Black",
+            "Gray"
+        );
+        DrawCharacter(
+            Player, 50, 50, 0.9
+        );
+
+        DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
+        DrawButton(500, 160, 400, 85, "", "White");
+        DrawTextFit(
+            "List of all commands",
+            510,
+            170 + 32,
+            380,
+            "Black"
+        );
+        DrawButton(500, 260, 400, 85, "", "White");
+        DrawTextFit(
+            "Ears",
+            510,
+            270 + 32,
+            380,
+            "Black"
+        );
+        DrawButton(500, 360, 400, 85, "", "White");
+        DrawTextFit(
+            "Tails",
+            510,
+            370 + 32,
+            380,
+            "Black"
+        );
+        DrawButton(500, 460, 400, 85, "", "White");
+        DrawTextFit(
+            "Wings",
+            510,
+            470 + 32,
+            380,
+            "Black"
+        );
+        DrawButton(500, 560, 400, 85, "", "White");
+        DrawTextFit(
+            "Miscellaneous",
+            510,
+            570 + 32,
+            380,
+            "Black"
+        );
+    };
+    w.PreferenceSubscreenBCARSettingsClick = function() {
+        if (MouseIn(1815, 75, 90, 90))
+            PreferenceSubscreenBCARSettingsExit();
+
+        if (MouseIn(500, 160, 400, 85)) LoadPreferencesSubscreen("Commands");
+        if (MouseIn(500, 260, 400, 85)) LoadPreferencesSubscreen("Ears");
+        if (MouseIn(500, 360, 400, 85)) LoadPreferencesSubscreen("Tail");
+        if (MouseIn(500, 460, 400, 85)) LoadPreferencesSubscreen("Wings");
+        if (MouseIn(500, 560, 400, 85)) LoadPreferencesSubscreen("Misc");
+
+        return;
+    };
+
+    // Common Preference Behavior
+    function baseLoad() {}
+    function baseRun(title) { 
+        DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
+        MainCanvas.textAlign = "left";
+        if (!title)
+            DrawText("- " + PreferenceSubscreen + " Settings -", 500, 125, "Black", "Gray");
+        else
+        DrawText("- " + title + " -", 500, 125, "Black", "Gray");
+        DrawCharacter(Player, 50, 50, 0.9);
+    }
+    function baseExit() {PreferenceSubscreen = "BCARSettings"; PreferenceMessage = "BCAR+ Settings";}
+    function baseClick() { if (MouseIn(1815, 75, 90, 90)) baseExit(); }
+
+    // COMMANDS MENU
+    w.PreferenceSubscreenBCARCommandsLoad = function() { baseLoad(); }
+    w.PreferenceSubscreenBCARCommandsRun = function() { baseRun("BCAR+ Commands"); }
+    w.PreferenceSubscreenBCARCommandsExit = function() { baseExit(); }
+    w.PreferenceSubscreenBCARCommandsClick = function() { baseClick(); }
+
+    // EAR MENU
+    w.PreferenceSubscreenBCAREarsLoad = function() { baseLoad(); }
+    w.PreferenceSubscreenBCAREarsRun = function() { baseRun("BCAR+ Ears"); }
+    w.PreferenceSubscreenBCAREarsExit = function() { baseExit(); }
+    w.PreferenceSubscreenBCAREarsClick = function() { baseClick(); }
+
+    // TAIL MENU
+    w.PreferenceSubscreenBCARTailLoad = function() { baseLoad(); }
+    w.PreferenceSubscreenBCARTailRun = function() { baseRun("BCAR+ Tail"); }
+    w.PreferenceSubscreenBCARTailExit = function() { baseExit(); }
+    w.PreferenceSubscreenBCARTailClick = function() { baseClick(); }
+
+    // WINGS MENU
+    w.PreferenceSubscreenBCARWingsLoad = function() { baseLoad(); }
+    w.PreferenceSubscreenBCARWingsRun = function() { baseRun("BCAR+ Wings"); }
+    w.PreferenceSubscreenBCARWingsExit = function() { baseExit(); }
+    w.PreferenceSubscreenBCARWingsClick = function() { baseClick(); }
+
+    // MISCELLANEOUS MENU
+    w.PreferenceSubscreenBCARMiscLoad = function() { baseLoad(); }
+    w.PreferenceSubscreenBCARMiscRun = function() { baseRun("BCAR+ Miscellaneous"); }
+    w.PreferenceSubscreenBCARMiscExit = function() { baseExit(); }
+    w.PreferenceSubscreenBCARMiscClick = function() { baseClick(); }
+
 
 })();
