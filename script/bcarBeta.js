@@ -2835,7 +2835,7 @@ CommandCombine([
         // Clear Ears               [BUTTON]
         DrawText("Clear Ears:", 500, getYPos(5), "Black", "Gray");
 		MainCanvas.textAlign = "center";
-		DrawButton(500 + 350, getYPos(5) - 32, 200, 64, "Update", "White", undefined, "Clear Ears", true);
+		DrawButton(500 + 350, getYPos(5) - 32, 200, 64, "Clear", "White", undefined, "Clear Ears", true);
         MainCanvas.textAlign = prev;
     }
     w.PreferenceSubscreenBCAREarsExit = function() { 
