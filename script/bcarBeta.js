@@ -2682,6 +2682,12 @@ CommandCombine([
     function LoadPreferencesSubscreen(screenName) {
         PreferenceSubscreen = "BCAR" + screenName;
         PreferenceMessage = screenName;
+        if (typeof window["PreferenceSubscreen" + PreferenceSubscreen + "Load"] === "function")
+            CommonDynamicFunction("PreferenceSubscreen" + PreferenceSubscreen + "Load()");
+    }
+
+    function getYPos(ix) {
+        return 200 + (100 * ix);
     }
 
     // MAIN MENU
@@ -2709,43 +2715,43 @@ CommandCombine([
         );
 
         DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-        DrawButton(500, 160, 400, 85, "", "White");
+        DrawButton(500, getYPos(0), 400, 85, "", "White");
         DrawTextFit(
             "List of all commands",
             510,
-            170 + 32,
+            getYPos(0) + 42,
             380,
             "Black"
         );
-        DrawButton(500, 260, 400, 85, "", "White");
+        DrawButton(500, getYPos(1), 400, 85, "", "White");
         DrawTextFit(
             "Ears",
             510,
-            270 + 32,
+            getYPos(1) + 42,
             380,
             "Black"
         );
-        DrawButton(500, 360, 400, 85, "", "White");
+        DrawButton(500, getYPos(2), 400, 85, "", "White");
         DrawTextFit(
             "Tails",
             510,
-            370 + 32,
+            getYPos(2) + 42,
             380,
             "Black"
         );
-        DrawButton(500, 460, 400, 85, "", "White");
+        DrawButton(500, getYPos(3), 400, 85, "", "White");
         DrawTextFit(
             "Wings",
             510,
-            470 + 32,
+            getYPos(3) + 42,
             380,
             "Black"
         );
-        DrawButton(500, 560, 400, 85, "", "White");
+        DrawButton(500, getYPos(4), 400, 85, "", "White");
         DrawTextFit(
             "Miscellaneous",
             510,
-            570 + 32,
+            getYPos(4) + 42,
             380,
             "Black"
         );
@@ -2754,11 +2760,11 @@ CommandCombine([
         if (MouseIn(1815, 75, 90, 90))
             PreferenceSubscreenBCARSettingsExit();
 
-        if (MouseIn(500, 160, 400, 85)) LoadPreferencesSubscreen("Commands");
-        if (MouseIn(500, 260, 400, 85)) LoadPreferencesSubscreen("Ears");
-        if (MouseIn(500, 360, 400, 85)) LoadPreferencesSubscreen("Tail");
-        if (MouseIn(500, 460, 400, 85)) LoadPreferencesSubscreen("Wings");
-        if (MouseIn(500, 560, 400, 85)) LoadPreferencesSubscreen("Misc");
+        if (MouseIn(500, getYPos(0), 400, 85)) LoadPreferencesSubscreen("Commands");
+        if (MouseIn(500, getYPos(1), 400, 85)) LoadPreferencesSubscreen("Ears");
+        if (MouseIn(500, getYPos(2), 400, 85)) LoadPreferencesSubscreen("Tail");
+        if (MouseIn(500, getYPos(3), 400, 85)) LoadPreferencesSubscreen("Wings");
+        if (MouseIn(500, getYPos(4), 400, 85)) LoadPreferencesSubscreen("Misc");
 
         return;
     };
@@ -2774,8 +2780,15 @@ CommandCombine([
         DrawText("- " + title + " -", 500, 125, "Black", "Gray");
         DrawCharacter(Player, 50, 50, 0.9);
     }
-    function baseExit() {PreferenceSubscreen = "BCARSettings"; PreferenceMessage = "BCAR+ Settings";}
-    function baseClick() { if (MouseIn(1815, 75, 90, 90)) baseExit(); }
+    function baseExit() {PreferenceSubscreen = "BCARSettings"; PreferenceMessage = "BCAR+ Settings"; bcarSettingsSave();} // Call at the end as it will save settings..
+    function baseClick() { 
+        if (MouseIn(1815, 75, 90, 90)) {
+            if (typeof window["PreferenceSubscreen" + PreferenceSubscreen + "Exit"] === "function")
+                CommonDynamicFunction("PreferenceSubscreen" + PreferenceSubscreen + "Exit()");
+            else
+                baseExit();
+        }
+     }
 
     // COMMANDS MENU
     w.PreferenceSubscreenBCARCommandsLoad = function() { baseLoad(); }
@@ -2784,10 +2797,84 @@ CommandCombine([
     w.PreferenceSubscreenBCARCommandsClick = function() { baseClick(); }
 
     // EAR MENU
-    w.PreferenceSubscreenBCAREarsLoad = function() { baseLoad(); }
-    w.PreferenceSubscreenBCAREarsRun = function() { baseRun("BCAR+ Ears"); }
-    w.PreferenceSubscreenBCAREarsExit = function() { baseExit(); }
-    w.PreferenceSubscreenBCAREarsClick = function() { baseClick(); }
+    w.PreferenceSubscreenBCAREarsLoad = function() { 
+        baseLoad(); 
+
+        // Create Element Inputs
+        ElementCreateInput("bcar_ears_wiggleCount", "number", "" + (Player.BCAR.bcarSettings.earsDefault.earsCount ?? 5), "2");
+        ElementCreateInput("bcar_ears_wiggleSpeed", "number", "" + (Player.BCAR.bcarSettings.earsDefault.earsDelay ?? 200), "4");
+    }
+    w.PreferenceSubscreenBCAREarsRun = function() { 
+        var prev = MainCanvas.textAlign;
+        baseRun("BCAR+ Ears"); 
+
+        // Update Ear 1             [BUTTON]
+        DrawText("Update Ear 1:", 500, getYPos(0), "Black", "Gray");
+		MainCanvas.textAlign = "center";
+		DrawButton(500 + 350, getYPos(0) - 32, 200, 64, "Update", "White", undefined, "Update Ear 1 to Current", true);
+        MainCanvas.textAlign = "left";
+
+        // Update Ear 2             [BUTTON]
+        DrawText("Update Ear 2:", 500, getYPos(1), "Black", "Gray");
+		MainCanvas.textAlign = "center";
+		DrawButton(500 + 350, getYPos(1) - 32, 200, 64, "Update", "White", undefined, "Update Ear 2 to Current", true);
+        MainCanvas.textAlign = "left";
+
+        // Enable Ear Wiggle        [CHECKBOX]
+        DrawText("Enable Ear Wiggle:", 500, getYPos(2), "Black", "Gray");
+		DrawCheckbox(500 + 350, getYPos(2) - 32, 64, 64, "", Player.BCAR.bcarSettings.earWigglingEnable);
+
+        // Ear Wiggle Count         [NUMBER INPUT]
+        DrawText("Wiggle Count:", 500, getYPos(3), "Black", "Gray");
+		ElementPosition("bcar_ears_wiggleCount", 500 + 350 + 150, getYPos(3), 300);
+        
+        // Ear Wiggle Speed         [NUMBER INPUT]
+        DrawText("Wiggle Delay (ms):", 500, getYPos(4), "Black", "Gray");
+		ElementPosition("bcar_ears_wiggleSpeed", 500 + 350 + 150, getYPos(4), 300);
+
+        // Clear Ears               [BUTTON]
+        DrawText("Clear Ears:", 500, getYPos(5), "Black", "Gray");
+		MainCanvas.textAlign = "center";
+		DrawButton(500 + 350, getYPos(5) - 32, 200, 64, "Update", "White", undefined, "Clear Ears", true);
+        MainCanvas.textAlign = prev;
+    }
+    w.PreferenceSubscreenBCAREarsExit = function() { 
+        // Save and element inputs
+        var wiggleCount = +(ElementValue("bcar_ears_wiggleCount") ?? "5");
+        var wiggleSpeed = +(ElementValue("bcar_ears_wiggleSpeed") ?? "200");
+
+        if (wiggleCount !== undefined && wiggleCount !== NaN && (wiggleCount > -1 && wiggleCount < 41 && (wiggleCount % 2 === 0)))
+			Player.BCAR.bcarSettings.earsDefault.earsCount = wiggleCount;
+        if (wiggleSpeed !== undefined && wiggleSpeed !== NaN && (wiggleSpeed > 49 && wiggleSpeed < 3001))
+            Player.BCAR.bcarSettings.earsDefault.earsDelay = wiggleSpeed;
+
+        ElementRemove("bcar_ears_wiggleCount");
+		ElementRemove("bcar_ears_wiggleSpeed");
+
+        baseExit();
+    }
+    w.PreferenceSubscreenBCAREarsClick = function() { 
+        baseClick(); 
+        //CommandEarsChange(['ear1'])
+        // Update Ear 1             [BUTTON]
+        if (MouseIn(500 + 350, getYPos(0) - 32, 200, 64)) 
+            CommandEarsChange(['ear1']);
+        
+        // Update Ear 2             [BUTTON]
+        if (MouseIn(500 + 350, getYPos(1) - 32, 200, 64)) 
+            CommandEarsChange(['ear2']);
+
+        // Enable Ear Wiggle        [CHECKBOX]
+        if (MouseIn(500 + 350, getYPos(2) - 32, 64, 64)) 
+            Player.BCAR.bcarSettings.earWigglingEnable = !Player.BCAR.bcarSettings.earWigglingEnable;
+
+        // Ear Wiggle Count         [NUMBER INPUT]
+        // Ear Wiggle Speed         [NUMBER INPUT]
+
+        // Clear Ears               [BUTTON]
+        if (MouseIn(500 + 350, getYPos(5) - 32, 200, 64)) 
+            CommandEarsDelete(['eardelete']);
+    }
 
     // TAIL MENU
     w.PreferenceSubscreenBCARTailLoad = function() { baseLoad(); }
