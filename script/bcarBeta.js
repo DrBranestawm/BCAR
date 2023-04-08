@@ -2702,6 +2702,7 @@ CommandCombine([
     };
 
     w.PreferenceSubscreenBCARSettingsRun = function() {
+        var prev = MainCanvas.textAlign;
         MainCanvas.textAlign = "left";
         DrawText(
             "- BCAR+ Settings -",
@@ -2755,6 +2756,7 @@ CommandCombine([
             380,
             "Black"
         );
+        MainCanvas.textAlign = prev;
     };
     w.PreferenceSubscreenBCARSettingsClick = function() {
         if (MouseIn(1815, 75, 90, 90))
@@ -2806,6 +2808,7 @@ CommandCombine([
     }
     w.PreferenceSubscreenBCAREarsRun = function() { 
         var prev = MainCanvas.textAlign;
+        MainCanvas.textAlign = "left";
         baseRun("BCAR+ Ears"); 
 
         // Update Ear 1             [BUTTON]
