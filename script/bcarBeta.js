@@ -1,4 +1,4 @@
-onst BCAR_Version = '0.6.3-beta1';
+const BCAR_Version = '0.6.3-beta1';
 const BCAR_Settings_Version = 8;
 
 function is_newer(current, candidate) {
