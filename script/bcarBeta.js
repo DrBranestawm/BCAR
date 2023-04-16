@@ -1,5 +1,4 @@
-
-const BCAR_Version = '0.6.3';
+onst BCAR_Version = '0.6.3-beta1';
 const BCAR_Settings_Version = 8;
 
 function is_newer(current, candidate) {
@@ -27,7 +26,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
 
 (async function () {
 	const modApi = bcModSDK.registerMod({
-	name: 'BCAR+',
+	name: 'BCAR+ UI Beta',
 	fullName: 'Bondage Club Auto React +',
 	version: BCAR_Version,
 	// Optional - Link to the source code of the mod
@@ -42,7 +41,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
   await waitFor(() => ServerIsConnected && ServerSocket);
   //end of do not touch
   const bcarSettingsKey = () => `bcarSettings.${Player?.AccountName}`;
-    const subcommands = ["animationbuttons", "animal", "animalhelp", "arousal", "arousalhelp", "changelog", "cat", "delete1", "delete2", "delete3", "dog", "ear1", "ear2", "eardelete", "eardelay", "earhelp", "earwiggle", "earwigglecount", "emotehelp", "emoteear", "emotetail", "expressionhelp", "expression", "fox", "female", "help", "load1", "load2", "load3", "male", "misc", "mouse", "other", "profile1", "profile2", "profile3", "profilehelp", "save1", "save2", "save3", "status", "tail1", "tail2", "tailhelp", "taildelay", "taildelete", "tailwag", "tailwagcount", "timerhelp", "timer", "versions", "wing1", "wing2", "wingdelay", "wingdelete", "wingflapcount", "winghelp", "wingflap"];
+    const subcommands = ["animationbuttons", "animal", "animalhelp", "arousal", "arousalhelp", "changelog", "cat", "delete1", "delete2", "delete3", "dog", "ear1", "ear2", "eardelete", "eardelay", "earhelp", "earwiggle", "earwigglecount", "emotehelp", "emoteear", "emotetail", "expressionhelp", "expression", "fox", "female", "help", "load1", "load2", "load3", "male", "misc", "mouse", "other", "profile1", "profile2", "profile3", "profilehelp", "save1", "save2", "save3", "settings", "status", "tail1", "tail2", "tailhelp", "taildelay", "taildelete", "tailwag", "tailwagcount", "timerhelp", "timer", "versions", "wing1", "wing2", "wingdelay", "wingdelete", "wingflapcount", "winghelp", "wingflap"];
     const w = window;
     const BCAR_CHANGELOG =
           "BCAR+ v" + BCAR_Version +
@@ -692,28 +691,28 @@ const TriggerAdditions = [
       },
     }
 
-    function replace_template(text, source_name = '') {
-        let result = text
-        result = result.replaceAll("%POSSESSIVE%", Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase())
-        result = result.replaceAll("%CAP_POSSESSIVE%", Player.BCAR.bcarSettings.genderDefault.capPossessive)
-        result = result.replaceAll("%PRONOUN%", Player.BCAR.bcarSettings.genderDefault.capPronoun.toLocaleLowerCase())
-        result = result.replaceAll("%CAP_PRONOUN%", Player.BCAR.bcarSettings.genderDefault.capPronoun)
-        result = result.replaceAll("%INTENSIVE%", Player.BCAR.bcarSettings.genderDefault.capIntensive.toLocaleLowerCase())
-        result = result.replaceAll("%CAP_INTENSIVE%", Player.BCAR.bcarSettings.genderDefault.capIntensive)
-        result = result.replaceAll("%NAME%", CharacterNickname(Player))
-        result = result.replaceAll("%OPP_NAME%", source_name) // finally we can use the source name to make the substitution
+   function replace_template(text, source_name = '') {
+       let result = text
+       result = result.replaceAll("%POSSESSIVE%", Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase())
+       result = result.replaceAll("%CAP_POSSESSIVE%", Player.BCAR.bcarSettings.genderDefault.capPossessive)
+       result = result.replaceAll("%PRONOUN%", Player.BCAR.bcarSettings.genderDefault.capPronoun.toLocaleLowerCase())
+       result = result.replaceAll("%CAP_PRONOUN%", Player.BCAR.bcarSettings.genderDefault.capPronoun)
+       result = result.replaceAll("%INTENSIVE%", Player.BCAR.bcarSettings.genderDefault.capIntensive.toLocaleLowerCase())
+       result = result.replaceAll("%CAP_INTENSIVE%", Player.BCAR.bcarSettings.genderDefault.capIntensive)
+       result = result.replaceAll("%NAME%", CharacterNickname(Player))
+       result = result.replaceAll("%OPP_NAME%", source_name) // finally we can use the source name to make the substitution
 
-        return result
+       return result
+   }
+    function ActivityBeeper(type, source_name) {
+        const animal = Player.BCAR.bcarSettings.animal
+        const actions = typeAction[animal]?.[type];
+        if (!actions) return;
+        const index = Math.floor(Math.random() * actions.length);
+        console.log(index);
+        ServerSend("ChatRoomChat", {Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: replace_template(actions[index].action, source_name)}]});
+        if (actions[index].sound.length) ServerSend("ChatRoomChat", {Type: "Chat", Content: actions[index].sound})
     }
-  function ActivityBeeper(type, source_name) {
-    const animal = Player.BCAR.bcarSettings.animal
-    const actions = typeAction[animal]?.[type];
-    if (!actions) return;
-    const index = Math.floor(Math.random() * actions.length);
-    console.log(index);
-    ServerSend("ChatRoomChat", {Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: replace_template(actions[index].action, source_name)}]});
-    if (actions[index].sound.length) ServerSend("ChatRoomChat", {Type: "Chat", Content: actions[index].sound})
-  }
 
 
     function ArousalEarCaress(){
@@ -915,7 +914,6 @@ const TriggerAdditions = [
         );
         ServerSocket.off('ChatRoomMessage', BCAR_Greeting)
     }
-
     setTimeout(function() {
         ServerSocket.on('ChatRoomMessage', BCAR_Greeting);
     }, 5000);
@@ -1527,7 +1525,7 @@ function CommandEarHelp(argsList)
             ChatRoomSendLocal(
             `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
             <br>Ear instructions:
-            <br>First equip the main ears you want to wear in primarily the ''Ears'' slot in your wardrobe. Type ''/bcar ear1'' in the chat to save the main ears.
+            <br>First equip the main ears you want to wear primarily in the ''Ears'' slot in your wardrobe. Type ''/bcar ear1'' in the chat to save the main ears.
             <br>For your ears to wiggle follow the same steps and equip a different type of ears to use as your secondary. Type ''/bcar ear2'' in the chat to save the secondary ears.
             <br>
             <br>Commands:
@@ -1694,7 +1692,7 @@ function CommandTailHelp(argsList)
             ChatRoomSendLocal(
             `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\
             <br>Tail instructions:
-            <br>First equip the main tail you want to wear in primarily the ''Tail Strap'' slot in your wardrobe. Type ''/bcar tail1'' in the chat to save the main tail.
+            <br>First equip the main tail you want to wear primarily in the ''Tail Strap'' slot in your wardrobe. Type ''/bcar tail1'' in the chat to save the main tail.
             <br>For your tail to wag follow the same steps and equip a different type of tail to use as your secondary. Type ''/bcar tail2'' in the chat to save the secondary tail.
             <br>
             <br>Commands:
@@ -1853,7 +1851,7 @@ function CommandWingHelp(argsList)
                 ChatRoomSendLocal(
                 `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
                 <br>Wing instructions:
-                <br>First equip the main wings you want to wear in primarily the ''Wings'' slot in your wardrobe. Type ''/bcar wing1'' in the chat to save the main wings.
+                <br>First equip the main wings you want to wear primarily in the ''Wings'' slot in your wardrobe. Type ''/bcar wing1'' in the chat to save the main wings.
                 <br>For your wings to wiggle follow the same steps and equip a different type of wings to use as your secondary. Type ''/bcar wing2'' in the chat to save the secondary wings.
                 <br>To let your wings flap type an emote anything that includes the words ''flaps'' and ''wings''.
                 <br>
@@ -2132,6 +2130,69 @@ function CommandChangelog(argsList)
         }
     }
 
+    function CommandEmotes(argsList)
+    {
+        const cmd = argsList[0];
+        const s = Player?.BCAR?.bcarSettings;
+        switch (cmd) {
+            case 'emote': case 'emotes': case 'emotehelp':
+                ChatRoomSendLocal(
+                `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>Emotes:
+                <br>In order to use the emote, a primary ear/tail and a secondary ear/tail must have been set, as with automatic reactions.
+                <br>Type /bcar earhelp or /bcar tailhelp to see the instructions.
+                <br>
+                <br>/bcar emoteear - Toggles ear wiggle emote on/off.
+                <br>/bcar emotetail - Toggles tail wag emote on/off.
+                <br>
+                <br>Examples:
+                <br><i>*wiggle her ears
+                <br>*wags her tail</i>
+                </p>`.replaceAll('\n', ''), wt.help
+                );
+                break;
+            case 'emoteear':
+                if (!s.earEmoteEnable) {
+                    s.earEmoteEnable = true;
+                    s.earEmoteStatus = "Enabled";
+                    ChatRoomSendLocal(
+                    `<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                    <br>Ear wiggle emote is now enabled!
+                    </p>`.replaceAll('\n', ''), wt.info
+                    );
+                }
+                else if (s.earEmoteEnable) {
+                    s.earEmoteEnable = false;
+                    s.earEmoteStatus = "Disabled";
+                    ChatRoomSendLocal(
+                    `<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                    <br>"Ear wiggle emote is now disabled!
+                    </p>`.replaceAll('\n', ''), wt.info
+                    );
+                }
+                break;
+            case 'emotetail':
+                if (!s.tailEmoteEnable) {
+                    s.tailEmoteEnable = true;
+                    s.tailEmoteStatus = "Enabled";
+                    ChatRoomSendLocal(
+                    `<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                    <br>Tail wagging emote is now Enabled!
+                    </p>`.replaceAll('\n', ''), wt.info
+                    );
+          }
+                else if (s.tailEmoteEnable) {
+                    s.tailEmoteEnable = false;
+                    s.tailEmoteStatus = "Disabled";
+                    ChatRoomSendLocal(
+                    `<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                    <br>Tail wagging emote is now disabled!
+                    </p>`.replaceAll('\n', ''), wt.info
+                    );
+                }
+        }
+    }
+
 function CommandExpression(argsList)
     {
         const cmd = argsList[0];
@@ -2193,69 +2254,6 @@ function CommandExpression(argsList)
             );
 //        }
 
-        }
-    }
-
-function CommandEmotes(argsList)
-    {
-        const cmd = argsList[0];
-        const s = Player?.BCAR?.bcarSettings;
-        switch (cmd) {
-            case 'emote': case 'emotes': case 'emotehelp':
-                ChatRoomSendLocal(
-                `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
-                <br>Emotes:
-                <br>In order to use the emote, a primary ear/tail and a secondary ear/tail must have been set, as with automatic reactions.
-                <br>Type /bcar earhelp or /bcar tailhelp to see the instructions.
-                <br>
-                <br>/bcar emoteear - Toggles ear wiggle emote on/off.
-                <br>/bcar emotetail - Toggles tail wag emote on/off.
-                <br>
-                <br>Examples:
-                <br><i>*wiggle her ears
-                <br>*wags her tail</i>
-                </p>`.replaceAll('\n', ''), wt.help
-                );
-                break;
-            case 'emoteear':
-                if (!s.earEmoteEnable) {
-                    s.earEmoteEnable = true;
-                    s.earEmoteStatus = "Enabled";
-                    ChatRoomSendLocal(
-                    `<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
-                    <br>Ear wiggle emote is now enabled!
-                    </p>`.replaceAll('\n', ''), wt.info
-                    );
-                }
-                else if (s.earEmoteEnable) {
-                    s.earEmoteEnable = false;
-                    s.earEmoteStatus = "Disabled";
-                    ChatRoomSendLocal(
-                    `<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
-                    <br>"Ear wiggle emote is now disabled!
-                    </p>`.replaceAll('\n', ''), wt.info
-                    );
-                }
-                break;
-            case 'emotetail':
-                if (!s.tailEmoteEnable) {
-                    s.tailEmoteEnable = true;
-                    s.tailEmoteStatus = "Enabled";
-                    ChatRoomSendLocal(
-                    `<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
-                    <br>Tail wagging emote is now Enabled!
-                    </p>`.replaceAll('\n', ''), wt.info
-                    );
-          }
-                else if (s.tailEmoteEnable) {
-                    s.tailEmoteEnable = false;
-                    s.tailEmoteStatus = "Disabled";
-                    ChatRoomSendLocal(
-                    `<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
-                    <br>Tail wagging emote is now disabled!
-                    </p>`.replaceAll('\n', ''), wt.info
-                    );
-                }
         }
     }
 
@@ -2681,24 +2679,24 @@ CommandCombine([
 
     function LoadPreferencesSubscreen(screenName) {
         PreferenceSubscreen = "BCAR" + screenName;
-        PreferenceMessage = screenName;
+        PreferenceSettings = screenName;
         if (typeof window["PreferenceSubscreen" + PreferenceSubscreen + "Load"] === "function")
             CommonDynamicFunction("PreferenceSubscreen" + PreferenceSubscreen + "Load()");
     }
 
     function getYPos(ix) {
         return 200 + (100 * ix);
+
+    }
+
+    function getYPosC(ix) {
+        return 250 + (40 * ix);
+
     }
 
     // MAIN MENU
-
     w.PreferenceSubscreenBCARSettingsLoad = function() {
         console.debug("BCAR+ Settings load");
-    };
-
-    w.PreferenceSubscreenBCARSettingsExit = function() {
-        PreferenceSubscreen = "";
-        PreferenceMessage = "";
     };
 
     w.PreferenceSubscreenBCARSettingsRun = function() {
@@ -2716,6 +2714,22 @@ CommandCombine([
         );
 
         DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
+        DrawButton(1540, 770, 400, 85, "", "White", undefined, "Open BCAR+ Changelog on git.", true);
+        DrawTextFit(
+            "Open Changelog",
+            1600,
+            810,
+            380,
+            "Black"
+        );
+        DrawButton(1540, 870, 400, 85, "", "White", undefined, "Open BCAR+ Wiki on git.", true);
+        DrawTextFit(
+            "Open Wiki",
+            1650,
+            910,
+            308,
+            "Black"
+        );
         DrawButton(500, getYPos(0), 400, 85, "", "White");
         DrawTextFit(
             "List of all commands",
@@ -2758,9 +2772,18 @@ CommandCombine([
         );
         MainCanvas.textAlign = prev;
     };
+
+    w.PreferenceSubscreenBCARSettingsExit = function() {
+        PreferenceSubscreen = "";
+        PreferenceSettings = "";
+    };
     w.PreferenceSubscreenBCARSettingsClick = function() {
         if (MouseIn(1815, 75, 90, 90))
             PreferenceSubscreenBCARSettingsExit();
+        if (MouseIn(1540, 770, 400, 85))
+            window.open('https://github.com/DrBranestawm/BCAR/blob/main/script/changelog.md', '_blank');
+        if (MouseIn(1540, 870, 400, 85))
+            window.open('https://github.com/DrBranestawm/BCAR/wiki', '_blank');
 
         if (MouseIn(500, getYPos(0), 400, 85)) LoadPreferencesSubscreen("Commands");
         if (MouseIn(500, getYPos(1), 400, 85)) LoadPreferencesSubscreen("Ears");
@@ -2773,7 +2796,7 @@ CommandCombine([
 
     // Common Preference Behavior
     function baseLoad() {}
-    function baseRun(title) { 
+    function baseRun(title) {
         DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
         MainCanvas.textAlign = "left";
         if (!title)
@@ -2782,8 +2805,8 @@ CommandCombine([
         DrawText("- " + title + " -", 500, 125, "Black", "Gray");
         DrawCharacter(Player, 50, 50, 0.9);
     }
-    function baseExit() {PreferenceSubscreen = "BCARSettings"; PreferenceMessage = "BCAR+ Settings"; bcarSettingsSave();} // Call at the end as it will save settings..
-    function baseClick() { 
+    function baseExit() {PreferenceSubscreen = "BCARSettings"; PreferenceSettings = "BCAR+ Settings"; bcarSettingsSave();} // Call at the end as it will save settings..
+    function baseClick() {
         if (MouseIn(1815, 75, 90, 90)) {
             if (typeof window["PreferenceSubscreen" + PreferenceSubscreen + "Exit"] === "function")
                 CommonDynamicFunction("PreferenceSubscreen" + PreferenceSubscreen + "Exit()");
@@ -2792,24 +2815,319 @@ CommandCombine([
         }
      }
 
+    // Define Save Validators
+    const BCAR_save_validators = {
+        earsCount: function(value) {
+            if (!value) return false;
+            const number = Number.parseInt(value);
+            if (isNaN(number)) return false;
+            if (!is_even(number)) return false;
+            if (number < -1) return false;
+            if (number > 41) return false;
+            Player.BCAR.bcarSettings.earsDefault.earsCount = number;
+            return true;
+        },
+        earsDelay: function(value) {
+            if (!value) return false;
+            const number = Number.parseInt(value);
+            if (isNaN(number)) return false;
+            if (number < 49) return false;
+            if (number > 3001) return false;
+            Player.BCAR.bcarSettings.earsDefault.earsDelay = number;
+            return true;
+        },
+        tailsCount: function(value) {
+            if (!value) return false;
+            const number = Number.parseInt(value);
+            if (isNaN(number)) return false;
+            if (!is_even(number)) return false;
+            if (number < -1) return false;
+            if (number > 41) return false;
+            Player.BCAR.bcarSettings.tailsDefault.tailsCount = number;
+            return true;
+        },
+        tailsDelay: function(value) {
+            if (!value) return false;
+            const number = Number.parseInt(value);
+            if (isNaN(number)) return false;
+            if (number < 199) return false;
+            if (number > 5001) return false;
+            Player.BCAR.bcarSettings.tailsDefault.tailsDelay = number;
+            return true;
+        },
+        wingsCount: function(value) {
+            if (!value) return false;
+            const number = Number.parseInt(value);
+            if (isNaN(number)) return false;
+            if (!is_even(number)) return false;
+            if (number < -1) return false;
+            if (number > 41) return false;
+            Player.BCAR.bcarSettings.wingsDefault.wingsCount = number;
+            return true;
+        },
+        wingsDelay: function(value) {
+            if (!value) return false;
+            const number = Number.parseInt(value);
+            if (isNaN(number)) return false;
+            if (number < 199) return false;
+            if (number > 5001) return false;
+            Player.BCAR.bcarSettings.wingsDefault.wingsDelay = number;
+            return true;
+        },
+    }
+
     // COMMANDS MENU
     w.PreferenceSubscreenBCARCommandsLoad = function() { baseLoad(); }
-    w.PreferenceSubscreenBCARCommandsRun = function() { baseRun("BCAR+ Commands"); }
-    w.PreferenceSubscreenBCARCommandsExit = function() { baseExit(); }
-    w.PreferenceSubscreenBCARCommandsClick = function() { baseClick(); }
+    const command_pages = {
+        pages: [
+            { // 0
+                title: 'General Commands',
+                lines: [
+                    '/bcar animalhelp - Opens animal instructions and commands page.',
+                    '/bcar arousalhelp - Opens arousal instructions and commands page.',
+                    '/bcar changelog - Shows the BCAR changelog.',
+                    '/bcar help - Opens the help window.',
+                    '/bcar status - Opens the status window.',
+                    '/bcar misc - Opens misc instructions and commands page.',
+                    '/bcar profilehelp - Opens profile instructions and commands page.',
+                    '/bcar male - Lets the reactions refer to the Player as "he".',
+                    '/bcar female - Lets the reactions refer to the Player as "she".',
+                    '/bcar other - Lets the reactions refer to the Player as "they".',
+                    '/bcar timerhelp - Opens timer instructions and commands page.',
+                    '/bcar reset - Resets the ears, tails and wings to the default settings.',
+                    '/bcar versions - Shows you the version of BCAR+ you are using.',
+                ],
+            },
+            { // 1
+                title: 'Animals Commands',
+                lines: [
+                    '/bcar cat - Changes the reactions and sounds to cat realted ones.',
+                    '/bcar dog - Changes the reactions and sounds to dog realted ones.',
+                    '/bcar fox - Changes the reactions and sounds to fox realted ones.',
+                    '/bcar mouse - Changes the reactions and sounds to mouse realted ones.',
+                ],
+            },
+            { // 2
+                title: 'Ear Commands',
+                lines: [
+                    '/bcar ear1 - Saves the primary ears.',
+                    '/bcar ear2 - Saves the secondary ears.',
+                    '/bcar earwiggle - Toggles the ear wiggling on/off.',
+                    '/bcar earwigglecount - Determines the number of wiggles.',
+                    '/bcar eardelay - Determines the wiggle speed.',
+                    '/bcar eardelete - Removes the ears.',
+                    '/bcar earhelp - Opens ear instructions and commands page.',
+                ],
+            },
+            { // 3
+                title: 'Emote Commands',
+                lines: [
+                    '/bcar emoteear - Toggles ear wiggle emote on/off.',
+                    '/bcar emotetail - Toggles tail wag emote on/off.',
+                    '/bcar emotehelp - Opens emote instructions and commands page.',
+                ],
+            },
+            { // 4
+                title: 'Expression Commands',
+                lines: [
+                    '/bcar expression - Toggles expression on/off.',
+                    '/bcar expressions - Toggles expression on/off.',
+                    '/bcar expressionhelp - Opens expression instructions and commands page.',
+                ],
+            },
+            { // 5
+                title: 'Gender Commands',
+                lines: [
+                    '/bcar male - Lets the reactions refer to the Player as "he".',
+                    '/bcar female - Lets the reactions refer to the Player as "she".',
+                    '/bcar other - Lets the reactions refer to the Player as "they".',
+                ],
+            },
+            { // 6
+                title: 'Misc Commands',
+                lines: [
+                    '/cum - Lets the player cum instantly.',
+                    '/leave - Lets the player leave the room immediately.',
+                    '/safewordspecific - Lets the player remove a certain restraint.',
+                    '/wardrobe - Opens the wardrobe of the player.',
+                ],
+            },
+            { // 7
+                title: 'Profile Commands',
+                lines: [
+                    '/bcar save1 - Saves current setup in Profile1.',
+                    '/bcar save2 - Saves current setup in Profile2.',
+                    '/bcar save3 - Saves current setup in Profile3.',
+                    '/bcar load1 - Loads the setup saved in Profile1.',
+                    '/bcar load2 - Loads the setup saved in Profile2.',
+                    '/bcar load3 - Loads the setup saved in Profile3.',
+                    '/bcar profile1 - Shows which setup is saved in Profile1.',
+                    '/bcar profile2 - Shows which setup is saved in Profile2.',
+                    '/bcar profile3 - Shows which setup is saved in Profile3.',
+                ],
+            },
+            { // 8
+                title: 'Tail Commands',
+                lines: [
+                    '/bcar tail1 - Saves the primary tail.',
+                    '/bcar tail2 - Saves the secondary tail.',
+                    '/bcar tailwag - Toggles the tail wagging on/off.',
+                    '/bcar tailwagcount - Determines the number of wags.',
+                    '/bcar taildelay - Determines the wag speed.',
+                    '/bcar taildelete - Removes the tail.',
+                    '/bcar tailhelp - Opens tail instructions and commands page.',
+                ],
+            },
+            { // 9
+                title: 'Timer Commands',
+                lines: [
+                    '/bcar timer - Toggles the timer on/off.',
+                ],
+            },
+            { // 10
+                title: 'Wing Commands',
+                lines: [
+                    '/bcar wing1 - Saves the primary wings.',
+                    '/bcar wing2 - Saves the secondary wings.',
+                    '/bcar wingflap - Toggles the wing flapping on/off.',
+                    '/bcar wingflapcount - Determines the number of flaps.',
+                    '/bcar wingdelay - Determines the flap speed.',
+                    '/bcar wingdelete - Removes the wings.',
+                    '/bcar winghelp - Opens wing instructions and commands page.',
+                ],
+            },
+        ],
+        max: function() {return this.pages.length - 1},
+        current: 0,
+        next: function() {
+            this.current += 1;
+            if (this.current > this.max()) this.current = 0;
+        },
+        get_current_page: function() {
+            return this.pages[this.current]
+        },
+        counter: function() { // Actually, let's count from 1 here
+            let current = this.current + 1
+            let prefix = ''
+            if (current < 10) {
+                prefix = '0'
+            }
+            return prefix + `${current}/${this.pages.length}`
+        },
+    }
+
+
+    function is_even(number) {
+        if (number % 2 === 0) { // if integral division by 2 leaves 0 in the remainder
+            return true
+        }
+        return false
+    }
+
+    w.PreferenceSubscreenBCARCommandsRun = function() {
+        const prev = MainCanvas.textAlign;
+        baseRun("BCAR+ Commands");
+        const page = command_pages.get_current_page();
+        if (!page) {
+            console.warn(`Empty command page ${command_pages.current}`);
+            return;
+        }
+        DrawText(page.title, 500, 200, "Black", "Gray");
+        for (let i in page.lines) {
+            let colour = "Gray" // 0 is even, even lines are black, odd lines are gray
+            if (is_even(i)) colour = "Black"
+        DrawText(page.lines[i], 500, getYPosC(i), colour, "Gray");
+    }
+    DrawText(command_pages.counter(),
+             1725,
+             230,
+             "Black",
+             "Gray"
+            );
+    DrawButton(1815, 180, 90, 90, "", "White", "Icons/Next.png");
+    MainCanvas.textAlign = prev;
+}
+
+    w.PreferenceSubscreenBCARCommandsClick = function() {
+        baseClick();
+
+    if (MouseIn(1815, 180, 90, 90))
+            command_pages.next();
+
+    if (MouseIn(500, getYPosC(3), 800, 64) && (command_pages.current === 0))
+        //                          ^^^
+        // this is where the click box ends, it's 500 + 300 = 800 (my guess)
+        window.open('https://github.com/DrBranestawm/BCAR/blob/main/script/changelog.md', '_blank');
+  }
 
     // EAR MENU
-    w.PreferenceSubscreenBCAREarsLoad = function() { 
-        baseLoad(); 
+    w.PreferenceSubscreenBCAREarsLoad = function() {
+        baseLoad();
 
         // Create Element Inputs
+        let element = null
+        let callback = null
         ElementCreateInput("bcar_ears_wiggleCount", "number", "" + (Player.BCAR.bcarSettings.earsDefault.earsCount ?? 5), "2");
+        callback = function(event) {
+            const element = event.target;
+            // element.checkValidity(); // for future use
+            const new_value = ElementValue(element.id);
+            const is_valid = BCAR_save_validators.earsCount(new_value);
+            if (is_valid) {
+                element.style.color = "#00FF00";
+                element.is_valid = true
+//                PreferenceMessage = `Saved count: ${new_value}`;
+            } else {
+                element.style.color = "#FF0000";
+                element.is_valid = false
+                PreferenceMessage = "Invalid number of wiggles";
+            }
+        };
+        element = document.getElementById("bcar_ears_wiggleCount");
+        element.onchange = callback;
+        element.is_valid = true;
         ElementCreateInput("bcar_ears_wiggleSpeed", "number", "" + (Player.BCAR.bcarSettings.earsDefault.earsDelay ?? 200), "4");
+        callback = function(event) {
+            const element = event.target;
+            // element.checkValidity(); // for future use
+            const new_value = ElementValue(element.id);
+            const is_valid = BCAR_save_validators.earsDelay(new_value);
+            if (is_valid) {
+                element.style.color = "#00FF00";
+                element.is_valid = true
+//              PreferenceMessage = `Saved delay: ${new_value} ms`;
+            } else {
+                element.style.color = "#FF0000";
+                element.is_valid = false
+                PreferenceMessage = "Invalid number of delay";
+            }
+        };
+        element = document.getElementById("bcar_ears_wiggleSpeed");
+        element.onchange = callback;
+        element.is_valid = true;
     }
-    w.PreferenceSubscreenBCAREarsRun = function() { 
+    w.PreferenceSubscreenBCAREarsRun = function() {
         var prev = MainCanvas.textAlign;
         MainCanvas.textAlign = "left";
-        baseRun("BCAR+ Ears"); 
+        baseRun("BCAR+ Ears");
+
+        // How to use
+        DrawText("How To Use", 1380, getYPosC(-3), "Black", "Gray");
+        DrawText(`First equip the main ears you want`, 1200, getYPosC(-1), "Black", "Gray");
+        DrawText(`to wear primarily in the "Ears" slot`, 1200, getYPosC(0), "Black", "Gray");
+        DrawText(`in your wardrobe. Use Update Ear 1`, 1200, getYPosC(1), "Black", "Gray");
+        DrawText(`to save the main ears.`, 1200, getYPosC(2), "Black", "Gray");
+        DrawText(`For your ears to wiggle follow the same`, 1200, getYPosC(3), "Black", "Gray");
+        DrawText(`steps and equip a different type of `, 1200, getYPosC(4), "Black", "Gray");
+        DrawText(`"Ears" to use as your secondary.`, 1200, getYPosC(5), "Black", "Gray");
+        DrawText(`Use Update Ear 2 to save`, 1200, getYPosC(6), "Black", "Gray");
+        DrawText(`the secondary ears.`, 1200, getYPosC(7), "Black", "Gray");
+        DrawText(`The default of Wiggle Count is 12. `, 1200, getYPosC(9), "Black", "Gray");
+        DrawText(`You can set it to an even number `, 1200, getYPosC(10), "Black", "Gray");
+        DrawText(`between 0 and 40. `, 1200, getYPosC(11), "Black", "Gray");
+        DrawText(`The default of Wiggle Delay is 175. `, 1200, getYPosC(12), "Black", "Gray");
+        DrawText(`You can set it to a number `, 1200, getYPosC(13), "Black", "Gray");
+        DrawText(`between 50 and 3000. `, 1200, getYPosC(14), "Black", "Gray");
 
         // Update Ear 1             [BUTTON]
         DrawText("Update Ear 1:", 500, getYPos(0), "Black", "Gray");
@@ -2830,7 +3148,7 @@ CommandCombine([
         // Ear Wiggle Count         [NUMBER INPUT]
         DrawText("Wiggle Count:", 500, getYPos(3), "Black", "Gray");
 		ElementPosition("bcar_ears_wiggleCount", 500 + 350 + 150, getYPos(3), 300);
-        
+
         // Ear Wiggle Speed         [NUMBER INPUT]
         DrawText("Wiggle Delay (ms):", 500, getYPos(4), "Black", "Gray");
 		ElementPosition("bcar_ears_wiggleSpeed", 500 + 350 + 150, getYPos(4), 300);
@@ -2839,63 +3157,466 @@ CommandCombine([
         DrawText("Clear Ears:", 500, getYPos(5), "Black", "Gray");
 		MainCanvas.textAlign = "center";
 		DrawButton(500 + 350, getYPos(5) - 32, 200, 64, "Clear", "White", undefined, "Clear Ears", true);
+        MainCanvas.textAlign = "left";
+
+        // Test Ear Wiggle           [BUTTON]
+        DrawText("Wiggle Ears:", 500, getYPos(6), "Black", "Gray");
+		MainCanvas.textAlign = "center";
+		DrawButton(500 + 350, getYPos(6) - 32, 200, 64, "Test", "White", undefined, "Test Ear Wiggles", true);
         MainCanvas.textAlign = prev;
+
+        if (PreferenceMessage != "")
+            DrawText(PreferenceMessage, 1000, 125, "Red", "Black");
     }
-    w.PreferenceSubscreenBCAREarsExit = function() { 
+    w.PreferenceSubscreenBCAREarsExit = function() {
         // Save and element inputs
-        var wiggleCount = +(ElementValue("bcar_ears_wiggleCount") ?? "5");
-        var wiggleSpeed = +(ElementValue("bcar_ears_wiggleSpeed") ?? "200");
-
-        if (wiggleCount !== undefined && wiggleCount !== NaN && (wiggleCount > -1 && wiggleCount < 41 && (wiggleCount % 2 === 0)))
-			Player.BCAR.bcarSettings.earsDefault.earsCount = wiggleCount;
-        if (wiggleSpeed !== undefined && wiggleSpeed !== NaN && (wiggleSpeed > 49 && wiggleSpeed < 3001))
-            Player.BCAR.bcarSettings.earsDefault.earsDelay = wiggleSpeed;
-
         ElementRemove("bcar_ears_wiggleCount");
 		ElementRemove("bcar_ears_wiggleSpeed");
 
+        PreferenceMessage = "";
+
         baseExit();
     }
-    w.PreferenceSubscreenBCAREarsClick = function() { 
-        baseClick(); 
+    w.PreferenceSubscreenBCAREarsClick = function() {
+        baseClick();
         //CommandEarsChange(['ear1'])
         // Update Ear 1             [BUTTON]
-        if (MouseIn(500 + 350, getYPos(0) - 32, 200, 64)) 
-            CommandEarsChange(['ear1']);
-        
+        if (MouseIn(500 + 350, getYPos(0) - 32, 200, 64))
+            if(!InventoryGet(Player,"HairAccessory2")){
+                PreferenceMessage = "No Ears Equipped";
+            }
+            else{
+                PreferenceMessage = "Main Ears updated";
+                CommandEarsChange(['ear1']);
+            }
+
         // Update Ear 2             [BUTTON]
-        if (MouseIn(500 + 350, getYPos(1) - 32, 200, 64)) 
-            CommandEarsChange(['ear2']);
+        if (MouseIn(500 + 350, getYPos(1) - 32, 200, 64))
+            if(!InventoryGet(Player,"HairAccessory2")){
+                PreferenceMessage = "No Ears Equipped";
+            }
+            else{
+                PreferenceMessage = "Secondary Ears updated";
+                CommandEarsChange(['ear2']);
+            }
 
         // Enable Ear Wiggle        [CHECKBOX]
-        if (MouseIn(500 + 350, getYPos(2) - 32, 64, 64)) 
+        if (MouseIn(500 + 350, getYPos(2) - 32, 64, 64))
             Player.BCAR.bcarSettings.earWigglingEnable = !Player.BCAR.bcarSettings.earWigglingEnable;
 
         // Ear Wiggle Count         [NUMBER INPUT]
         // Ear Wiggle Speed         [NUMBER INPUT]
 
         // Clear Ears               [BUTTON]
-        if (MouseIn(500 + 350, getYPos(5) - 32, 200, 64)) 
+        if (MouseIn(500 + 350, getYPos(5) - 32, 200, 64)) {
             CommandEarsDelete(['eardelete']);
+            PreferenceMessage = "Ears has been removed";
+        }
+
+        // Test Ear Wiggle          [BUTTON]
+        if (MouseIn(500 + 350, getYPos(6) - 32, 200, 64)) {
+            if (document.getElementById("bcar_ears_wiggleCount").is_valid && document.getElementById("bcar_ears_wiggleSpeed").is_valid) {
+                EarWiggle();
+                PreferenceMessage = "";
+            }
+            else {
+                PreferenceMessage = "Set valid numbers";
+            }
+        }
     }
 
     // TAIL MENU
-    w.PreferenceSubscreenBCARTailLoad = function() { baseLoad(); }
-    w.PreferenceSubscreenBCARTailRun = function() { baseRun("BCAR+ Tail"); }
-    w.PreferenceSubscreenBCARTailExit = function() { baseExit(); }
-    w.PreferenceSubscreenBCARTailClick = function() { baseClick(); }
+    w.PreferenceSubscreenBCARTailLoad = function() {
+        baseLoad();
+
+        // Create Element Inputs
+        let element = null
+        let callback = null
+        ElementCreateInput("bcar_tail_wagCount", "number", "" + (Player.BCAR.bcarSettings.tailsDefault.tailsCount ?? 5), "2");
+        callback = function(event) {
+            const element = event.target;
+            // element.checkValidity(); // for future use
+            const new_value = ElementValue(element.id);
+            const is_valid = BCAR_save_validators.tailsCount(new_value);
+            if (is_valid) {
+                element.style.color = "#00FF00";
+                element.is_valid = true;
+//                PreferenceMessage = `Saved count: ${new_value}`;
+            } else {
+                element.style.color = "#FF0000";
+                element.is_valid = false;
+                PreferenceMessage = "Invalid number of wags";
+            }
+        };
+        element = document.getElementById("bcar_tail_wagCount");
+        element.onchange = callback;
+        element.is_valid = true;
+        ElementCreateInput("bcar_tail_wagSpeed", "number", "" + (Player.BCAR.bcarSettings.tailsDefault.tailsDelay ?? 200), "4");
+        callback = function(event) {
+            const element = event.target;
+            // element.checkValidity(); // for future use
+            const new_value = ElementValue(element.id);
+            const is_valid = BCAR_save_validators.tailsDelay(new_value);
+            if (is_valid) {
+                element.style.color = "#00FF00";
+                element.is_valid = true;
+//                PreferenceMessage = `Saved delay: ${new_value} ms`;
+            } else {
+                element.style.color = "#FF0000";
+                element.is_valid = false;
+                PreferenceMessage = "Invalid number of delay";
+            }
+        };
+        element = document.getElementById("bcar_tail_wagSpeed");
+        element.onchange = callback;
+        element.is_valid = true;
+    }
+    w.PreferenceSubscreenBCARTailRun = function() {
+        var prev = MainCanvas.textAlign;
+        MainCanvas.textAlign = "left";
+        baseRun("BCAR+ Tail");
+
+        // How to use
+        DrawText("How To Use", 1380, getYPosC(-3), "Black", "Gray");
+        DrawText(`First equip the main tail you want`, 1200, getYPosC(-1), "Black", "Gray");
+        DrawText(`to wear primarily in the "TailStraps"`, 1200, getYPosC(0), "Black", "Gray");
+        DrawText(`slot in your wardrobe. Use Update Tail 1`, 1200, getYPosC(1), "Black", "Gray");
+        DrawText(`to save the main Tail.`, 1200, getYPosC(2), "Black", "Gray");
+        DrawText(`For your tail to wag follow the same`, 1200, getYPosC(3), "Black", "Gray");
+        DrawText(`steps and equip a different type of `, 1200, getYPosC(4), "Black", "Gray");
+        DrawText(`"Tail" to use as your secondary.`, 1200, getYPosC(5), "Black", "Gray");
+        DrawText(`Use Update Tail 2 to save`, 1200, getYPosC(6), "Black", "Gray");
+        DrawText(`the secondary tail.`, 1200, getYPosC(7), "Black", "Gray");
+        DrawText(`The default of Wag Count is 6. `, 1200, getYPosC(9), "Black", "Gray");
+        DrawText(`You can set it to an even number `, 1200, getYPosC(10), "Black", "Gray");
+        DrawText(`between 0 and 40. `, 1200, getYPosC(11), "Black", "Gray");
+        DrawText(`The default of Wag Delay is . `, 1200, getYPosC(12), "Black", "Gray");
+        DrawText(`You can set it to a number 800`, 1200, getYPosC(13), "Black", "Gray");
+        DrawText(`between 200 and 5000. `, 1200, getYPosC(14), "Black", "Gray");
+
+        // Update Tail 1             [BUTTON]
+        DrawText("Update Tail 1:", 500, getYPos(0), "Black", "Gray");
+		MainCanvas.textAlign = "center";
+		DrawButton(500 + 350, getYPos(0) - 32, 200, 64, "Update", "White", undefined, "Update Tail 1 to Current", true);
+        MainCanvas.textAlign = "left";
+
+        // Update Tail 2             [BUTTON]
+        DrawText("Update Tail 2:", 500, getYPos(1), "Black", "Gray");
+		MainCanvas.textAlign = "center";
+		DrawButton(500 + 350, getYPos(1) - 32, 200, 64, "Update", "White", undefined, "Update Tail 2 to Current", true);
+        MainCanvas.textAlign = "left";
+
+        // Enable Tail Wag        [CHECKBOX]
+        DrawText("Enable Tail Wag:", 500, getYPos(2), "Black", "Gray");
+		DrawCheckbox(500 + 350, getYPos(2) - 32, 64, 64, "", Player.BCAR.bcarSettings.tailWaggingEnable);
+
+        // Tail Wag Count         [NUMBER INPUT]
+        DrawText("Wag Count:", 500, getYPos(3), "Black", "Gray");
+		ElementPosition("bcar_tail_wagCount", 500 + 350 + 150, getYPos(3), 300);
+
+        // Tail Wag Speed         [NUMBER INPUT]
+        DrawText("Wag Delay (ms):", 500, getYPos(4), "Black", "Gray");
+		ElementPosition("bcar_tail_wagSpeed", 500 + 350 + 150, getYPos(4), 300);
+
+        // Clear Tail             [BUTTON]
+        DrawText("Clear Tail:", 500, getYPos(5), "Black", "Gray");
+		MainCanvas.textAlign = "center";
+		DrawButton(500 + 350, getYPos(5) - 32, 200, 64, "Clear", "White", undefined, "Clear Tail", true);
+        MainCanvas.textAlign = "left";
+
+        // Test Tail Wag            [BUTTON]
+        DrawText("Wag Tail:", 500, getYPos(6), "Black", "Gray");
+		MainCanvas.textAlign = "center";
+		DrawButton(500 + 350, getYPos(6) - 32, 200, 64, "Test", "White", undefined, "Test Tail Wags", true);
+        MainCanvas.textAlign = prev;
+
+        if (PreferenceMessage != "")
+            DrawText(PreferenceMessage, 1000, 125, "Red", "Black");
+
+    }
+    w.PreferenceSubscreenBCARTailExit = function() {
+         // Save and element inputs
+        ElementRemove("bcar_tail_wagCount");
+		ElementRemove("bcar_tail_wagSpeed");
+
+        PreferenceMessage = "";
+
+        baseExit();
+    }
+    w.PreferenceSubscreenBCARTailClick = function() {
+        baseClick();
+        //CommandTailChange(['tail1'])
+        // Update Tail 1          [BUTTON]
+        if (MouseIn(500 + 350, getYPos(0) - 32, 200, 64))
+            if(!InventoryGet(Player,"TailStraps")){
+                PreferenceMessage = "No Tail Equipped";
+            }
+            else{
+                PreferenceMessage = "Main Tail updated";
+                CommandTailChange(['tail1']);
+            }
+
+        // Update Tail 2          [BUTTON]
+        if (MouseIn(500 + 350, getYPos(1) - 32, 200, 64))
+            if(!InventoryGet(Player,"TailStraps")){
+                PreferenceMessage = "No Tail Equipped";
+            }
+            else{
+                PreferenceMessage = "Main Tail updated";
+                CommandTailChange(['tail2']);
+            }
+
+
+        // Enable Tail Wag     [CHECKBOX]
+        if (MouseIn(500 + 350, getYPos(2) - 32, 64, 64))
+            Player.BCAR.bcarSettings.tailWaggingEnable = !Player.BCAR.bcarSettings.tailWaggingEnable;
+
+        // Tail Wag Count         [NUMBER INPUT]
+        // Tail Wag Speed         [NUMBER INPUT]
+
+        // Clear Tail             [BUTTON]
+        if (MouseIn(500 + 350, getYPos(5) - 32, 200, 64)) {
+            CommandTailDelete(['taildelete']);
+            PreferenceMessage = "Tails has been removed";
+        }
+
+        // Test Tail Wag          [BUTTON]
+        if (MouseIn(500 + 350, getYPos(6) - 32, 200, 64)) {
+            if (document.getElementById("bcar_tail.wagCount").is_valid && document.getElementById("bcar_tail_wagSpeed").is_valid) {
+                TailWag();
+                PreferenceMessage = "";
+            }
+            else {
+                PreferenceMessage = "Set valid numbers";
+            }
+        }
+    }
 
     // WINGS MENU
-    w.PreferenceSubscreenBCARWingsLoad = function() { baseLoad(); }
-    w.PreferenceSubscreenBCARWingsRun = function() { baseRun("BCAR+ Wings"); }
-    w.PreferenceSubscreenBCARWingsExit = function() { baseExit(); }
-    w.PreferenceSubscreenBCARWingsClick = function() { baseClick(); }
+    w.PreferenceSubscreenBCARWingsLoad = function() {
+        baseLoad();
+
+        // Create Element Inputs
+        let element = null
+        let callback = null
+        ElementCreateInput("bcar_wing_flapCount", "number", "" + (Player.BCAR.bcarSettings.wingsDefault.wingsCount ?? 5), "2");
+        callback = function(event) {
+            const element = event.target;
+            // element.checkValidity(); // for future use
+            const new_value = ElementValue(element.id);
+            const is_valid = BCAR_save_validators.wingsCount(new_value);
+            if (is_valid) {
+                element.style.color = "#00FF00";
+                element.is_valid = true;
+//                PreferenceMessage = `Saved count: ${new_value}`;
+            } else {
+                element.style.color = "#FF0000";
+                element.is_valid = false;
+                PreferenceMessage = "Invalid number of flaps";
+            }
+        };
+        element = document.getElementById("bcar_wing_flapCount");
+        element.onchange = callback;
+        element.is_valid = true;
+        ElementCreateInput("bcar_wing_flapSpeed", "number", "" + (Player.BCAR.bcarSettings.wingsDefault.wingsDelay ?? 200), "4");
+        callback = function(event) {
+            const element = event.target;
+            // element.checkValidity(); // for future use
+            const new_value = ElementValue(element.id);
+            const is_valid = BCAR_save_validators.wingsDelay(new_value);
+            if (is_valid) {
+                element.style.color = "#00FF00";
+                element.is_valid = true;
+//                PreferenceMessage = `Saved delay: ${new_value} ms`;
+            } else {
+                element.style.color = "#FF0000";
+                element.is_valid = false;
+                PreferenceMessage = "Invalid number of delay";
+            }
+        };
+        element = document.getElementById("bcar_wing_flapSpeed");
+        element.onchange = callback;
+        element.is_valid = true;
+    }
+
+    w.PreferenceSubscreenBCARWingsRun = function() {
+        var prev = MainCanvas.textAlign;
+        MainCanvas.textAlign = "left";
+        baseRun("BCAR+ Wings");
+
+        // How to use
+        DrawText("How To Use", 1380, getYPosC(-3), "Black", "Gray");
+        DrawText(`First equip the main wings you want`, 1200, getYPosC(-1), "Black", "Gray");
+        DrawText(`to wear primarily in the "Wings slot"`, 1200, getYPosC(0), "Black", "Gray");
+        DrawText(`in your wardrobe. Use Update Wing 1`, 1200, getYPosC(1), "Black", "Gray");
+        DrawText(`to save the main Wings.`, 1200, getYPosC(2), "Black", "Gray");
+        DrawText(`For your wings to flap follow the same`, 1200, getYPosC(3), "Black", "Gray");
+        DrawText(`steps and equip a different type of `, 1200, getYPosC(4), "Black", "Gray");
+        DrawText(`"Wings" to use as your secondary.`, 1200, getYPosC(5), "Black", "Gray");
+        DrawText(`Use Update Wing 2 to save`, 1200, getYPosC(6), "Black", "Gray");
+        DrawText(`the secondary wings.`, 1200, getYPosC(7), "Black", "Gray");
+        DrawText(`The default of Flap Count is 6. `, 1200, getYPosC(9), "Black", "Gray");
+        DrawText(`You can set it to an even number `, 1200, getYPosC(10), "Black", "Gray");
+        DrawText(`between 0 and 40. `, 1200, getYPosC(11), "Black", "Gray");
+        DrawText(`The default of Flap Delay is . `, 1200, getYPosC(12), "Black", "Gray");
+        DrawText(`You can set it to a number 500`, 1200, getYPosC(13), "Black", "Gray");
+        DrawText(`between 200 and 5000. `, 1200, getYPosC(14), "Black", "Gray");
+
+        // Update Wing 1             [BUTTON]
+        DrawText("Update Wing 1:", 500, getYPos(0), "Black", "Gray");
+		MainCanvas.textAlign = "center";
+		DrawButton(500 + 350, getYPos(0) - 32, 200, 64, "Update", "White", undefined, "Update Wing 1 to Current", true);
+        MainCanvas.textAlign = "left";
+
+        // Update Wing 2             [BUTTON]
+        DrawText("Update Wing 2:", 500, getYPos(1), "Black", "Gray");
+		MainCanvas.textAlign = "center";
+		DrawButton(500 + 350, getYPos(1) - 32, 200, 64, "Update", "White", undefined, "Update Wing 2 to Current", true);
+        MainCanvas.textAlign = "left";
+
+        // Enable Wing Wag        [CHECKBOX]
+        DrawText("Enable Wing Wag:", 500, getYPos(2), "Black", "Gray");
+		DrawCheckbox(500 + 350, getYPos(2) - 32, 64, 64, "", Player.BCAR.bcarSettings.wingFlappingEnable);
+
+        // Wing Flap Count         [NUMBER INPUT]
+        DrawText("Flap Count:", 500, getYPos(3), "Black", "Gray");
+		ElementPosition("bcar_wing_flapCount", 500 + 350 + 150, getYPos(3), 300);
+
+        // Wing Flap Speed         [NUMBER INPUT]
+        DrawText("Flap Delay (ms):", 500, getYPos(4), "Black", "Gray");
+		ElementPosition("bcar_wing_flapSpeed", 500 + 350 + 150, getYPos(4), 300);
+
+        // Clear Wing             [BUTTON]
+        DrawText("Clear Wing:", 500, getYPos(5), "Black", "Gray");
+		MainCanvas.textAlign = "center";
+		DrawButton(500 + 350, getYPos(5) - 32, 200, 64, "Clear", "White", undefined, "Clear Wing", true);
+        MainCanvas.textAlign = "left";
+
+        // Test Wing Flap            [BUTTON]
+        DrawText("Flap Wing:", 500, getYPos(6), "Black", "Gray");
+		MainCanvas.textAlign = "center";
+		DrawButton(500 + 350, getYPos(6) - 32, 200, 64, "Test", "White", undefined, "Test Wing Flaps", true);
+        MainCanvas.textAlign = prev;
+
+        if (PreferenceMessage != "")
+            DrawText(PreferenceMessage, 1000, 125, "Red", "Black");
+
+    }
+
+    w.PreferenceSubscreenBCARWingsExit = function() {
+        // Save and element inputs
+        ElementRemove("bcar_wing_flapCount");
+        ElementRemove("bcar_wing_flapSpeed");
+
+        PreferenceMessage = "";
+
+        baseExit();
+    }
+    w.PreferenceSubscreenBCARWingsClick = function() {
+        baseClick();
+        //CommandWingChange(['wing1'])
+        // Update Wing 1          [BUTTON]
+        if (MouseIn(500 + 350, getYPos(0) - 32, 200, 64))
+            if(!InventoryGet(Player,"Wings")){
+                PreferenceMessage = "No Wing Equipped";
+            }
+            else{
+                PreferenceMessage = "Main Wing updated";
+                CommandTailChange(['wing1']);
+            }
+
+        // Update Wing 2          [BUTTON]
+        if (MouseIn(500 + 350, getYPos(1) - 32, 200, 64))
+            if(!InventoryGet(Player,"Wings")){
+                PreferenceMessage = "No Wing Equipped";
+            }
+            else{
+                PreferenceMessage = "Main Wing updated";
+                CommandTailChange(['wing2']);
+            }
+
+
+        // Enable Wing Flapping     [CHECKBOX]
+        if (MouseIn(500 + 350, getYPos(2) - 32, 64, 64))
+            Player.BCAR.bcarSettings.wingFlappingEnable = !Player.BCAR.bcarSettings.wingFlappingEnable;
+
+        // Wing Flap Count         [NUMBER INPUT]
+        // Wing Flap Speed         [NUMBER INPUT]
+
+        // Clear Wing             [BUTTON]
+        if (MouseIn(500 + 350, getYPos(5) - 32, 200, 64)) {
+            CommandWingDelete(['wingdelete']);
+            PreferenceMessage = "Wings has been removed";
+        }
+
+        // Test Wing Flap          [BUTTON]
+        if (MouseIn(500 + 350, getYPos(6) - 32, 200, 64)) {
+            if (document.getElementById("bcar_wing_flapCount").is_valid && document.getElementById("bcar_wing_flapSpeed").is_valid) {
+                WingFlap();
+                PreferenceMessage = "";
+            }
+            else {
+                PreferenceMessage = "Set valid numbers";
+            }
+        }
+    }
 
     // MISCELLANEOUS MENU
     w.PreferenceSubscreenBCARMiscLoad = function() { baseLoad(); }
-    w.PreferenceSubscreenBCARMiscRun = function() { baseRun("BCAR+ Miscellaneous"); }
+
+    w.PreferenceSubscreenBCARMiscRun = function() {
+        var prev = MainCanvas.textAlign;
+        MainCanvas.textAlign = "left";
+        baseRun("BCAR+ Miscellaneous");
+
+        // Enable Animation Buttons        [CHECKBOX]
+        DrawText("Enable Animation Buttons:", 500, getYPos(0), "Black", "Gray");
+		DrawCheckbox(500 + 550, getYPos(0) - 32, 64, 64, "", Player.BCAR.bcarSettings.animationButtonsEnable);
+
+        // Enable Arousal Manipulation        [CHECKBOX]
+        DrawText("Enable Arousal Manipulation:", 500, getYPos(1), "Black", "Gray");
+		DrawCheckbox(500 + 550, getYPos(1) - 32, 64, 64, "", Player.BCAR.bcarSettings.arousalEnable);
+
+        // Enable BCAR+ Expressions         [CHECKBOX]
+        DrawText("Enable BCAR+ Expressions:", 500, getYPos(2), "Black", "Gray");
+		DrawCheckbox(500 + 550, getYPos(2) - 32, 64, 64, "", Player.BCAR.bcarSettings.expressionsEnable);
+
+        // Enable Ear Emote         [CHECKBOX]
+        DrawText("Enable Ear Emote:", 500, getYPos(3), "Black", "Gray");
+		DrawCheckbox(500 + 550, getYPos(3) - 32, 64, 64, "", Player.BCAR.bcarSettings.earEmoteEnable);
+
+         // Enable Tail Emote         [CHECKBOX]
+        DrawText("Enable Tail Emote:", 500, getYPos(4), "Black", "Gray");
+		DrawCheckbox(500 + 550, getYPos(4) - 32, 64, 64, "", Player.BCAR.bcarSettings.tailEmoteEnable);
+
+        MainCanvas.textAlign = prev;
+    }
     w.PreferenceSubscreenBCARMiscExit = function() { baseExit(); }
-    w.PreferenceSubscreenBCARMiscClick = function() { baseClick(); }
+
+    w.PreferenceSubscreenBCARMiscClick = function() {
+        baseClick();
+        // Enable Animation Buttons     [CHECKBOX]
+        if (MouseIn(500 + 550, getYPos(0) - 32, 64, 64))
+            Player.BCAR.bcarSettings.animationButtonsEnable = !Player.BCAR.bcarSettings.animationButtonsEnable;
+
+        // Enable Arousal Manipulation     [CHECKBOX]
+        if (MouseIn(500 + 550, getYPos(1) - 32, 64, 64))
+            Player.BCAR.bcarSettings.arousalEnable = !Player.BCAR.bcarSettings.arousalEnable;
+
+        // Enable BCAR+ Expressions      [CHECKBOX]
+        if (MouseIn(500 + 550, getYPos(2) - 32, 64, 64))
+            Player.BCAR.bcarSettings.expressionsEnable = !Player.BCAR.bcarSettings.expressionsEnable;
+
+        // Enable Ear Emote      [CHECKBOX]
+        if (MouseIn(500 + 550, getYPos(3) - 32, 64, 64))
+            Player.BCAR.bcarSettings.earEmoteEnable = !Player.BCAR.bcarSettings.earEmoteEnable;
+
+        // Enable Tail Emote      [CHECKBOX]
+        if (MouseIn(500 + 550, getYPos(4) - 32, 64, 64))
+            Player.BCAR.bcarSettings.tailEmoteEnable = !Player.BCAR.bcarSettings.tailEmoteEnable;
+
+    }
 
 
+    //console.log("End of script")
 })();
