@@ -32,7 +32,9 @@ The commands were moved to the [Wiki](https://github.com/DrBranestawm/BCAR/wiki)
     - Permission to use their save and load settings feature
  - Kira
     - Creating different animal reactions
- - Mute ([@Mute](https://code.fleshless.org/mute/MBCHC/))
+ - Little Sera ([@littlesera](https://github.com/littlesera/))
+    - Helping to build up a settings page
+ - Mute ([@Mute](https://code.fleshless.org/mute/))
     - Giving coding Lessons
     - Help to clean up a lot of code
     - Help with the autocompletion of commands and subcommands
