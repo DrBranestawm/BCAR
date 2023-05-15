@@ -41,7 +41,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
   await waitFor(() => ServerIsConnected && ServerSocket);
   //end of do not touch
   const bcarSettingsKey = () => `bcarSettings.${Player?.AccountName}`;
-    const subcommands = ["animationbuttons", "animal", "animalhelp", "arousal", "arousalhelp", "changelog", "cat", "delete1", "delete2", "delete3", "dog", "ear1", "ear2", "eardelete", "eardelay", "earhelp", "earwiggle", "earwigglecount", "emotehelp", "emoteear", "emotetail", "expressionhelp", "expression", "fox", "female", "help", "load1", "load2", "load3", "lowerleft", "lowerright", "male", "misc", "mouse", "other", "profile1", "profile2", "profile3", "profilehelp", "save1", "save2", "save3", "settings", "status", "tail1", "tail2", "tailhelp", "taildelay", "taildelete", "tailwag", "tailwagcount", "timerhelp", "timer", "upperleft","versions", "wing1", "wing2", "wingdelay", "wingdelete", "wingflapcount", "winghelp", "wingflap"];
+    const subcommands = ["animationbuttons", "animal", "animalhelp", "arousal", "arousalhelp", "changelog", "cat", "delete1", "delete2", "delete3", "dog", "ear1", "ear2", "eardelete", "eardelay", "earhelp", "earwiggle", "earwigglecount", "emotehelp", "emoteear", "emotetail", "expressionhelp", "expression", "fox", "female", "fly", "help", "land", "load1", "load2", "load3", "lowerleft", "lowerright", "male", "misc", "mouse", "other", "profile1", "profile2", "profile3", "profilehelp", "save1", "save2", "save3", "settings", "status", "tail1", "tail2", "tailhelp", "taildelay", "taildelete", "tailwag", "tailwagcount", "timerhelp", "timer", "upperleft","versions", "wing1", "wing2", "wingdelay", "wingdelete", "wingflapcount", "winghelp", "wingflap"];
     const w = window;
     const BCAR_CHANGELOG =
           "BCAR+ v" + BCAR_Version +
@@ -188,6 +188,9 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
                         }
                     }
                 }
+
+            const getWingVerb = () => ["FairyWings", "BeeWings", "PixieWings"].includes(InventoryGet(Player,"Wings")?.Asset?.Name) ? "flutters" : "flaps";
+
             if (Player.BCAR.bcarSettings.wingFlappingEnable) {
                 if (Player.BCAR.bcarSettings.animationButtonsEnable) {
                     if (Player.BCAR.bcarSettings.animationButtonsPosition === "upperleft") {
@@ -200,7 +203,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
                                     { Tag: "Beep", Text: "msg" },
                                     { Tag: "Biep", Text: "msg" },
                                     { Tag: "Sonner", Text: "msg" },
-                                    { Tag: "msg", Text: CharacterNickname(Player) + " flaps " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " wings." }
+                                    { Tag: "msg", Text: CharacterNickname(Player) + " " + getWingVerb() + " " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " wings." }
                                 ]
                             });
                             WingFlap();
@@ -217,7 +220,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
                                     { Tag: "Beep", Text: "msg" },
                                     { Tag: "Biep", Text: "msg" },
                                     { Tag: "Sonner", Text: "msg" },
-                                    { Tag: "msg", Text: CharacterNickname(Player) + " flaps " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " wings." }
+                                    { Tag: "msg", Text: CharacterNickname(Player) + " " + getWingVerb() + " " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " wings." }
                                 ]
                             });
                             WingFlap();
@@ -234,7 +237,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
                                     { Tag: "Beep", Text: "msg" },
                                     { Tag: "Biep", Text: "msg" },
                                     { Tag: "Sonner", Text: "msg" },
-                                    { Tag: "msg", Text: CharacterNickname(Player) + " flaps " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " wings." }
+                                    { Tag: "msg", Text: CharacterNickname(Player) + " " + getWingVerb() + " " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " wings." }
                                 ]
                             });
                             WingFlap();
@@ -1035,10 +1038,50 @@ const TriggerAdditions = [
         }
     }
 
+    function TryFly() {
+        if (!InventoryGet(Player,"Wings")) {
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
+                "You need wings to fly!</p>", wt.info
+            );
+            ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: CharacterNickname(Player) + " tried to fly without wings." }]});
+            return false;
+        }
+
+        if (Player.BCAR.bcarSettings.wingFlappingEnable !== true){
+            ChatRoomSendLocal(
+                "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
+                "Wing flaping must be enabled to fly.</p>", wt.info
+            );
+            return false;
+        }
+
+        // Many items don't tether/chain/etc but ought to prevent flying
+        const otherPreventingItemNames = ["CeilingShackles", "FloorShackles", "SuspensionCuffs", "CeilingRope", "CeilingChain", "BallChain"];
+        const preventingItem = Player.Appearance.find(i => (
+            ["Tethered", "Chained", "Mounted", "Enclose", "IsLeashed", "IsChained"].some(e => InventoryItemHasEffect(i, e))
+            || otherPreventingItemNames.includes(i.Asset.Name)
+        ));
+        if (preventingItem) {
+          ChatRoomSendLocal(
+              "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
+              "You can't fly because the " + preventingItem.Asset.Description + " holds you down.</p>", wt.info
+          )
+          ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: CharacterNickname(Player) + " tried to fly while " + Player.BCAR.bcarSettings.genderDefault.capPronoun.toLocaleLowerCase() + " is held down by a " + preventingItem.Asset.Description + "." }]});
+            return false;
+        } else {
+            Fly();
+            WingFlap();
+            return true;
+        }
+    }
+
     function Fly(){
         if(Player.BCAR.bcarSettings.wingFlappingEnable === true){
             CharacterSetActivePose(Player, "LegsClosed");
-            InventoryGet(Player, 'Emoticon').Property.OverrideHeight = { Height: +70 };
+            const emoticon = InventoryGet(Player, 'Emoticon');
+            if (emoticon.Property === undefined) emoticon.Property = {};
+            emoticon.Property.OverrideHeight = { Height: +70 };
         }
     }
 
@@ -1160,7 +1203,7 @@ const TriggerAdditions = [
 
     if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
           var flapMessage = data.Content;
-          let patterns = [/flaps.*wings/mi, /wings.*flapping/mi, /flapping.*wings/mi, /wings.*flap/mi] ; // matches {<any> flaps <any> wings <any>}
+          let patterns = [/(flaps|flutters).*wings/mi, /wings.*(flapping|fluttering)/mi, /(flapping|fluttering).*wings/mi, /wings.*(flap|flutter)/mi] ; // matches {<any> flaps/flutter <any> wings <any>}
           let result = patterns.find(pattern => pattern.test(flapMessage));
           if(result){
               WingFlap();
@@ -1171,21 +1214,9 @@ const TriggerAdditions = [
           var flyMessage = data.Content;
           let patterns = [/begins.*fly/mi, /starts.*flying/mi] ; // matches {<any> begins <any> fly <any>}
           let result = patterns.find(pattern => pattern.test(flyMessage));
-          let NeckRestraints = InventoryGet(Player, "ItemNeckRestraints");
+
           if(result){
-              if (InventoryGet(Player, "ItemNeckRestraints")){
-                console.log("IF")
-                ChatRoomSendLocal(
-                    "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                    "You can't fly because the " + NeckRestraints.Asset.Description + " holds you down.</p>", wt.info
-                )
-                ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: CharacterNickname(Player) + " tried to fly while " + Player.BCAR.bcarSettings.genderDefault.capPronoun.toLocaleLowerCase() + " is held down by a " + NeckRestraints.Asset.Description + "." }]});
-            }
-              else {
-                  console.log("ELSE")
-                  Fly();
-                  WingFlap();
-              }
+              TryFly();
           }
       }
 
@@ -2013,6 +2044,42 @@ function CommandWingDelete(argsList)
         }
     }
 
+function CommandFly(argsList)
+    {
+        const cmd = argsList[0];
+        switch (cmd) {
+            case 'fly':
+                if (TryFly()) {
+                    ServerSend("ChatRoomChat", {
+                        Content: "Beep",
+                        Type: "Action",
+                        Target: null,
+                        Dictionary: [
+                            { Tag: "Beep", Text: "msg" },
+                            { Tag: "Biep", Text: "msg" },
+                            { Tag: "Sonner", Text: "msg" },
+                            { Tag: "msg", Text: CharacterNickname(Player) + " starts flying." }
+                        ]
+                    });
+                }
+                break;
+            case 'land':
+                ServerSend("ChatRoomChat", {
+                    Content: "Beep",
+                    Type: "Action",
+                    Target: null,
+                    Dictionary: [
+                        { Tag: "Beep", Text: "msg" },
+                        { Tag: "Biep", Text: "msg" },
+                        { Tag: "Sonner", Text: "msg" },
+                        { Tag: "msg", Text: CharacterNickname(Player) + " lands back on the ground." }
+                    ]
+                });
+                Landing();
+                break;
+        }
+}
+
 function CommandWingHelp(argsList)
     {
         const cmd = argsList[0];
@@ -2023,7 +2090,7 @@ function CommandWingHelp(argsList)
                 <br>Wing instructions:
                 <br>First equip the main wings you want to wear primarily in the ''Wings'' slot in your wardrobe. Type ''/bcar wing1'' in the chat to save the main wings.
                 <br>For your wings to wiggle follow the same steps and equip a different type of wings to use as your secondary. Type ''/bcar wing2'' in the chat to save the secondary wings.
-                <br>To let your wings flap type an emote anything that includes the words ''flaps'' and ''wings''.
+                <br>To let your wings flap type an emote anything that includes one of the words ''flaps'' or ''flutters'' and the word ''wings''.
                 <br>
                 <br>Commands:
                 <br>/bcar wing1 - Saves the primary wings.
@@ -2032,9 +2099,12 @@ function CommandWingHelp(argsList)
                 <br>/bcar wingflapcount - Determines the number of flaps.
                 <br>/bcar wingdelay - Determines the flapping speed.
                 <br>/bcar wingdelete - Removes the wings.
+                <br>/bcar fly - Starts flying
+                <br>/bcar land - Stops flying
                 <br>
                 <br>Examples:
                 <br><i>*flaps her wings
+                <br>*flutters her wings
                 <br>*is flapping her wings
                 <br>*lets her wings flap
                 <br>*spreads her wings, flapping with them</i></p>`.replaceAll('\n', ''), wt.help
@@ -2831,6 +2901,7 @@ function CommandVersions(argsList)
                 CommandWingFlapCountChange(args.split(" "));
                 CommandWingFlapDelayChange(args.split(" "));
                 CommandWingDelete(args.split(" "));
+                CommandFly(args.split(" "));
                 CommandWingHelp(args.split(" "));
                 //Profile Commands
                 CommandProfile(args.split(" "));
@@ -3260,6 +3331,8 @@ CommandCombine([
                     '/bcar wingdelay - Determines the flap speed.',
                     '/bcar wingdelete - Removes the wings.',
                     '/bcar winghelp - Opens wing instructions and commands page.',
+                    '/bcar fly - Starts flying.',
+                    '/bcar land - Stops flying.',
                 ],
             },
         ],
@@ -3780,7 +3853,7 @@ CommandCombine([
         MainCanvas.textAlign = "left";
 
         // Enable Wing Wag        [CHECKBOX]
-        DrawText("Enable Wing Wag:", 500, getYPos(2), "Black", "Gray");
+        DrawText("Enable Wing Flap:", 500, getYPos(2), "Black", "Gray");
 		DrawCheckbox(500 + 350, getYPos(2) - 32, 64, 64, "", Player.BCAR.bcarSettings.wingFlappingEnable);
 
         // Wing Flap Count         [NUMBER INPUT]
