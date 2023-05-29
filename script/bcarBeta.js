@@ -4176,10 +4176,14 @@ CommandCombine([
     }
 
 
-    /// CUSTOM ACTIVITIES
+          /// CUSTOM ACTIVITIES
 
     CustomPrerequisiteFuncs = new Map();
     CustomImages = new Map();
+
+    const AnimationsMap = { // this one is new
+      BCAR_TailWag: TailWag,
+    }
 
     // -- Intercept ServerSend for "BCAR_"... activities and manually hack in the substitutions
     modApi.hookFunction("ServerSend", 5, (args, next) => {
@@ -4195,9 +4199,10 @@ CommandCombine([
                     Tag: "MISSING ACTIVITY DESCRIPTION FOR KEYWORD " + data.Content,
                     Text: msg
                 });
+      					AnimationsMap[actName]?.() // and this line is new, nothing else changed
             }
         }
-        
+
         return next(args);
     });
 
@@ -4252,7 +4257,7 @@ CommandCombine([
     ActivityFemale3DCG.push(wagActivity);
     ActivityFemale3DCGOrdering.push(wagActivity.Name);
 
-    /// END CUSTOM ACTIVITIES
+    // END CUSTOM ACTIVITIES
 
     //FBC Expressions
 	if (typeof ChatRoomCharacter === "undefined") {
