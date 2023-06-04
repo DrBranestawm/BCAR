@@ -1,5 +1,19 @@
 # BCAR+ Changelog
 
+## [v0.7.0](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.0)
+### What's Changed
+
+* Added a settings page (wip)
+* Added expression support for LSCG
+* Added the possibility to wag your tail via butt activity
+* Added a confirmation to several delete-commands
+* Animation buttons have three possible positions now
+    - Ear and tail emotes are toggleable seperately
+* Fixed a bug where changing ears, tail and/or wings replaced a save profile
+* Cleaned up the code
+
+**Full Changelog**: [0.6.3...0.7.0](https://github.com/DrBranestawm/BCAR/compare/0.6.3...0.7.0)
+
 ## [v0.6.3](https://github.com/DrBranestawm/BCAR/releases/edit/v0.6.3)
 ### What's Changed
 

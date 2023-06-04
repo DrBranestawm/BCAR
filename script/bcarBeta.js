@@ -1,5 +1,9 @@
-const BCAR_Version = '0.6.3-beta3';
+const BCAR_Version = '0.7.0';
 const BCAR_Settings_Version = 8;
+
+const ICONS = Object.freeze({
+    TAIL: "data:image/png;base64,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"
+});
 
 function is_newer(current, candidate) {
 	const current_levels = current.split('.'), candidate_levels = candidate.split('.');
@@ -45,19 +49,19 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
     const w = window;
     const BCAR_CHANGELOG =
           "BCAR+ v" + BCAR_Version +
-          "<br>- Added toggleable animation buttons in chatrooms" +
-          "<br>- Merged all on/off commands to a single toggle command" +
+          "<br>- Added a settings page (wip)" +
+          "<br>- Added expression support for LSCG" +
+          "<br>- Added the possibility to wag your tail via butt activity" +
+          "<br>- Added a confirmation to several delete-commandsy" +
+          "<br>- Animation buttons have three possible positions now" +
+          "<br>- Fixed a bug where changing ears, tail and/or wings replaced a save profile" +
+          "<br>  - Ear and tail emotes are toggleable seperately" +
           "<br>- Cleaned up the code" +
           "<br>" +
-          "<br>BCAR+ v0.6.2:" +
-          "<br>- Added the command '/bcar versions' to check the current version" +
-          "<br>- Re-added tail wagging emote (same as in BCTweaks)" +
-          "<br>- Added ear wiggle emote" +
-          "<br>  -Ear and tail emotes seperately are toggleable" +
-          "<br>- Window timer are now toggleable" +
-          "<br>- Changed expression on ear caress" +
-          "<br>- Arousal manipulation is now disabled by default" +
-          "<br>- Fixed a typo in the reactions"
+          "<br>BCAR+ v0.6.3:" +
+          "<br>- Added toggleable animation buttons in chatrooms" +
+          "<br>- Merged all on/off commands to a single toggle command" +
+          "<br>- Cleaned up the code"
 
 
 
@@ -754,12 +758,12 @@ const TriggerAdditions = [
           {sound: "", action: "%NAME%'s ears flop adorably as %OPP_NAME% pets %INTENSIVE%."},
         ],
         CaressBack: [
-          {sound: "", action: "%NAME%'s tail twirls and %POSSESSIVE% eyes soften as %OPP_NAME% rubs %POSSESSIVE% back."},
-          {sound: "", action: "%NAME% tilts %POSSESSIVE% head back and wags %POSSESSIVE% tail happily as %OPP_NAME% scratches %POSSESSIVE% back."},
-          {sound: "", action: "%NAME%'s eyes close in bliss as %OPP_NAME% scratches %POSSESSIVE% spine."},
-          {sound: "", action: "%NAME% let's out a content sigh as %OPP_NAME% gently rubs %POSSESSIVE% back."},
-          {sound: "", action: "%NAME%'s tail wags eagerly as %OPP_NAME% runs some fingers along %POSSESSIVE% back."},
-          {sound: "", action: "%NAME%'s tail twitches with joy as %OPP_NAME% pats %POSSESSIVE% back."},
+          {sound: "", action: `%NAME%'s tail twirls and %POSSESSIVE% eyes soften as %OPP_NAME% rubs %POSSESSIVE% back.`},
+          {sound: "", action: `%NAME% tilts %POSSESSIVE% head back and wags %POSSESSIVE% tail happily as %OPP_NAME% scratches %POSSESSIVE% back.`},
+          {sound: "", action: `%NAME%'s eyes close in bliss as %OPP_NAME% scratches %POSSESSIVE% spine.`},
+          {sound: "", action: `%NAME% let's out a content sigh as %OPP_NAME% gently rubs %POSSESSIVE% back.`},
+          {sound: "", action: `%NAME%'s tail wags eagerly as %OPP_NAME% runs some fingers along %POSSESSIVE% back.`},
+          {sound: "", action: `%NAME%'s tail twitches with joy as %OPP_NAME% pats %POSSESSIVE% back.`},
         ],
         MassageBack: [
           {sound: "", action: "%NAME% lets out a happy sigh and %POSSESSIVE% tail flickers with joy as %OPP_NAME% massages %POSSESSIVE% back."},
@@ -872,7 +876,7 @@ const TriggerAdditions = [
         const actions = typeAction[animal]?.[type];
         if (!actions) return;
         const index = Math.floor(Math.random() * actions.length);
-        console.log(index);
+//      console.log(index);
         ServerSend("ChatRoomChat", {Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: replace_template(actions[index].action, source_name)}]});
         if (actions[index].sound.length) ServerSend("ChatRoomChat", {Type: "Chat", Content: actions[index].sound})
     }
@@ -1063,7 +1067,7 @@ const TriggerAdditions = [
         if(ChatRoomSlowtimer != 0){
             ChatRoomSlowtimer = CurrentTime + 1;
             ChatRoomSlowStop = true;
-            ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: CharacterNickname(Player) + " was stopped from leaving by " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " own orgasm." }]})
+            ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: `{CharacterNickname(Player)} was stopped from leaving by ${Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase()} own orgasm.`}]})
         }
     }
 
@@ -1132,7 +1136,7 @@ const TriggerAdditions = [
           ChatRoomSendLocal(
                     `<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
                     <br>Please disable tail wagging in either BCT or BCAR.
-                    <br>Having them both can cause undesireable/wonky results.
+                    <br>Having them both can cause undesireable and wonky results.
                     </p>`.replaceAll('\n', ''), wt.info
                 )
       }
@@ -1174,15 +1178,15 @@ const TriggerAdditions = [
           let NeckRestraints = InventoryGet(Player, "ItemNeckRestraints");
           if(result){
               if (InventoryGet(Player, "ItemNeckRestraints")){
-                console.log("IF")
+//              console.log("IF")
                 ChatRoomSendLocal(
-                    "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\n" +
-                    "You can't fly because the " + NeckRestraints.Asset.Description + " holds you down.</p>", wt.info
+                    `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                    "You can't fly because the ${NeckRestraints.Asset.Description} holds you down.</p>`, wt.info
                 )
-                ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: CharacterNickname(Player) + " tried to fly while " + Player.BCAR.bcarSettings.genderDefault.capPronoun.toLocaleLowerCase() + " is held down by a " + NeckRestraints.Asset.Description + "." }]});
+                ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: `${CharacterNickname(Player)} tried to fly while ${Player.BCAR.bcarSettings.genderDefault.capPronoun.toLocaleLowerCase()} is held down by a ${NeckRestraints.Asset.Description}.` }]});
             }
               else {
-                  console.log("ELSE")
+//                console.log("ELSE")
                   Fly();
                   WingFlap();
               }
@@ -1215,7 +1219,7 @@ const TriggerAdditions = [
         if (data.Type === "Activity" && data.Sender === Player.MemberNumber){
             if ((data.Content.startsWith("Orgasm") || (data.Content.startsWith("Orgasm") === -1))) {
                 if (data.Content.indexOf("0") !== -1 || data.Content.indexOf("1") !== -1 || data.Content.indexOf("2") !== -1 || data.Content.indexOf("3") !== -1 || data.Content.indexOf("4") !== -1 || data.Content.indexOf("5") !== -1 || data.Content.indexOf("6") !== -1 || data.Content.indexOf("7") !== -1 || data.Content.indexOf("8") !== -1 || data.Content.indexOf("9") !== -1) {
-                    console.log("Player orgasmed")
+//                  console.log("Player orgasmed")
                     StopLeaving();
                 }
             }
@@ -1224,7 +1228,7 @@ const TriggerAdditions = [
 
 window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto Reactions", Callback: (data, sender, msg, metadata) => {
   if (data.Type !== 'Activity') return // isn't an Activity message
-  console.log(data);
+//console.log(data);
   if (!Player?.MemberNumber) return // we need Player.MemberNumber
   if (Player.MemberNumber !== data.Dictionary.find(obj => obj.Tag === "TargetCharacter")?.MemberNumber) return // we aren't the target
   const source_number = data.Dictionary.find(obj => obj.Tag === "SourceCharacter")?.MemberNumber;
@@ -1298,8 +1302,9 @@ window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto 
         await waitFor(() => !!Player?.AccountName);
         await sleep(5000);
         ChatRoomSendLocal(
-           "<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React + New Version</b>\n" +
-           "BCAR+ has been updated, please relog to get the new version.</p>"
+           `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React + New Version</b>
+           <br>BCAR+ has been updated, please relog to get the new version.
+           </p>`.replaceAll('\n', ''), wt.info
        );
 		//bcarBeepNotify("BCAR+ updated", "BCAR+ got updated. Type ''/bcar changelog'' to view the changelog.");
 	}
@@ -1720,8 +1725,8 @@ function CommandEarHelp(argsList)
             ChatRoomSendLocal(
             `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
             <br>Ear instructions:
-            <br>First equip the main ears you want to wear primarily in the ''Ears'' slot in your wardrobe. Type ''/bcar ear1'' in the chat to save the main ears.
-            <br>For your ears to wiggle follow the same steps and equip a different type of ears to use as your secondary. Type ''/bcar ear2'' in the chat to save the secondary ears.
+            <br>First equip the main ears you want to wear primarily in the ''Ears'' slot in your wardrobe. Type "/bcar ear1" in the chat to save the main ears.
+            <br>For your ears to wiggle follow the same steps and equip a different type of ears to use as your secondary. Type "/bcar ear2" in the chat to save the secondary ears.
             <br>
             <br>Commands:
             <br>/bcar ear1 - Saves the primary ears.
@@ -1852,7 +1857,7 @@ function CommandTailDelete(argsList)
         const s = Player?.BCAR?.bcarSettings;
         switch (cmd) {
             case 'taildelete' :
-                confirmationState.add('ears');
+                confirmationState.add('tails');
                 ChatRoomSendLocal(
                 `<p style='background-color:#606000;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
                 <br>Are you sure you want to delete the Tail?
@@ -1870,8 +1875,8 @@ function CommandTailHelp(argsList)
             ChatRoomSendLocal(
             `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\
             <br>Tail instructions:
-            <br>First equip the main tail you want to wear primarily in the ''Tail Strap'' slot in your wardrobe. Type ''/bcar tail1'' in the chat to save the main tail.
-            <br>For your tail to wag follow the same steps and equip a different type of tail to use as your secondary. Type ''/bcar tail2'' in the chat to save the secondary tail.
+            <br>First equip the main tail you want to wear primarily in the "Tail Strap" slot in your wardrobe. Type "/bcar tail1" in the chat to save the main tail.
+            <br>For your tail to wag follow the same steps and equip a different type of tail to use as your secondary. Type "/bcar tail2" in the chat to save the secondary tail.
             <br>
             <br>Commands:
             <br>/bcar tail1 - Saves the primary tail.
@@ -1931,8 +1936,8 @@ function CommandWingToggle(argsList)
                     s.wingFlappingEnable = true;
                     s.wingFlappingStatus = "Enabled";
                     ChatRoomSendLocal(
-                    `<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>\
-                    Wing flapping is now enabled!</p>`.replaceAll('\n', ''), wt.info
+                    `<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                    <br>Wing flapping is now enabled!</p>`.replaceAll('\n', ''), wt.info
                     );
                     bcarSettingsSave();
                 }
@@ -2021,9 +2026,9 @@ function CommandWingHelp(argsList)
                 ChatRoomSendLocal(
                 `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
                 <br>Wing instructions:
-                <br>First equip the main wings you want to wear primarily in the ''Wings'' slot in your wardrobe. Type ''/bcar wing1'' in the chat to save the main wings.
-                <br>For your wings to wiggle follow the same steps and equip a different type of wings to use as your secondary. Type ''/bcar wing2'' in the chat to save the secondary wings.
-                <br>To let your wings flap type an emote anything that includes the words ''flaps'' and ''wings''.
+                <br>First equip the main wings you want to wear primarily in the "Wings" slot in your wardrobe. Type "/bcar wing1" in the chat to save the main wings.
+                <br>For your wings to wiggle follow the same steps and equip a different type of wings to use as your secondary. Type "/bcar wing2" in the chat to save the secondary wings.
+                <br>To let your wings flap type an emote anything that includes the words "flaps" and "wings".
                 <br>
                 <br>Commands:
                 <br>/bcar wing1 - Saves the primary wings.
@@ -2277,7 +2282,7 @@ function CommandArousal(argsList)
                 <br>The manipulation takes effect on headpets, hair brushing, almost every ear action, back and butt caress.
                 <br>
                 <br>Commands:
-                <br>/bcar arousalon - Toggles arousal manipulation on/off.
+                <br>/bcar arousal - Toggles arousal manipulation on/off.
                 </p>`.replaceAll('\n', ''), wt.help
                 );
         }
@@ -2489,7 +2494,7 @@ function CommandEmotes(argsList)
                     s.tailEmoteStatus = "Enabled";
                     ChatRoomSendLocal(
                     `<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
-                    <br>Tail wagging emote is now Enabled!
+                    <br>Tail wagging emote is now enabled!
                     </p>`.replaceAll('\n', ''), wt.info
                     );
           }
@@ -2580,7 +2585,7 @@ function CommandGenderToggle(argsList)
             Player.BCAR.bcarSettings.genderDefault.capPossessive = "His";
             ChatRoomSendLocal(
                 `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
-                <br>The reactions refer to ` + CharacterNickname(Player) + ` as "he" now!
+                <br>The reactions refer to ${CharacterNickname(Player)} as "he" now!
                 </p>`.replaceAll('\n', ''), wt.info
             );
         }
@@ -2591,7 +2596,7 @@ function CommandGenderToggle(argsList)
             Player.BCAR.bcarSettings.genderDefault.capPossessive = "Her";
             ChatRoomSendLocal(
                 `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
-                <br>The reactions refer to ` + CharacterNickname(Player) + ` as "she" now!
+                <br>The reactions refer to ${CharacterNickname(Player)} as "she" now!
                 </p>`.replaceAll('\n', ''), wt.info
             );
         }
@@ -2602,7 +2607,7 @@ function CommandGenderToggle(argsList)
             Player.BCAR.bcarSettings.genderDefault.capPossessive = "Their";
             ChatRoomSendLocal(
                 `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
-                <br>The reactions refer to ` + CharacterNickname(Player) + ` as "they" now!
+                <br>The reactions refer to ${CharacterNickname(Player)} as "they" now!
                 </p>`.replaceAll('\n', ''), wt.info
             );
         }
@@ -3443,10 +3448,8 @@ CommandCombine([
 
         DrawButton(1815, 750, 90, 90, "", "White", "Icons/Wardrobe.png")
 
-        if (PreferenceMessage != "") {
-            drawTimer;
+        if (PreferenceMessage != "")
             DrawText(PreferenceMessage, 1000, 125, "Red", "Black");
-        }
 
     }
     w.PreferenceSubscreenBCAREarsExit = function() {
@@ -3835,7 +3838,7 @@ CommandCombine([
                 PreferenceMessage = "No Wing Equipped";
             }
             else{
-                PreferenceMessage = "Main Wing updated";
+                PreferenceMessage = "Secondary Wing updated";
                 CommandTailChange(['wing2']);
             }
 
@@ -4170,6 +4173,92 @@ CommandCombine([
                 }
             }
     }
+
+
+          /// CUSTOM ACTIVITIES
+
+    CustomPrerequisiteFuncs = new Map();
+    CustomImages = new Map();
+
+    const AnimationsMap = { // this one is new
+      BCAR_TailWag: TailWag,
+    }
+
+    // -- Intercept ServerSend for "BCAR_"... activities and manually hack in the substitutions
+    modApi.hookFunction("ServerSend", 5, (args, next) => {
+        if (args[0] == "ChatRoomChat" && args[1]?.Type == "Activity"){
+            let data = args[1];
+            let actName = data.Dictionary[3]?.ActivityName ?? "";
+            if (actName.indexOf("BCAR_") == 0) {
+                // Intercept custom activity send and just do a custom action instead..
+                let {metadata, substitutions} = ChatRoomMessageRunExtractors(data, Player)
+                let msg = ActivityDictionaryText(data.Content);
+                msg = CommonStringSubstitute(msg, substitutions ?? [])
+                data.Dictionary.push({
+                    Tag: "MISSING ACTIVITY DESCRIPTION FOR KEYWORD " + data.Content,
+                    Text: msg
+                });
+      					AnimationsMap[actName]?.() // and this line is new, nothing else changed
+            }
+        }
+
+        return next(args);
+    });
+
+    // -- Support for non-standard prerequisite functions
+    modApi.hookFunction("ActivityCheckPrerequisite", 5, (args, next) => {
+        var prereqName = args[0];
+        if (CustomPrerequisiteFuncs.has(prereqName)) {
+            var acting = args[1];
+            var acted = args[2];
+            var targetGrp = args[3];
+            var customPrereqFunc = CustomPrerequisiteFuncs.get(prereqName);
+            if (!customPrereqFunc)
+                return next(args);
+            else {
+                return customPrereqFunc(acting, acted, targetGrp);
+            }
+        }
+        else
+            return next(args);
+    });
+
+    // -- Support for repointing or adding custom image thumbnails to activities
+    modApi.hookFunction("DrawImageResize", 1, (args, next) => {
+        var path = args[0];
+        if (!!path && path.indexOf("BCAR_") > -1) {
+            var activityName = path.substring(path.indexOf("BCAR_"));
+            activityName = activityName.substring(0, activityName.indexOf(".png"))
+            if (CustomImages.has(activityName))
+                args[0] = CustomImages.get(activityName);
+        }
+        return next(args);
+    });
+
+    // -- Tail Wag
+    var wagActivity = {
+        Name: "BCAR_TailWag",
+        Target: [],
+        TargetSelf: ["ItemButt"],
+        MaxProgress: 50,
+        MaxProgressSelf: 50,
+        Prerequisite: ["HasTail"]
+    };
+
+    CustomPrerequisiteFuncs.set("HasTail", (acting, acted, group) => !!InventoryGet(acted, "TailStraps"));
+    CustomImages.set(wagActivity.Name, ICONS.TAIL);
+
+    ActivityDictionary?.push(["ActivityBCAR_TailWag", "Wag Tail"]);
+    ActivityDictionary?.push(["Label-ChatOther-ItemButt-BCAR_TailWag", "Wag Tail"]);
+    ActivityDictionary?.push(["ChatOther-ItemButt-BCAR_TailWag", "SourceCharacter wags PronounPossessive tail."]);
+    ActivityDictionary?.push(["Label-ChatSelf-ItemButt-BCAR_TailWag", "Wag Tail"]);
+    ActivityDictionary?.push(["ChatSelf-ItemButt-BCAR_TailWag", "SourceCharacter wags PronounPossessive tail."]);
+
+    ActivityFemale3DCG.push(wagActivity);
+    ActivityFemale3DCGOrdering.push(wagActivity.Name);
+
+    // END CUSTOM ACTIVITIES
+
 
     //FBC Expressions
 	if (typeof ChatRoomCharacter === "undefined") {
