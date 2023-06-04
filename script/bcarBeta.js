@@ -1,4 +1,4 @@
-const BCAR_Version = '0.6.4';
+const BCAR_Version = '0.7.0';
 const BCAR_Settings_Version = 8;
 
 const ICONS = Object.freeze({
