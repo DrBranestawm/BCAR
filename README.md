@@ -34,6 +34,7 @@ The commands were moved to the [Wiki](https://github.com/DrBranestawm/BCAR/wiki)
     - Creating different animal reactions
  - Little Sera ([@littlesera](https://github.com/littlesera/))
     - Helping to build up a settings page
+    - Adding custom activity
  - Mute ([@Mute](https://code.fleshless.org/mute/))
     - Giving coding Lessons
     - Help to clean up a lot of code
