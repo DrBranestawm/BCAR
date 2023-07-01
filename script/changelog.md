@@ -1,5 +1,18 @@
 # BCAR+ Changelog
 
+## [v0.7.1](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.1)
+### What's Changed
+
+* Settings page (wip)
+  - Current Version is now displayed on the main page
+  - Access to the wardrobe from ear, tail and wings pages
+  - The fields for speed and duration are no longer seen in the wardrobe
+  - 'Clear' and 'Delete' buttons are now red
+  - 'Clear' and 'Detele' buttons will open a confirm page now
+* Cleaned up the code
+
+**Full Changelog**: [0.7.0...0.7.1](https://github.com/DrBranestawm/BCAR/compare/0.7.0...0.7.1)
+
 ## [v0.7.0](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.0)
 ### What's Changed
 
