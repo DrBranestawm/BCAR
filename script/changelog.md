@@ -1,5 +1,16 @@
 # BCAR+ Changelog
 
+## [v0.7.2](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.2)
+### What's Changed
+
+* Compatibility for R94
+* Settings page (wip)
+  - Wings will now update properly
+* The ear wiggle buttons are using BC message now by @agicitag
+* Cleaned up the code by @agicitag
+
+**Full Changelog**: [0.7.1...0.7.2](https://github.com/DrBranestawm/BCAR/compare/0.7.1...0.7.2)
+
 ## [v0.7.1](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.1)
 ### What's Changed
 
