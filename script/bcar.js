@@ -1,4 +1,4 @@
-const BCAR_Version = '0.7.1';
+const BCAR_Version = '0.7.2';
 const BCAR_Settings_Version = 8;
 
 const ICONS = Object.freeze({
@@ -49,22 +49,19 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
     const w = window;
     const BCAR_CHANGELOG =
           "BCAR+ v" + BCAR_Version +
+          "<br>- Compatibility for R94" +
+          "<br>- Settings page (wip)" +
+          "<br>  - Wings will now update properly" +
+          "<br>- The ear wiggle buttons are using BC message now by <a href='https://github.com/agicitag' target='_blank'>@agicitag</a>" +
+          "<br>- Cleaned up the code by <a href='https://github.com/agicitag' target='_blank'>@agicitag</a>" +
+          "<br>" +
+          "<br>BCAR+ v0.7.1:" +
           "<br>- Settings page (wip)" +
           "<br>  - Current Version is now displayed on the main page" +
           "<br>  - Access to the wardrobe from ear, tail and wings pages" +
           "<br>  - The fields for speed and duration are no longer seen in the wardrobe" +
           "<br>  - 'Clear' and 'Delete' buttons are now red" +
           "<br>  - 'Clear' and 'Detele' buttons will open a confirm page now" +
-          "<br>- Cleaned up the code" +
-          "<br>" +
-          "<br>BCAR+ v0.7.0:" +
-          "<br>- Added a settings page (wip)" +
-          "<br>- Added expression support for LSCG" +
-          "<br>- Added the possibility to wag your tail via butt activity" +
-          "<br>- Added a confirmation to several delete-commandsy" +
-          "<br>- Animation buttons have three possible positions now" +
-          "<br>- Fixed a bug where changing ears, tail and/or wings replaced a save profile" +
-          "<br>  - Ear and tail emotes are toggleable seperately" +
           "<br>- Cleaned up the code"
 
 
@@ -1148,8 +1145,15 @@ window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto 
   if (data.Type !== 'Activity') return // isn't an Activity message
   //console.log(data);
   if (!Player?.MemberNumber) return // we need Player.MemberNumber
-  if (Player.MemberNumber !== data.Dictionary.find(obj => obj.Tag === "TargetCharacter")?.MemberNumber) return // we aren't the target
-  const source_number = data.Dictionary.find(obj => obj.Tag === "SourceCharacter")?.MemberNumber;
+  let target_number = data.Dictionary.find(obj => obj.TargetCharacter)?.TargetCharacter;
+      target_number ||= data.Dictionary.find(obj => obj.Tag === "TargetCharacter")?.MemberNumber;
+  //if (Player.MemberNumber !== data.Dictionary.find(obj => obj.Tag === "TargetCharacter")?.MemberNumber) return // we aren't the target
+  //console.log({target_number});
+  if (target_number !== Player.MemberNumber) return; // we aren't the target
+  //const source_number = data.Dictionary.find(obj => obj.Tag === "SourceCharacter")?.MemberNumber;
+  let source_number = data.Dictionary.find(obj => obj.SourceCharacter)?.SourceCharacter;
+      source_number ||= data.Dictionary.find(obj => obj.Tag === "SourceCharacter")?.MemberNumber;
+  //console.log({source_number});
   const source = window.ChatRoomCharacter.find(c => c.MemberNumber === source_number);
   const source_name = window.CharacterNickname(source);
 
@@ -3748,7 +3752,7 @@ CommandCombine([
     const wingHelpTextLines = {
         lines: [
             `First equip the main wings you want`,
-            `o wear primarily in the "Wings" slot`,
+            `to wear primarily in the "Wings" slot`,
             `in your wardrobe. Use Update Wing 1`,
             `to save the main wings.`,
             `For your wings to flap follow the same`,
@@ -3788,8 +3792,8 @@ CommandCombine([
 		DrawButton(500 + 350, getYPos(1) - 32, 200, 64, "Update", "White", undefined, "Update Wing 2 to Current", true);
         MainCanvas.textAlign = "left";
 
-        // Enable Wing Wag        [CHECKBOX]
-        DrawText("Enable Wing Wag:", 500, getYPos(2), "Black", "Gray");
+        // Enable Wing Flap        [CHECKBOX]
+        DrawText("Enable Wing Flap:", 500, getYPos(2), "Black", "Gray");
 		DrawCheckbox(500 + 350, getYPos(2) - 32, 64, 64, "", Player.BCAR.bcarSettings.wingFlappingEnable);
 
         // Wing Flap Count         [NUMBER INPUT]
@@ -3838,7 +3842,7 @@ CommandCombine([
             }
             else{
                 PreferenceMessage = "Main Wing updated";
-                CommandTailChange(['wing1']);
+                CommandWingChange(['wing1']);
             }
 
         // Update Wing 2          [BUTTON]
@@ -3848,7 +3852,7 @@ CommandCombine([
             }
             else{
                 PreferenceMessage = "Secondary Wing updated";
-                CommandTailChange(['wing2']);
+                CommandWingChange(['wing2']);
             }
 
 
@@ -4173,7 +4177,7 @@ CommandCombine([
 
         // Load Profile 3             [BUTTON]
         if (MouseIn(500 + 550, getYPos(2) - 32, 200, 64))
-            if (!Player.BCAR.bcarSettings.profile3Saved) {
+            if (!Player.BCAR.bcarSettings.profile2Saved) {
                 PreferenceMessage = "Profile 3 not found.";
             }
             else{
@@ -4502,4 +4506,3 @@ CommandCombine([
     //end of do not touch this
 
     //console.log("End of script")
-})();
