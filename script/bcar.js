@@ -84,57 +84,41 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
     BCARChatRoomMenuDraw();
     BCARChatRoomClick();
 
+    function BCARTriggerEarWiggleAction() {
+        let focusGroup = Player.FocusGroup;
+        Player.FocusGroup = {Name:"ItemEars"};
+        ActivityRun(
+            Player,
+            Player,
+            ActivityGetGroupOrMirror(Player.AssetFamily, "ItemEars"),
+            ActivityAllowedForGroup(Player, "ItemEars").find(function(obj){
+                return obj.Activity.Name == "Wiggle";
+            })
+        );
+        Player.FocusGroup = focusGroup;
+    }
+
     function BCARChatRoomClick() {
         modApi.hookFunction('ChatRoomClick', 4, (args, next) => {
             if (Player.BCAR.bcarSettings.earWigglingEnable) {
                 if (Player.BCAR.bcarSettings.animationButtonsEnable) {
                     if (Player.BCAR.bcarSettings.animationButtonsPosition === "upperleft") {
                         if ((MouseX >= 0) && (MouseX < 45) && (MouseY >= 135) && (MouseY < 180)) {
-                            let focusGroup = Player.FocusGroup;
-                            Player.FocusGroup = {Name:"ItemEars"};
-                            ActivityRun(
-                                Player,
-                                Player,
-                                ActivityGetGroupOrMirror(Player.AssetFamily, "ItemEars"),
-                                ActivityAllowedForGroup(Player, "ItemEars").find(function(obj){
-                                    return obj.Activity.Name == "Wiggle";
-                                })
-                            );
-                            Player.FocusGroup = focusGroup;
+                            BCARTriggerEarWiggleAction()
                             EarWiggle();
                             return;
                         }
                     }
                     if (Player.BCAR.bcarSettings.animationButtonsPosition === "lowerleft") {
                         if ((MouseX >= 0) && (MouseX < 45) && (MouseY >= 860) && (MouseY < 905)) {
-                            let focusGroup = Player.FocusGroup;
-                            Player.FocusGroup = {Name:"ItemEars"};
-                            ActivityRun(
-                                Player,
-                                Player,
-                                ActivityGetGroupOrMirror(Player.AssetFamily, "ItemEars"),
-                                ActivityAllowedForGroup(Player, "ItemEars").find(function(obj){
-                                    return obj.Activity.Name == "Wiggle";
-                                })
-                            );
-                            Player.FocusGroup = focusGroup;
+                            BCARTriggerEarWiggleAction()
                             EarWiggle();
                             return;
                         }
                     }
                     if (Player.BCAR.bcarSettings.animationButtonsPosition === "lowerright") {
                         if ((MouseX >= 955) && (MouseX < 1005) && (MouseY >= 860) && (MouseY < 905)) {
-                            let focusGroup = Player.FocusGroup;
-                            Player.FocusGroup = {Name:"ItemEars"};
-                            ActivityRun(
-                                Player,
-                                Player,
-                                ActivityGetGroupOrMirror(Player.AssetFamily, "ItemEars"),
-                                ActivityAllowedForGroup(Player, "ItemEars").find(function(obj){
-                                    return obj.Activity.Name == "Wiggle";
-                                })
-                            );
-                            Player.FocusGroup = focusGroup;
+                            BCARTriggerEarWiggleAction()
                             EarWiggle();
                             return;
                         }
