@@ -102,136 +102,66 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
         modApi.hookFunction('ChatRoomClick', 4, (args, next) => {
             if (Player.BCAR.bcarSettings.earWigglingEnable) {
                 if (Player.BCAR.bcarSettings.animationButtonsEnable) {
-                    if (Player.BCAR.bcarSettings.animationButtonsPosition === "upperleft") {
-                        if ((MouseX >= 0) && (MouseX < 45) && (MouseY >= 135) && (MouseY < 180)) {
-                            BCARTriggerEarWiggleAction()
-                            EarWiggle();
-                            return;
-                        }
-                    }
-                    if (Player.BCAR.bcarSettings.animationButtonsPosition === "lowerleft") {
-                        if ((MouseX >= 0) && (MouseX < 45) && (MouseY >= 860) && (MouseY < 905)) {
-                            BCARTriggerEarWiggleAction()
-                            EarWiggle();
-                            return;
-                        }
-                    }
-                    if (Player.BCAR.bcarSettings.animationButtonsPosition === "lowerright") {
-                        if ((MouseX >= 955) && (MouseX < 1005) && (MouseY >= 860) && (MouseY < 905)) {
-                            BCARTriggerEarWiggleAction()
-                            EarWiggle();
-                            return;
-                        }
+                    if (((Player.BCAR.bcarSettings.animationButtonsPosition === "upperleft")
+                            && ((MouseX >= 0) && (MouseX < 45) && (MouseY >= 135) && (MouseY < 180)))
+                        || ((Player.BCAR.bcarSettings.animationButtonsPosition === "lowerleft")
+                            && ((MouseX >= 0) && (MouseX < 45) && (MouseY >= 860) && (MouseY < 905)))
+                        || ((Player.BCAR.bcarSettings.animationButtonsPosition === "lowerright")
+                            && ((MouseX >= 955) && (MouseX < 1005) && (MouseY >= 860) && (MouseY < 905))))
+                    {
+                        BCARTriggerEarWiggleAction()
+                        EarWiggle();
+                        return;
                     }
                 }
             }
-                if (Player.BCAR.bcarSettings.tailWaggingEnable) {
-                    if (Player.BCAR.bcarSettings.animationButtonsEnable) {
-                        if (Player.BCAR.bcarSettings.animationButtonsPosition === "upperleft") {
-                            if ((MouseX >= 0) && (MouseX < 45) && (MouseY >= 180) && (MouseY < 225)) {
-                                ServerSend("ChatRoomChat", {
-                                    Content: "Beep",
-                                    Type: "Action",
-                                    Target: null,
-                                    Dictionary: [
-                                        { Tag: "Beep", Text: "msg" },
-                                        { Tag: "Biep", Text: "msg" },
-                                        { Tag: "Sonner", Text: "msg" },
-                                        { Tag: "msg", Text: CharacterNickname(Player) + " wags " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " tail." }
-                                    ]
-                                });
-                                TailWag();
-                                return;
-                            }
-                        }
-                        if (Player.BCAR.bcarSettings.animationButtonsPosition === "lowerleft") {
-                            if ((MouseX >= 0) && (MouseX < 45) && (MouseY >= 905) && (MouseY < 950)) {
-                                ServerSend("ChatRoomChat", {
-                                    Content: "Beep",
-                                    Type: "Action",
-                                    Target: null,
-                                    Dictionary: [
-                                        { Tag: "Beep", Text: "msg" },
-                                        { Tag: "Biep", Text: "msg" },
-                                        { Tag: "Sonner", Text: "msg" },
-                                        { Tag: "msg", Text: CharacterNickname(Player) + " wags " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " tail." }
-                                    ]
-                                });
-                                TailWag();
-                                return;
-                            }
-                        }
-                        if (Player.BCAR.bcarSettings.animationButtonsPosition === "lowerright") {
-                            if ((MouseX >= 955) && (MouseX < 1005) && (MouseY >= 905) && (MouseY < 950)) {
-                                ServerSend("ChatRoomChat", {
-                                    Content: "Beep",
-                                    Type: "Action",
-                                    Target: null,
-                                    Dictionary: [
-                                        { Tag: "Beep", Text: "msg" },
-                                        { Tag: "Biep", Text: "msg" },
-                                        { Tag: "Sonner", Text: "msg" },
-                                        { Tag: "msg", Text: CharacterNickname(Player) + " wags " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " tail." }
-                                    ]
-                                });
-                                TailWag();
-                                return;
-                            }
-                        }
+            if (Player.BCAR.bcarSettings.tailWaggingEnable) {
+                if (Player.BCAR.bcarSettings.animationButtonsEnable) {
+                    if (((Player.BCAR.bcarSettings.animationButtonsPosition === "upperleft")
+                            && ((MouseX >= 0) && (MouseX < 45) && (MouseY >= 180) && (MouseY < 225)))
+                        || ((Player.BCAR.bcarSettings.animationButtonsPosition === "lowerleft")
+                            && ((MouseX >= 0) && (MouseX < 45) && (MouseY >= 905) && (MouseY < 950)))
+                        || ((Player.BCAR.bcarSettings.animationButtonsPosition === "lowerright")
+                            && ((MouseX >= 955) && (MouseX < 1005) && (MouseY >= 905) && (MouseY < 950))))
+                    {
+                        ServerSend("ChatRoomChat", {
+                            Content: "Beep",
+                            Type: "Action",
+                            Target: null,
+                            Dictionary: [
+                                { Tag: "Beep", Text: "msg" },
+                                { Tag: "Biep", Text: "msg" },
+                                { Tag: "Sonner", Text: "msg" },
+                                { Tag: "msg", Text: CharacterNickname(Player) + " wags " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " tail." }
+                            ]
+                        });
+                        TailWag();
+                        return;
                     }
                 }
+            }
             if (Player.BCAR.bcarSettings.wingFlappingEnable) {
                 if (Player.BCAR.bcarSettings.animationButtonsEnable) {
-                    if (Player.BCAR.bcarSettings.animationButtonsPosition === "upperleft") {
-                        if ((MouseX >= 0) && (MouseX < 45) && (MouseY >= 225) && (MouseY < 270)) {
-                            ServerSend("ChatRoomChat", {
-                                Content: "Beep",
-                                Type: "Action",
-                                Target: null,
-                                Dictionary: [
-                                    { Tag: "Beep", Text: "msg" },
-                                    { Tag: "Biep", Text: "msg" },
-                                    { Tag: "Sonner", Text: "msg" },
-                                    { Tag: "msg", Text: CharacterNickname(Player) + " flaps " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " wings." }
-                                ]
-                            });
-                            WingFlap();
-                            return;
-                        }
-                    }
-                    if (Player.BCAR.bcarSettings.animationButtonsPosition === "lowerleft") {
-                        if ((MouseX >= 0) && (MouseX < 45) && (MouseY >= 950) && (MouseY < 995)) {
-                            ServerSend("ChatRoomChat", {
-                                Content: "Beep",
-                                Type: "Action",
-                                Target: null,
-                                Dictionary: [
-                                    { Tag: "Beep", Text: "msg" },
-                                    { Tag: "Biep", Text: "msg" },
-                                    { Tag: "Sonner", Text: "msg" },
-                                    { Tag: "msg", Text: CharacterNickname(Player) + " flaps " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " wings." }
-                                ]
-                            });
-                            WingFlap();
-                            return;
-                        }
-                    }
-                    if (Player.BCAR.bcarSettings.animationButtonsPosition === "lowerright") {
-                        if ((MouseX >= 955) && (MouseX < 1005) && (MouseY >= 950) && (MouseY < 995)) {
-                            ServerSend("ChatRoomChat", {
-                                Content: "Beep",
-                                Type: "Action",
-                                Target: null,
-                                Dictionary: [
-                                    { Tag: "Beep", Text: "msg" },
-                                    { Tag: "Biep", Text: "msg" },
-                                    { Tag: "Sonner", Text: "msg" },
-                                    { Tag: "msg", Text: CharacterNickname(Player) + " flaps " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " wings." }
-                                ]
-                            });
-                            WingFlap();
-                            return;
-                        }
+                    if (((Player.BCAR.bcarSettings.animationButtonsPosition === "upperleft")
+                            && ((MouseX >= 0) && (MouseX < 45) && (MouseY >= 225) && (MouseY < 270)))
+                        || ((Player.BCAR.bcarSettings.animationButtonsPosition === "lowerleft")
+                            && ((MouseX >= 0) && (MouseX < 45) && (MouseY >= 950) && (MouseY < 995)))
+                        || ((Player.BCAR.bcarSettings.animationButtonsPosition === "lowerright")
+                            && ((MouseX >= 955) && (MouseX < 1005) && (MouseY >= 950) && (MouseY < 995))))
+                    {
+                        ServerSend("ChatRoomChat", {
+                            Content: "Beep",
+                            Type: "Action",
+                            Target: null,
+                            Dictionary: [
+                                { Tag: "Beep", Text: "msg" },
+                                { Tag: "Biep", Text: "msg" },
+                                { Tag: "Sonner", Text: "msg" },
+                                { Tag: "msg", Text: CharacterNickname(Player) + " flaps " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " wings." }
+                            ]
+                        });
+                        WingFlap();
+                        return;
                     }
                 }
             }
