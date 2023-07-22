@@ -1,5 +1,12 @@
 # BCAR+ Changelog
 
+## [v0.7.2(a)](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.2(a))
+### What's Changed
+
+* Hotfix, BCAR+ did not load
+
+**Full Changelog**: [0.7.2...0.7.2(a)](https://github.com/DrBranestawm/BCAR/compare/0.7.2...0.7.2(a))
+
 ## [v0.7.2](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.2)
 ### What's Changed
 

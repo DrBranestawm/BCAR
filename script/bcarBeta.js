@@ -1,4 +1,4 @@
-const BCAR_Version = '0.7.2';
+const BCAR_Version = '0.7.2(a)';
 const BCAR_Settings_Version = 8;
 
 const ICONS = Object.freeze({
@@ -4506,3 +4506,4 @@ CommandCombine([
     //end of do not touch this
 
     //console.log("End of script")
+})();
