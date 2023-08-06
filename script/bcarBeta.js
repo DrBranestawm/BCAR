@@ -1,4 +1,4 @@
-const BCAR_Version = '0.7.2(a)';
+const BCAR_Version = '0.7.3';
 const BCAR_Settings_Version = 8;
 
 const ICONS = Object.freeze({
@@ -49,21 +49,11 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
     const w = window;
     const BCAR_CHANGELOG =
           "BCAR+ v" + BCAR_Version +
-          "<br>- Compatibility for R94" +
           "<br>- Settings page (wip)" +
-          "<br>  - Wings will now update properly" +
-          "<br>- The ear wiggle buttons are using BC message now by <a href='https://github.com/agicitag' target='_blank'>@agicitag</a>" +
-          "<br>- Cleaned up the code by <a href='https://github.com/agicitag' target='_blank'>@agicitag</a>" +
+          "<br>  - The settings page will now be exited properly" +
           "<br>" +
-          "<br>BCAR+ v0.7.1:" +
-          "<br>- Settings page (wip)" +
-          "<br>  - Current Version is now displayed on the main page" +
-          "<br>  - Access to the wardrobe from ear, tail and wings pages" +
-          "<br>  - The fields for speed and duration are no longer seen in the wardrobe" +
-          "<br>  - 'Clear' and 'Delete' buttons are now red" +
-          "<br>  - 'Clear' and 'Detele' buttons will open a confirm page now" +
-          "<br>- Cleaned up the code"
-
+          "<br>BCAR+ v0.7.2(a):" +
+          "<br>- BCAR+ didn't load at all"
 
 
     function copy_object(o) {
@@ -3309,6 +3299,7 @@ CommandCombine([
 
 
     // EAR MENU
+    let BCAREarsLoaded = false;
     w.PreferenceSubscreenBCAREarsLoad = function() {
         baseLoad();
 
@@ -3353,6 +3344,10 @@ CommandCombine([
         element = document.getElementById("bcar_ears_wiggleSpeed");
         element.onchange = callback;
         element.is_valid = true;
+        ElementPosition("bcar_ears_wiggleCount", 500 + 350 + 150, getYPos(3), 300);
+        ElementPosition("bcar_ears_wiggleSpeed", 500 + 350 + 150, getYPos(4), 300);
+        BCAREarsLoaded = true;
+
     }
 
     // Create Text
@@ -3378,6 +3373,7 @@ CommandCombine([
     }
 
     w.PreferenceSubscreenBCAREarsRun = function() {
+        if (!BCAREarsLoaded) PreferenceSubscreenBCAREarsLoad();
         MainCanvas.textAlign = "left";
         baseRun("BCAR+ Ears");
 
@@ -3405,11 +3401,11 @@ CommandCombine([
 
         // Ear Wiggle Count         [NUMBER INPUT]
         DrawText("Wiggle Count:", 500, getYPos(3), "Black", "Gray");
-		ElementPosition("bcar_ears_wiggleCount", 500 + 350 + 150, getYPos(3), 300);
+        //ElementPosition("bcar_ears_wiggleCount", 500 + 350 + 150, getYPos(3), 300);
 
         // Ear Wiggle Speed         [NUMBER INPUT]
         DrawText("Wiggle Delay (ms):", 500, getYPos(4), "Black", "Gray");
-		ElementPosition("bcar_ears_wiggleSpeed", 500 + 350 + 150, getYPos(4), 300);
+		//ElementPosition("bcar_ears_wiggleSpeed", 500 + 350 + 150, getYPos(4), 300);
 
         // Clear Ears               [BUTTON]
         DrawText("Clear Ears:", 500, getYPos(5), "Black", "Gray");
@@ -3427,13 +3423,14 @@ CommandCombine([
         if (PreferenceMessage != "")
             DrawText(PreferenceMessage, 1000, 125, "Red", "Black");
 
-        InputsReveal();
+        //InputsReveal();
     }
     w.PreferenceSubscreenBCAREarsExit = function() {
         //console.log('exit');
         // Save and element inputs
         ElementRemove("bcar_ears_wiggleCount");
 		ElementRemove("bcar_ears_wiggleSpeed");
+        BCAREarsLoaded = false;
 
         PreferenceMessage = "";
 
@@ -3496,7 +3493,9 @@ CommandCombine([
         }
         // Open Ear Wardrobe
         if (MouseIn(1815, 750, 90, 90)){
-            InputsHide();
+            // InputsHide();
+            PreferenceExit();
+            PreferenceSubscreen = "BCAREars"; // keep the settings subpage
             ChatRoomClickCharacter(Player);
             DialogChangeClothes();
             Player.FocusGroup = AssetGroup.find(g => g.Name === 'HairAccessory2');
@@ -3508,6 +3507,7 @@ CommandCombine([
     }
 
     // TAIL MENU
+    let BCARTailLoaded = false
     w.PreferenceSubscreenBCARTailLoad = function() {
         baseLoad();
 
@@ -3552,6 +3552,9 @@ CommandCombine([
         element = document.getElementById("bcar_tail_wagSpeed");
         element.onchange = callback;
         element.is_valid = true;
+        ElementPosition("bcar_tail_wagCount", 500 + 350 + 150, getYPos(3), 300);
+        ElementPosition("bcar_tail_wagSpeed", 500 + 350 + 150, getYPos(4), 300);
+        BCARTailLoaded = true;
     }
 
     // Create Text
@@ -3577,6 +3580,7 @@ CommandCombine([
     }
 
     w.PreferenceSubscreenBCARTailRun = function() {
+        if (!BCARTailLoaded) PreferenceSubscreenBCARTailLoad();
         MainCanvas.textAlign = "left";
         baseRun("BCAR+ Tail");
 
@@ -3604,11 +3608,11 @@ CommandCombine([
 
         // Tail Wag Count         [NUMBER INPUT]
         DrawText("Wag Count:", 500, getYPos(3), "Black", "Gray");
-		ElementPosition("bcar_tail_wagCount", 500 + 350 + 150, getYPos(3), 300);
+		//ElementPosition("bcar_tail_wagCount", 500 + 350 + 150, getYPos(3), 300);
 
         // Tail Wag Speed         [NUMBER INPUT]
         DrawText("Wag Delay (ms):", 500, getYPos(4), "Black", "Gray");
-		ElementPosition("bcar_tail_wagSpeed", 500 + 350 + 150, getYPos(4), 300);
+		//ElementPosition("bcar_tail_wagSpeed", 500 + 350 + 150, getYPos(4), 300);
 
         // Clear Tail             [BUTTON]
         DrawText("Clear Tail:", 500, getYPos(5), "Black", "Gray");
@@ -3626,12 +3630,13 @@ CommandCombine([
         if (PreferenceMessage != "")
             DrawText(PreferenceMessage, 1000, 125, "Red", "Black");
 
-        InputsReveal();
+        //InputsReveal();
     }
     w.PreferenceSubscreenBCARTailExit = function() {
          // Save and element inputs
         ElementRemove("bcar_tail_wagCount");
 		ElementRemove("bcar_tail_wagSpeed");
+        BCARTailLoaded = false;
 
         PreferenceMessage = "";
 
@@ -3690,7 +3695,9 @@ CommandCombine([
         }
         // Open Tail Wardrobe
         if (MouseIn(1815, 750, 90, 90)){
-            InputsHide();
+            //InputsHide();
+            PreferenceExit();
+            PreferenceSubscreen = "BCARTail"; // keep the settings subpage
             ChatRoomClickCharacter(Player);
             DialogChangeClothes();
             Player.FocusGroup = AssetGroup.find(g => g.Name === 'TailStraps');
@@ -3702,6 +3709,7 @@ CommandCombine([
     }
 
     // WINGS MENU
+    let BCARWingsLoaded = false;
     w.PreferenceSubscreenBCARWingsLoad = function() {
         baseLoad();
 
@@ -3746,6 +3754,9 @@ CommandCombine([
         element = document.getElementById("bcar_wing_flapSpeed");
         element.onchange = callback;
         element.is_valid = true;
+        ElementPosition("bcar_wing_flapCount", 500 + 350 + 150, getYPos(3), 300);
+        ElementPosition("bcar_wing_flapSpeed", 500 + 350 + 150, getYPos(4), 300);
+        BCARWingsLoaded = true;
     }
 
     // Create Text
@@ -3771,6 +3782,7 @@ CommandCombine([
     }
 
     w.PreferenceSubscreenBCARWingsRun = function() {
+        if (!BCARWingsLoaded) PreferenceSubscreenBCARWingsLoad();
         MainCanvas.textAlign = "left";
         baseRun("BCAR+ Wings");
 
@@ -3798,11 +3810,11 @@ CommandCombine([
 
         // Wing Flap Count         [NUMBER INPUT]
         DrawText("Flap Count:", 500, getYPos(3), "Black", "Gray");
-		ElementPosition("bcar_wing_flapCount", 500 + 350 + 150, getYPos(3), 300);
+		//ElementPosition("bcar_wing_flapCount", 500 + 350 + 150, getYPos(3), 300);
 
         // Wing Flap Speed         [NUMBER INPUT]
         DrawText("Flap Delay (ms):", 500, getYPos(4), "Black", "Gray");
-		ElementPosition("bcar_wing_flapSpeed", 500 + 350 + 150, getYPos(4), 300);
+		//ElementPosition("bcar_wing_flapSpeed", 500 + 350 + 150, getYPos(4), 300);
 
         // Clear Wing             [BUTTON]
         DrawText("Clear Wing:", 500, getYPos(5), "Black", "Gray");
@@ -3820,13 +3832,14 @@ CommandCombine([
         if (PreferenceMessage != "")
             DrawText(PreferenceMessage, 1000, 125, "Red", "Black");
 
-        InputsReveal();
+        //InputsReveal();
     }
 
     w.PreferenceSubscreenBCARWingsExit = function() {
         // Save and element inputs
         ElementRemove("bcar_wing_flapCount");
         ElementRemove("bcar_wing_flapSpeed");
+        BCARWingsLoaded = false;
 
         PreferenceMessage = "";
 
@@ -3885,7 +3898,9 @@ CommandCombine([
         }
         // Open Wing Wardrobe
         if (MouseIn(1815, 750, 90, 90)){
-            InputsHide();
+            // InputsHide();
+            PreferenceExit();
+            PreferenceSubscreen = "BCARWings"; // keep the settings subpage
             ChatRoomClickCharacter(Player);
             DialogChangeClothes();
             Player.FocusGroup = AssetGroup.find(g => g.Name === 'Wings');

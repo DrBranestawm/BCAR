@@ -1,5 +1,13 @@
 # BCAR+ Changelog
 
+## [v0.7.3](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.3)
+### What's Changed
+
+* Settings page (wip)
+  - The settings page will now be exited properly
+
+**Full Changelog**: [0.7.2(a)...0.7.3](https://github.com/DrBranestawm/BCAR/compare/0.7.2(a)...0.7.3)
+
 ## [v0.7.2(a)](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.2(a))
 ### What's Changed
 
