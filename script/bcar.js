@@ -50,7 +50,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
     const BCAR_CHANGELOG =
           "BCAR+ v" + BCAR_Version +
           "<br>- Settings page (wip)" +
-          "<br>  - The settings pasge will now be exited properly" +
+          "<br>  - The settings page will now be exited properly" +
           "<br>" +
           "<br>BCAR+ v0.7.2(a):" +
           "<br>- BCAR+ didn't load at all"
