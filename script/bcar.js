@@ -204,7 +204,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
     };
 
     function checkUpdates () {
-        fetch(`https://drbranestawm.github.io/BCAR/script/bcarBeta.js?ts=${Date.now()}`).then(r => r.text()).then(r => eval(r)).catch(x => x instanceof LoadedError || console.error(x))
+        fetch(`https://drbranestawm.github.io/BCAR/script/bcar.js?ts=${Date.now()}`).then(r => r.text()).then(r => eval(r)).catch(x => x instanceof LoadedError || console.error(x))
     }
 
     setInterval(checkUpdates, 3600000)
