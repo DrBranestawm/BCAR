@@ -1,4 +1,4 @@
-const BCAR_Version = '0.7.3';
+const BCAR_Version = '0.7.4';
 const BCAR_Settings_Version = 8;
 
 const ICONS = Object.freeze({
@@ -45,15 +45,21 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
   await waitFor(() => ServerIsConnected && ServerSocket);
   //end of do not touch
   const bcarSettingsKey = () => `bcarSettings.${Player?.AccountName}`;
-    const subcommands = ["animationbuttons", "animal", "animalhelp", "arousal", "arousalhelp", "changelog", "cat", "delete1", "delete2", "delete3", "dog", "ear1", "ear2", "eardelete", "eardelay", "earhelp", "earwiggle", "earwigglecount", "emotehelp", "emoteear", "emotetail", "expressionhelp", "expression", "fox", "female", "help", "load1", "load2", "load3", "lowerleft", "lowerright", "male", "misc", "mouse", "other", "profile1", "profile2", "profile3", "profilehelp", "reset", "save1", "save2", "save3", "settings", "status", "tail1", "tail2", "tailhelp", "taildelay", "taildelete", "tailwag", "tailwagcount", "timerhelp", "timer", "upperleft","versions", "wing1", "wing2", "wingdelay", "wingdelete", "wingflapcount", "winghelp", "wingflap"];
+    const subcommands = ["animationbuttons", "animal", "animalhelp", "arousal", "arousalhelp", "changelog", "cat", "delete1", "delete2", "delete3", "dog", "ear1", "ear2", "eardelete", "eardelay", "earhelp", "earwiggle", "earwigglecount", "emotehelp", "emoteear", "emotetail", "expressionhelp", "expression", "fox", "female", "help", "human", "load1", "load2", "load3", "lowerleft", "lowerright", "male", "misc", "mouse", "other", "profile1", "profile2", "profile3", "profilehelp", "reset", "save1", "save2", "save3", "settings", "status", "tail1", "tail2", "tailhelp", "taildelay", "taildelete", "tailwag", "tailwagcount", "timerhelp", "timer", "upperleft","versions", "wing1", "wing2", "wingdelay", "wingdelete", "wingflapcount", "winghelp", "wingflap"];
     const w = window;
     const BCAR_CHANGELOG =
           "BCAR+ v" + BCAR_Version +
+          "<br>- Added the ''animal'' human" +
           "<br>- Settings page (wip)" +
-          "<br>  - The settings page will now be exited properly" +
+          "<br>  - Added option to change gender" +
+          "<br>  - Added option to change animal type" +
+          "<br>  - Added option to change the animation button position" +
+          "<br>- Cleaned up the code" +
           "<br>" +
-          "<br>BCAR+ v0.7.2(a):" +
-          "<br>- BCAR+ didn't load at all"
+          "<br>BCAR+ v0.7.3" +
+          "<br>- Settings page (wip)" +
+          "<br>The settings page will now be exited properly"
+
 
 
     function copy_object(o) {
@@ -198,7 +204,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
     };
 
     function checkUpdates () {
-        fetch(`https://drbranestawm.github.io/BCAR/script/bcar.js?ts=${Date.now()}`).then(r => r.text()).then(r => eval(r)).catch(x => x instanceof LoadedError || console.error(x))
+        fetch(`https://drbranestawm.github.io/BCAR/script/bcarBeta.js?ts=${Date.now()}`).then(r => r.text()).then(r => eval(r)).catch(x => x instanceof LoadedError || console.error(x))
     }
 
     setInterval(checkUpdates, 3600000)
@@ -765,14 +771,14 @@ const TriggerAdditions = [
 
    function replace_template(text, source_name = '') {
        let result = text
-       result = result.replaceAll("%POSSESSIVE%", Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase())
-       result = result.replaceAll("%CAP_POSSESSIVE%", Player.BCAR.bcarSettings.genderDefault.capPossessive)
-       result = result.replaceAll("%PRONOUN%", Player.BCAR.bcarSettings.genderDefault.capPronoun.toLocaleLowerCase())
-       result = result.replaceAll("%CAP_PRONOUN%", Player.BCAR.bcarSettings.genderDefault.capPronoun)
-       result = result.replaceAll("%INTENSIVE%", Player.BCAR.bcarSettings.genderDefault.capIntensive.toLocaleLowerCase())
-       result = result.replaceAll("%CAP_INTENSIVE%", Player.BCAR.bcarSettings.genderDefault.capIntensive)
-       result = result.replaceAll("%NAME%", CharacterNickname(Player))
-       result = result.replaceAll("%OPP_NAME%", source_name) // finally we can use the source name to make the substitution
+       result = result.replaceAll(`POSSESSIVE%`, Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase())
+       result = result.replaceAll(`%CAP_POSSESSIVE%`, Player.BCAR.bcarSettings.genderDefault.capPossessive)
+       result = result.replaceAll(`%PRONOUN%`, Player.BCAR.bcarSettings.genderDefault.capPronoun.toLocaleLowerCase())
+       result = result.replaceAll(`%CAP_PRONOUN%`, Player.BCAR.bcarSettings.genderDefault.capPronoun)
+       result = result.replaceAll(`%INTENSIVE%`, Player.BCAR.bcarSettings.genderDefault.capIntensive.toLocaleLowerCase())
+       result = result.replaceAll(`%CAP_INTENSIVE%`, Player.BCAR.bcarSettings.genderDefault.capIntensive)
+       result = result.replaceAll(`%NAME%`, CharacterNickname(Player))
+       result = result.replaceAll(`%OPP_NAME%`, source_name) // finally we can use the source name to make the substitution
 
        return result
    }
@@ -1086,7 +1092,7 @@ const TriggerAdditions = [
                   //console.log("IF")
                   ChatRoomSendLocal(
                     `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
-                    "You can't fly because the ${NeckRestraints.Asset.Description} holds you down.</p>`, wt.info
+                     <br>You can't fly because the ${NeckRestraints.Asset.Description} holds you down.</p>`.replaceAll('\n', ''), wt.info
                 )
                 ServerSend("ChatRoomChat", { Content: "Beep", Type: "Action", Dictionary: [{Tag: "Beep", Text: `${CharacterNickname(Player)} tried to fly while ${Player.BCAR.bcarSettings.genderDefault.capPronoun.toLocaleLowerCase()} is held down by a ${NeckRestraints.Asset.Description}.` }]});
             }
@@ -1264,6 +1270,7 @@ async function bcarSettingsRemove() {
             arousalStatus : "Disabled",
             expressionsEnable :false,
             expressionsStatus : "Disabled",
+            settingsButtonUsed : false,
             earEmoteEnable : true,
             earEmoteStatus : "Enabled",
             earWigglingEnable : false,
@@ -2092,7 +2099,7 @@ function CommandProfile(argsList)
 //End of Profile Commands
 
 //Misc Commands
-function CommandAnimationButtons(argsList)
+function CommandAnimationButtons(argsList, showMessage = true)
     {
         const cmd = argsList[0].toLocaleLowerCase();;
         const s = Player?.BCAR?.bcarSettings;
@@ -2115,7 +2122,7 @@ function CommandAnimationButtons(argsList)
                     `<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
                     <br>Animation Buttons are now disabled!
                     </p>`.replaceAll('\n', ''), wt.info
-                    );
+                        );
                     BCARChatRoomMenuDraw();
                     BCARChatRoomClick();
                     bcarSettingsSave();
@@ -2123,28 +2130,32 @@ function CommandAnimationButtons(argsList)
                 break;
             case 'upperleft' : case 'lowerleft' : case 'lowerright' :
                 Player.BCAR.bcarSettings.animationButtonsPosition = cmd
-                ChatRoomSendLocal(
-                `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
-                <br>Animation Buttons moved to ${cmd}!
-                </p>`.replaceAll('\n', ''), wt.info
-                );
+                if (showMessage){
+                    ChatRoomSendLocal(
+                    `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                    <br>Animation Buttons moved to ${cmd}!
+                    </p>`.replaceAll('\n', ''), wt.info
+                    );
+                }
                 BCARChatRoomMenuDraw();
                 BCARChatRoomClick();
                 bcarSettingsSave();
         }
     }
 
-function CommandAnimals(argsList)
+function CommandAnimals(argsList, showMessage = true)
     {
         const cmd = argsList[0].toLocaleLowerCase();
         switch (cmd) {
-            case 'cat': case 'dog': case 'fox': case 'mouse':
+            case 'cat': case 'dog': case 'fox': case 'mouse': case 'human':
                 Player.BCAR.bcarSettings.animal = cmd
-                ChatRoomSendLocal(
-                `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
-                <br><span style="text-transform:capitalize">${cmd}</span> reactions are selected!
-                </p>`.replaceAll('\n', ''), wt.info
-                );
+                if (showMessage){
+                    ChatRoomSendLocal(
+                    `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                    <br><span style="text-transform:capitalize">${cmd}</span> reactions are selected!
+                    </p>`.replaceAll('\n', ''), wt.info
+                    );
+                }
                 bcarSettingsSave();
                 break;
             case 'animal': case 'animalhelp' :
@@ -2491,7 +2502,7 @@ function CommandExpression(argsList)
         }
     }
 
-function CommandGenderToggle(argsList)
+function CommandGenderToggle(argsList, showMessage = true)
     {
         let toggle = argsList[0];
 
@@ -2500,33 +2511,39 @@ function CommandGenderToggle(argsList)
             Player.BCAR.bcarSettings.genderDefault.capPronoun = "He";
             Player.BCAR.bcarSettings.genderDefault.capIntensive = "Him";
             Player.BCAR.bcarSettings.genderDefault.capPossessive = "His";
-            ChatRoomSendLocal(
+            if (showMessage){
+                ChatRoomSendLocal(
                 `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
                 <br>The reactions refer to ${CharacterNickname(Player)} as "he" now!
                 </p>`.replaceAll('\n', ''), wt.info
-            );
+                );
+            }
         }
         else if (toggle === "female") {
             Player.BCAR.bcarSettings.genderDefault.gender = "Female";
             Player.BCAR.bcarSettings.genderDefault.capPronoun = "She";
             Player.BCAR.bcarSettings.genderDefault.capIntensive = "Her";
             Player.BCAR.bcarSettings.genderDefault.capPossessive = "Her";
-            ChatRoomSendLocal(
+            if (showMessage){
+                ChatRoomSendLocal(
                 `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
                 <br>The reactions refer to ${CharacterNickname(Player)} as "she" now!
                 </p>`.replaceAll('\n', ''), wt.info
-            );
+                );
+            }
         }
         else if (toggle === "other") {
             Player.BCAR.bcarSettings.genderDefault.gender = "Non-Binary";
             Player.BCAR.bcarSettings.genderDefault.capPronoun = "They";
             Player.BCAR.bcarSettings.genderDefault.capIntensive = "Them";
             Player.BCAR.bcarSettings.genderDefault.capPossessive = "Their";
-            ChatRoomSendLocal(
+            if (showMessage){
+                ChatRoomSendLocal(
                 `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
                 <br>The reactions refer to ${CharacterNickname(Player)} as "they" now!
                 </p>`.replaceAll('\n', ''), wt.info
-            );
+                );
+            }
         }
         bcarSettingsSave();
     }
@@ -2872,8 +2889,133 @@ CommandCombine([
     }
 
     // MAIN MENU
+    const settings = {
+        gender: {
+            options: [
+                "male",
+                "female",
+                "other",
+            ],
+            labels: [
+                "Male",
+                "Female",
+                "Non-Binary",
+            ],
+            selected: 0,
+            x: 950,
+            y: getYPos(0),
+            w: 400,
+            h: 85,
+        },
+        animal: {
+            options: [
+                "cat",
+                "dog",
+                "fox",
+                "human",
+                "mouse",
+            ],
+            labels: [
+                "Cat",
+                "Dog",
+                "Fox",
+                "Human",
+                "Mouse",
+            ],
+            selected: 0,
+            x: 950,
+            y: getYPos(1),
+            w: 400,
+            h: 85,
+        },
+        animationButtonsPosition: {
+            options: [
+                "upperleft",
+                "lowerleft",
+                "lowerright",
+            ],
+            labels: [
+                "Upper Left",
+                "Lower Left",
+                "Lower Right",
+            ],
+            selected: 0,
+            x: 950,
+            y: getYPos(2),
+            w: 400,
+            h: 85,
+        },
+
+            init: function(name, value) {
+      let setting = this[name];
+      setting.selected = setting.options.indexOf(value);
+      if (setting.selected < 0) setting.selected = setting.labels.indexOf(value);
+      if (setting.selected < 0) setting.selected = 0;
+    },
+    value: function(name) {
+      let setting = this[name];
+      return setting.options[setting.selected];
+    },
+    label: function(name) {
+      let setting = this[name];
+      return setting.labels[setting.selected];
+    },
+    index_next: function(name) {
+      let setting = this[name];
+      let index = setting.selected;
+      index += 1;
+      if (index >= setting.options.length) index = 0;
+      return index;
+    },
+    index_prev: function(name) {
+      let setting = this[name];
+      let index = setting.selected;
+      index -= 1;
+      if (index < 0) index = setting.options.length - 1;
+      return index;
+    },
+    select_next: function(name) {
+      this[name].selected = this.index_next(name);
+    },
+    select_prev: function(name) {
+      this[name].selected = this.index_prev(name);
+    },
+    peek_prev_label: function(name) {
+      return this[name].labels[this.index_prev(name)];
+    },
+    peek_next_label: function(name) {
+      return this[name].labels[this.index_next(name)];
+    },
+    draw: function(name) {
+      let setting = this[name];
+      const save_align = MainCanvas.textAlign;
+      MainCanvas.textAlign = "center";
+      DrawBackNextButton(setting.x, setting.y, setting.w, setting.h, this.label(name), "White", "",
+                               () => this.peek_prev_label(name),
+                               () => this.peek_next_label(name),
+                              );
+        MainCanvas.textAlign = save_align;
+        },
+        click: function(name) {
+            let setting = this[name];
+            if (MouseIn(setting.x, setting.y, setting.w, setting.h)) {
+                let half_width = (setting.w / 2).toPrecision(1)
+                if (MouseX <= setting.x + half_width) {
+                    this.select_prev(name);
+                } else {
+                    this.select_next(name);
+                }
+                return true; // there was a click on this button
+            }
+            return false; // there were no clicks on this button
+        },
+    };
+
     w.PreferenceSubscreenBCARSettingsLoad = function() {
         console.debug("BCAR+ Settings load");
+        settings.init("gender", Player.BCAR?.bcarSettings?.genderDefault?.gender);
+        settings.init("animal", Player.BCAR?.bcarSettings?.animal);
+        settings.init("animationButtonsPosition", Player.BCAR?.bcarSettings?.animationButtonsPosition);
 
     };
 
@@ -2906,7 +3048,8 @@ CommandCombine([
         );
 
         DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-        DrawButton(1540, 770, 400, 85, "", "White", "Icons/Changelog.png", "Open BCAR+ Changelog on GitHub.", true);
+        DrawButton(1540, 770, 400, 85, "", "White", "", "Open BCAR+ Changelog on GitHub.");
+        DrawImageResize("Icons/Changelog.png", 1550, 780, 60, 60);
         DrawTextFit(
             "Open Changelog",
             1635,
@@ -2914,7 +3057,8 @@ CommandCombine([
             380,
             "Black"
         );
-        DrawButton(1540, 870, 400, 85, "", "White", undefined, "Open BCAR+ Wiki on GitHub.", true);
+        DrawButton(1540, 870, 400, 85, "", "White", "", "Open BCAR+ Wiki on GitHub.");
+        DrawImageResize("Icons/Introduction.png", 1550, 880, 60, 60);
         DrawTextFit(
             "Open Wiki",
             1650,
@@ -2931,6 +3075,7 @@ CommandCombine([
             "Black"
         );
         DrawButton(500, getYPos(1), 400, 85, "", "White"/*, "Assets/Female3DCG/HairAccessory1/Preview/KittenEars1.png"*/);
+        //DrawImageResize("Assets/Female3DCG/HairAccessory1/Preview/KittenEars1.png", 800, 290, 100, 100);
         DrawTextFit(
             "Ears",
             510,
@@ -2939,6 +3084,7 @@ CommandCombine([
             "Black"
         );
         DrawButton(500, getYPos(2), 400, 85, "", "White");
+        //DrawImageResize("Assets/Female3DCG/TailStraps/Preview/TailStrap.png", 800, 400, 80, 80);
         DrawTextFit(
             "Tails",
             510,
@@ -2947,6 +3093,7 @@ CommandCombine([
             "Black"
         );
         DrawButton(500, getYPos(3), 400, 85, "", "White");
+        //DrawImageResize("Assets/Female3DCG/Wings/AngelWings.png", 800, 490, 100, 100);
         DrawTextFit(
             "Wings",
             510,
@@ -2970,9 +3117,20 @@ CommandCombine([
             380,
             "Black"
         );
+        DrawButton(500, getYPos(6), 400, 85, "", "White");
+        DrawTextFit(
+            "Reactions",
+            510,
+            getYPos(6) + 42,
+            380,
+            "Black"
+        );
+        settings.draw("gender");
+        settings.draw("animal");
+        settings.draw("animationButtonsPosition");
+
         MainCanvas.textAlign = prev;
     };
-
     w.PreferenceSubscreenBCARSettingsExit = function() {
         PreferenceSubscreen = "";
         PreferenceSettings = "";
@@ -2991,6 +3149,22 @@ CommandCombine([
         if (MouseIn(500, getYPos(3), 400, 85)) LoadPreferencesSubscreen("Wings");
         if (MouseIn(500, getYPos(4), 400, 85)) LoadPreferencesSubscreen("Misc");
         if (MouseIn(500, getYPos(5), 400, 85)) LoadPreferencesSubscreen("Profiles");
+        if (MouseIn(500, getYPos(6), 400, 85)) LoadPreferencesSubscreen("Reactions");
+        if (settings.click("gender")){
+            let showMessage = true
+            const argsListGender = [settings.value("gender")];
+            CommandGenderToggle(argsListGender, false);
+        };
+        if (settings.click("animal")){
+            let showMessage = false
+            const argsListAnimals = [settings.value("animal")];
+            CommandAnimals(argsListAnimals, false);
+        };
+        if (settings.click("animationButtonsPosition")){
+            let showMessage = false
+            const argsListAnimationButtons = [settings.value("animationButtonsPosition")];
+            CommandAnimationButtons(argsListAnimationButtons, false);
+        };
 
         return;
     };
@@ -3338,6 +3512,7 @@ CommandCombine([
             } else {
                 element.style.color = "#FF0000";
                 element.is_valid = false
+                alert("Set valid numbers");
                 PreferenceMessage = "Invalid number of delay";
             }
         };
