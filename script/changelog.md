@@ -1,5 +1,58 @@
 # BCAR+ Changelog
 
+## [v0.7.3](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.3)
+### What's Changed
+
+* Settings page (wip)
+  - The settings page will now be exited properly
+
+**Full Changelog**: [0.7.2(a)...0.7.3](https://github.com/DrBranestawm/BCAR/compare/0.7.2(a)...0.7.3)
+
+## [v0.7.2(a)](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.2(a))
+### What's Changed
+
+* Hotfix, BCAR+ did not load
+
+**Full Changelog**: [0.7.2...0.7.2(a)](https://github.com/DrBranestawm/BCAR/compare/0.7.2...0.7.2(a))
+
+## [v0.7.2](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.2)
+### What's Changed
+
+* Compatibility for R94
+* Settings page (wip)
+  - Wings will now update properly
+* The ear wiggle buttons are using BC message now by @agicitag
+* Cleaned up the code by @agicitag
+
+**Full Changelog**: [0.7.1...0.7.2](https://github.com/DrBranestawm/BCAR/compare/0.7.1...0.7.2)
+
+## [v0.7.1](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.1)
+### What's Changed
+
+* Settings page (wip)
+  - Current Version is now displayed on the main page
+  - Access to the wardrobe from ear, tail and wings pages
+  - The fields for speed and duration are no longer seen in the wardrobe
+  - 'Clear' and 'Delete' buttons are now red
+  - 'Clear' and 'Detele' buttons will open a confirm page now
+* Cleaned up the code
+
+**Full Changelog**: [0.7.0...0.7.1](https://github.com/DrBranestawm/BCAR/compare/0.7.0...0.7.1)
+
+## [v0.7.0](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.0)
+### What's Changed
+
+* Added a settings page (wip)
+* Added expression support for LSCG
+* Added the possibility to wag your tail via butt activity
+* Added a confirmation to several delete-commands
+* Animation buttons have three possible positions now
+    - Ear and tail emotes are toggleable seperately
+* Fixed a bug where changing ears, tail and/or wings replaced a save profile
+* Cleaned up the code
+
+**Full Changelog**: [0.6.3...0.7.0](https://github.com/DrBranestawm/BCAR/compare/0.6.3...0.7.0)
+
 ## [v0.6.3](https://github.com/DrBranestawm/BCAR/releases/edit/v0.6.3)
 ### What's Changed
 

@@ -1,8 +1,8 @@
 # ![BCAR+_Banner](https://user-images.githubusercontent.com/115511728/208785119-dc3cd2f3-e83a-4f8a-ad65-360e18cabdbc.png)
 
  
-This extension lets your Character react automatically to Actions done to them.  
-The ears can wiggle and the tail can wag too. To change the ears wiggle and the tail wag animation see "[Commands of BCAR+](https://github.com/DrBranestawm/BCAR#commands-of-bcar)" down below or look at the [Wiki](https://github.com/DrBranestawm/BCAR/wiki) page. You can add the script via Tampermonkey [BCAR+](https://github.com/DrBranestawm/BCAR/raw/main/script/bcarLoader.user.js)  
+This extension lets your Character react automatically to actions done to them.  
+The ears can wiggle and the tail can wag too. To change the ears wiggle and the tail wag animation look at the [Wiki](https://github.com/DrBranestawm/BCAR/wiki) page. You can add the script via Tampermonkey [BCAR+](https://github.com/DrBranestawm/BCAR/raw/main/script/bcarLoader.user.js)  
 or add it as Bookmark any of your devices. To do that save  
 `javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/script/bcar.js').then(r=>r.text()).then(r=>eval(r));})();`
 as a bookmark on your devices.
@@ -15,8 +15,8 @@ or add it as Bookmark any of your devices. To do that save
 `javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/script/bcarBeta.js').then(r=>r.text()).then(r=>eval(r));})();` 
 as a bookmark on your devices.
 
-## Commands of BCAR+
-The commands were moved to the [Wiki](https://github.com/DrBranestawm/BCAR/wiki) page.
+## Wiki of BCAR+
+[Wiki](https://github.com/DrBranestawm/BCAR/wiki) page.
 
 # Special Thanks
 
@@ -30,10 +30,12 @@ The commands were moved to the [Wiki](https://github.com/DrBranestawm/BCAR/wiki)
  - Julia ([@agicitag](https://github.com/agicitag/))
     - Providing general help
     - Permission to use their save and load settings feature
+    - Added their ear wiggling script to BCAR+
  - Kira
     - Creating different animal reactions
  - Little Sera ([@littlesera](https://github.com/littlesera/))
     - Helping to build up a settings page
+    - Adding custom activity
  - Mute ([@Mute](https://code.fleshless.org/mute/))
     - Giving coding Lessons
     - Help to clean up a lot of code
