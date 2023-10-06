@@ -898,7 +898,8 @@ const TriggerAdditions = [
           for(let i=0; i < numberWiggles; i++)
           {
               setTimeout(function() {
-                  InventoryWear(Player, earsVariations[i%earsVariations.length], "HairAccessory2", earsColor[i%earsColor.length]);
+                  InventoryWear(Player, earsVariations[i%earsVariations.length], "HairAccessory2", earsColor[i%earsColor.length], undefined, undefined, undefined, false);
+                  CharacterRefresh(Player, false);
                   ChatRoomCharacterItemUpdate(Player, "HairAccessory2");
               }, i * delay);
           }
@@ -914,7 +915,8 @@ const TriggerAdditions = [
             for(let i=0; i < numberWags; i++)
             {
                 setTimeout(function() {
-                    InventoryWear(Player, tailsVariations[i%tailsVariations.length], "TailStraps", tailsColor[i%tailsColor.length]);
+                    InventoryWear(Player, tailsVariations[i%tailsVariations.length], "TailStraps", tailsColor[i%tailsColor.length], undefined, undefined, undefined, false);
+                    CharacterRefresh(Player, false);
                     ChatRoomCharacterItemUpdate(Player, "TailStraps");
                 }, i * delay);
             }
@@ -930,7 +932,8 @@ const TriggerAdditions = [
             for(let i=0; i < numberFlaps; i++)
             {
                 setTimeout(function() {
-                    InventoryWear(Player, wingsVariations[i%wingsVariations.length], "Wings", wingsColor[i%wingsColor.length]);
+                    InventoryWear(Player, wingsVariations[i%wingsVariations.length], "Wings", wingsColor[i%wingsColor.length], undefined, undefined, undefined, false);
+                    CharacterRefresh(Player, false);
                     ChatRoomCharacterItemUpdate(Player, "Wings");
                 }, i * delay);
             }
