@@ -28,6 +28,7 @@ as a bookmark on your devices.
     - Some compability fixes with FBC4.6 (Also thanks to Elicia)
   - elliethepink ([@elliethepink](https://github.com/elliethepink))
     - A few fixes and improvements for flying
+    - Some code improvements
  - Haruhi ([@crimsontropy](https://github.com/crimsontropy/))
     - Clean up the if-else for actions
     - Their tail wag script on which the ear wiggle is based
