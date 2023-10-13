@@ -1,5 +1,22 @@
 # BCAR+ Changelog
 
+## [v0.7.4](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.4)
+### What's Changed
+
+* Added the ''animal'' human
+* Settings page (wip)
+  - Added option to change gender
+  - Added option to change animal type
+  - Added option to change the animation button position
+* Added 'flutter' as a verb as well as 'flap' and use it for fairy, pixie and bee wings by [@elliethepink](https://github.com/elliethepink)
+* Added commands to start and stop flying by [@elliethepink](https://github.com/elliethepink)
+* Added more items that prevent flying in addition to neck restraints, factor out the check for whether the player can fly into a separate function & also check the player has wings [@elliethepink](https://github.com/elliethepink)
+* Fixed a crash if you tried to fly but had never set an emoticon [@elliethepink](https://github.com/elliethepink)
+* Fixed that AccountUpdate is being sent, reduces the message load caused by BCAR+ by [@elliethepink](https://github.com/elliethepink)
+* Cleaned up the code
+
+**Full Changelog**: [0.7.3...0.7.4](https://github.com/DrBranestawm/BCAR/compare/0.7.3...0.7.4)
+
 ## [v0.7.3](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.3)
 ### What's Changed
 

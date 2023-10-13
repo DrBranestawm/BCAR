@@ -7,6 +7,7 @@ or add it as Bookmark any of your devices. To do that save
 `javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/script/bcar.js').then(r=>r.text()).then(r=>eval(r));})();`
 as a bookmark on your devices.
 
+### Or install it with [FUSAM](https://gitlab.com/Sidiousious/bc-addon-loader#bc-addon-manager) an BC addon loader. (My recommendation)
 
 # BCAR+ Beta
 Use the beta at own risk!  
@@ -14,6 +15,8 @@ You can add the beta script via Tampermonkey [BCAR+ Beta](https://github.com/DrB
 or add it as Bookmark any of your devices. To do that save  
 `javascript:(()=>{fetch('https://drbranestawm.github.io/BCAR/script/bcarBeta.js').then(r=>r.text()).then(r=>eval(r));})();` 
 as a bookmark on your devices.
+
+### Also available on [FUSAM](https://gitlab.com/Sidiousious/bc-addon-loader#bc-addon-manager).
 
 ## Wiki of BCAR+
 [Wiki](https://github.com/DrBranestawm/BCAR/wiki) page.
@@ -23,6 +26,9 @@ as a bookmark on your devices.
  - Angela ([@AngelaTheCat](https://github.com/AngelaTheCat/))
     - Privoviding the main script
     - Some compability fixes with FBC4.6 (Also thanks to Elicia)
+  - elliethepink ([@elliethepink](https://github.com/elliethepink))
+    - A few fixes and improvements for flying
+    - Some code improvements
  - Haruhi ([@crimsontropy](https://github.com/crimsontropy/))
     - Clean up the if-else for actions
     - Their tail wag script on which the ear wiggle is based
