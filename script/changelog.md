@@ -1,5 +1,12 @@
 # BCAR+ Changelog
 
+## [v0.7.4(a)](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.4(a))
+### What's Changed
+
+* Removed the place holder for the custom reactions, because it caused a crash
+  
+**Full Changelog**: [0.7.4...0.7.4(a)](https://github.com/DrBranestawm/BCAR/compare/0.7.4...0.7.4(a))
+
 ## [v0.7.4](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.4)
 ### What's Changed
 
