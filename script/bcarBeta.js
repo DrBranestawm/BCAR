@@ -1281,7 +1281,7 @@ async function bcarSettingsRemove() {
 
     function migrate_gender() {
         const gd = Player.BCAR.bcarSettings.genderDefault
-        if (gd.pronoun || gd.intensive || gd.possessive) {
+        if (gd && (gd.pronoun || gd.intensive || gd.possessive)) {
             CommandGenderToggle([gd.gender.toLowerCase()]); // this will set correct values, deletes will delete old values
             delete gd.pronoun; // this deletes Player.BCAR.bcarSettings.genderDefault.pronoun
             delete gd.intensive;
