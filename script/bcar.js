@@ -3717,7 +3717,8 @@ CommandCombine([
 		MainCanvas.textAlign = "center";
 		DrawButton(500 + 350, getYPos(6) - 32, 200, 64, "Test", "White", undefined, "Test Ear Wiggles", true);
 
-        DrawButton(1815, 750, 90, 90, "", "White", "Icons/Wardrobe.png")
+        // Open Wardrobe
+        DrawButton(1815, 750, 90, 90, "", "Gray", "Icons/Wardrobe.png")
 
         if (PreferenceMessage != "")
             DrawText(PreferenceMessage, 1000, 125, "Red", "Black");
@@ -3791,7 +3792,7 @@ CommandCombine([
             }
         }
         // Open Ear Wardrobe
-        if (MouseIn(1815, 750, 90, 90)){
+        /*if (MouseIn(1815, 750, 90, 90)){
             // InputsHide();
             PreferenceExit();
             PreferenceSubscreen = "BCAREars"; // keep the settings subpage
@@ -3802,7 +3803,7 @@ CommandCombine([
           	AppearancePreviewBuild(Player, true);
             CharacterAppearanceCloth = InventoryGet(Player, Player.FocusGroup.Name);
             CharacterAppearanceMode = "Cloth";
-        }
+        }*/
     }
 
     // TAIL MENU
@@ -3924,7 +3925,8 @@ CommandCombine([
 		MainCanvas.textAlign = "center";
 		DrawButton(500 + 350, getYPos(6) - 32, 200, 64, "Test", "White", undefined, "Test Tail Wags", true);
 
-        DrawButton(1815, 750, 90, 90, "", "White", "Icons/Wardrobe.png")
+        // Open Wardrobe
+        DrawButton(1815, 750, 90, 90, "", "Gray", "Icons/Wardrobe.png")
 
         if (PreferenceMessage != "")
             DrawText(PreferenceMessage, 1000, 125, "Red", "Black");
@@ -3993,7 +3995,7 @@ CommandCombine([
             }
         }
         // Open Tail Wardrobe
-        if (MouseIn(1815, 750, 90, 90)){
+        /*if (MouseIn(1815, 750, 90, 90)){
             //InputsHide();
             PreferenceExit();
             PreferenceSubscreen = "BCARTail"; // keep the settings subpage
@@ -4004,7 +4006,7 @@ CommandCombine([
           	AppearancePreviewBuild(Player, true);
             CharacterAppearanceCloth = InventoryGet(Player, Player.FocusGroup.Name);
             CharacterAppearanceMode = "Cloth";
-        }
+        }*/
     }
 
     // WINGS MENU
@@ -4126,7 +4128,8 @@ CommandCombine([
 		MainCanvas.textAlign = "center";
 		DrawButton(500 + 350, getYPos(6) - 32, 200, 64, "Test", "White", undefined, "Test Wing Flaps", true);
 
-        DrawButton(1815, 750, 90, 90, "", "White", "Icons/Wardrobe.png")
+        // Open Wardrobe
+        DrawButton(1815, 750, 90, 90, "", "Gray", "Icons/Wardrobe.png")
 
         if (PreferenceMessage != "")
             DrawText(PreferenceMessage, 1000, 125, "Red", "Black");
@@ -4196,7 +4199,7 @@ CommandCombine([
             }
         }
         // Open Wing Wardrobe
-        if (MouseIn(1815, 750, 90, 90)){
+        /*if (MouseIn(1815, 750, 90, 90)){
             // InputsHide();
             PreferenceExit();
             PreferenceSubscreen = "BCARWings"; // keep the settings subpage
@@ -4208,7 +4211,7 @@ CommandCombine([
             CharacterAppearanceCloth = InventoryGet(Player, Player.FocusGroup.Name);
             CharacterAppearanceMode = "Cloth";
 
-        }
+        }*/
     }
 
     // MISCELLANEOUS MENU
