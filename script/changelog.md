@@ -1,5 +1,15 @@
 # BCAR+ Changelog
 
+## [v0.7.5](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.5)
+### What's Changed
+
+* Added expression to nuzzling (Requires LSCG)
+* Added a room message when the player was stopped leaving the room by a ruined orgasm.
+* Fixed a bug that caused slowly leaving player whose are stopped by a denied orgasm to be stuck in the room.
+* Cleaned up the code
+
+**Full Changelog**: [0.7.4...0.7.5](https://github.com/DrBranestawm/BCAR/compare/0.7.4...0.7.5)
+
 ## [v0.7.4(a)](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.4(a))
 ### What's Changed
 
