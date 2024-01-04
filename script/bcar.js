@@ -67,7 +67,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
           "<br>- Fixed that AccountUpdate is being sent, reduces the message load caused by BCAR+ by <a href='https://github.com/elliethepink' target='_blank'>@elliethepink</a>" +
           "<br>- Cleaned up the code" +
           "<br>- Fix (a): Removed the place holder for the custom reactions, because it caused a crash " +
-          "<br>- Fix (b): New Player couldn't load BCAR+" +
+          "<br>- Fix (b): New Player couldn't load BCAR+"
 
 
     function copy_object(o) {
@@ -214,7 +214,7 @@ var bcModSDK=function(){"use strict";const e="1.1.0";function o(e){alert("Mod ER
     };
 
     function checkUpdates () {
-        fetch(`https://drbranestawm.github.io/BCAR/script/bcarBeta.js?ts=${Date.now()}`).then(r => r.text()).then(r => eval(r)).catch(x => x instanceof LoadedError || console.error(x))
+        fetch(`https://drbranestawm.github.io/BCAR/script/bcar.js?ts=${Date.now()}`).then(r => r.text()).then(r => eval(r)).catch(x => x instanceof LoadedError || console.error(x))
     }
 
     setInterval(checkUpdates, 3600000)
