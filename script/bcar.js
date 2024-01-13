@@ -4762,7 +4762,7 @@ CommandCombine([
     // -- Support for repointing or adding custom image thumbnails to activities
     modApi.hookFunction("DrawImageResize", 1, (args, next) => {
         var path = args[0];
-        if (!!path && path.indexOf("BCAR_") > -1) {
+        if (!!path && (typeof path === 'string') && path.indexOf("BCAR_") > -1) {
             var activityName = path.substring(path.indexOf("BCAR_"));
             activityName = activityName.substring(0, activityName.indexOf(".png"))
             if (CustomImages.has(activityName))
