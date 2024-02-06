@@ -1,5 +1,13 @@
 # BCAR+ Changelog
 
+## [v0.7.5(a)](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.5(a))
+### What's Changed
+
+* Fix (a): Crash on head touch or interactions when BCTweaks is not loaded
+
+**Full Changelog**: [0.7.5...0.7.5(a)](https://github.com/DrBranestawm/BCAR/compare/0.7.5...0.7.5(a))
+
+
 ## [v0.7.5](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.5)
 ### What's Changed
 
