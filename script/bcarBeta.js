@@ -3024,8 +3024,7 @@ CommandCombine([
         Description:": opens your wardrobe.",
 
         Action: args => {
-            ChatRoomClickCharacter(Player);
-            DialogChangeClothes();
+            ChatRoomAppearanceLoadCharacter(Player);
         }
     }])
 
