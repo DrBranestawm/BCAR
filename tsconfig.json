@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "target": "ES2021",
+        "lib": ["ESNext", "dom"],
+        "types": [],
+        "module": "ESNext",
+        "moduleResolution": "Node",
+        "sourceMap": true,
+        "removeComments": false,
+        "outDir": "./dist",
+        // "strict": true,
+        "noEmit": true,
+        "experimentalDecorators": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "checkJs": true,
+    },
+    "include": [
+        "node_modules/bc-stubs/bc/**/*.d.ts",
+        "./script/**/*",
+        "loader.user.js",
+    ]
+}
