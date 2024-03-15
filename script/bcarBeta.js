@@ -1144,53 +1144,53 @@ const TriggerAdditions = [
           let patterns = [/wags.*tail/mi, /tail.*wagging/mi, /wagging.*tail/mi] ; // matches {<any> wags <any> tail <any>}
           let result = patterns.find(pattern => pattern.test(wagMessage));
           if(result){
-              if (Player.BCT?.bctSettings?.tailWaggingEnable && Player.BCAR.bcarSettings.tailEmoteEnable){
-          ChatRoomSendLocal(
-                    `<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
-                    <br>Please disable tail wagging in either BCT or BCAR.
-                    <br>Having them both can cause undesireable and wonky results.
-                    </p>`.replaceAll('\n', ''), wt.info
+            if (Player.BCT?.bctSettings?.tailWaggingEnable && Player.BCAR.bcarSettings.tailEmoteEnable){
+              ChatRoomSendLocal(
+                `<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>Please disable tail wagging in either BCT or BCAR.
+                <br>Having them both can cause undesireable and wonky results.
+                </p>`.replaceAll('\n', ''), wt.info
                 )
-      }
+              }
               TailWag();
-          }
+            }
       }
-
-        if(data.Type === "Emote" && data.Sender === Player.MemberNumber && Player.BCAR.bcarSettings.earEmoteEnable){
-          var wiggleMessage = data.Content;
-          let patterns = [/wiggles.*ears/mi, /ears.*wiggling/mi, /wiggling.*ears/mi] ; // matches {<any> wags <any> tail <any>}
-          let result = patterns.find(pattern => pattern.test(wiggleMessage));
-          if(result){
-              EarWiggle();
-          }
+      
+      if(data.Type === "Emote" && data.Sender === Player.MemberNumber && Player.BCAR.bcarSettings.earEmoteEnable){
+        var wiggleMessage = data.Content;
+        let patterns = [/wiggles.*ears/mi, /ears.*wiggling/mi, /wiggling.*ears/mi] ; // matches {<any> wags <any> tail <any>}
+        let result = patterns.find(pattern => pattern.test(wiggleMessage));
+        if(result){
+          EarWiggle();
+        }
       }
-
-    if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
-          var wingsSpreadMessage = data.Content;
-          let patterns = [/shows.*wings/mi, /spreads.*wings/mi] ; // matches {<any> spreads <any> wings <any>}
-          let result = patterns.find(pattern => pattern.test(wingsSpreadMessage));
-          if(result){
-              WingsSpread();
-          }
+      
+      if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
+        var wingsSpreadMessage = data.Content;
+        let patterns = [/shows.*wings/mi, /spreads.*wings/mi] ; // matches {<any> spreads <any> wings <any>}
+        let result = patterns.find(pattern => pattern.test(wingsSpreadMessage));
+        if(result){
+          WingsSpread();
+        }
       }
-
-    if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
-          var flapMessage = data.Content;
-          let patterns = [/(flaps|flutters).*wings/mi, /wings.*(flapping|fluttering)/mi, /(flapping|fluttering).*wings/mi, /wings.*(flap|flutter)/mi] ; // matches {<any> flaps/flutter <any> wings <any>}
-          let result = patterns.find(pattern => pattern.test(flapMessage));
-          if(result){
-              WingFlap();
-          }
+      
+      if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
+        var flapMessage = data.Content;
+        let patterns = [/(flaps|flutters).*wings/mi, /wings.*(flapping|fluttering)/mi, /(flapping|fluttering).*wings/mi, /wings.*(flap|flutter)/mi] ; // matches {<any> flaps/flutter <any> wings <any>}
+        let result = patterns.find(pattern => pattern.test(flapMessage));
+        if(result){
+          WingFlap();
+        }
       }
-
-    if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
-          var flyMessage = data.Content;
-          let patterns = [/begins.*fly/mi, /starts.*flying/mi] ; // matches {<any> begins <any> fly <any>}
-          let result = patterns.find(pattern => pattern.test(flyMessage));
-
-          if(result){
-              TryFly();
-          }
+      
+      if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
+        var flyMessage = data.Content;
+        let patterns = [/begins.*fly/mi, /starts.*flying/mi] ; // matches {<any> begins <any> fly <any>}
+        let result = patterns.find(pattern => pattern.test(flyMessage));
+        
+        if(result){
+          TryFly();
+        }
       }
 
 
@@ -1203,15 +1203,15 @@ const TriggerAdditions = [
               Landing();
           }
       }
-
-    if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
-          var wingsHideMessage = data.Content;
-          let patterns = [/hides.*wings/mi, /folds.*wings/mi, /retracts.*wings/mi] ; // matches {<any> flaps <any> wings <any>}
-          let result = patterns.find(pattern => pattern.test(wingsHideMessage));
-          if(result){
-              Landing();
-              WingsHide();
-          }
+      
+      if(data.Type === "Emote" && data.Sender === Player.MemberNumber){
+        var wingsHideMessage = data.Content;
+        let patterns = [/hides.*wings/mi, /folds.*wings/mi, /retracts.*wings/mi] ; // matches {<any> flaps <any> wings <any>}
+        let result = patterns.find(pattern => pattern.test(wingsHideMessage));
+        if(result){
+          Landing();
+          WingsHide();
+        }
       }
 }});
 
