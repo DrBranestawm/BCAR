@@ -1,5 +1,12 @@
 # BCAR+ Changelog
 
+## [v0.7.5(b)](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.5(b))
+### What's Changed
+
+* Fix (b): Disabled the /wardrobe command due to a crash
+
+**Full Changelog**: [0.7.5(a)...0.7.5(b)](https://github.com/DrBranestawm/BCAR/compare/0.7.5(a)...0.7.5(b))
+
 ## [v0.7.5(a)](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.5(a))
 ### What's Changed
 
