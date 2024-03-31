@@ -1,5 +1,13 @@
 # BCAR+ Changelog
 
+## [v0.7.6](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.6)
+### What's Changed
+
+*  Updated bcModSDK
+*  Fixed and re-enabled /wardrobe
+
+**Full Changelog**: [0.7.5(b)...0.7.6](https://github.com/DrBranestawm/BCAR/compare/0.7.5(b)...0.7.6))
+
 ## [v0.7.5(b)](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.5(b))
 ### What's Changed
 
