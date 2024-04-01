@@ -1,5 +1,12 @@
 # BCAR+ Changelog
 
+## [v0.7.6(a)](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.6(a))
+### What's Changed
+
+*  Fixed a bug, where other orgasms stop player when leaving.
+
+**Full Changelog**: [0.7.6...0.7.6(a)](https://github.com/DrBranestawm/BCAR/compare/0.7.6...0.7.6(a))
+
 ## [v0.7.6](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.6)
 ### What's Changed
 
