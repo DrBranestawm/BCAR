@@ -2977,8 +2977,13 @@ CommandCombine([
         Action: args => {
             if (CurrentScreen == "ChatRoom") {
                 ElementRemove("FriendList");
-                ElementRemove("InputChat");
-                ElementRemove("TextAreaChatLog");
+                if (Player.ChatSettings?.PreserveChat ?? true) {
+                    ChatRoomHideElements();
+                } else {
+                    ElementRemove("InputChat");
+                    ElementRemove("TextAreaChatLog");
+                }
+
                 ChatRoomSetLastChatRoom("");
                 ServerSend("ChatRoomLeave", "");
                 CommonSetScreen("Online", "ChatSearch");
