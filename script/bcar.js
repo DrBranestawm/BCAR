@@ -71,7 +71,7 @@ var bcModSDK=function(){"use strict";const o="1.2.0";function e(o){alert("Mod ER
     BCARChatRoomMenuDraw();
     BCARChatRoomClick();
 
-  /**
+  
     function BCARTriggerEarWiggleAction() {
         let focusGroup = Player.FocusGroup;
         Player.FocusGroup = {Name:"ItemEars"};
@@ -85,7 +85,7 @@ var bcModSDK=function(){"use strict";const o="1.2.0";function e(o){alert("Mod ER
         );
         Player.FocusGroup = focusGroup;
     }
-    */
+    
 
     const getWingVerb = () => ["FairyWings", "BeeWings", "PixieWings"].includes(InventoryGet(Player,"Wings")?.Asset?.Name) ? "flutters" : "flaps";
 
@@ -99,28 +99,25 @@ var bcModSDK=function(){"use strict";const o="1.2.0";function e(o){alert("Mod ER
                             && ((MouseX >= 0) && (MouseX < 45) && (MouseY >= 860) && (MouseY < 905)))
                         || ((Player.BCAR.bcarSettings.animationButtonsPosition === "lowerright")
                             && ((MouseX >= 955) && (MouseX < 1005) && (MouseY >= 860) && (MouseY < 905))))
-                      {
-                        ServerSend("ChatRoomChat", {
-                                Content: "Beep",
-                                Type: "Action",
-                                Target: null,
-                                Dictionary: [
-                                    { Tag: "Beep", Text: "msg" },
-                                    { Tag: "Biep", Text: "msg" },
-                                    { Tag: "Sonner", Text: "msg" },
-                                    { Tag: "msg", Text: CharacterNickname(Player) + " wiggles " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " ears." }
-                                ]
-                            });
-                            EarWiggle();
-                            return;
-                    /**
-                    {
-                        BCARTriggerEarWiggleAction()
-                        EarWiggle();
-                        return;
-                    }
-                      */
-                    }
+                            {
+                                if (Player.BCAR.bcarSettings.genderDefault.gender == "Female" ||Player.BCAR.bcarSettings.genderDefault.gender == "Male"){
+                                    BCARTriggerEarWiggleAction()
+                                } else {
+                                ServerSend("ChatRoomChat", {
+                                        Content: "Beep",
+                                        Type: "Action",
+                                        Target: null,
+                                        Dictionary: [
+                                            { Tag: "Beep", Text: "msg" },
+                                            { Tag: "Biep", Text: "msg" },
+                                            { Tag: "Sonner", Text: "msg" },
+                                            { Tag: "msg", Text: CharacterNickname(Player) + " wiggles " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " ears." }
+                                        ]
+                                    }); 
+                                }
+                                EarWiggle();
+                                return;
+                            }
                 }
             }
             if (Player.BCAR.bcarSettings.tailWaggingEnable) {
