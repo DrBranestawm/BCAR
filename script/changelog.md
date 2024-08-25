@@ -1,5 +1,13 @@
 # BCAR+ Changelog
 
+## [v0.7.7](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.7)
+### What's Changed
+
+*  Ear wiggle messages respects all genders again
+*  Fixed /leave - Thanks to [@dDeepLb](https://github.com/dDeepLb) and [@bananarama92](https://github.com/bananarama92)
+
+**Full Changelog**: [0.7.6(a)...0.7.7](https://github.com/DrBranestawm/BCAR/compare/0.7.6(a)...0.7.7)
+
 ## [v0.7.6(a)](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.6(a))
 ### What's Changed
 
