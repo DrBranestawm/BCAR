@@ -71,6 +71,7 @@ var bcModSDK=function(){"use strict";const o="1.2.0";function e(o){alert("Mod ER
     BCARChatRoomMenuDraw();
     BCARChatRoomClick();
 
+  /**
     function BCARTriggerEarWiggleAction() {
         let focusGroup = Player.FocusGroup;
         Player.FocusGroup = {Name:"ItemEars"};
@@ -84,6 +85,7 @@ var bcModSDK=function(){"use strict";const o="1.2.0";function e(o){alert("Mod ER
         );
         Player.FocusGroup = focusGroup;
     }
+    */
 
     const getWingVerb = () => ["FairyWings", "BeeWings", "PixieWings"].includes(InventoryGet(Player,"Wings")?.Asset?.Name) ? "flutters" : "flaps";
 
