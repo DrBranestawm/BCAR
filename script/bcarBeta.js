@@ -1,4 +1,4 @@
-const BCAR_Version = '0.7.7';
+const BCAR_Version = '0.7.8';
 const BCAR_Version_FIX = '';
 
 const ICONS = Object.freeze({
@@ -49,11 +49,11 @@ var bcModSDK=function(){"use strict";const o="1.2.0";function e(o){alert("Mod ER
     const w = window;
     const BCAR_CHANGELOG =
           "BCAR+ v" + BCAR_Version + BCAR_Version_FIX +
-          "<br>- Ear wiggle messages respects all genders again" +
-          "<br>- Fixed /leave - Thanks to <a href='https://github.com/dDeepLb' target='_blank'>@dDeepLb</a> and <a href='https://github.com/bananarama92' target='_blank'>@bananarama92</a>" +
+          "<br>- Different states of Wings, if available, can now be set and safed" +
           "<br>" +
-          "<br>BCAR+ v0.7.6(a)" +
-          "<br>- Fixed a bug, where other orgasms stop player when leaving."
+          "<br>BCAR+ v0.7.7" +
+          "<br>- Ear wiggle messages respects all genders again" +
+          "<br>- Fixed /leave - Thanks to <a href='https://github.com/dDeepLb' target='_blank'>@dDeepLb</a> and <a href='https://github.com/bananarama92' target='_blank'>@bananarama92</a>"
 
 
     function copy_object(o) {
@@ -1003,21 +1003,29 @@ const TriggerAdditions = [
     }
 
     function WingFlap(){
-        if(Player.BCAR.bcarSettings.wingFlappingEnable === true){
-            let wingsVariations = [Player.BCAR.bcarSettings.wingsDefault.wings2,Player.BCAR.bcarSettings.wingsDefault.wings1];
-            let wingsColor = [Player.BCAR.bcarSettings.wingsDefault.wingsColor2,Player.BCAR.bcarSettings.wingsDefault.wingsColor1];
-            let numberFlaps = parseInt(Player.BCAR.bcarSettings.wingsDefault.wingsCount);
-            let delay = parseInt(Player.BCAR.bcarSettings.wingsDefault.wingsDelay);
-            for(let i=0; i < numberFlaps; i++)
-            {
-                setTimeout(function() {
-                    InventoryWear(Player, wingsVariations[i%wingsVariations.length], "Wings", wingsColor[i%wingsColor.length], undefined, undefined, undefined, false);
-                    CharacterRefresh(Player, false);
-                    ChatRoomCharacterItemUpdate(Player, "Wings");
-                }, i * delay);
-            }
-        }
+    if(Player.BCAR.bcarSettings.wingFlappingEnable === true){
+      let wingsVariations = [Player.BCAR.bcarSettings.wingsDefault.wings2,Player.BCAR.bcarSettings.wingsDefault.wings1];
+      let wingsColor = [Player.BCAR.bcarSettings.wingsDefault.wingsColor2,Player.BCAR.bcarSettings.wingsDefault.wingsColor1];
+      let wingsState = [Player.BCAR.bcarSettings.wingsDefault.wingsState2,Player.BCAR.bcarSettings.wingsDefault.wingsState1];
+      let numberFlaps = parseInt(Player.BCAR.bcarSettings.wingsDefault.wingsCount);
+      let delay = parseInt(Player.BCAR.bcarSettings.wingsDefault.wingsDelay);
+      for(let i=0; i < numberFlaps; i++) {
+        setTimeout(function() { // this starts the scope
+          const item = InventoryWear(Player, wingsVariations[i%wingsVariations.length], "Wings", wingsColor[i%wingsColor.length], undefined, undefined, undefined, false);
+          const state = wingsState[i%wingsState.length];
+          if (state && item) {
+            item.Property ||= {};
+            item.Property.TypeRecord ||= {};
+            item.Property.TypeRecord.typed = state;
+          }
+          CharacterRefresh(Player, false);
+          ChatRoomCharacterItemUpdate(Player, "Wings");
+        }, // this ends the scope; item and state disappear
+        i * delay);
+      }
     }
+  }
+
 
     function WingsSpread(){
         if(Player.BCAR.bcarSettings.wingFlappingEnable === true){
@@ -1409,6 +1417,8 @@ async function bcarSettingsRemove() {
                 "wingsColor2" : "Default",
                 "wingsCount" : 6, // no. of wing flaps
                 "wingsDelay" : 500, // delay in ms
+                "wingsState1" : "Default", // change state of wings
+                "wingsState2" : "Default",
                 "wingsDescription1" : "None", //Output for the status page
                 "wingsDescription2" : "None",
             },
@@ -1927,6 +1937,7 @@ function CommandWingChange(argsList)
             s.wingsDefault.wings1 = wings?.Asset?.Name;
             s.wingsDefault.wingsColor1 = wings?.Color;
             s.wingsDefault.wingsDescription1 = wings?.Asset?.Description || "None";
+            s.wingsDefault.wingsState1 = wings?.Property?.TypeRecord?.typed;
             let updated_text = ``
             if(!s.wingFlappingEnable) {
                 s.wingFlappingEnable = true;
@@ -1943,6 +1954,7 @@ function CommandWingChange(argsList)
             s.wingsDefault.wings2 = wings?.Asset?.Name;
             s.wingsDefault.wingsColor2 = wings?.Color;
             s.wingsDefault.wingsDescription2 = wings?.Asset?.Description;
+            s.wingsDefault.wingsState2 = wings?.Property?.TypeRecord?.typed;
             ChatRoomSendLocal(
             `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
             <br>Secondary wings has been updated!</p>`.replaceAll('\n', ''), wt.info
