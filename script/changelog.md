@@ -1,5 +1,12 @@
 # BCAR+ Changelog
 
+## [v0.7.8](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.8)
+### What's Changed
+
+*  Different states of Wings, if available, can now be set and safed
+
+**Full Changelog**: [0.7.7...0.7.8](https://github.com/DrBranestawm/BCAR/compare/0.7.7...0.7.8)
+
 ## [v0.7.7](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.7)
 ### What's Changed
 
