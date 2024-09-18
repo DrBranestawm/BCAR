@@ -1005,6 +1005,9 @@ const TriggerAdditions = [
             const emoticon = InventoryGet(Player, 'Emoticon');
             if (emoticon.Property === undefined) emoticon.Property = {};
             emoticon.Property.OverrideHeight = { Height: +70 };
+            CurrentScreen === "ChatRoom"
+                ? ChatRoomCharacterUpdate(Player)
+                : CharacterRefresh(Player);
         }
     }
 
