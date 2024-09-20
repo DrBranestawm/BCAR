@@ -1,4 +1,4 @@
-const BCAR_Version = '0.7.8';
+const BCAR_Version = '0.7.9';
 const BCAR_Version_FIX = '';
 
 const ICONS = Object.freeze({
@@ -49,11 +49,12 @@ var bcModSDK=function(){"use strict";const o="1.2.0";function e(o){alert("Mod ER
     const w = window;
     const BCAR_CHANGELOG =
           "BCAR+ v" + BCAR_Version + BCAR_Version_FIX +
-          "<br>- Different states of Wings, if available, can now be set and safed" +
+          "<br>- Fix flying not being visible to others by <a href='https://github.com/elliethepink' target='_blank'>@elliethepink</a>" +
+          "<br>- Fix BCAR+ UI wasn't able to access" +
+          "<br>- Moved BCAR+ UI to the Extensions tab" +
           "<br>" +
-          "<br>BCAR+ v0.7.7" +
-          "<br>- Ear wiggle messages respects all genders again" +
-          "<br>- Fixed /leave - Thanks to <a href='https://github.com/dDeepLb' target='_blank'>@dDeepLb</a> and <a href='https://github.com/bananarama92' target='_blank'>@bananarama92</a>"
+          "<br>BCAR+ v0.7.8" +
+          "<br>- Different states of Wings, if available, can now be set and safed"
 
 
     function copy_object(o) {
@@ -1080,6 +1081,9 @@ const TriggerAdditions = [
             const emoticon = InventoryGet(Player, 'Emoticon');
             if (emoticon.Property === undefined) emoticon.Property = {};
             emoticon.Property.OverrideHeight = { Height: +70 };
+            CurrentScreen === "ChatRoom"
+                ? ChatRoomCharacterUpdate(Player)
+                : CharacterRefresh(Player);
         }
     }
 
@@ -1463,6 +1467,8 @@ async function bcarSettingsRemove() {
                     "wingsColor2" : "Default",
                     "wingsCount" : 6, // no. of wing flaps
                     "wingsDelay" : 500, // delay in ms
+                    "wingsState1" : "Default", // change state of wings
+                    "wingsState2" : "Default",
                     "wingsDescription1" : "None", //Output for the status page
                     "wingsDescription2" : "None",
                 },
@@ -1502,6 +1508,8 @@ async function bcarSettingsRemove() {
                     "wingsColor2" : "Default",
                     "wingsCount" : 6, // no. of wing flaps
                     "wingsDelay" : 500, // delay in ms
+                    "wingsState1" : "Default", // change state of wings
+                    "wingsState2" : "Default",
                     "wingsDescription1" : "None", //Output for the status page
                     "wingsDescription2" : "None",
                 },
@@ -1541,6 +1549,8 @@ async function bcarSettingsRemove() {
                     "wingsColor2" : "Default",
                     "wingsCount" : 6, // no. of wing flaps
                     "wingsDelay" : 500, // delay in ms
+                    "wingsState1" : "Default", // change state of wings
+                    "wingsState2" : "Default",
                     "wingsDescription1" : "None", //Output for the status page
                     "wingsDescription2" : "None",
                 },
@@ -3055,7 +3065,7 @@ CommandCombine([
 
     // ****************************   PREFERENCES   *********************************
 
-    PreferenceSubscreenList.splice(15, 0, "BCARSettings");
+    // PreferenceSubscreenList.splice(15, 0, "BCARSettings");
     modApi.hookFunction("TextGet", 2, (args, next) => {
         if (args[0] == "HomepageBCARSettings") return "BCAR+ Settings";
         return next(args);
@@ -3065,12 +3075,30 @@ CommandCombine([
         return next(args);
     });
 
+    /*
     function LoadPreferencesSubscreen(screenName) {
         PreferenceSubscreen = "BCAR" + screenName;
         PreferenceSettings = screenName;
         if (typeof window["PreferenceSubscreen" + PreferenceSubscreen + "Load"] === "function")
             CommonDynamicFunction("PreferenceSubscreen" + PreferenceSubscreen + "Load()");
     }
+    */
+
+  function PrefCall(screen, func) {
+    const name = `PreferenceSubscreenBCAR${screen}${func}`
+    if (typeof w[name] === 'function') {
+      CommonDynamicFunction(`${name}()`)
+      return true
+    }
+    return false
+  }
+
+  let PreferenceSettings = 'Settings'
+
+  function LoadPreferencesSubscreen(screenName) {
+    PreferenceSettings = screenName;
+    PrefCall(screenName, 'Load')
+  }
 
     function getYPos(ix) {
         return 200 + (100 * ix);
@@ -3203,7 +3231,8 @@ CommandCombine([
     };
 
     w.PreferenceSubscreenBCARSettingsLoad = function() {
-        console.debug("BCAR+ Settings load");
+      PreferenceSettings = 'Settings'
+        console.log("BCAR+ Settings load");
         settings.init("gender", Player.BCAR?.bcarSettings?.genderDefault?.gender);
         settings.init("animal", Player.BCAR?.bcarSettings?.animal);
         settings.init("animationButtonsPosition", Player.BCAR?.bcarSettings?.animationButtonsPosition);
@@ -3323,8 +3352,9 @@ CommandCombine([
         MainCanvas.textAlign = prev;
     };
     w.PreferenceSubscreenBCARSettingsExit = function() {
-        PreferenceSubscreen = "";
-        PreferenceSettings = "";
+    PreferenceSubscreen = "Extensions";
+    PreferenceSettings = "Settings";
+    PreferenceSubscreenExtensionsClear()
     };
     w.PreferenceSubscreenBCARSettingsClick = function() {
         if (MouseIn(1815, 75, 90, 90))
@@ -3360,6 +3390,16 @@ CommandCombine([
         return;
     };
 
+  PreferenceRegisterExtensionSetting({
+    Identifier: 'BCAR',
+    ButtonText: 'BCAR Settings',
+    Image: 'Icons/Magic.png',
+    load: () => PrefCall(PreferenceSettings, 'Load'),
+    run: () => PrefCall(PreferenceSettings, 'Run'),
+    exit: () => PrefCall(PreferenceSettings, 'Exit'),
+    click: () => PrefCall(PreferenceSettings, 'Click'),
+  });
+
     // Common Preference Behavior
     function baseLoad() {}
     function baseRun(title) {
@@ -3371,15 +3411,12 @@ CommandCombine([
         MainCanvas.textAlign = saved_align;
         DrawCharacter(Player, 50, 50, 0.9);
     }
-    function baseExit() {PreferenceSubscreen = "BCARSettings"; PreferenceSettings = "BCAR+ Settings"; bcarSettingsSave();} // Call at the end as it will save settings..
+    function baseExit() {PreferenceSettings = "Settings"; bcarSettingsSave();}
     function baseClick() {
-        if (MouseIn(1815, 75, 90, 90)) {
-            if (typeof window["PreferenceSubscreen" + PreferenceSubscreen + "Exit"] === "function")
-                CommonDynamicFunction("PreferenceSubscreen" + PreferenceSubscreen + "Exit()");
-            else
-                baseExit();
-        }
-     }
+    if (MouseIn(1815, 75, 90, 90)) {
+			PrefCall(PreferenceSettings, 'Exit') || baseExit()
+    }
+  }
 
     // Define Save Validators
     const BCAR_save_validators = {
