@@ -1,5 +1,14 @@
 # BCAR+ Changelog
 
+## [v0.7.9](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.9)
+### What's Changed
+
+*  Fix flying not being visible to others by [@elliethepink](https://github.com/elliethepink)
+*  Fix BCAR+ UI wasn't able to access
+*  Moved BCAR+ UI to the Extensions tab
+
+**Full Changelog**: [0.7.8...0.7.9](https://github.com/DrBranestawm/BCAR/compare/0.7.8...0.7.9)
+
 ## [v0.7.8](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.8)
 ### What's Changed
 
