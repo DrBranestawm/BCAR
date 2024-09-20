@@ -72,7 +72,7 @@ var bcModSDK=function(){"use strict";const o="1.2.0";function e(o){alert("Mod ER
     BCARChatRoomMenuDraw();
     BCARChatRoomClick();
 
-  /**
+  
     function BCARTriggerEarWiggleAction() {
         let focusGroup = Player.FocusGroup;
         Player.FocusGroup = {Name:"ItemEars"};
@@ -86,7 +86,7 @@ var bcModSDK=function(){"use strict";const o="1.2.0";function e(o){alert("Mod ER
         );
         Player.FocusGroup = focusGroup;
     }
-    */
+    
 
     const getWingVerb = () => ["FairyWings", "BeeWings", "PixieWings"].includes(InventoryGet(Player,"Wings")?.Asset?.Name) ? "flutters" : "flaps";
 
@@ -100,28 +100,25 @@ var bcModSDK=function(){"use strict";const o="1.2.0";function e(o){alert("Mod ER
                             && ((MouseX >= 0) && (MouseX < 45) && (MouseY >= 860) && (MouseY < 905)))
                         || ((Player.BCAR.bcarSettings.animationButtonsPosition === "lowerright")
                             && ((MouseX >= 955) && (MouseX < 1005) && (MouseY >= 860) && (MouseY < 905))))
-                      {
-                        ServerSend("ChatRoomChat", {
-                                Content: "Beep",
-                                Type: "Action",
-                                Target: null,
-                                Dictionary: [
-                                    { Tag: "Beep", Text: "msg" },
-                                    { Tag: "Biep", Text: "msg" },
-                                    { Tag: "Sonner", Text: "msg" },
-                                    { Tag: "msg", Text: CharacterNickname(Player) + " wiggles " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " ears." }
-                                ]
-                            });
-                            EarWiggle();
-                            return;
-                    /**
-                    {
-                        BCARTriggerEarWiggleAction()
-                        EarWiggle();
-                        return;
-                    }
-                      */
-                    }
+                            {
+                                if (Player.BCAR.bcarSettings.genderDefault.gender == "Female" ||Player.BCAR.bcarSettings.genderDefault.gender == "Male"){
+                                    BCARTriggerEarWiggleAction()
+                                } else {
+                                ServerSend("ChatRoomChat", {
+                                        Content: "Beep",
+                                        Type: "Action",
+                                        Target: null,
+                                        Dictionary: [
+                                            { Tag: "Beep", Text: "msg" },
+                                            { Tag: "Biep", Text: "msg" },
+                                            { Tag: "Sonner", Text: "msg" },
+                                            { Tag: "msg", Text: CharacterNickname(Player) + " wiggles " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " ears." }
+                                        ]
+                                    }); 
+                                }
+                                EarWiggle();
+                                return;
+                            }
                 }
             }
             if (Player.BCAR.bcarSettings.tailWaggingEnable) {
@@ -144,7 +141,7 @@ var bcModSDK=function(){"use strict";const o="1.2.0";function e(o){alert("Mod ER
                                 { Tag: "msg", Text: CharacterNickname(Player) + " wags " + Player.BCAR.bcarSettings.genderDefault.capPossessive.toLocaleLowerCase() + " tail." }
                             ]
                         });
-                        TailWag();
+                        StartTailWag();
                         return;
                     }
                 }
@@ -986,21 +983,60 @@ const TriggerAdditions = [
         }
     }
 
-    function TailWag(){
+    function StartTailWag(){
         if(Player.BCAR.bcarSettings.tailWaggingEnable === true){
             let tailsVariations = [Player.BCAR.bcarSettings.tailsDefault.tails2,Player.BCAR.bcarSettings.tailsDefault.tails1];
             let tailsColor = [Player.BCAR.bcarSettings.tailsDefault.tailsColor2,Player.BCAR.bcarSettings.tailsDefault.tailsColor1];
             let numberWags = parseInt(Player.BCAR.bcarSettings.tailsDefault.tailsCount);
             let delay = parseInt(Player.BCAR.bcarSettings.tailsDefault.tailsDelay);
-            for(let i=0; i < numberWags; i++)
-            {
-                setTimeout(function() {
-                    InventoryWear(Player, tailsVariations[i%tailsVariations.length], "TailStraps", tailsColor[i%tailsColor.length], undefined, undefined, undefined, false);
-                    CharacterRefresh(Player, false);
-                    ChatRoomCharacterItemUpdate(Player, "TailStraps");
-                }, i * delay);
-            }
+            TailWag(tailsVariations, tailsColor, numberWags, delay)
         }
+    }
+
+    function TailWag(tailsVariations, tailsColor, numberWags, delay){
+        if(numberWags == 0){
+            return 0;
+        }
+        waggle++;
+        if (waggle >= tailsVariations.length){
+            waggle = 0;
+        }
+        InventoryWear(Player, tailsVariations[waggle], "TailStraps", tailsColor[waggle], undefined, undefined, undefined, false);
+        CharacterRefresh(Player, false);
+        ChatRoomCharacterItemUpdate(Player, "TailStraps");
+        numberWags--;
+        setTimeout(function() {
+            TailWag(tailsVariations, tailsColor, numberWags, delay)
+        }, delay);
+    }
+
+    var waggle = 0;
+    var WagIDGlobal = 0;
+
+    function StartTailWagPassive(){
+        if(Player.BCAR.bcarSettings.tailWaggingPassiveEnable ===  true){
+            WagIDGlobal = Math.random();
+            let tailsVariations = [Player.BCAR.bcarSettings.tailsDefault.tails2,Player.BCAR.bcarSettings.tailsDefault.tails1];
+            let tailsColor = [Player.BCAR.bcarSettings.tailsDefault.tailsColor2,Player.BCAR.bcarSettings.tailsDefault.tailsColor1];
+            let delay = Player.BCAR.bcarSettings.tailsDefault.TailsDelayPassive;
+            TailWagPassive(WagIDGlobal, tailsVariations, tailsColor, delay);
+        }
+    }
+
+    function TailWagPassive(WagID, tailsVariations, tailsColor, delay){
+        if (WagIDGlobal != WagID){
+            return 0;
+        } 
+        waggle++;
+        if (waggle >= tailsVariations.length){
+            waggle = 0;
+        }
+        InventoryWear(Player, tailsVariations[waggle], "TailStraps", tailsColor[waggle], undefined, undefined, undefined, false);
+        CharacterRefresh(Player, false);
+        ChatRoomCharacterItemUpdate(Player, "TailStraps");
+        setTimeout(function(){
+            TailWagPassive(WagID);
+        }, delay);
     }
 
     function WingFlap(){
@@ -1179,7 +1215,7 @@ const TriggerAdditions = [
                     </p>`.replaceAll('\n', ''), wt.info
                 )
       }
-              TailWag();
+              StartTailWag();
           }
       }
 
@@ -1307,19 +1343,19 @@ window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto 
         case 'ChatOther-ItemTorso-Caress': //case 'ChatSelf-ItemTorso-Caress':
             if (!Player.BCAR.bcarSettings.tailWaggingEnable) break;
             ActivityBeeper("CaressBack", source_name);
-            TailWag();
+            StartTailWag();
             ArousalCaressBack();
             break;
         case 'ChatOther-ItemTorso-MassageHands': //case 'ChatSelf-ItemTorso-MassageHands':
             if (!Player.BCAR.bcarSettings.tailWaggingEnable) break;
             ActivityBeeper("MassageBack", source_name);
-            TailWag();
+            StartTailWag();
             ArousalMassageBack();
             break;
         case 'ChatOther-ItemButt-Caress': //case 'ChatSelf-ItemButt-Caress':
             if (!Player.BCAR.bcarSettings.tailWaggingEnable) break;
             ActivityBeeper("CaressButt", source_name);
-            TailWag();
+            StartTailWag();
             ArousalCaressButt();
             break;
     }
@@ -1409,6 +1445,7 @@ async function bcarSettingsRemove() {
                 "tailsColor2" : "#440606",
                 "tailsCount" : 6, // no. of tail wags
                 "tailsDelay" : 800, // delay in ms
+                "tailsDelayPassive" : 1000, //passive wag delay
                 "tailsDescription1" : "None", //Output for the status page
                 "tailsDescription2" : "None",
             },
@@ -1455,6 +1492,7 @@ async function bcarSettingsRemove() {
                     "tailsColor2" : "#440606",
                     "tailsCount" : 6, // no. of tail wags
                     "tailsDelay" : 800, // delay in ms
+                    "tailsDelayPassive" : 1000, //passive wag delay
                     "tailsDescription1" : "None", //Output for the status page
                     "tailsDescription2" : "None",
                 },
@@ -1496,6 +1534,7 @@ async function bcarSettingsRemove() {
                     "tailsColor2" : "#440606",
                     "tailsCount" : 6, // no. of tail wags
                     "tailsDelay" : 800, // delay in ms
+                    "tailsDelayPassive" : 1000, //passive wag delay
                     "tailsDescription1" : "None", //Output for the status page
                     "tailsDescription2" : "None",
                 },
@@ -1537,6 +1576,7 @@ async function bcarSettingsRemove() {
                     "tailsColor2" : "#440606",
                     "tailsCount" : 6, // no. of tail wags
                     "tailsDelay" : 800, // delay in ms
+                    "tailsDelayPassive" : 1000, //passive wag delay
                     "tailsDescription1" : "None", //Output for the status page
                     "tailsDescription2" : "None",
                 },
@@ -1848,6 +1888,33 @@ function CommandTailToggle(argsList)
         }
     }
 
+    function CommandTailPassiveToggle(argsList)
+    {
+        const cmd = argsList[0];
+        const s = Player?.BCAR?.bcarSettings;
+        switch (cmd) {
+            case 'tailwagpassive' :
+                if (!s.tailWaggingPassiveEnable) {
+                    s.tailWaggingPassiveEnable = true;
+                    s.tailWaggingPassiveStatus = "Enabled";
+                    ChatRoomSendLocal(
+                    `<p style='background-color:#5FBD7A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                    <br>Passive tail wagging is now enabled!</p>`.replaceAll('\n', ''), wt.info
+                    );
+                    bcarSettingsSave();
+                }
+                else if (s.tailWaggingPassiveEnable) {
+                    s.tailWaggingPassiveEnable = false;
+                    s.tailWaggingPassiveStatus = "Disabled";
+                    ChatRoomSendLocal(
+                    `<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                    <br>Passive tail wagging is now disabled!</p>`.replaceAll('\n', ''), wt.info
+                    );
+                    bcarSettingsSave();
+                }
+        }
+    }
+
 function CommandTailWagCountChange(argsList)
     {
         const cmd = argsList[0];
@@ -1872,7 +1939,7 @@ function CommandTailWagCountChange(argsList)
         }
     }
 
-function CommandTailWagDelayChange(argsList)
+function CommandTailWagDelayChange(argsList) //! TODO: find this
     {
         const cmd = argsList[0];
         const number = parseInt(argsList.slice(1));
@@ -1892,6 +1959,30 @@ function CommandTailWagDelayChange(argsList)
                     <br>${number} is invalid. Please use number between 200 and 5000.
                     <br>Default is 800ms.</p>`.replaceAll('\n', ''), wt.info
                     );
+            }
+        }
+    }
+
+    function CommandTailWagPassiveChange(argsList)
+    {
+        const cmd = argsList[0];
+        const number = parseInt(argsList.slice(1));
+        const s = Player?.BCAR?.bcarSettings;
+        switch (cmd) {
+            case 'tailwagpassive' :
+            if (number > -1 && number < 41 && (number % 2 === 0)) {
+                s.tailsDefault.tailsCount = number;
+                ChatRoomSendLocal(
+                `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>Passive tail wag delay has been set to ${number}</p>`.replaceAll('\n', ''), wt.info
+                );
+                bcarSettingsSave();
+            } else {
+                ChatRoomSendLocal(
+                `<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
+                <br>${number} is invalid. Please use an even number between 1000 and 10000.
+                <br>Default is 1000ms.</p>`.replaceAll('\n', ''), wt.info
+                );
             }
         }
     }
@@ -2426,6 +2517,7 @@ function CommandConfirmAbort(arglist)
                     s.tailWaggingStatus = "Disabled";
                     s.tailsDefault.tailsCount = 6;
                     s.tailsDefault.tailsDelay = 800;
+                    s.tailsDefault.tailsDelayPassive = 1000;
                     ChatRoomSendLocal(
                         `<p style='background-color:#630A0A;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
                         <br>Tail has been removed and tail wagging is now disabled!
@@ -2838,6 +2930,7 @@ function CommandStatus(argsList)
                                <br>Secondary Tail: ${AssetGet("Female3DCG","TailStraps",s?.tailsDefault?.tails2)?.Description || 'None'}
                                <br>Tail Wags: ${s?.tailsDefault?.tailsCount}
                                <br>Tail Wag Delay: ${s?.tailsDefault?.tailsDelay}
+                               <br>Passive Tail Wag Delay: ${s?.tailsDefault?.tailsDelayPassive}
                                <br>Wing Animation: ${s?.wingFlappingStatus}
                                <br>Primary Wings: ${s?.wingsDefault?.wingsDescription1}
                                <br>Secondary Wings: ${s?.wingsDefault?.wingsDescription2}
@@ -2965,8 +3058,10 @@ function CommandVersions(argsList)
                 //Tail Commands
                 CommandTailChange(args.split(" "));
                 CommandTailToggle(args.split(" "));
+                CommandTailPassiveToggle(args.split(" "));
                 CommandTailWagCountChange(args.split(" "));
                 CommandTailWagDelayChange(args.split(" "));
+                CommandTailWagPassiveChange(args.split(" "));
                 CommandTailDelete(args.split(" "));
                 CommandTailHelp(args.split(" "));
                 //Wing Commands
@@ -3456,6 +3551,15 @@ CommandCombine([
             if (number < 199) return false;
             if (number > 5001) return false;
             Player.BCAR.bcarSettings.tailsDefault.tailsDelay = number;
+            return true;
+        },
+        tailsDelayPassive: function(value) {
+            if (!value) return false;
+            const number = Number.parseInt(value);
+            if (isNaN(number)) return false;
+            if (number < 999) return false;
+            if (number > 10001) return false;
+            Player.BCAR.bcarSettings.tailsDefault.tailsDelayPassive = number;
             return true;
         },
         wingsCount: function(value) {
@@ -3957,8 +4061,28 @@ CommandCombine([
         element = document.getElementById("bcar_tail_wagSpeed");
         element.onchange = callback;
         element.is_valid = true;
+        ElementCreateInput("bcar_tail_wagSpeedPassive", "number", "" + (Player.BCAR.bcarSettings.tailsDefault.tailsDelayPassive ?? 1000), "4"); //TODO: add passive wag menu option
+        callback = function(event) {
+            const element = event.target;
+            // element.checkValidity(); // for future use
+            const new_value = ElementValue(element.id);
+            const is_valid = BCAR_save_validators.tailsDelayPassive(new_value);
+            if (is_valid) {
+                element.style.color = "#00FF00";
+                element.is_valid = true;
+//                PreferenceMessage = `Saved delay: ${new_value} ms`;
+            } else {
+                element.style.color = "#FF0000";
+                element.is_valid = false;
+                PreferenceMessage = "Invalid number of delay";
+            }
+        };
+        element = document.getElementById("bcar_tail_wagSpeedPassive");
+        element.onchange = callback;
+        element.is_valid = true;
         ElementPosition("bcar_tail_wagCount", 500 + 350 + 150, getYPos(3), 300);
         ElementPosition("bcar_tail_wagSpeed", 500 + 350 + 150, getYPos(4), 300);
+        ElementPosition("bcar_tail_wagSpeedPassive", 500 + 350 + 300, getYPos(5), 150);
         BCARTailLoaded = true;
     }
 
@@ -4092,7 +4216,7 @@ CommandCombine([
         // Test Tail Wag          [BUTTON]
         if (MouseIn(500 + 350, getYPos(6) - 32, 200, 64)) {
             if (document.getElementById("bcar_tail_wagCount").is_valid && document.getElementById("bcar_tail_wagSpeed").is_valid) {
-                TailWag();
+                StartTailWag();
                 PreferenceMessage = "";
             }
             else {
@@ -4499,6 +4623,8 @@ CommandCombine([
                     Player.BCAR.bcarSettings.profile1.earWigglingStatus = "Disabled";
 
                     Player.BCAR.bcarSettings.profile1.tailsDefault = {tailsDescription1: "None", tailsDescription2: "None"};
+                    Player.BCAR.bcarSettings.profile1.tailWaggingPassiveEnable = false;
+                    Player.BCAR.bcarSettings.profile1.tailWaggingPassiveStatus = "Disabled"
                     Player.BCAR.bcarSettings.profile1.tailWaggingEnable = false;
                     Player.BCAR.bcarSettings.profile1.tailWaggingStatus = "Disabled";
 
@@ -4690,6 +4816,7 @@ CommandCombine([
                 s.tailWaggingStatus = "Disabled";
                 s.tailsDefault.tailsCount = 6;
                 s.tailsDefault.tailsDelay = 800;
+                s.tailsDefault.tailsDelayPassive = 1000;
                 InventoryRemove(Player, "TailStraps")
                 PreferenceMessage = "Tails has been removed";
             }
@@ -4905,6 +5032,7 @@ CommandCombine([
             Object.assign(w.bce_EventExpressions, BCAR_Expression_Additions) // add BCAR+ expressions
             w.bce_ActivityTriggers.push(...TriggerAdditions) // add BCAR+ triggers
             expressions_state.loaded = true
+            StartTailWagPassive();
         } else { // unload the expressions and triggers
             if (!expressions_state.loaded) return // don't do anything if not loaded
             w.bce_ActivityTriggers = w.bce_ActivityTriggers.filter(at => at.Mod !== "BCAR+") // delete BCAR+ additions from triggers
