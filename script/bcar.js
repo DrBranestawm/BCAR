@@ -4844,16 +4844,28 @@ CommandCombine([
     });
 
     // -- Support for repointing or adding custom image thumbnails to activities
-    modApi.hookFunction("DrawImageResize", 1, (args, next) => {
-        var path = args[0];
-        if (!!path && (typeof path === 'string') && path.indexOf("BCAR_") > -1) {
-            var activityName = path.substring(path.indexOf("BCAR_"));
-            activityName = activityName.substring(0, activityName.indexOf(".png"))
-            if (CustomImages.has(activityName))
-                args[0] = CustomImages.get(activityName);
-        }
-        return next(args);
-    });
+    if (GameVersion === "R110") {
+        modApi.hookFunction("DrawImageResize", 1, (args, next) => {
+            var path = args[0];
+            if (!!path && (typeof path === 'string') && path.indexOf("BCAR_") > -1) {
+                var activityName = path.substring(path.indexOf("BCAR_"));
+                activityName = activityName.substring(0, activityName.indexOf(".png"))
+                if (CustomImages.has(activityName))
+                    args[0] = CustomImages.get(activityName);
+            }
+            return next(args);
+        });
+    } else { // R111
+        modApi.hookFunction("ElementButton.CreateForActivity", 0, (args, next) => {
+            /** @type {ItemActivity} */
+            const activity = args[1];
+            if (activity.Activity.Name.includes("BCAR")) {
+                args[4] ??= {}; // null | { image?: string }
+                args[4].image = CustomImages.get(activity.Activity.Name);
+            }
+            return next(args);
+        });
+    }
 
     // -- Tail Wag
     var wagActivity = {
