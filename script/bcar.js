@@ -3064,6 +3064,25 @@ CommandCombine([
                 <br>You have 5 seconds to click  on target, select area. If successful, will be returned. If not, retry.</p>`.replaceAll('\n', ''), wt.info
             );
             setTimeout(function() {
+                if (!CurrentCharacter) return ChatRoomSendLocal(
+                  `<p style='background-color:#000452;color:#EEEEEE'>Bondage Club Auto React +:
+                  <br>No character selected. Try again.</p>`.replaceAll('\n', ''), wt.info
+                );
+                if (!CurrentCharacter.FocusGroup) {
+                  DialogLeave();
+                  return ChatRoomSendLocal(
+                    `<p style='background-color:#000452;color:#EEEEEE'>Bondage Club Auto React +:
+                    <br>Focus group not found. Try again.</p>`.replaceAll('\n', ''), wt.info
+                  );
+                }
+                if (!InventoryGet(CurrentCharacter, CurrentCharacter.FocusGroup.Name)) {
+                  DialogLeave();
+                  return ChatRoomSendLocal(
+                    `<p style='background-color:#000452;color:#EEEEEE'>Bondage Club Auto React +:
+                    <br>Item not found. Try again.</p>`.replaceAll('\n', ''), wt.info
+                  );
+                }
+
                 if (CurrentCharacter !== Player) {
                     ServerSend("ChatRoomChat", {
                         Content: "Bondage Club Auto React +: " + Player.Name + " has removed " + InventoryGet(CurrentCharacter, CurrentCharacter.FocusGroup.Name).Asset.Name + " on you via console. If this is undesired, blacklist player.",
@@ -3071,8 +3090,8 @@ CommandCombine([
                         Target: CurrentCharacter.MemberNumber
                     })
                 };
-                CurrentCharacter.Appearance = CurrentCharacter.Appearance.filter(x => (CurrentCharacter.FocusGroup && CurrentCharacter.FocusGroup.Name) ? x.Asset.Group.Name !=
-                CurrentCharacter.FocusGroup.Name : true);
+
+                InventoryRemove(CurrentCharacter, CurrentCharacter.FocusGroup.Name);
                 ChatRoomCharacterUpdate(CurrentCharacter);
                 DialogLeave();
             }, 5000);
