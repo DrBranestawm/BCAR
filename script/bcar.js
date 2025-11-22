@@ -1330,8 +1330,8 @@ window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto 
 }});
 
     function bcarSettingsSave() {
-        Player.OnlineSettings.BCAR = Player.BCAR
-        window.ServerAccountUpdate.QueueData({OnlineSettings: window.Player.OnlineSettings})
+        Player.ExtensionSettings.BCAR = Player.BCAR;
+        ServerPlayerExtensionSettingsSync("BCAR");
     }
 
     async function beepNewVersion() {
@@ -1346,8 +1346,8 @@ window.ChatRoomRegisterMessageHandler({ Priority: 600, Description: "BCAR+ Auto 
 	}
 
 async function bcarSettingsRemove() {
-    if (delete window.Player.OnlineSettings.BCAR.bcarSettings) {
-        window.ServerAccountUpdate.QueueData({OnlineSettings: window.Player.OnlineSettings}, true);
+    if (delete window.Player.ExtensionSettings.BCAR.bcarSettings) {
+        ServerPlayerExtensionSettingsSync("BCAR");
         //console.log("BCAR settings reset");
         await sleep(5000);
         //console.log("Assuming the settings are saved by now");
@@ -1369,10 +1369,17 @@ async function bcarSettingsRemove() {
   }
 
     function migrateSettings() {
+        const online_settings = Player.OnlineSettings.BCAR?.bcarSettings;
+        if (online_settings) {
+          delete Player.OnlineSettings.BCAR;
+          window.ServerAccountUpdate.QueueData({OnlineSettings: window.Player.OnlineSettings});
+          return online_settings;
+        }
         const local_settings_json = localStorage.getItem(bcarSettingsKey())
-        if (!local_settings_json) return
-        localStorage.removeItem(bcarSettingsKey())
-        return JSON.parse(local_settings_json)
+        if (local_settings_json) {
+          localStorage.removeItem(bcarSettingsKey())
+          return JSON.parse(local_settings_json)
+        }
 }
 
         BCARChatRoomMenuDraw()
@@ -1588,10 +1595,10 @@ async function bcarSettingsRemove() {
 
 
         // if there are no settings on the server initialize with an empty object
-        Player.BCAR = Player.OnlineSettings.BCAR || {bcarSettings: {}}
+        Player.BCAR = Player.ExtensionSettings.BCAR || {bcarSettings: {}}
         //if online settings are not an older version then local ones, use them instead
 
-        const settings = migrateSettings() || Player.OnlineSettings.BCAR?.bcarSettings || {}
+        const settings = migrateSettings() || Player.ExtensionSettings.BCAR?.bcarSettings || {}
         //        if(!settings) settings = {};
 
         // Reorganize old settings into the new structure
