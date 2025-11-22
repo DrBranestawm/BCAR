@@ -973,12 +973,14 @@ const TriggerAdditions = [
         if(Player.BCAR.bcarSettings.earWigglingEnable === true){
             let earsVariations = [Player.BCAR.bcarSettings.earsDefault.ears2,Player.BCAR.bcarSettings.earsDefault.ears1];
             let earsColor = [Player.BCAR.bcarSettings.earsDefault.earsColor2,Player.BCAR.bcarSettings.earsDefault.earsColor1];
+            let earsProperties = [Player.BCAR.bcarSettings.earsDefault.earsProperties2,Player.BCAR.bcarSettings.earsDefault.earsProperties1];
             let numberWiggles = parseInt(Player.BCAR.bcarSettings.earsDefault.earsCount);
             let delay = parseInt(Player.BCAR.bcarSettings.earsDefault.earsDelay);
           for(let i=0; i < numberWiggles; i++)
           {
               setTimeout(function() {
-                  InventoryWear(Player, earsVariations[i%earsVariations.length], "HairAccessory2", earsColor[i%earsColor.length], undefined, undefined, undefined, false);
+                  const ears = InventoryWear(Player, earsVariations[i%earsVariations.length], "HairAccessory2", earsColor[i%earsColor.length], undefined, undefined, undefined, false);
+                  if (ears) ears.Property = earsProperties[i%earsProperties.length];
                   CharacterRefresh(Player, false);
                   ChatRoomCharacterItemUpdate(Player, "HairAccessory2");
               }, i * delay);
@@ -990,12 +992,14 @@ const TriggerAdditions = [
         if(Player.BCAR.bcarSettings.tailWaggingEnable === true){
             let tailsVariations = [Player.BCAR.bcarSettings.tailsDefault.tails2,Player.BCAR.bcarSettings.tailsDefault.tails1];
             let tailsColor = [Player.BCAR.bcarSettings.tailsDefault.tailsColor2,Player.BCAR.bcarSettings.tailsDefault.tailsColor1];
+            let tailsProperties = [Player.BCAR.bcarSettings.tailsDefault.tailsProperty2,Player.BCAR.bcarSettings.tailsDefault.tailsProperty1];
             let numberWags = parseInt(Player.BCAR.bcarSettings.tailsDefault.tailsCount);
             let delay = parseInt(Player.BCAR.bcarSettings.tailsDefault.tailsDelay);
             for(let i=0; i < numberWags; i++)
             {
                 setTimeout(function() {
-                    InventoryWear(Player, tailsVariations[i%tailsVariations.length], "TailStraps", tailsColor[i%tailsColor.length], undefined, undefined, undefined, false);
+                    const tail = InventoryWear(Player, tailsVariations[i%tailsVariations.length], "TailStraps", tailsColor[i%tailsColor.length], undefined, undefined, undefined, false);
+                    if (tail) tail.Property = tailsProperties[i%tailsProperties.length]
                     CharacterRefresh(Player, false);
                     ChatRoomCharacterItemUpdate(Player, "TailStraps");
                 }, i * delay);
@@ -1397,6 +1401,8 @@ async function bcarSettingsRemove() {
                 "earsDelay" : 175, // delay in ms
                 "earsDescription1" : "None",
                 "earsDescription2" : "None", //Output for the status page
+                "earsProperty1" : { },
+                "earsProperty2" : { },
             },
             tailEmoteEnable : true,
             tailEmoteStatus : "Enabled",
@@ -1411,6 +1417,8 @@ async function bcarSettingsRemove() {
                 "tailsDelay" : 800, // delay in ms
                 "tailsDescription1" : "None", //Output for the status page
                 "tailsDescription2" : "None",
+                "tailsProperty1" : { },
+                "tailsProperty2" : { },
             },
             wingFlappingEnable : false,
             wingFlappingStatus : "Disabled", //Output for the status page
@@ -1445,6 +1453,8 @@ async function bcarSettingsRemove() {
                     "earsDelay" : 175, // delay in ms
                     "earsDescription1" : "None",
                     "earsDescription2" : "None", //Output for the status page
+                    "earsProperty1" : { },
+                    "earsProperty2" : { },
                 },
                 tailWaggingEnable : false,
                 tailWaggingStatus : "Disabled", //Output for the status page
@@ -1457,6 +1467,8 @@ async function bcarSettingsRemove() {
                     "tailsDelay" : 800, // delay in ms
                     "tailsDescription1" : "None", //Output for the status page
                     "tailsDescription2" : "None",
+                    "tailsProperty1" : { },
+                    "tailsProperty2" : { },
                 },
                 wingFlappingEnable : false,
                 wingFlappingStatus : "Disabled", //Output for the status page
@@ -1486,6 +1498,8 @@ async function bcarSettingsRemove() {
                     "earsDelay" : 175, // delay in ms
                     "earsDescription1" : "None",
                     "earsDescription2" : "None", //Output for the status page
+                    "earsProperty1" : { },
+                    "earsProperty2" : { },
                 },
                 tailWaggingEnable : false,
                 tailWaggingStatus : "Disabled", //Output for the status page
@@ -1498,6 +1512,8 @@ async function bcarSettingsRemove() {
                     "tailsDelay" : 800, // delay in ms
                     "tailsDescription1" : "None", //Output for the status page
                     "tailsDescription2" : "None",
+                    "tailsProperty1" : { },
+                    "tailsProperty2" : { },
                 },
                 wingFlappingEnable : false,
                 wingFlappingStatus : "Disabled", //Output for the status page
@@ -1527,6 +1543,8 @@ async function bcarSettingsRemove() {
                     "earsDelay" : 175, // delay in ms
                     "earsDescription1" : "None",
                     "earsDescription2" : "None", //Output for the status page
+                    "earsProperty1" : { },
+                    "earsProperty2" : { },
                 },
                 tailWaggingEnable : false,
                 tailWaggingStatus : "Disabled", //Output for the status page
@@ -1539,6 +1557,8 @@ async function bcarSettingsRemove() {
                     "tailsDelay" : 800, // delay in ms
                     "tailsDescription1" : "None", //Output for the status page
                     "tailsDescription2" : "None",
+                    "tailsProperty1" : { },
+                    "tailsProperty2" : { },
                 },
                 wingFlappingEnable : false,
                 wingFlappingStatus : "Disabled", //Output for the status page
@@ -1647,6 +1667,7 @@ function CommandEarsChange(argsList)
                 Player.BCAR.bcarSettings.earsDefault.ears1 = ears?.Asset?.Name; // what happens if ears is undefined?
                 Player.BCAR.bcarSettings.earsDefault.earsColor1 = ears?.Color; // what happens if ears is undefined?
                 Player.BCAR.bcarSettings.earsDefault.earsDescription1 = ears?.Asset?.Description || "None";
+                Player.BCAR.bcarSettings.earsDefault.earsProperty1 = ears?.Property;
                 let updated_text = ``
                 if (!Player.BCAR.bcarSettings.earWigglingEnable) {
                     Player.BCAR.bcarSettings.earWigglingEnable = true;
@@ -1663,6 +1684,7 @@ function CommandEarsChange(argsList)
                 s.earsDefault.ears2 = ears?.Asset?.Name;
                 s.earsDefault.earsColor2 = ears?.Color;
                 s.earsDefault.earsDescription2 = ears?.Asset?.Description || "None";
+                Player.BCAR.bcarSettings.earsDefault.earsProperty2 = ears?.Property;
                 ChatRoomSendLocal(
                 `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
                 <br>Secondary ears have been updated!</p>`.replaceAll('\n', ''), wt.info
@@ -1797,6 +1819,7 @@ function CommandTailChange(argsList)
                 s.tailsDefault.tails1 = tails?.Asset?.Name;
                 s.tailsDefault.tailsColor1 = tails?.Color;
                 s.tailsDefault.tailsDescription1 = tails?.Asset?.Description|| "None";
+                s.tailsDefault.tailsProperty1 = tails?.Property;
                 let updated_text = ``
                 if(!s.tailWaggingEnable) {
                     s.tailWaggingEnable = true;
@@ -1813,6 +1836,7 @@ function CommandTailChange(argsList)
                 s.tailsDefault.tails2 = tails?.Asset?.Name;
                 s.tailsDefault.tailsColor2 = tails?.Color;
                 s.tailsDefault.tailsDescription2 = tails?.Asset?.Description;
+                s.tailsDefault.tailsProperty2 = tails?.Property;
                 ChatRoomSendLocal(
                 `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
                 <br>Secondary tail has been updated!</p>`.replaceAll('\n', ''), wt.info
@@ -2202,12 +2226,14 @@ function CommandProfile(argsList)
                     Player.BCAR.bcarSettings[`${item}Default`] = copy_object(profile[`${item}Default`]);
                 } // the loop ends here
                 if (Player?.BCAR?.bcarSettings?.earsDefault?.ears1) {
-                    InventoryWear(Player, profile?.earsDefault?.ears1, "HairAccessory2", profile?.earsDefault?.earsColor1);
+                    const ears = InventoryWear(Player, profile?.earsDefault?.ears1, "HairAccessory2", profile?.earsDefault?.earsColor1);
+                    ears.Property = profile?.earsDefault?.earsProperty1;
                 } else {
                     InventoryRemove(Player,"HairAccessory2");
                 }
                 if (Player?.BCAR?.bcarSettings?.tailsDefault?.tails1) {
-                    InventoryWear(Player, profile?.tailsDefault?.tails1, "TailStraps", profile?.tailsDefault?.tailsColor1);
+                    const tail = InventoryWear(Player, profile?.tailsDefault?.tails1, "TailStraps", profile?.tailsDefault?.tailsColor1);
+                    tail.Property = profile?.tailsDefault?.tailsProperty1;
                 } else {
                     InventoryRemove(Player,"TailStraps");
                 }
