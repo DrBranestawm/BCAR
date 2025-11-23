@@ -1,4 +1,4 @@
-const BCAR_Version = '0.7.9';
+const BCAR_Version = '0.7.10';
 const BCAR_Version_FIX = '';
 
 const ICONS = Object.freeze({
@@ -49,12 +49,14 @@ var bcModSDK = function () { "use strict"; const o = "1.2.0"; function e(o) { al
   const w = window;
   const BCAR_CHANGELOG =
     "BCAR+ v" + BCAR_Version + BCAR_Version_FIX +
+    "<br>- Adapted tail wagging and ear wiggling to use Property by <a href='https://github.com/dDeepLb' target='_blank'>@dDeepLb</a>" +
+    "<br>- Improved safewordspecific command by <a href='https://github.com/dDeepLb' target='_blank'>@dDeepLb</a>" +
+    "<br>- Settings migrated to extension settings by <a href='https://github.com/dDeepLb' target='_blank'>@dDeepLb</a>" +
+    "<br>" +
+    "<br>BCAR+ v0.7.9" +
     "<br>- Fix flying not being visible to others by <a href='https://github.com/elliethepink' target='_blank'>@elliethepink</a>" +
     "<br>- Fix BCAR+ UI wasn't able to access" +
-    "<br>- Moved BCAR+ UI to the Extensions tab" +
-    "<br>" +
-    "<br>BCAR+ v0.7.8" +
-    "<br>- Different states of Wings, if available, can now be set and safed"
+    "<br>- Moved BCAR+ UI to the Extensions tab"
 
 
   function copy_object(o) {
