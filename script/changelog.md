@@ -4,6 +4,7 @@
 ### What's Changed
 
 *  Adapted tail wagging and ear wiggling to use Property by [@dDeepLb](https://github.com/dDeepLb)
+    * Users need to set their ears or tails to work, IF they weren't working previously
 *  Improved safewordspecific command by [@dDeepLb](https://github.com/dDeepLb)
 *  Settings migrated to extension settings by [@dDeepLb](https://github.com/dDeepLb)
 
