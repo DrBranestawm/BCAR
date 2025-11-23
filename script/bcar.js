@@ -970,7 +970,7 @@ var bcModSDK = function () { "use strict"; const o = "1.2.0"; function e(o) { al
     if (Player.BCAR.bcarSettings.earWigglingEnable === true) {
       let earsVariations = [Player.BCAR.bcarSettings.earsDefault.ears2, Player.BCAR.bcarSettings.earsDefault.ears1];
       let earsColor = [Player.BCAR.bcarSettings.earsDefault.earsColor2, Player.BCAR.bcarSettings.earsDefault.earsColor1];
-      let earsProperties = [Player.BCAR.bcarSettings.earsDefault.earsProperties2, Player.BCAR.bcarSettings.earsDefault.earsProperties1];
+      let earsProperties = [Player.BCAR.bcarSettings.earsDefault.earsProperty2, Player.BCAR.bcarSettings.earsDefault.earsProperty1];
       let numberWiggles = parseInt(Player.BCAR.bcarSettings.earsDefault.earsCount);
       let delay = parseInt(Player.BCAR.bcarSettings.earsDefault.earsDelay);
       for (let i = 0; i < numberWiggles; i++) {
@@ -4975,4 +4975,5 @@ var bcModSDK = function () { "use strict"; const o = "1.2.0"; function e(o) { al
 
   //console.log("End of script")
 })();
+
 
