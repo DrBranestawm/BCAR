@@ -1,5 +1,14 @@
 # BCAR+ Changelog
 
+## [v0.7.10](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.10)
+### What's Changed
+
+*  Adapted tail wagging and ear wiggling to use Property by [@dDeepLb](https://github.com/dDeepLb)
+*  Improved safewordspecific command by [@dDeepLb](https://github.com/dDeepLb)
+*  Settings migrated to extension settings by [@dDeepLb](https://github.com/dDeepLb)
+
+**Full Changelog**: [0.7.9...0.7.10](https://github.com/DrBranestawm/BCAR/compare/0.7.9...0.7.10)
+
 ## [v0.7.9](https://github.com/DrBranestawm/BCAR/releases/edit/v0.7.9)
 ### What's Changed
 
