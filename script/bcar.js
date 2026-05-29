@@ -970,13 +970,16 @@ var bcModSDK = function () { "use strict"; const o = "1.2.0"; function e(o) { al
     if (Player.BCAR.bcarSettings.earWigglingEnable === true) {
       let earsVariations = [Player.BCAR.bcarSettings.earsDefault.ears2, Player.BCAR.bcarSettings.earsDefault.ears1];
       let earsColor = [Player.BCAR.bcarSettings.earsDefault.earsColor2, Player.BCAR.bcarSettings.earsDefault.earsColor1];
-      let earsProperties = [Player.BCAR.bcarSettings.earsDefault.earsProperties2, Player.BCAR.bcarSettings.earsDefault.earsProperties1];
+      let earsProperties = [Player.BCAR.bcarSettings.earsDefault.earsProperty2, Player.BCAR.bcarSettings.earsDefault.earsProperty1];
       let numberWiggles = parseInt(Player.BCAR.bcarSettings.earsDefault.earsCount);
       let delay = parseInt(Player.BCAR.bcarSettings.earsDefault.earsDelay);
       for (let i = 0; i < numberWiggles; i++) {
         setTimeout(function () {
           const ears = InventoryWear(Player, earsVariations[i % earsVariations.length], "HairAccessory2", earsColor[i % earsColor.length], undefined, undefined, undefined, false);
-          if (ears) ears.Property = earsProperties[i % earsProperties.length];
+          const prop = earsProperties[i % earsProperties.length];
+          if (ears && prop) {
+            ears.Property = structuredClone(prop);
+          }
           CharacterRefresh(Player, false);
           ChatRoomCharacterItemUpdate(Player, "HairAccessory2");
         }, i * delay);
@@ -1676,7 +1679,7 @@ var bcModSDK = function () { "use strict"; const o = "1.2.0"; function e(o) { al
         Player.BCAR.bcarSettings.earsDefault.ears1 = ears?.Asset?.Name; // what happens if ears is undefined?
         Player.BCAR.bcarSettings.earsDefault.earsColor1 = ears?.Color; // what happens if ears is undefined?
         Player.BCAR.bcarSettings.earsDefault.earsDescription1 = ears?.Asset?.Description || "None";
-        Player.BCAR.bcarSettings.earsDefault.earsProperty1 = ears?.Property;
+        Player.BCAR.bcarSettings.earsDefault.earsProperty1 = ears?.Property ? structuredClone(ears.Property) : undefined;
         let updated_text = ``
         if (!Player.BCAR.bcarSettings.earWigglingEnable) {
           Player.BCAR.bcarSettings.earWigglingEnable = true;
@@ -1693,7 +1696,7 @@ var bcModSDK = function () { "use strict"; const o = "1.2.0"; function e(o) { al
         s.earsDefault.ears2 = ears?.Asset?.Name;
         s.earsDefault.earsColor2 = ears?.Color;
         s.earsDefault.earsDescription2 = ears?.Asset?.Description || "None";
-        Player.BCAR.bcarSettings.earsDefault.earsProperty2 = ears?.Property;
+        Player.BCAR.bcarSettings.earsDefault.earsProperty2 = ears?.Property ? structuredClone(ears.Property) : undefined;
         ChatRoomSendLocal(
           `<p style='background-color:#000452;color:#EEEEEE;'><b>Bondage Club Auto React +</b>
                 <br>Secondary ears have been updated!</p>`.replaceAll('\n', ''), wt.info
