@@ -49,14 +49,12 @@ var bcModSDK = function () { "use strict"; const o = "1.2.0"; function e(o) { al
   const w = window;
   const BCAR_CHANGELOG =
     "BCAR+ v" + BCAR_Version + BCAR_Version_FIX +
+    "<br>- saving to profile, then modifying your ear/tail properties ends up reflecting in the already saved one by <a href='https://github.com/tenjou-no-kitsune' target='_blank'>@enjō・天上の魚</a>" +
+    "<br>- fixed loading from profile, then modifying your ear/tail properties, which ends up changing the one saved in the profile by <a href='https://github.com/tenjou-no-kitsune' target='_blank'>@enjō・天上の魚</a>" +
+    "<br>BCAR+ v0.7.10" +
     "<br>- Adapted tail wagging and ear wiggling to use Property by <a href='https://github.com/dDeepLb' target='_blank'>@dDeepLb</a>" +
     "<br>- Improved safewordspecific command by <a href='https://github.com/dDeepLb' target='_blank'>@dDeepLb</a>" +
-    "<br>- Settings migrated to extension settings by <a href='https://github.com/dDeepLb' target='_blank'>@dDeepLb</a>" +
-    "<br>" +
-    "<br>BCAR+ v0.7.9" +
-    "<br>- Fix flying not being visible to others by <a href='https://github.com/elliethepink' target='_blank'>@elliethepink</a>" +
-    "<br>- Fix BCAR+ UI wasn't able to access" +
-    "<br>- Moved BCAR+ UI to the Extensions tab"
+    "<br>- Settings migrated to extension settings by <a href='https://github.com/dDeepLb' target='_blank'>@dDeepLb</a>"
 
 
   function copy_object(o) {
